@@ -1,0 +1,23 @@
+{
+  "max_stars": 5,
+  "page_size_search": 20,
+  "page_size_strip": 9,
+  "page_size_wall": 20,
+  "ecm_registration_dropdown": 6,
+  "privacy_policy_email_1": "privacy@digited.it",
+  "privacy_policy_email_2": "dpo@digited.it",
+  "privacy_policy_link_1": "https://www.digited.it/cookie-policy/",
+  "brightcove_accound_id": "5660549830001",
+  "brightcove_accound_pk": "BCpkADawqM0csRPoIVhyVInN1WgbHf2Hkw8Xgh3yRSmoGpzFheLRIBcStajjR4gtFF55A4-f2tobPB8A3z74-dFyqtt1BBW8Ak8mL5iHtrS-B0wjx28_qtHTgxR00YsbHWX0Z0YGw4yp95Li1Hz8n90j2LlY_leEazgD0g",
+  "x_experience_api_version": "1.0.0",
+  "statements_version": "1.0.0",
+  "remote_colors": true,
+  "native_community": true,
+  "community_post_types": [
+    "discussion",
+    "free",
+    "shared"
+  ],
+  "handle_expired_session": true,
+  "expiration_date_to_hide": "31/12/9999"
+}

@@ -1,0 +1,296 @@
+[
+    {
+        "idConfColour": 204,
+        "idColor": 33,
+        "rgb": "1B1B1B",
+        "name": "color.background.primary"
+    },
+    {
+        "idConfColour": 205,
+        "idColor": 34,
+        "rgb": "151515",
+        "name": "color.background.primary-lighter"
+    },
+    {
+        "idConfColour": 206,
+        "idColor": 35,
+        "rgb": "F43E63",
+        "name": "color.background.primary-cta"
+    },
+    {
+        "idConfColour": 208,
+        "idColor": 37,
+        "rgb": "FFFFFF",
+        "name": "color.background.secondary"
+    },
+    {
+        "idConfColour": 207,
+        "idColor": 36,
+        "rgb": "A6FF03",
+        "name": "color.background.accent"
+    },
+    {
+        "idConfColour": 208,
+        "idColor": 37,
+        "rgb": "0FD9FF",
+        "name": "color.background.secondary-complete"
+    },
+    {
+        "idConfColour": 209,
+        "idColor": 38,
+        "rgb": "FF6B00",
+        "name": "color.background.warning"
+    },
+    {
+        "idConfColour": 210,
+        "idColor": 39,
+        "rgb": "696969",
+        "name": "color.background.disabled"
+    },
+    {
+        "idConfColour": 211,
+        "idColor": 40,
+        "rgb": "D9D9D9",
+        "name": "color.background.disabled-alternative"
+    },
+    {
+        "idConfColour": 212,
+        "idColor": 41,
+        "rgb": "FFFF00",
+        "name": "color.background.saved"
+    },
+    {
+        "idConfColour": 213,
+        "idColor": 42,
+        "rgb": "F43E63",
+        "name": "color.border.primary-cta"
+    },
+    {
+        "idConfColour": 214,
+        "idColor": 43,
+        "rgb": "A6FF03",
+        "name": "color.border.accent"
+    },
+    {
+        "idConfColour": 215,
+        "idColor": 44,
+        "rgb": "0FD9FF",
+        "name": "color.border.secondary-complete"
+    },
+    {
+        "idConfColour": 216,
+        "idColor": 45,
+        "rgb": "FF6B00",
+        "name": "color.border-warning"
+    },
+    {
+        "idConfColour": 217,
+        "idColor": 46,
+        "rgb": "696969",
+        "name": "color.border"
+    },
+    {
+        "idConfColour": 218,
+        "idColor": 47,
+        "rgb": "FFFFFF",
+        "name": "color.border.tag"
+    },
+    {
+        "idConfColour": 218,
+        "idColor": 47,
+        "rgb": "EB5757",
+        "name": "color.border-error"
+    },
+    {
+        "idConfColour": 219,
+        "idColor": 48,
+        "rgb": "FFFFFF",
+        "name": "color.text.primary"
+    },
+    {
+        "idConfColour": 220,
+        "idColor": 49,
+        "rgb": "151515",
+        "name": "color.text.primary-alternative"
+    },
+    {
+        "idConfColour": 221,
+        "idColor": 50,
+        "rgb": "F43E63",
+        "name": "color.text.primary-cta"
+    },
+    {
+        "idConfColour": 222,
+        "idColor": 51,
+        "rgb": "EB5757",
+        "name": "color.text-error"
+    },
+    {
+        "idConfColour": 223,
+        "idColor": 52,
+        "rgb": "FF6B00",
+        "name": "color.text-warning"
+    },
+    {
+        "idConfColour": 223,
+        "idColor": 52,
+        "rgb": "A6FF03",
+        "name": "color.text-mandatory"
+    },
+    {
+        "idConfColour": 224,
+        "idColor": 53,
+        "rgb": "D9D9D9",
+        "name": "color.text.disabled-alternative"
+    },
+    {
+        "idConfColour": 225,
+        "idColor": 54,
+        "rgb": "696969",
+        "name": "color.text.disabled"
+    },
+    {
+        "idConfColour": 226,
+        "idColor": 55,
+        "rgb": "FFFFFF",
+        "name": "color.system.primary.01"
+    },
+    {
+        "idConfColour": 226,
+        "idColor": 55,
+        "rgb": "F43E63",
+        "name": "color.system.pimary.02"
+    },
+    {
+        "idConfColour": 226,
+        "idColor": 55,
+        "rgb": "A6FF03",
+        "name": "color.system.secondary.01"
+    },
+    {
+        "idConfColour": 227,
+        "idColor": 56,
+        "rgb": "0FD9FF",
+        "name": "color.system.secondary.02"
+    },
+    {
+        "idConfColour": 228,
+        "idColor": 57,
+        "rgb": "FF6B00",
+        "name": "color.system.secondary.03"
+    },
+    {
+        "idConfColour": 229,
+        "idColor": 58,
+        "rgb": "FFFF00",
+        "name": "color.system.secondary.04"
+    },
+    {
+        "idConfColour": 229,
+        "idColor": 58,
+        "rgb": "151515",
+        "name": "color.system.secondary.05"
+    },
+    {
+        "idConfColour": 229,
+        "idColor": 58,
+        "rgb": "D9D9D9",
+        "name": "color.system.disabled"
+    },
+    {
+        "idConfColour": 230,
+        "idColor": 59,
+        "rgb": "001B1B1B",
+        "name": "color.gradient.image-big.card"
+    },
+    {
+        "idConfColour": 231,
+        "idColor": 60,
+        "rgb": "1A1B1B1B",
+        "name": "color.gradient.image-small.card"
+    },
+    {
+        "idConfColour": 232,
+        "idColor": 61,
+        "rgb": "19191F",
+        "name": "color.gradient.widget"
+    },
+    {
+        "idConfColour": 230,
+        "idColor": 59,
+        "rgb": "FF1B1B1B",
+        "name": "color.gradient.image-big.card-end"
+    },
+    {
+        "idConfColour": 231,
+        "idColor": 60,
+        "rgb": "B31B1B1B",
+        "name": "color.gradient.image-small.card-end"
+    },
+    {
+        "idConfColour": 232,
+        "idColor": 61,
+        "rgb": "E3E343",
+        "name": "color.gradient.widget-end"
+    },
+    {
+        "idConfColour": 233,
+        "idColor": 62,
+        "rgb": "3E3E43",
+        "name": "color.background.list"
+    },
+    {
+        "idConfColour": 234,
+        "idColor": 63,
+        "rgb": "19191f",
+        "name": "color.gradient.01.start"
+    },
+    {
+        "idConfColour": 235,
+        "idColor": 64,
+        "rgb": "3e3e43",
+        "name": "color.gradient.01.end"
+    },
+    {
+        "idConfColour": 236,
+        "idColor": 65,
+        "rgb": "19191f",
+        "name": "color.gradient.03.start"
+    },
+    {
+        "idConfColour": 237,
+        "idColor": 66,
+        "rgb": "3e3e43",
+        "name": "color.gradient.03.end"
+    },
+    {
+        "idConfColour": 238,
+        "idColor": 67,
+        "rgb": "19191f",
+        "name": "color.gradient.05.start"
+    },
+    {
+        "idConfColour": 239,
+        "idColor": 68,
+        "rgb": "3e3e43",
+        "name": "color.gradient.05.end"
+    },
+    {
+        "idConfColour": 240,
+        "idColor": 69,
+        "rgb": "FFFFFF",
+        "name": "color.background.drawer-widget"
+    },
+    {
+        "idConfColour": 241,
+        "idColor": 70,
+        "rgb": "A6FF03",
+        "name": "color.accent.variant.A"
+    },
+    {
+        "idConfColour": 242,
+        "idColor": 71,
+        "rgb": "0FD9FF",
+        "name": "color.accent.variant.B"
+    }
+]

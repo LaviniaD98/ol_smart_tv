@@ -1,0 +1,25 @@
+// ignore_for_file: constant_identifier_names
+
+enum RemoteConfigKeys {
+  baseUrl,
+  brightcove_accound_id,
+  brightcove_accound_pk,
+  community_post_types,
+  expiration_date_to_hide,
+  handle_expired_session,
+  max_stars,
+  native_community,
+  page_size_search,
+  page_size_strip,
+  page_size_wall,
+  ecm_registration_dropdown,
+  privacy_policy_email_1,
+  privacy_policy_email_2,
+  privacy_policy_link_1,
+  remote_colors,
+  remote_app_header_logo,
+  firebase_token_sp_key,
+  page_size_comments,
+  page_size_answers,
+  paginate_opinions,
+}
