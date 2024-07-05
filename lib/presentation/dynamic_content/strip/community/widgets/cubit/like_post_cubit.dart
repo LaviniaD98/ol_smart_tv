@@ -42,10 +42,13 @@ class LikePostCubit extends Cubit<LikePostState> {
     final res = await _getCommunityPostLikesUseCase(entityId, apiPath);
     res.fold(
       (l) => null,
-      (newLikes) => emit(state.copyWith(
-        likesAmount: newLikes.countDataObj?.toInt() ?? 0,
-        isLikedByUser: newLikes.data?.any((element) => (element.userId == '$userId')) ?? false,
-      ),),
+      (newLikes) => emit(
+        state.copyWith(
+          likesAmount: newLikes.countDataObj?.toInt() ?? 0,
+          isLikedByUser:
+              newLikes.data.any((element) => (element.userId == '$userId')),
+        ),
+      ),
     );
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,13 +13,17 @@ part 'standard_strip_cubit.freezed.dart';
 @injectable
 class StandardStripCubit extends Cubit<StandardStripState> {
   final GetStandardStripUseCase _getSuggestedStripUseCase;
-  StandardStripCubit(this._getSuggestedStripUseCase) : super(const StandardStripState.loading());
+  StandardStripCubit(this._getSuggestedStripUseCase)
+      : super(const StandardStripState.loading());
 
   void fetch({StripRow? strip, List<String>? filters}) async {
     emit(const StandardStripState.loading());
     if (strip != null) {
-      if (kDebugMode) print("${DateTime.now()} https:// in StandardStripCubit fetch: ${strip.apiPath}");
-      final res = await _getSuggestedStripUseCase(strip: strip, filters: filters);
+      if (kDebugMode)
+        print(
+            "${DateTime.now()} https:// in StandardStripCubit fetch: ${strip.apiPath}");
+      final res =
+          await _getSuggestedStripUseCase(strip: strip, filters: filters);
       res.fold((l) {
         emit(const StandardStripState.error());
       }, (r) {

@@ -11,10 +11,10 @@ ToolDto _$ToolDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = ToolDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('name', (v) => v as String?),
           $checkedConvert('shortDescription', (v) => v as String?),
-          $checkedConvert('dimension', (v) => v as int?),
+          $checkedConvert('dimension', (v) => (v as num?)?.toInt()),
           $checkedConvert('notes', (v) => v as String?),
           $checkedConvert(
               'useful_links',

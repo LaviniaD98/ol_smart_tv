@@ -7,7 +7,6 @@ import 'package:open_learning_smart_tv/data/models/responses/corporate_code/corp
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_text_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
-import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/mfa/cubit/mfa_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/sso/cubit/sso_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/sso/sso_page.dart';
@@ -20,7 +19,6 @@ import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_pa
 import 'package:open_learning_smart_tv/presentation/pwd_reset/pwd_reset_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/forms/reactive_checkbox_field.dart';
 import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/mfa/mfa_validation_page.dart';
@@ -229,7 +227,7 @@ class _LoginPageState extends State<LoginPage> {
       formGroup: form,
       child: LoginCard(
         trailing: LanguagesButton(
-          onChanged: () => context.pop(),
+          onChanged: () => Navigator.of(context).pop(),
         ),
         // TODO(UmbertoGrimaldi): add remote string
         title: 'Accedi a Open Learning',

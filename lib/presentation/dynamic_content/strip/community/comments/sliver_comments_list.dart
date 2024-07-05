@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-import '../../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../../domain/entities/community/comment/comment_model.dart';
 import '../../../../../domain/entities/session/user_model.dart';
-import '../../../../../remote_theming/labels/labels_manager.dart';
-import '../../../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../../../theme/app_theme.dart';
-import '../../../../common/widgets/error/error_screen.dart';
 import '../../../../wall/widgets/on_scroll_error.dart';
 import 'item/comment_item.dart';
 import 'widgets/empty_comments.dart';

@@ -1,11 +1,9 @@
 name: open_learning_smart_tv
 
 description: A new Flutter project.
-
-# Prevent accidental publishing to pub.dev.
 publish_to: "none"
 
-version: 1.3.2+132
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -18,6 +16,7 @@ dependencies:
   auto_size_text: ^3.0.0
   bloc: ^8.1.2
   cached_network_image: ^3.3.1
+  carousel_slider: ^4.2.1
   collection: ^1.18.0
   connectivity_plus: ^5.0.2
   dartz: ^0.10.1
@@ -37,6 +36,7 @@ dependencies:
   flutter_downloader: ^1.11.6
   flutter_html: ^3.0.0-beta.2
   flutter_launcher_icons: ^0.13.1
+  scrollview_observer: ^1.21.0
   flutter_local_notifications: ^16.3.2
   flutter_localizations:
     sdk: flutter
@@ -49,6 +49,7 @@ dependencies:
   go_router: ^13.1.0
   http: ^1.2.0
   icalendar_parser: ^2.0.0
+  indexed_list_view: ^3.0.2
   infinite_scroll_pagination: ^4.0.0
   injectable: ^2.3.2
   intl: ^0.19.0
@@ -68,8 +69,11 @@ dependencies:
   responsive_framework: ^1.4.0
   retrofit: ^4.1.0
   scaled_app: ^2.3.0
+  scroll_to_index: ^3.0.1
+  scrollable_positioned_list: ^0.3.8
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+  simple_shadow: ^0.3.1
   smooth_page_indicator: ^1.1.0
   sqlite3_flutter_libs: ^0.5.20
   url_launcher: ^6.2.4

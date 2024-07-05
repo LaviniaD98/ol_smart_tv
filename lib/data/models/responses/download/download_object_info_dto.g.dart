@@ -22,7 +22,7 @@ DownloadObjectInfoDto _$DownloadObjectInfoDtoFromJson(
           $checkedConvert('thumbnail', (v) => v as String?),
           $checkedConvert('account_id', (v) => v as String?),
           $checkedConvert('name', (v) => v as String?),
-          $checkedConvert('duration', (v) => v as int?),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
           $checkedConvert('id', (v) => v as String?),
         );
         return val;

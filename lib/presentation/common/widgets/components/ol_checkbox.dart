@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
+import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
+import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class OlCheckbox extends StatefulWidget {
@@ -63,6 +65,11 @@ class _OlCheckboxState extends State<OlCheckbox> {
         actions: <Type, Action<Intent>>{
           ActivateIntent: CallbackAction<ActivateIntent>(
             onInvoke: (ActivateIntent intent) async {
+              if (widget.field.control.enabled) {
+                widget.onChanged?.call();
+                isActive = widget.field.value == true;
+                setState(() {});
+              }
               return null;
             },
           ),
@@ -70,42 +77,55 @@ class _OlCheckboxState extends State<OlCheckbox> {
         onFocusChange: (value) {
           setState(() {});
         },
-        child: InkWell(
-          //   focusNode: focusNode,
-          onTap: widget.field.control.enabled
-              ? () {
-                  widget.onChanged?.call();
-                  isActive = widget.field.value == true;
-                  setState(() {});
-                }
-              : null,
-          focusColor: Colors.white,
-          child: AnimatedContainer(
-            width: Dimens.checkBoxSize,
-            height: Dimens.checkBoxSize,
-            duration: const Duration(milliseconds: 120),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: isActive
-                  ? ColorManager().getColorBackgroundPrimaryCta()
-                  : Colors.transparent,
-              border: Border.all(
-                color: ColorManager().getColorBorderTag(),
-                width: focusNode.hasFocus ? 3 : 1.0,
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: 0.5,
+              top: 0.5,
+              left: 0,
+              right: 0,
+              child: GlowContainer(
+                width: Dimens.checkBoxSize,
+                height: Dimens.checkBoxSize,
+                alignment: Alignment.center,
+                color: isActive
+                    ? ColorManager().getColorBackgroundPrimaryCta()
+                    : ColorManager().getColorBackgroundPrimary(),
+                border: Border.all(
+                  color: ColorManager().getColorBorderTag(),
+                  width: focusNode.hasFocus ? 3 : 1.0,
+                  strokeAlign: BorderSide.strokeAlignInside,
+                ),
+                borderRadius: BorderRadius.circular(3.0),
               ),
-              borderRadius: const BorderRadius.all(Radius.circular(2.0)),
             ),
-            child: widget.field.value != null && widget.field.value!
-                ? SvgPicture.asset(
-                    "assets/icons/checkbox_tick.svg",
-                    width: 12.0,
-                    colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimaryAlternative(),
-                      BlendMode.srcIn,
-                    ),
-                  )
-                : null,
-          ),
+            if (widget.field.value != null && widget.field.value!) ...[
+              Container(
+                width: Dimens.checkBoxSize,
+                height: Dimens.checkBoxSize,
+                decoration: BoxDecoration(
+                  color: ColorManager().getColorBackgroundPrimaryCta(),
+                  border: focusNode.hasFocus
+                      ? Border.all(
+                          color: ColorManager().getColorBorderTag(),
+                          width: focusNode.hasFocus ? 3 : 0,
+                          strokeAlign: BorderSide.strokeAlignInside,
+                        )
+                      : null,
+                  borderRadius: BorderRadius.circular(3),
+                ),
+                padding: const EdgeInsets.all(2),
+                child: SvgPicture.asset(
+                  "assets/icons/checkbox_tick.svg",
+                  width: 12.0,
+                  colorFilter: ColorFilter.mode(
+                    ColorManager().getColorTextPrimaryAlternative(),
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );

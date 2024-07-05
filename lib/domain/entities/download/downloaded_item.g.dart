@@ -12,14 +12,14 @@ DownloadedItem _$DownloadedItemFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = DownloadedItem(
-          id: $checkedConvert('id', (v) => v as int?),
+          id: $checkedConvert('id', (v) => (v as num?)?.toInt()),
           taskId: $checkedConvert('taskId', (v) => v as String?),
           coverUrl: $checkedConvert('coverUrl', (v) => v as String?),
           type: $checkedConvert('type', (v) => v as String?),
           title: $checkedConvert('title', (v) => v as String),
           description: $checkedConvert('description', (v) => v as String),
           pathId: $checkedConvert('pathId', (v) => v as String?),
-          duration: $checkedConvert('duration', (v) => v as int?),
+          duration: $checkedConvert('duration', (v) => (v as num?)?.toInt()),
           isMandatory: $checkedConvert('isMandatory', (v) => v as bool),
           learningObjectType: $checkedConvert('learningObjectType',
               (v) => $enumDecode(_$LearningObjectTypeEnumMap, v)),
@@ -27,11 +27,11 @@ DownloadedItem _$DownloadedItemFromJson(Map<String, dynamic> json) =>
               (v) => $enumDecode(_$LearningObjectTypologyEnumMap, v)),
           coverLocalPath:
               $checkedConvert('coverLocalPath', (v) => v as String?),
-          size: $checkedConvert('size', (v) => v as int?),
+          size: $checkedConvert('size', (v) => (v as num?)?.toInt()),
           tentativeId: $checkedConvert('tentativeId', (v) => v as String?),
           iconStatus: $checkedConvert(
               'iconStatus', (v) => $enumDecode(_$IconStatusEnumMap, v)),
-          bookmark: $checkedConvert('bookmark', (v) => v as int),
+          bookmark: $checkedConvert('bookmark', (v) => (v as num).toInt()),
           parentId: $checkedConvert('parentId', (v) => v as String),
           grandParentId: $checkedConvert('grandParentId', (v) => v as String),
         );

@@ -12,7 +12,7 @@ CorporateCodeDto _$CorporateCodeDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CorporateCodeDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('name', (v) => v as String?),
           $checkedConvert('country', (v) => v as String?),
           $checkedConvert('province', (v) => v as String?),

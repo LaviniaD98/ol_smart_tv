@@ -1,20 +1,11 @@
-import 'dart:developer';
-
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/onboarding_sheet.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/tutorial_sheet.dart';
-import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart';
-import 'package:open_learning_smart_tv/router/app_router.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../remote_theming/labels/labels_manager.dart';
 import '../../remote_theming/labels/remote_labels_keys.dart';
 import '../../theme/app_theme.dart';
-import '../common/widgets/dialog/ol_syncing_dialog.dart';
 import '../common/widgets/error/error_screen.dart';
 import 'cubit/dynamic_content_cubit.dart';
 import 'strip/calendar/calendar_strip_row.dart';
@@ -77,6 +68,7 @@ class DynamicContent extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           final row = value.page.strips[index];
+          print('row: ${row.labelMapping}');
           return row.maybeMap(
             visCarSuggested: (_) => (value.smartConfig?.visCarSuggested == true)
                 ? StandardStripRow(strip: row)

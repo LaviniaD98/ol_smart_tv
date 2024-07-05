@@ -32,16 +32,13 @@ class GetStandardStripUseCase {
     List<String>? filters,
   }) async {
     /// Get initiativeId
-    final start1 = DateTime.now();
+
     final page = await _getPageSizeStripUseCase();
-    final start2 = DateTime.now();
     UserInfoModel? userInfoModel = await _getSecureStoredUserInfoUseCase();
-    final start3 = DateTime.now();
     int? initiativeId = userInfoModel?.initiativeId;
 
     /// Get corporateID
     final corporateId = await _getStoredCorporateIdUseCase();
-    final start4 = DateTime.now();
     final filter = filters?.join(',') ?? '';
     final path = strip.apiPath
         .replaceFirst('{corporateId}', '${corporateId?.id}')
@@ -51,10 +48,7 @@ class GetStandardStripUseCase {
         .replaceFirst('{topics}', filter)
         .replaceFirst('{learningObjectsType}', filter)
         .replaceFirst('{status}', filter);
-    final start5 = DateTime.now();
-    if (kDebugMode)
-      print(
-          "${DateTime.now()} https:// in GetStandardStripUseCase s2-s1:(${start2.difference(start1)}) - s3-s2:(${start3.difference(start2)}) s4-s3:(${start4.difference(start3)}) s5-s4:(${start5.difference(start4)})  ${strip.apiPath}");
+
     return await _stripRepository.getLearningObjectsStrip(strip, path);
   }
 }

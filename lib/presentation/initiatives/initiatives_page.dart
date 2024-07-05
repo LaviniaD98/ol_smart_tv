@@ -1,106 +1,162 @@
 import 'dart:io';
 
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/self/id_label_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/self/self_model.dart';
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_selection_item.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/glow.dart';
 import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
+import 'package:open_learning_smart_tv/presentation/ol_home_screen.dart';
+import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/privacy/privacy_page.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../core/dependency_injection/dependency_injection.dart';
 import '../../remote_theming/labels/labels_manager.dart';
 import '../../remote_theming/labels/remote_labels_keys.dart';
 
-class InitiativesPage extends StatelessWidget {
+class InitiativesPage extends StatefulWidget {
   static String routeName = 'initiatives';
   final InitiativesPageArgs args;
 
   const InitiativesPage({super.key, required this.args});
 
   @override
+  State<InitiativesPage> createState() => _InitiativesPageState();
+}
+
+class _InitiativesPageState extends State<InitiativesPage> {
+  final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
+  final FocusNode _focusNode = FocusNode(canRequestFocus: false);
+
+  bool popping = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //final policy = FocusTraversalGroup.of(_focusNode.context ?? context);
+    // ignore: invalid_use_of_protected_member
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      final node = _focusNodeOrder
+          .sortDescendants(_focusNode.traversalDescendants, _focusNode)
+          .firstOrNull;
+      node?.requestFocus();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool popping = false;
-    return PopScope(
-      onPopInvoked: (bool didPop) async {
-        if (Platform.isAndroid) {
-          if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
-          if (args.isFromSettings || popping) {
-            return;
+    return FocusTraversalGroup(
+      policy: _focusNodeOrder,
+      child: PopScope(
+        onPopInvoked: (bool didPop) async {
+          if (Platform.isAndroid) {
+            if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
+            if (widget.args.isFromSettings || popping) {
+              return;
+            }
+            popping = true;
+            getIt<AppCubit>().logout();
           }
-          popping = true;
-          getIt<AppCubit>().logout();
-        }
-      },
-      canPop: false,
-      child: pageContent(),
+        },
+        canPop: false,
+        child: Focus(
+          focusNode: _focusNode,
+          child: pageContent(),
+        ),
+      ),
     );
   }
 
   Widget get _loading {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+    return const Center(child: CircularProgressIndicator());
   }
 
   Widget pageContent() {
     return BlocProvider(
       create: (_) => getIt<InitiativesCubit>()
         ..init(
-          args.selfModel,
-          args.session,
-          args.sessionId,
-          args.isFromSettings,
+          widget.args.selfModel,
+          widget.args.session,
+          widget.args.sessionId,
+          widget.args.isFromSettings,
         ),
       child: Scaffold(
         backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
         body: Container(
-          decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
-          child: BlocConsumer<InitiativesCubit, InitiativesState>(
-            listener: (context, state) => state.whenOrNull(
-              error: (errorMessage) {
-                return OlAlertDialog.show(
-                  context,
-                  title: LabelsManager()
-                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                  message: errorMessage,
-                  actionLabel: LabelsManager()
-                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.close),
-                );
-              },
-              success: (routes, initial) {
-                context.read<AppCubit>().updateRouter(
-                      initialRoute: initial,
-                      dynamicRoutes: routes ?? [],
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login_back.png'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Column(
+            children: [
+              const LogoBanner(),
+              const SizedBox(height: 100),
+              BlocConsumer<InitiativesCubit, InitiativesState>(
+                listener: (context, state) => state.whenOrNull(
+                  error: (errorMessage) {
+                    return OlAlertDialog.show(
+                      context,
+                      title: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                      message: errorMessage,
+                      actionLabel: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.close),
                     );
-                return;
-              },
-            ),
-            listenWhen: (previous, current) => current.maybeMap(
-              error: (_) => true,
-              success: (_) => true,
-              orElse: () => false,
-            ),
-            buildWhen: (previous, current) => current.maybeMap(
-              error: (_) => false,
-              orElse: () => true,
-            ),
-            builder: (context, state) => state.maybeWhen(
-              loading: () => _loading,
-              initial: () => InitiativeList(
-                selfModel: args.selfModel,
-                session: args.session,
-                sessionId: args.sessionId,
-                args: args,
+                  },
+                  success: (routes, initial) {
+                    // routes?.forEach((element) {
+                    //   print('success -[element--${element}]');
+                    // });
+
+                    Nav.pushAndRemoveUntil(
+                      context,
+                      screen: OLHomeScreen(
+                        dynamicRoutes: routes ?? [],
+                      ),
+                    );
+
+                    // context.read<AppCubit>().updateRouter(
+                    //       initialRoute: initial,
+                    //       dynamicRoutes: routes ?? [],
+                    //     );
+                    return;
+                  },
+                ),
+                listenWhen: (previous, current) => current.maybeMap(
+                  error: (_) => true,
+                  success: (_) => true,
+                  orElse: () => false,
+                ),
+                buildWhen: (previous, current) => current.maybeMap(
+                  error: (_) => false,
+                  orElse: () => true,
+                ),
+                builder: (context, state) => state.maybeWhen(
+                  loading: () => _loading,
+                  initial: () => InitiativeList(
+                    selfModel: widget.args.selfModel,
+                    session: widget.args.session,
+                    sessionId: widget.args.sessionId,
+                    args: widget.args,
+                  ),
+                  orElse: () => const SizedBox(),
+                ),
               ),
-              orElse: () => const SizedBox(),
-            ),
+            ],
           ),
         ),
       ),
@@ -131,31 +187,26 @@ class InitiativeListState extends State<InitiativeList> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Dimens.spacingL),
-      child: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.all(Dimens.spacingM),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimens.radius),
-            gradient: AppTheme.greyGradient,
-          ),
-          child: content(widget.args),
-        ),
+    return Container(
+      constraints: const BoxConstraints(
+        maxWidth: 887,
+        minWidth: 887,
+        maxHeight: 900,
       ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8.0),
+        color: OLColors.backgroundPrimary.withOpacity(0.8),
+      ),
+      padding: const EdgeInsets.all(Dimens.hPadding),
+      child: content(widget.args),
     );
   }
 
   Widget _header(InitiativesPageArgs args) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          "assets/images/app_logo.svg",
-          width: 160,
-          height: 24,
-        ),
-        _backButton(args, context),
         Text(
           LabelsManager().getRemoteStringFromLabelKeys(
             RemoteLabelKeys.select_initiative,
@@ -178,38 +229,6 @@ class InitiativeListState extends State<InitiativeList> {
     );
   }
 
-  Widget _backButton(InitiativesPageArgs args, BuildContext context) {
-    if (!args.isFromSettings) {
-      return Padding(
-        padding: const EdgeInsets.only(
-            top: Dimens.spacingM, bottom: Dimens.spacingXL),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              onTap: () => getIt<AppCubit>().logout(),
-              behavior: HitTestBehavior.translucent,
-              child: SvgPicture.asset("assets/icons/back_arrow.svg"),
-            ),
-            const SizedBox(width: Dimens.spacingXS),
-            Expanded(
-              child: Text(
-                LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.back),
-                textAlign: TextAlign.start,
-                style: AppTextTheme.caption(
-                  color: ColorManager().getColorTextPrimary(),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-    return const SizedBox(height: 64.0);
-  }
-
   Widget content(InitiativesPageArgs args) {
     if (widget.selfModel.initiatives != null &&
         widget.selfModel.initiatives!.isNotEmpty) {
@@ -217,60 +236,55 @@ class InitiativeListState extends State<InitiativeList> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: ListView.separated(
-              physics: const ClampingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (context, index) =>
-                  const SizedBox(height: Dimens.spacingM),
-              itemCount: widget.selfModel.initiatives!.length,
-              itemBuilder: (BuildContext context, int index) {
-                IdLabelModel itemData =
-                    widget.selfModel.initiatives!.elementAt(index);
-                final child = _itemCard(itemData, index);
-                if (index == 0) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _header(args),
-                      const SizedBox(height: Dimens.spacingXXL2),
-                      child,
-                    ],
-                  );
-                }
-                return child;
-              },
-            ),
+          _header(args),
+          const SizedBox(height: Dimens.spacingXXL2),
+          ListView.separated(
+            physics: const ClampingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: Dimens.spacingM),
+            itemCount: widget.selfModel.initiatives!.length,
+            itemBuilder: (BuildContext context, int index) {
+              IdLabelModel itemData =
+                  widget.selfModel.initiatives!.elementAt(index);
+
+              return OlSelectionItem(
+                title: itemData.label ?? '',
+                order: index,
+                keepSelection: true,
+                isSelected: _selectedIndex == index,
+                onSelectionChanged: (p0) {
+                  if (index == _selectedIndex) {
+                    return;
+                  }
+                  if (p0) {
+                    setState(() {
+                      _selectedIndex = index;
+                    });
+                  }
+                },
+              );
+            },
           ),
+          const SizedBox(height: 32),
           Align(
             alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                Dimens.spacingM,
-                Dimens.spacingM,
-                Dimens.spacingM,
-                0,
-              ),
-              child: ElevatedButton(
-                style: AppButtonStyle.red,
-                key: const Key('loginForm_continue_raisedButton'),
-                onPressed: _selectedIndex != -1
-                    ? () {
-                        context.read<InitiativesCubit>().setInitiative(
+            child: OLButton(
+              onPressed: _selectedIndex != -1
+                  ? () {
+                      context.read<InitiativesCubit>().setInitiative(
                             session: widget.session!,
                             sessionId: widget.sessionId!,
                             selfModel: widget.selfModel,
                             initiativeId: widget.selfModel.initiatives!
                                 .elementAt(_selectedIndex)
-                                .id!);
-                      }
-                    : null,
-                child: Text(
-                  LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.continue_button,
-                  ),
-                ),
+                                .id!,
+                          );
+                    }
+                  : null,
+              title: LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.continue_button,
               ),
             ),
           )
@@ -296,64 +310,6 @@ class InitiativeListState extends State<InitiativeList> {
       ],
     );
   }
-
-  Widget _itemCard(IdLabelModel itemData, int index) {
-    final isSelected = index == _selectedIndex;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedIndex = index),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 100),
-        alignment: Alignment.topCenter,
-        child: Glow(
-          glow: isSelected,
-          child: Container(
-            constraints: const BoxConstraints(
-              minHeight: 56.0,
-            ),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              border: Border.all(
-                width: 1,
-                color: isSelected
-                    ? ColorManager().getColorBorderAccent()
-                    : ColorManager().getColorBorderTag(),
-              ),
-              borderRadius: BorderRadius.circular(Dimens.radius),
-            ),
-            padding: const EdgeInsets.symmetric(
-              vertical: Dimens.spacingS,
-              horizontal: Dimens.spacingL,
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    itemData.label ?? "no label",
-                    textAlign: TextAlign.start,
-                    style: AppTextTheme.subtitle(
-                      color: isSelected
-                          ? ColorManager().getColorSystemSecondary01()
-                          : ColorManager().getColorTextPrimary(),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: Dimens.spacingM),
-                if (isSelected)
-                  SvgPicture.asset(
-                    "assets/icons/ic_flagged.svg",
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                      ColorManager().getColorSystemSecondary01(),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 class InitiativesPageArgs {
@@ -362,11 +318,12 @@ class InitiativesPageArgs {
   final String? sessionId;
   bool isFromSettings;
 
-  InitiativesPageArgs(
-      {this.session,
-      required this.selfModel,
-      this.sessionId,
-      this.isFromSettings = false});
+  InitiativesPageArgs({
+    this.session,
+    required this.selfModel,
+    this.sessionId,
+    this.isFromSettings = false,
+  });
 }
 
 class MyBehavior extends ScrollBehavior {

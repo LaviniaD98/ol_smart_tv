@@ -12,7 +12,7 @@ RelativePathDto _$RelativePathDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = RelativePathDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert('title', (v) => v as String?),
           $checkedConvert('apiPath', (v) => v as String),
           $checkedConvert('serviceType', (v) => v as String?),

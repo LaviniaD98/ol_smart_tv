@@ -6,7 +6,6 @@ import 'package:open_learning_smart_tv/presentation/settings/fresh_desk/fresh_de
 import 'package:open_learning_smart_tv/presentation/settings/privacy_policy/privacy_policy_page.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

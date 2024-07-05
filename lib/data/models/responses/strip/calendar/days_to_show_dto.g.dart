@@ -12,9 +12,12 @@ DaysToShowDto _$DaysToShowDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = DaysToShowDto(
-          $checkedConvert('dayIndex', (v) => v as int?),
-          $checkedConvert('dayToShow',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert('dayIndex', (v) => (v as num?)?.toInt()),
+          $checkedConvert(
+              'dayToShow',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
         );
         return val;
       },

@@ -13,7 +13,7 @@ SmartLearningSlotsDto _$SmartLearningSlotsDtoFromJson(
       json,
       ($checkedConvert) {
         final val = SmartLearningSlotsDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert('objectType', (v) => v as String?),
           $checkedConvert(
               'daysToShow',

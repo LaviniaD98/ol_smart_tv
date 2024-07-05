@@ -12,7 +12,7 @@ MeetingDetailsDto _$MeetingDetailsDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = MeetingDetailsDto(
-          $checkedConvert('meetingNumber', (v) => v as int?),
+          $checkedConvert('meetingNumber', (v) => (v as num?)?.toInt()),
           $checkedConvert('startDate', (v) => v as String?),
           $checkedConvert('endDate', (v) => v as String?),
         );

@@ -1,3 +1,5 @@
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -49,36 +51,50 @@ class _PrivacyPageState extends State<PrivacyPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
-          child: BlocConsumer<PrivacyCubit, PrivacyState>(
-            listener: (context, state) => state.whenOrNull(
-              showInitiatives: (session, selfModel, sessionId) {
-                return context.pushNamed(
-                  InitiativesPage.routeName,
-                  extra: InitiativesPageArgs(
-                      session: session,
-                      selfModel: selfModel,
-                      sessionId: sessionId),
-                );
-              },
-              error: () => context.goNamed(CorporateCodePage.routeName),
-            ),
-            buildWhen: (previous, current) => current.maybeMap(
-              error: (value) => false,
-              showInitiatives: (value) => false,
-              loading: (value) => true,
-              orElse: () => true,
-            ),
-            builder: (context, state) => state.maybeWhen(
-              loading: () => _loading,
-              initial: () => _content,
-              orElse: () => const SizedBox(),
-            ),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/login_back.png'),
+            fit: BoxFit.cover,
           ),
+        ),
+        child: Column(
+          children: [
+            const LogoBanner(),
+            const SizedBox(height: 100),
+            Expanded(
+              child: SingleChildScrollView(
+                child: BlocConsumer<PrivacyCubit, PrivacyState>(
+                  listener: (context, state) => state.whenOrNull(
+                    showInitiatives: (session, selfModel, sessionId) {
+                      return context.pushNamed(
+                        InitiativesPage.routeName,
+                        extra: InitiativesPageArgs(
+                          session: session,
+                          selfModel: selfModel,
+                          sessionId: sessionId,
+                        ),
+                      );
+                    },
+                    error: () => context.goNamed(CorporateCodePage.routeName),
+                  ),
+                  buildWhen: (previous, current) => current.maybeMap(
+                    error: (value) => false,
+                    showInitiatives: (value) => false,
+                    loading: (value) => true,
+                    orElse: () => true,
+                  ),
+                  builder: (context, state) => state.maybeWhen(
+                    loading: () => _loading,
+                    initial: () => _content,
+                    orElse: () => const SizedBox(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 100),
+          ],
         ),
       ),
     );
@@ -91,206 +107,174 @@ class _PrivacyPageState extends State<PrivacyPage> {
   }
 
   Widget get _content {
+    final style = {
+      "body": Style(
+        color: AppTextTheme.body().color,
+        fontSize: FontSize.xLarge,
+        verticalAlign: VerticalAlign.top,
+        padding: HtmlPaddings.zero,
+        margin: Margins.zero,
+      ),
+      "p": Style(
+        padding: HtmlPaddings.zero,
+        margin: Margins.zero,
+      ),
+      'a': Style(
+        color: ColorManager().getColorTextPrimaryCta(),
+        verticalAlign: VerticalAlign.top,
+        fontSize: FontSize.xLarge,
+        textDecoration: TextDecoration.none,
+        margin: Margins.zero,
+        padding: HtmlPaddings.zero,
+      )
+    };
+
     return ReactiveForm(
       formGroup: _form,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(
-          20.0,
-          kToolbarHeight + 32,
-          20.0,
-          20.0,
-        ),
-        child: LoginCard(
-            padding: const EdgeInsets.all(16.0),
-            showBack: false,
-            title: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.before_starting),
-            description: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.terms_conditions),
-            child: Column(
+      child: LoginCard(
+        title: LabelsManager()
+            .getRemoteStringFromLabelKeys(RemoteLabelKeys.before_starting),
+        description: LabelsManager()
+            .getRemoteStringFromLabelKeys(RemoteLabelKeys.terms_conditions),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 16),
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: ReactiveCheckboxField(
-                          formControlName: 'check1',
-                        ),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, right: 16),
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: ReactiveCheckboxField(
+                      formControlName: 'check1',
                     ),
-                    Expanded(
-                        child: Html(
-                      data: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.privacy_policy_page_flag1),
-                      shrinkWrap: true,
-                      style: {
-                        "body": Style(
-                          color: ColorManager().getColorTextPrimary(),
-                          fontSize: FontSize.medium,
-                          verticalAlign: VerticalAlign.top,
-                        ),
-                        'a': Style(
-                          color: ColorManager().getColorTextPrimaryCta(),
-                          verticalAlign: VerticalAlign.top,
-                          fontSize: FontSize.large,
-                        )
-                      },
-                      onLinkTap: (url, _, __) {
-                        if (url?.isNotEmpty == true) {
-                          launchUrl(Uri.parse(url!),
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    )),
-                  ],
+                  ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 16),
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: ReactiveCheckboxField(
-                          formControlName: 'check2',
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        child: Html(
-                      data: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.privacy_policy_page_flag2),
-                      shrinkWrap: true,
-                      style: {
-                        "body": Style(
-                          color: ColorManager().getColorTextPrimary(),
-                          fontSize: FontSize.medium,
-                          verticalAlign: VerticalAlign.top,
-                        ),
-                        'a': Style(
-                          color: ColorManager().getColorTextPrimaryCta(),
-                          fontSize: FontSize.large,
-                          verticalAlign: VerticalAlign.top,
-                        )
-                      },
-                      onLinkTap: (url, _, __) {
-                        if (url?.isNotEmpty == true) {
-                          launchUrl(Uri.parse(url!),
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    )),
-                  ],
+                Expanded(
+                  child: Html(
+                    data: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.privacy_policy_page_flag1),
+                    shrinkWrap: true,
+                    style: style,
+                    onLinkTap: (url, _, __) {
+                      if (url?.isNotEmpty == true) {
+                        launchUrl(Uri.parse(url!),
+                            mode: LaunchMode.externalApplication);
+                      }
+                    },
+                  ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, right: 16),
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: ReactiveCheckboxField(
-                          formControlName: 'check3',
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                        child: Html(
-                      data: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.privacy_policy_page_flag3),
-                      shrinkWrap: true,
-                      style: {
-                        "body": Style(
-                          color: ColorManager().getColorTextPrimary(),
-                          fontSize: FontSize.medium,
-                          verticalAlign: VerticalAlign.top,
-                        ),
-                        'a': Style(
-                          color: ColorManager().getColorTextPrimaryCta(),
-                          fontSize: FontSize.large,
-                          verticalAlign: VerticalAlign.top,
-                        )
-                      },
-                      onLinkTap: (url, _, __) {
-                        if (url?.isNotEmpty == true) {
-                          launchUrl(Uri.parse(url!),
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    )),
-                  ],
-                ),
-                const SizedBox(height: 10.0),
-                Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Html(
-                      data: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.privacy_policy_page_bottom_info),
-                      shrinkWrap: true,
-                      style: {
-                        "body": Style(
-                          color: ColorManager().getColorTextPrimary(),
-                          fontSize: FontSize.medium,
-                          verticalAlign: VerticalAlign.top,
-                        ),
-                        'a': Style(
-                          color: ColorManager().getColorTextPrimaryCta(),
-                          fontSize: FontSize.large,
-                          verticalAlign: VerticalAlign.top,
-                        )
-                      },
-                      onLinkTap: (url, _, __) {
-                        if (url?.isNotEmpty == true) {
-                          launchUrl(Uri.parse(url!),
-                              mode: LaunchMode.externalApplication);
-                        }
-                      },
-                    )),
-                const SizedBox(height: 10.0),
-                Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Text(
-                      LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.mandatory_fields),
-                      textAlign: TextAlign.start,
-                      style: AppTextTheme.subtitle(
-                          color: ColorManager().getColorTextPrimary()),
-                    )),
-                const SizedBox(height: 32.0),
-                ReactiveFormConsumer(
-                  builder: (context, formGroup, child) {
-                    return Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        style: AppButtonStyle.red,
-                        key: const Key('loginForm_continue_raisedButton'),
-                        onPressed: formGroup.valid
-                            ? () {
-                                context
-                                    .read<PrivacyCubit>()
-                                    .confirmPrivacyPolicy(
-                                      session: widget.args.session,
-                                      selfModel: widget.args.selfModel,
-                                      sessionId: widget.args.sessionId,
-                                    );
-                              }
-                            : null,
-                        child: Text(
-                          LabelsManager().getRemoteStringFromLabelKeys(
-                              RemoteLabelKeys.continue_button),
-                        ),
-                      ),
-                    );
-                  },
-                )
               ],
-            )),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, right: 16),
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: ReactiveCheckboxField(
+                      formControlName: 'check2',
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Html(
+                  data: LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.privacy_policy_page_flag2),
+                  shrinkWrap: true,
+                  style: style,
+                  onLinkTap: (url, _, __) {
+                    if (url?.isNotEmpty == true) {
+                      launchUrl(Uri.parse(url!),
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                )),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, right: 16),
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: ReactiveCheckboxField(
+                      formControlName: 'check3',
+                    ),
+                  ),
+                ),
+                Expanded(
+                    child: Html(
+                  data: LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.privacy_policy_page_flag3),
+                  shrinkWrap: true,
+                  style: style,
+                  onLinkTap: (url, _, __) {
+                    if (url?.isNotEmpty == true) {
+                      launchUrl(Uri.parse(url!),
+                          mode: LaunchMode.externalApplication);
+                    }
+                  },
+                )),
+              ],
+            ),
+            const SizedBox(height: 10.0),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Html(
+                data: LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.privacy_policy_page_bottom_info),
+                shrinkWrap: true,
+                style: style,
+                onLinkTap: (url, _, __) {
+                  if (url?.isNotEmpty == true) {
+                    launchUrl(Uri.parse(url!),
+                        mode: LaunchMode.externalApplication);
+                  }
+                },
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                LabelsManager().getRemoteStringFromLabelKeys(
+                  RemoteLabelKeys.mandatory_fields,
+                ),
+                textAlign: TextAlign.start,
+                style: AppTextTheme.body(),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            ReactiveFormConsumer(
+              builder: (context, formGroup, child) {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: OLButton(
+                    title: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.continue_button),
+                    onPressed: formGroup.valid
+                        ? () {
+                            context.read<PrivacyCubit>().confirmPrivacyPolicy(
+                                  session: widget.args.session,
+                                  selfModel: widget.args.selfModel,
+                                  sessionId: widget.args.sessionId,
+                                );
+                          }
+                        : null,
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

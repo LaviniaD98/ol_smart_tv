@@ -11,11 +11,11 @@ RatingDto _$RatingDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = RatingDto(
-          $checkedConvert('corporateId', (v) => v as int?),
-          $checkedConvert('domainId', (v) => v as int?),
-          $checkedConvert('learnerId', (v) => v as int?),
-          $checkedConvert('learningObjectId', (v) => v as int?),
-          $checkedConvert('rating', (v) => v as int?),
+          $checkedConvert('corporateId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('domainId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('learnerId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('learningObjectId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('rating', (v) => (v as num?)?.toInt()),
           $checkedConvert('lastRated', (v) => v as String?),
           $checkedConvert('learningObjectType',
               (v) => $enumDecodeNullable(_$LearningObjectTypeEnumMap, v)),

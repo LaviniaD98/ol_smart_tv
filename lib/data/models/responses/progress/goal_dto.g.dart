@@ -12,9 +12,9 @@ GoalDto _$GoalDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = GoalDto(
           $checkedConvert('plan', (v) => v as String?),
-          $checkedConvert('hoursPerMonth', (v) => v as int?),
-          $checkedConvert('durationInDays', (v) => v as int?),
-          $checkedConvert('totalHours', (v) => v as int?),
+          $checkedConvert('hoursPerMonth', (v) => (v as num?)?.toInt()),
+          $checkedConvert('durationInDays', (v) => (v as num?)?.toInt()),
+          $checkedConvert('totalHours', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

@@ -12,7 +12,7 @@ LearningPlanDto _$LearningPlanDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = LearningPlanDto(
-          $checkedConvert('hoursPerMonth', (v) => v as int?),
+          $checkedConvert('hoursPerMonth', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

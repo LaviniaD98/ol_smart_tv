@@ -1,14 +1,14 @@
-import 'dart:developer';
+import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
-import 'package:open_learning_smart_tv/presentation/wall/wall_strip_content_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/dependency_injection/dependency_injection.dart';
@@ -19,7 +19,15 @@ import 'cubit/standard_strip_cubit.dart';
 
 class StandardStripRow extends StatelessWidget {
   final StripRow strip;
-  const StandardStripRow({super.key, required this.strip});
+  final void Function(bool)? onFocusChange;
+  final ValueNotifier<LearningObjectModel?>? focusedObjectNotifier;
+
+  const StandardStripRow({
+    super.key,
+    required this.strip,
+    this.onFocusChange,
+    this.focusedObjectNotifier,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,44 +40,117 @@ class StandardStripRow extends StatelessWidget {
           filters: (context.read<dc.DynamicContentCubit>().state as dc.Success)
               .filters,
         ),
-      child: _StandardStripContent(key: key, strip: strip),
+      child: _StandardStripContent(
+        key: key,
+        strip: strip,
+        onFocusChange: onFocusChange,
+        focusedObjectNotifier: focusedObjectNotifier,
+      ),
     );
   }
 }
 
 class _StandardStripContent extends StatefulWidget {
   final StripRow strip;
-  const _StandardStripContent({super.key, required this.strip});
+  final void Function(bool)? onFocusChange;
+  final ValueNotifier<LearningObjectModel?>? focusedObjectNotifier;
+
+  const _StandardStripContent({
+    super.key,
+    required this.strip,
+    this.onFocusChange,
+    this.focusedObjectNotifier,
+  });
   @override
   State<_StandardStripContent> createState() => _StandardStripContentState();
 }
 
 class _StandardStripContentState extends State<_StandardStripContent>
     with AutomaticKeepAliveClientMixin {
-  static const _padding = EdgeInsets.fromLTRB(12.0, 16.0, 16.0, 0.0);
+  late FocusScopeNode focusNode;
+
+  Timer? _timer;
+
+  bool expanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusScopeNode(
+      debugLabel: 'Explore-----${widget.strip.labelMapping}',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return BlocListener<dc.DynamicContentCubit, dc.DynamicContentState>(
       listener: (contexts, state) => state.mapOrNull(
         success: (_) => context
             .read<StandardStripCubit>()
             .fetch(strip: widget.strip, filters: _.filters),
       ),
-      child: AnimatedSize(
-        duration: const Duration(milliseconds: 100),
-        child: BlocBuilder<StandardStripCubit, StandardStripState>(
-          builder: (context, state) => state.map(
-            success: (value) => value.items.isNotEmpty
-                ? AspectRatio(
-                    aspectRatio: Dimens.learningCardRatio,
+      child: BlocBuilder<StandardStripCubit, StandardStripState>(
+        builder: (context, state) => state.map(
+          success: (value) => value.items.isNotEmpty
+              ? FocusTraversalGroup(
+                  key: ValueKey(widget.strip.labelMapping),
+                  child: FocusScope(
+                    node: focusNode,
+                    onFocusChange: (value) {
+                      if (value) {
+                        _timer = Timer(
+                          const Duration(seconds: 3),
+                          () {
+                            setState(() => expanded = true);
+                          },
+                        );
+                      } else {
+                        if (expanded) {
+                          setState(() => expanded = false);
+                        }
+                        _timer?.cancel();
+                      }
+
+                      widget.onFocusChange?.call(value);
+                    },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // AnimatedSwitcher(
+                        //   duration: const Duration(milliseconds: 100),
+                        //   reverseDuration: const Duration(milliseconds: 300),
+                        //   layoutBuilder: (currentChild, previousChildren) {
+                        //     return Stack(
+                        //       children: <Widget>[
+                        //         ...previousChildren,
+                        //         if (currentChild != null)
+                        //           SingleChildScrollView(child: currentChild),
+                        //       ],
+                        //     );
+                        //   },
+                        //   transitionBuilder: (child, animation) {
+                        //     return SizeTransition(
+                        //       sizeFactor: animation,
+                        //       child: FadeTransition(
+                        //         opacity: animation,
+                        //         child: child,
+                        //       ),
+                        //     );
+                        //   },
+                        //   child: expanded
+                        //       ? Container(
+                        //           height: detailsHeight,
+                        //           color: Colors.red,
+                        //         )
+                        //       : const SizedBox.shrink(),
+                        // ),
+                        const SizedBox(height: 8),
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                            vertical: 4.0,
+                            horizontal: Dimens.hViewPadding,
                           ),
                           child: Row(
                             children: [
@@ -78,91 +159,139 @@ class _StandardStripContentState extends State<_StandardStripContent>
                                   widget.strip.label,
                                   style: AppTextTheme.subtitle(
                                     weight: FontWeight.w700,
+                                    size: 32,
                                     color: ColorManager().getColorTextPrimary(),
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: Dimens.spacingM),
-                              GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(
-                                      WallStripContentPage.routeName,
-                                      extra: WallStripContentPageArgs(
-                                          widget.strip),
-                                    );
-                                  },
-                                  child: Transform.scale(
-                                      scale: 0.9999,
-                                      child: SvgPicture.asset(
-                                          "assets/icons/right_arrow.svg",
-                                          colorFilter: ColorFilter.mode(
-                                              ColorManager()
-                                                  .getColorTextPrimary(),
-                                              BlendMode.srcIn)))),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          height: Dimens.learningCardHeight,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            padding: _padding,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(width: Dimens.spacingXS),
-                            itemCount: value.items.length,
-                            itemBuilder: (context, index) {
-                              return LearningCard(data: value.items[index]);
-                            },
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 38,
+                            bottom: 44,
+                          ),
+                          child: SizedBox(
+                            height: Dimens.learningCardTVHeight,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              clipBehavior: Clip.none,
+                              padding: const EdgeInsets.only(
+                                left: Dimens.hViewPadding,
+                                right: Dimens.hViewPadding,
+                              ),
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(width: Dimens.spacingXS),
+                              itemCount: value.items.length,
+                              itemBuilder: (context, index) {
+                                final item = value.items[index];
+                                final cell = LearningCard(
+                                  data: item,
+                                  onFocusChange: (hasFocus) {
+                                    if (hasFocus) {
+                                      widget.focusedObjectNotifier?.value =
+                                          item;
+                                    }
+                                  },
+                                );
+
+                                if (index == 0) {
+                                  return CallbackShortcuts(
+                                    bindings: <ShortcutActivator, VoidCallback>{
+                                      const SingleActivator(
+                                          LogicalKeyboardKey.arrowLeft): () {
+                                        final focus = context
+                                            .read<MainStateCubit>()
+                                            .state;
+                                        focus.requestFocus();
+                                      },
+                                    },
+                                    child: cell,
+                                  );
+                                }
+                                return cell;
+                              },
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  )
-                : const SizedBox.shrink(),
-            loading: (value) => _shimmerLoader,
-            error: (_) => const SizedBox.shrink(),
-          ),
+                  ),
+                )
+              : _shimmerLoader, // const SizedBox.shrink(),
+          loading: (value) => _shimmerLoader,
+          error: (_) => const SizedBox.shrink(),
         ),
       ),
     );
   }
 
   Widget get _shimmerLoader {
-    return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
-      highlightColor: AppColors.primaryFaded,
-      period: const Duration(seconds: 2),
-      child: AspectRatio(
-        aspectRatio: Dimens.learningCardRatio,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(20.0, 4.0, 16.0, 4.0),
-              width: (MediaQuery.of(context).size.width /
-                      Dimens.learningCardRatio) *
-                  .7,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.3),
-                borderRadius: BorderRadius.circular(8.0),
+    return FocusScope(
+      node: focusNode,
+      onFocusChange: (value) {
+        widget.onFocusChange?.call(value);
+      },
+      child: FocusTraversalGroup(
+        key: ValueKey(widget.strip.labelMapping),
+        child: Shimmer.fromColors(
+          baseColor: AppColors.white.withOpacity(.09),
+          highlightColor: AppColors.primaryFaded,
+          period: const Duration(seconds: 2),
+          enabled: false,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                margin: const EdgeInsets.only(
+                  left: Dimens.hViewPadding,
+                  right: Dimens.hViewPadding,
+                ),
+                width: (MediaQuery.of(context).size.width /
+                        Dimens.learningCardRatio) *
+                    .7,
+                clipBehavior: Clip.none,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(.3),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: Text(
+                  widget.strip.labelMapping ?? '', //'A',
+                  style: AppTextTheme.subtitle(
+                    weight: FontWeight.w700,
+                    size: 32,
+                    color: Colors.black,
+                  ),
+                ),
               ),
-            ),
-            SizedBox(
-              height: Dimens.learningCardHeight,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                padding: _padding,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) =>
-                    const SizedBox(width: Dimens.spacingXS),
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  return const LearningCardShimmer();
-                },
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 38,
+                  bottom: 44,
+                ),
+                child: SizedBox(
+                  height: Dimens.learningCardTVHeight,
+                  child: ListView.separated(
+                    clipBehavior: Clip.none,
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.only(
+                      left: Dimens.hViewPadding,
+                      right: Dimens.hViewPadding,
+                    ),
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: Dimens.spacingXS),
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return const LearningCardShimmer();
+                    },
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

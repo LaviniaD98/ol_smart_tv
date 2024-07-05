@@ -1,4 +1,3 @@
-import 'package:open_learning_smart_tv/core/database/app_database.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/profile/profile_page.dart';

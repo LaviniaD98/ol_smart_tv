@@ -13,61 +13,85 @@ class DurationTag extends StatelessWidget {
     this.color,
     this.textStyle,
     this.hidden = false,
+    this.textOnly = false,
+    this.iconSize = 16.0,
   });
 
-  factory DurationTag.fromMinutes(int duration,
-      {Key? key, Color? color, TextStyle? textStyle, bool? collapseDisplay}) {
+  factory DurationTag.fromMinutes(
+    int duration, {
+    Key? key,
+    Color? color,
+    TextStyle? textStyle,
+    bool? collapseDisplay,
+    double? iconSize,
+    bool? textOnly,
+  }) {
     return DurationTag._(
-        key: key,
-        color: color,
-        label: _getTime(duration, collapseDisplay),
-        textStyle: textStyle ??
-            AppTextTheme.caption(
-                weight: FontWeight.w700,
-                color: ColorManager().getColorTextPrimary()),
-        hidden: (duration == 0));
+      key: key,
+      color: color,
+      textOnly: textOnly ?? false,
+      label: _getTime(duration, collapseDisplay),
+      iconSize: iconSize ?? 16.0,
+      textStyle: textStyle ??
+          AppTextTheme.caption(
+            weight: FontWeight.w700,
+            color: ColorManager().getColorTextPrimary(),
+          ),
+      hidden: (duration == 0),
+    );
   }
 
   final String label;
   final Color? color;
   final TextStyle? textStyle;
   final bool hidden;
+  final bool textOnly;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
     if (hidden) {
       return const SizedBox.shrink();
     }
-    return FittedBox(
-      child: Container(
-        height: 28.0,
-        decoration: BoxDecoration(
-          color:
-              color ?? ColorManager().getColorTextPrimaryCta().withOpacity(.5),
-          borderRadius: BorderRadius.circular(8.0),
+
+    final badge = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          "assets/icons/time.svg",
+          width: iconSize,
+          height: iconSize,
+          colorFilter: ColorFilter.mode(
+            ColorManager().getColorTextPrimary(),
+            BlendMode.srcIn,
+          ),
         ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 2,
-          horizontal: 8.0,
+        const SizedBox(width: 8.0),
+        Text(
+          label,
+          style: textStyle ??
+              AppTextTheme.caption(
+                weight: FontWeight.w700,
+                size: 12,
+                color: ColorManager().getColorTextPrimary(),
+              ).copyWith(height: 1),
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Transform.scale(
-                scale: 0.9999,
-                child: SvgPicture.asset("assets/icons/time.svg",
-                    width: 24.0,
-                    colorFilter: ColorFilter.mode(
-                        ColorManager().getColorTextPrimary(),
-                        BlendMode.srcIn))),
-            const SizedBox(width: 4.0),
-            Text(
-              label,
-              style: textStyle,
-            ),
-          ],
-        ),
+      ],
+    );
+
+    if (textOnly) {
+      return badge;
+    }
+    return Container(
+      decoration: BoxDecoration(
+        color: color ?? ColorManager().getColorTextPrimaryCta().withOpacity(.5),
+        borderRadius: BorderRadius.circular(8.0),
       ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+        horizontal: 8.0,
+      ),
+      child: badge,
     );
   }
 

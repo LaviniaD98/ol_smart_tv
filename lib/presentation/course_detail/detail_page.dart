@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/data/models/responses/generic/object_statistics_dto.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
@@ -47,11 +48,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'widgets/dynamic_sliver_detail_header.dart';
 import 'widgets/tools/tools_list.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final DetailPageArgs args;
   static String routeName = 'detail';
 
   const DetailPage({super.key, required this.args});
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  final _focusNode = FocusScopeNode(debugLabel: 'DetailPage');
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      _focusNode.requestFocus();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +98,15 @@ class DetailPage extends StatelessWidget {
             return null;
           },
           errorWithDialog: (message) async {
-            await OlAlertDialog.show(context,
-                title: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                message: message,
-                actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.continue_button),
-                barrierDismissible: false);
+            await OlAlertDialog.show(
+              context,
+              title: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+              message: message,
+              actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
+                  RemoteLabelKeys.continue_button),
+              barrierDismissible: false,
+            );
             return null;
           },
           readyToPlay: (model, detail) => startPlay(context, model, detail),
@@ -96,9 +115,9 @@ class DetailPage extends StatelessWidget {
               DetailPage.routeName,
               extra: DetailPageArgs(
                 id: model.id.toString(),
-                parentId: args.id,
+                parentId: widget.args.id,
                 typology: model.learningObjectTypology,
-                grandParentId: args.parentId,
+                grandParentId: widget.args.parentId,
                 parent: detail,
               ),
             );
@@ -110,7 +129,7 @@ class DetailPage extends StatelessWidget {
               extra: postArgs,
             );
             if (context.mounted) {
-              context.read<DetailPageCubit>().init(args);
+              context.read<DetailPageCubit>().init(widget.args);
               getIt<TrackingManager>()
                   .communityTrackingHandler(AppRouter.I.fullPath);
             }
@@ -137,11 +156,12 @@ class DetailPage extends StatelessWidget {
   Widget _error(BuildContext context) {
     return Center(
       child: ErrorScreen(
-          title: LabelsManager()
-              .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-          message: LabelsManager()
-              .getRemoteStringFromLabelKeys(RemoteLabelKeys.error_occurred),
-          onReload: () => {context.pop()}),
+        title:
+            LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+        message: LabelsManager()
+            .getRemoteStringFromLabelKeys(RemoteLabelKeys.error_occurred),
+        onReload: () => {context.pop()},
+      ),
     );
   }
 
@@ -151,8 +171,106 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget _content(BuildContext context, int selectedIndex,
-      DetailPageModel model, SmartConfiguratorModel? smartConfig) {
+  bool expanded = false;
+
+  bool descriptionFocused = false;
+
+  Widget _content(
+    BuildContext context,
+    int selectedIndex,
+    DetailPageModel model,
+    SmartConfiguratorModel? smartConfig,
+  ) {
+    return FocusScope(
+      node: _focusNode,
+      autofocus: true,
+      child: Container(
+        color: Colors.purple,
+        child: Row(
+          children: [
+            Focus(
+              onFocusChange: (value) {
+                if (value) {
+                  setState(() => expanded = false);
+                }
+              },
+              child: AnimatedContainer(
+                curve: Curves.easeInOut,
+                width: expanded ? 40 : 870,
+                duration: const Duration(milliseconds: 500),
+                child: CallbackShortcuts(
+                  bindings: <ShortcutActivator, VoidCallback>{
+                    const SingleActivator(LogicalKeyboardKey.goBack): () {
+                      print('csljdnclknsdlkcs.d------------GO BACK');
+                    },
+                    // const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+                    //   print('csljdnclknsdlkcs.d------------arrowRight');
+                    // },
+                  },
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        child: buildLeftPanel(model: model),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Focus(
+                onFocusChange: (value) {
+                  if (value) {
+                    setState(() {
+                      expanded = true;
+                      descriptionFocused = true;
+                    });
+                  } else {
+                    setState(() => descriptionFocused = false);
+                  }
+                },
+                child: Container(
+                  color: Colors.blue,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 0,
+                          ),
+                          color: Colors.amber,
+                          width: 1706,
+                          child: Row(
+                            children: [
+                              Expanded(child: Container(color: Colors.green)),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 30),
+                                  color: descriptionFocused
+                                      ? Colors.brown
+                                      : Colors.blue,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
     int tabContentLength = contentBarLength(context, model, false);
     return DefaultTabController(
       length: tabContentLength,
@@ -166,7 +284,7 @@ class DetailPage extends StatelessWidget {
               /// Header
               DynamicSliverDetailHeader(
                 model: model,
-                args: args,
+                args: widget.args,
               ),
 
               /// Actions
@@ -201,7 +319,7 @@ class DetailPage extends StatelessWidget {
                             getIt<TrackingManager>()
                                 .communityTrackingHandler(AppRouter.I.fullPath);
                             if (context.mounted && res != null && res) {
-                              context.read<DetailPageCubit>().init(args);
+                              context.read<DetailPageCubit>().init(widget.args);
                             }
                           },
                           behavior: HitTestBehavior.translucent,
@@ -245,12 +363,12 @@ class DetailPage extends StatelessWidget {
                       if (smartConfig?.funcFavourites == true) const Spacer(),
                       if (smartConfig?.funcFavourites == true)
                         BlocProvider(
-                          create: (_) =>
-                              getIt<FavouriteCubit>()..init(model, args.parent),
+                          create: (_) => getIt<FavouriteCubit>()
+                            ..init(model, widget.args.parent),
                           child: FavoriteButton(
                             detailPageModel: model,
-                            parentId: args.parentId,
-                            grandParentId: args.grandParentId,
+                            parentId: widget.args.parentId,
+                            grandParentId: widget.args.grandParentId,
                           ),
                         ),
                     ],
@@ -277,9 +395,10 @@ class DetailPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: ColorManager().getColorTextPrimary()),
                   unselectedLabelStyle: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: ColorManager().getColorTextPrimary()),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: ColorManager().getColorTextPrimary(),
+                  ),
                   tabs: buildTabContentBar(context, model, true, smartConfig),
                 ),
               ),
@@ -298,12 +417,25 @@ class DetailPage extends StatelessWidget {
     );
   }
 
+  Widget buildLeftPanel({
+    required DetailPageModel model,
+  }) {
+    return SizedBox(
+      width: 870,
+      child: DynamicSliverDetailHeader(
+        model: model,
+        isSliver: false,
+        args: widget.args,
+      ),
+    );
+  }
+
   void startOrResumeCheck(
       BuildContext context, int loId, DetailPageModel detail) {
-    String parentId =
-        (args.parentId == null || args.parentId!.toLowerCase() == "null")
-            ? loId.toString()
-            : args.parentId!;
+    String parentId = (widget.args.parentId == null ||
+            widget.args.parentId!.toLowerCase() == "null")
+        ? loId.toString()
+        : widget.args.parentId!;
     context
         .read<DetailPageCubit>()
         .getStartOrResumeModel(loId, parentId, detail);
@@ -324,7 +456,7 @@ class DetailPage extends StatelessWidget {
           WakelockPlus.disable();
           if (context.mounted) {
             context.read<DetailPageCubit>().refreshContinueLearningStrip();
-            context.read<DetailPageCubit>().init(args);
+            context.read<DetailPageCubit>().init(widget.args);
           }
         } else {
           OlAlertDialog.show(
@@ -348,7 +480,7 @@ class DetailPage extends StatelessWidget {
             type: lo.learningObjectType,
             isMandatory: lo.isMandatory ?? false,
             brightcoveId: lo.brightcoveId,
-            pathId: args.parentId,
+            pathId: widget.args.parentId,
             tentativeId: "${lo.tentativeId}",
             onTapDetail: () async {
               final subNavigationTypes = [
@@ -364,16 +496,18 @@ class DetailPage extends StatelessWidget {
                     id: lo.id.toString(),
                     parentId: lo.id == detail.id ? null : detail.id.toString(),
                     typology: lo.learningObjectTypology,
-                    grandParentId: lo.id == detail.id ? null : args.parentId,
+                    grandParentId:
+                        lo.id == detail.id ? null : widget.args.parentId,
                     parent: detail,
                   ),
                 );
 
                 /// reload parent detail
-                if (context.mounted) context.read<DetailPageCubit>().init(args);
+                if (context.mounted)
+                  context.read<DetailPageCubit>().init(widget.args);
               } else {
                 /// reload parent detail
-                context.read<DetailPageCubit>().init(args);
+                context.read<DetailPageCubit>().init(widget.args);
               }
             },
           ),
@@ -381,7 +515,7 @@ class DetailPage extends StatelessWidget {
         WakelockPlus.disable();
         if (res != null && res && context.mounted) {
           /// reload detail
-          context.read<DetailPageCubit>().init(args);
+          context.read<DetailPageCubit>().init(widget.args);
         }
       }
     } else {
@@ -417,14 +551,14 @@ class DetailPage extends StatelessWidget {
         return LearningActivityRow(
             items: model.learningActivities!,
             parentModel: model,
-            grandParentId: args.parentId,
+            grandParentId: widget.args.parentId,
             parentId: model.id.toString(),
             enable: !(loCharacterization.objLOAction ==
                 ObjLOAction.ecmNotRegistered),
             returnFromDetailCallback: () {
               if (context.mounted) {
                 context.read<DetailPageCubit>().refreshContinueLearningStrip();
-                context.read<DetailPageCubit>().init(args);
+                context.read<DetailPageCubit>().init(widget.args);
               }
             });
       }
@@ -440,7 +574,7 @@ class DetailPage extends StatelessWidget {
     } else {
       return DetailsTab(
           model: model,
-          parentModel: args.parent,
+          parentModel: widget.args.parent,
           showDuration:
               (model.learningObjectTypology == LearningObjectTypology.course));
     }
@@ -501,7 +635,7 @@ class DetailPage extends StatelessWidget {
         );
         return CourseDetailModules(
             model: model,
-            parentId: args.parentId,
+            parentId: widget.args.parentId,
             onButtonPressed: (int index, bool isACourse,
                 LearningObjectModel? ll, CourseModel? cc) {
               if (loCharacterization.buttonEnabled &&
@@ -509,10 +643,10 @@ class DetailPage extends StatelessWidget {
                       loCharacterization.objLOAction !=
                           ObjLOAction.notApplicable)) {
                 int idToAE = model.id!;
-                if (args.grandParentId != null) {
-                  idToAE = int.parse(args.grandParentId!);
-                } else if (args.parentId != null) {
-                  idToAE = int.parse(args.parentId!);
+                if (widget.args.grandParentId != null) {
+                  idToAE = int.parse(widget.args.grandParentId!);
+                } else if (widget.args.parentId != null) {
+                  idToAE = int.parse(widget.args.parentId!);
                 }
                 switch (loCharacterization.objLOAction) {
                   case ObjLOAction.none:
@@ -534,11 +668,11 @@ class DetailPage extends StatelessWidget {
                     break;
                   case ObjLOAction.autoEnrollmentBottom:
                     context.read<DetailPageCubit>().executeAutoEnrollment(
-                        args, idToAE, "BOTTOM", model, false);
+                        widget.args, idToAE, "BOTTOM", model, false);
                     break;
                   case ObjLOAction.autoEnrollmentAuto:
                     context.read<DetailPageCubit>().executeAutoEnrollment(
-                        args, idToAE, "AUTO", model, true);
+                        widget.args, idToAE, "AUTO", model, true);
                     break;
                   case ObjLOAction.autoEnrollmentWithPatch:
                   case ObjLOAction.seeEditions:
@@ -551,7 +685,7 @@ class DetailPage extends StatelessWidget {
                           id: id,
                           parentId: model.id.toString(),
                           typology: model.learningObjectTypology,
-                          grandParentId: args.parentId,
+                          grandParentId: widget.args.parentId,
                           parent: model,
                         ),
                       );
@@ -597,7 +731,7 @@ class DetailPage extends StatelessWidget {
             text: LabelsManager()
                 .getRemoteStringFromLabelKeys(RemoteLabelKeys.editions));
       } else {
-        return CourseDetailEditions(model: model, args: args);
+        return CourseDetailEditions(model: model, args: widget.args);
       }
     }
     return null;
@@ -607,7 +741,7 @@ class DetailPage extends StatelessWidget {
       SmartConfiguratorModel? smartConfig) {
     if (smartConfig?.funcCommunity == true &&
         model.sharedPostsModel != null &&
-        model.sharedPostsModel?.data?.isNotEmpty == true) {
+        model.sharedPostsModel?.data.isNotEmpty == true) {
       if (isTabHeader) {
         return Tab(
             text: LabelsManager()
@@ -615,9 +749,9 @@ class DetailPage extends StatelessWidget {
       } else {
         if (ConfigManager()
             .getRemoteBoolean(RemoteConfigKeys.paginate_opinions, false)) {
-          return CourseDetailOpinions(model: model, args: args);
+          return CourseDetailOpinions(model: model, args: widget.args);
         } else {
-          return CourseDetailOpinionsNoPage(model: model, args: args);
+          return CourseDetailOpinionsNoPage(model: model, args: widget.args);
         }
       }
     }

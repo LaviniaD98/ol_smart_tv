@@ -12,7 +12,7 @@ DaysToHighlightDto _$DaysToHighlightDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = DaysToHighlightDto(
-          $checkedConvert('day', (v) => v as int?),
+          $checkedConvert('day', (v) => (v as num?)?.toInt()),
           $checkedConvert('areThereMandatoryLO', (v) => v as bool?),
           $checkedConvert('areThereLiveLO', (v) => v as bool?),
           $checkedConvert('areThereSmartSlots', (v) => v as bool?),

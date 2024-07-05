@@ -1,7 +1,6 @@
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_download_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

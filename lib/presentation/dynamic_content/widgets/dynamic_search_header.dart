@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../../remote_theming/labels/labels_manager.dart';
-import '../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../theme/app_theme.dart';
 import '../../common/widgets/app_header.dart';
 import '../../common/widgets/topics_filter/topics_filter_list.dart';

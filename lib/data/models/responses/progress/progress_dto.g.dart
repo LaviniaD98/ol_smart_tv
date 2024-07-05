@@ -11,7 +11,7 @@ ProgressDto _$ProgressDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = ProgressDto(
-          $checkedConvert('passedDays', (v) => v as int?),
+          $checkedConvert('passedDays', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'completedTime',
               (v) => v == null

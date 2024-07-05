@@ -11,10 +11,10 @@ RatingDto _$RatingDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = RatingDto(
-          $checkedConvert('corporateId', (v) => v as int?),
-          $checkedConvert('domainId', (v) => v as int?),
-          $checkedConvert('totalNumberOfPages', (v) => v as int?),
-          $checkedConvert('totalNumberOfElements', (v) => v as int?),
+          $checkedConvert('corporateId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('domainId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('totalNumberOfPages', (v) => (v as num?)?.toInt()),
+          $checkedConvert('totalNumberOfElements', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'learnerObjectList',
               (v) => (v as List<dynamic>?)

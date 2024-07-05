@@ -115,34 +115,24 @@ class CognitoAuthManager {
     try {
       var tenative = <String, String>{"tentative": "0"};
       await cognitoUser.sendCustomChallengeAnswer("0", tenative);
-      print('JOJOJOJOJOJOJOJOJOJo...........');
       return const CognitoResponse.cognitoUserCustomChallenge();
     } on CognitoUserNewPasswordRequiredException catch (e) {
-      print('1...........');
       return CognitoResponse.cognitoUserNewPasswordRequired(e);
     } on CognitoUserMfaRequiredException catch (_) {
-      print('2...........');
       return const CognitoResponse.cognitoUserMfaRequired();
     } on CognitoUserSelectMfaTypeException catch (_) {
-      print('3...........');
       return const CognitoResponse.cognitoUserSelectMfaType();
     } on CognitoUserMfaSetupException catch (_) {
-      print('4...........');
       return const CognitoResponse.cognitoUserMfaSetup();
     } on CognitoUserTotpRequiredException catch (_) {
-      print('5...........');
       return const CognitoResponse.cognitoUserTotpRequired();
     } on CognitoUserCustomChallengeException catch (_) {
-      print('6...........');
       return const CognitoResponse.cognitoUserCustomChallenge();
     } on CognitoUserConfirmationNecessaryException catch (_) {
-      print('7...........');
       return const CognitoResponse.cognitoUserConfirmationNecessary();
     } on CognitoClientException catch (_) {
-      print('8...........');
       return const CognitoResponse.cognitoAuthDenied();
     } catch (e) {
-      print('9...........$e');
       return const CognitoResponse.cognitoAuthDenied();
     }
   }

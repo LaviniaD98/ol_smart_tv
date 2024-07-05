@@ -21,7 +21,7 @@ SelfDto _$SelfDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
           $checkedConvert('fiscal_code', (v) => v as String?),
           $checkedConvert('country_code', (v) => v as String?),
           $checkedConvert('country_description', (v) => v as String?),
-          $checkedConvert('birthday', (v) => v as int?),
+          $checkedConvert('birthday', (v) => (v as num?)?.toInt()),
           $checkedConvert('birth_country', (v) => v as String?),
           $checkedConvert('birth_province', (v) => v as String?),
           $checkedConvert('ateco_code', (v) => v as String?),
@@ -30,8 +30,8 @@ SelfDto _$SelfDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
           $checkedConvert('contractual_framework_code', (v) => v as String?),
           $checkedConvert('contractual_framework_type', (v) => v as String?),
           $checkedConvert('new_hire_flag', (v) => v as bool?),
-          $checkedConvert('hire_date', (v) => v as int?),
-          $checkedConvert('termination_date', (v) => v as int?),
+          $checkedConvert('hire_date', (v) => (v as num?)?.toInt()),
+          $checkedConvert('termination_date', (v) => (v as num?)?.toInt()),
           $checkedConvert('contract_type', (v) => v as String?),
           $checkedConvert('schedule_type', (v) => v as String?),
           $checkedConvert('ccnl', (v) => v as String?),
@@ -67,7 +67,7 @@ SelfDto _$SelfDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
                   ? null
                   : IdLabelDto.fromJson(v as Map<String, dynamic>)),
           $checkedConvert('admin_flag', (v) => v as bool?),
-          $checkedConvert('smart_learning_hours', (v) => v as int?),
+          $checkedConvert('smart_learning_hours', (v) => (v as num?)?.toInt()),
           $checkedConvert('onboarding_flag', (v) => v as bool?),
           $checkedConvert(
               'uog',

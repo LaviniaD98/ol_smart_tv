@@ -12,9 +12,9 @@ UserRatingDto _$UserRatingDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = UserRatingDto(
-          $checkedConvert('learnerId', (v) => v as int?),
-          $checkedConvert('rating', (v) => v as int?),
-          $checkedConvert('isFavouriteForLearner', (v) => v as int?),
+          $checkedConvert('learnerId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('rating', (v) => (v as num?)?.toInt()),
+          $checkedConvert('isFavouriteForLearner', (v) => (v as num?)?.toInt()),
           $checkedConvert('lastRated', (v) => v as String?),
         );
         return val;

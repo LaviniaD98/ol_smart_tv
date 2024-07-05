@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
-
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../core/utils/utility.dart';
-import '../../../../../domain/entities/community/attachments_model.dart';
 import '../../../../../domain/entities/community/community_data_model.dart';
 import '../../../../../domain/enums/types.dart';
 import '../../../../../remote_theming/labels/labels_manager.dart';

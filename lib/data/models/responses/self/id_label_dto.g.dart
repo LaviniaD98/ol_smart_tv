@@ -11,7 +11,7 @@ IdLabelDto _$IdLabelDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = IdLabelDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('label', (v) => v as String?),
         );
         return val;

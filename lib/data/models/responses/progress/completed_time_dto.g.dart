@@ -12,8 +12,8 @@ CompletedTimeDto _$CompletedTimeDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CompletedTimeDto(
-          $checkedConvert('hours', (v) => v as int?),
-          $checkedConvert('minutes', (v) => v as int?),
+          $checkedConvert('hours', (v) => (v as num?)?.toInt()),
+          $checkedConvert('minutes', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

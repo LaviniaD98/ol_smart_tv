@@ -12,7 +12,6 @@ import '../../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../../../theme/app_theme.dart';
 import '../../../../common/widgets/dialog/calendar/ol_calendar_dialog.dart';
-import '../../../../common/widgets/dialog/ol_download_dialog.dart';
 import '../../../../wall/wall_strip_content_page.dart';
 import '../cubit/calendar_strip_cubit.dart';
 

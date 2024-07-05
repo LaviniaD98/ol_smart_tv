@@ -14,9 +14,10 @@ class OLColors {
   static const Color backgroundSaved = Color(0xFF6C7A00);
   static const Color backgroundList = Color(0xFF3E3E43);
   static const Color backgroundCard = Color(0x40000000);
+  static const Color backgroundSideNav = Color(0xFF151515);
 
   //Divider Colors
-  static const Color divider = Color(0xFF1B1B1B);
+  static const Color divider = Color(0xFF696969);
 
   //Border Colors
   static const Color borderPrimaryCta = Color(0xFFD40C34);
@@ -28,7 +29,7 @@ class OLColors {
   static const Color borderError = Color(0xFFE01A1A);
 
   //Text Colors
-  static const Color textPrimary = Color(0xFF1B1B1B);
+  static const Color textPrimary = Color(0xFFFFFFFF);
   static const Color textPrimaryAlternative = Color(0xFFF4F6F6);
   static const Color textPrimaryCta = Color(0xFFD40C34);
   static const Color textError = Color(0xFFE01A1A);

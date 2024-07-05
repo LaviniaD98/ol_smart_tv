@@ -11,17 +11,17 @@ CourseDto _$CourseDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = CourseDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('title', (v) => v as String?),
           $checkedConvert('isMandatory', (v) => v as bool?),
           $checkedConvert('status', (v) => v as String?),
-          $checkedConvert('coverId', (v) => v as int?),
+          $checkedConvert('coverId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverPrivateURL', (v) => v as String?),
           $checkedConvert('coverPublicURL', (v) => v as String?),
-          $checkedConvert('coverVideoId', (v) => v as int?),
+          $checkedConvert('coverVideoId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverVideoPrivateURL', (v) => v as String?),
           $checkedConvert('coverVideoPublicURL', (v) => v as String?),
-          $checkedConvert('prereqOrderNumber', (v) => v as int?),
+          $checkedConvert('prereqOrderNumber', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'learningObjectType',
               (v) => $enumDecode(_$LearningObjectTypeEnumMap, v,
@@ -31,12 +31,13 @@ CourseDto _$CourseDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => $enumDecode(_$LearningObjectTypologyEnumMap, v,
                   unknownValue: LearningObjectTypology.unknown)),
           $checkedConvert('shortDescription', (v) => v as String?),
-          $checkedConvert('duration', (v) => v as int?),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
           $checkedConvert('percentageOfCompletion', (v) => v as String?),
-          $checkedConvert('learningActivityNumber', (v) => v as int?),
-          $checkedConvert('toolNumber', (v) => v as int?),
-          $checkedConvert('badgeId', (v) => v as int?),
-          $checkedConvert('certificateId', (v) => v as int?),
+          $checkedConvert(
+              'learningActivityNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert('toolNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert('badgeId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('certificateId', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'badge',
               (v) => v == null
@@ -55,8 +56,11 @@ CourseDto _$CourseDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
               'enrollType',
               (v) => $enumDecodeNullable(_$EnrollTypeEnumMap, v,
                   unknownValue: EnrollType.unknown)),
-          $checkedConvert('expirationDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'expirationDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
         );
         return val;
       },

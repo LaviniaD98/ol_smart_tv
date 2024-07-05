@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
+import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
+import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/profile/profile_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/search/search_screen.dart';
+import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
+
+class OLHomeScreen extends StatefulWidget {
+  const OLHomeScreen({
+    required this.dynamicRoutes,
+    super.key,
+  });
+
+  final List<MenuRoute> dynamicRoutes;
+
+  @override
+  State<OLHomeScreen> createState() => _OLHomeScreenState();
+}
+
+class _OLHomeScreenState extends State<OLHomeScreen> {
+  final focusNode = FocusScopeNode(debugLabel: 'Home');
+  final pagesFocusNode = FocusScopeNode(debugLabel: 'Home - Pages');
+  final PageController pageController = PageController(initialPage: 0);
+
+  GlobalKey<NavigatorState> searchTabKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> forYouTabKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> exploreTabKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> favoritesTabKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> agendaTabKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> profileTabKey = GlobalKey<NavigatorState>();
+
+  late List<GlobalKey<NavigatorState>> tabKeys;
+
+  @override
+  void initState() {
+    super.initState();
+    tabKeys = [
+      searchTabKey,
+      forYouTabKey,
+      exploreTabKey,
+      favoritesTabKey,
+      agendaTabKey,
+      profileTabKey,
+    ];
+
+    manager.currentTabNavKey = tabKeys.first;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        print('DID POP: $didPop');
+
+        if (manager.currentTabNavKey?.currentState?.canPop() ?? false) {
+          manager.currentTabNavKey?.currentState?.pop();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.yellow,
+        body: Stack(
+          children: [
+            Positioned(
+              left: 175,
+              top: 0,
+              right: 0,
+              bottom: 0,
+              child: FocusScope(
+                node: pagesFocusNode,
+                skipTraversal: true,
+                onFocusChange: (value) {},
+                child: PageView.builder(
+                  itemBuilder: (context, index) {
+                    if (index == 0) {
+                      return const SearchScreen();
+                    } else if (index == 1) {
+                      return const ForYouScreen();
+                    } else if (index == 2) {
+                      return IGTabNavigator(
+                        navigatorKey: exploreTabKey,
+                        tabRoute: 'routeKeyExplore',
+                        tabScreen: ExploreScreen(
+                          dynamicRoutes: widget.dynamicRoutes,
+                        ),
+                      );
+                    } else if (index == 3) {
+                      return const FavoritesScreen();
+                    } else if (index == 4) {
+                      return const AgendaScreen();
+                    } else if (index == 5) {
+                      return const ProfileScreen();
+                    }
+                    return const SizedBox.shrink();
+                  },
+                  controller: pageController,
+                  itemCount: 6,
+                  onPageChanged: (index) {
+                    manager.currentTabNavKey = tabKeys[index];
+                  },
+                  physics: const NeverScrollableScrollPhysics(),
+                ),
+              ),
+            ),
+            Positioned.fill(
+              left: 0,
+              top: 0,
+              bottom: 0,
+              child: OLSideNavigator(pageController: pageController),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class IGTabNavigator extends StatelessWidget {
+  const IGTabNavigator({
+    super.key,
+    this.navigatorKey,
+    this.tabRoute,
+    this.tabScreen,
+  });
+
+  final GlobalKey<NavigatorState>? navigatorKey;
+  final String? tabRoute;
+  final Widget? tabScreen;
+
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: navigatorKey,
+      initialRoute: tabRoute,
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => tabScreen ?? const SizedBox.shrink(),
+        );
+      },
+    );
+  }
+}

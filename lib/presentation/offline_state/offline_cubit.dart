@@ -80,9 +80,11 @@ class OfflineCubit extends Cubit<OfflineState> {
     if (self?.onboardingFlag != true &&
         skipOnboarding != true &&
         !_appCubit.isOnboardingShown()) {
+      print('cslkndcklnslkdncks-------------------');
       emit(OfflineState.shownOnboarding(
           OnboardingFormGroup.build(null), showTutorial));
     } else if (skipTutorial != true && !_appCubit.isTutorialShown()) {
+      print('cslkndcklnslkdncks-------------------2');
       emit(OfflineState.showTutorial(OnboardingFormGroup.build(null)));
     }
     checkOfflineStatements();

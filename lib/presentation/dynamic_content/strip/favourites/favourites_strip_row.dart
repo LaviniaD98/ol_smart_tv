@@ -48,7 +48,7 @@ class _FavouritesStripRowState extends State<FavouritesStripRow>
           builder: (context, state) => state.map(
             success: (value) => value.items.isNotEmpty
                 ? AspectRatio(
-                    aspectRatio: Dimens.learningCardRatio,
+                    aspectRatio: Dimens.learningCardRatio.toDouble(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -119,7 +119,7 @@ class _FavouritesStripRowState extends State<FavouritesStripRow>
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: AspectRatio(
-        aspectRatio: Dimens.learningCardRatio,
+        aspectRatio: Dimens.learningCardTVRatio,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

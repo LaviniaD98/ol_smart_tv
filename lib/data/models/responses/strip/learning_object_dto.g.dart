@@ -12,18 +12,18 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = LearningObjectDto(
-          $checkedConvert('id', (v) => v as int),
-          $checkedConvert('parentId', (v) => v as int?),
-          $checkedConvert('grandParentId', (v) => v as int?),
-          $checkedConvert('coverId', (v) => v as int?),
-          $checkedConvert('badgeId', (v) => v as int?),
-          $checkedConvert('certificateId', (v) => v as int?),
-          $checkedConvert('editionId', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num).toInt()),
+          $checkedConvert('parentId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('grandParentId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('coverId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('badgeId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('certificateId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('editionId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverPrivateURL', (v) => v as String?),
           $checkedConvert('coverPublicURL', (v) => v as String?),
           $checkedConvert('brightCoverId', (v) => v as String?),
-          $checkedConvert('videoId', (v) => v as int?),
-          $checkedConvert('editionNumber', (v) => v as int?),
+          $checkedConvert('videoId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('editionNumber', (v) => (v as num?)?.toInt()),
           $checkedConvert('videoPrivateURL', (v) => v as String?),
           $checkedConvert('videoPublicURL', (v) => v as String?),
           $checkedConvert('title', (v) => v as String?),
@@ -37,7 +37,7 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
                   unknownValue: LearningObjectTypology.unknown)),
           $checkedConvert('isTest', (v) => v as bool?),
           $checkedConvert('isSurvey', (v) => v as bool?),
-          $checkedConvert('surveyId', (v) => v as int?),
+          $checkedConvert('surveyId', (v) => (v as num?)?.toInt()),
           $checkedConvert('trackOnClick', (v) => v as bool?),
           $checkedConvert('aiItemType', (v) => v as String?),
           $checkedConvert('isFavourite', (v) => v as bool?),
@@ -48,20 +48,27 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
               'enrollType', (v) => $enumDecodeNullable(_$EnrollTypeEnumMap, v)),
           $checkedConvert('topicTags',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          $checkedConvert('topicTagIds',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'topicTagIds',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert(
               'daysToShow',
               (v) => (v as List<dynamic>?)
-                  ?.map(
-                      (e) => (e as List<dynamic>).map((e) => e as int).toList())
+                  ?.map((e) => (e as List<dynamic>)
+                      .map((e) => (e as num).toInt())
+                      .toList())
                   .toList()),
-          $checkedConvert('duration', (v) => v as int?),
-          $checkedConvert('availablePlaces', (v) => v as int?),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
+          $checkedConvert('availablePlaces', (v) => (v as num?)?.toInt()),
           $checkedConvert('enrolledDates',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          $checkedConvert('expirationDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'expirationDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert('isExpired', (v) => v as bool?),
           $checkedConvert('isToBeHidden', (v) => v as bool?),
           $checkedConvert('date', (v) => v as String?),
@@ -70,10 +77,16 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
           $checkedConvert('percentageOfCompletion', (v) => v as String?),
           $checkedConvert('isMandatory', (v) => v as bool?),
           $checkedConvert('isFixedExpiration', (v) => v as bool?),
-          $checkedConvert('startDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('endDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'startDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'endDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert('startTime', (v) => v as String?),
           $checkedConvert('endTime', (v) => v as String?),
           $checkedConvert(
@@ -96,26 +109,29 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
               (v) => (v as List<dynamic>?)
                   ?.map((e) => EditionDto.fromJson(e as Map<String, dynamic>))
                   .toList()),
-          $checkedConvert('courseId', (v) => v as int?),
+          $checkedConvert('courseId', (v) => (v as num?)?.toInt()),
           $checkedConvert('isEnable', (v) => v as bool?),
           $checkedConvert('isStandAlone', (v) => v as bool?),
-          $checkedConvert('prereqOrderNumber', (v) => v as int?),
-          $checkedConvert('coverVideoId', (v) => v as int?),
+          $checkedConvert('prereqOrderNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert('coverVideoId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverVideoPrivateURL', (v) => v as String?),
           $checkedConvert('coverVideoPublicURL', (v) => v as String?),
           $checkedConvert('longDescription', (v) => v as String?),
-          $checkedConvert('lastViewedDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'lastViewedDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert('prereqType', (v) => v as String?),
           $checkedConvert(
               'teachers',
               (v) => (v as List<dynamic>?)
                   ?.map((e) => TeacherDto.fromJson(e as Map<String, dynamic>))
                   .toList()),
-          $checkedConvert('toolNumber', (v) => v as int?),
+          $checkedConvert('toolNumber', (v) => (v as num?)?.toInt()),
           $checkedConvert('link', (v) => v as String?),
           $checkedConvert('fruitionFlag', (v) => v as bool?),
-          $checkedConvert('tentativeId', (v) => v as int?),
+          $checkedConvert('tentativeId', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

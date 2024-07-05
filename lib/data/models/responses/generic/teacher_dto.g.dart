@@ -11,7 +11,7 @@ TeacherDto _$TeacherDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = TeacherDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('completeName', (v) => v as String?),
           $checkedConvert('operationalField', (v) => v as String?),
           $checkedConvert('image', (v) => v as String?),

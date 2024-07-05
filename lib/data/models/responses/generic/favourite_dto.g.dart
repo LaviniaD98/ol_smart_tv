@@ -12,12 +12,12 @@ FavouriteDto _$FavouriteDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = FavouriteDto(
-          $checkedConvert('corporateId', (v) => v as int?),
-          $checkedConvert('domainId', (v) => v as int?),
-          $checkedConvert('learnerId', (v) => v as int?),
-          $checkedConvert('learningObjectId', (v) => v as int?),
-          $checkedConvert('parentId', (v) => v as int?),
-          $checkedConvert('grandParentId', (v) => v as int?),
+          $checkedConvert('corporateId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('domainId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('learnerId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('learningObjectId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('parentId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('grandParentId', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'learningObjectType',
               (v) => $enumDecodeNullable(_$LearningObjectTypeEnumMap, v,

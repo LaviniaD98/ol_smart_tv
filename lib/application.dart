@@ -1,9 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_syncing_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/onboarding_sheet.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/tutorial_sheet.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
@@ -18,6 +20,7 @@ import 'package:open_learning_smart_tv/router/app_router.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'presentation/app_state/cubit/app_cubit.dart';
@@ -60,7 +63,10 @@ class Application extends StatelessWidget {
             create: (_) => getIt<SplashScreenCubit>()),
         BlocProvider(
           create: (_) => getIt<CorporateCodeCubit>()..init(false),
-        )
+        ),
+        BlocProvider(
+          create: (_) => MainStateCubit(),
+        ),
       ],
       child: ListenableBuilder(
           listenable: getIt<RemoteLabels>(),
@@ -72,71 +78,74 @@ class Application extends StatelessWidget {
                     listener: (_, state) {
                       final context = AppRouter.I.root.currentContext ?? _;
                       state.mapOrNull(
-                          done: (_) => context.pop(),
-                          syncing: (_) => OlSyncingDialog.show(context),
-                          networkChanged: (value) async {
-                            if (context.read<OfflineCubit>().isOfflineMode()) {
-                              return null;
-                            } else {
-                              final res = await OlAlertDialog.show(context,
-                                  title: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                          RemoteLabelKeys
-                                              .back_online_dialog_title),
-                                  message: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                          RemoteLabelKeys
-                                              .back_online_dialog_body),
-                                  actionLabel: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                          RemoteLabelKeys
-                                              .back_online_dialog_ok_button),
-                                  barrierDismissible: false);
-                              if (res != null && res && context.mounted) {
-                                context
-                                    .read<OfflineCubit>()
-                                    .checkOfflineStatements();
-                              }
+                        done: (_) => context.pop(),
+                        syncing: (_) => OlSyncingDialog.show(context),
+                        networkChanged: (value) async {
+                          if (context.read<OfflineCubit>().isOfflineMode()) {
+                            return null;
+                          } else {
+                            final res = await OlAlertDialog.show(context,
+                                title: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                        RemoteLabelKeys
+                                            .back_online_dialog_title),
+                                message: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                        RemoteLabelKeys
+                                            .back_online_dialog_body),
+                                actionLabel: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                        RemoteLabelKeys
+                                            .back_online_dialog_ok_button),
+                                barrierDismissible: false);
+                            if (res != null && res && context.mounted) {
+                              context
+                                  .read<OfflineCubit>()
+                                  .checkOfflineStatements();
                             }
-                            return null;
-                          },
-                          shownOnboarding: (value) {
-                            context.read<OfflineCubit>().setOnboardingShown();
-                            showModalBottomSheet(
-                                context:
-                                    AppRouter.I.root.currentContext ?? context,
-                                isScrollControlled: true,
-                                showDragHandle: true,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(Dimens.radius)),
-                                barrierColor: ColorManager()
-                                    .getColorBackgroundDrawerWidget()
-                                    .withAlpha(127),
-                                backgroundColor:
-                                    AppTheme.greyGradient.colors[0],
-                                builder: (context) =>
-                                    OnboardingSheet(value.showTutorial));
-                            return null;
-                          },
-                          showTutorial: (value) {
-                            context.read<OfflineCubit>().setTutorialShown();
-                            showModalBottomSheet(
-                              context:
-                                  AppRouter.I.root.currentContext ?? context,
-                              isScrollControlled: true,
-                              showDragHandle: true,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(Dimens.radius)),
-                              barrierColor: ColorManager()
-                                  .getColorBackgroundDrawerWidget()
-                                  .withAlpha(127),
-                              backgroundColor: AppTheme.greyGradient.colors[0],
-                              builder: (context) => const TutorialSheet(),
-                            );
-                            return null;
-                          });
+                          }
+                          return null;
+                        },
+                        showTutorial: (value) => null,
+                        shownOnboarding: (value) => null,
+                        // shownOnboarding: (value) {
+                        //   context.read<OfflineCubit>().setOnboardingShown();
+                        //   showModalBottomSheet(
+                        //       context:
+                        //           AppRouter.I.root.currentContext ?? context,
+                        //       isScrollControlled: true,
+                        //       showDragHandle: true,
+                        //       shape: RoundedRectangleBorder(
+                        //           borderRadius:
+                        //               BorderRadius.circular(Dimens.radius)),
+                        //       barrierColor: ColorManager()
+                        //           .getColorBackgroundDrawerWidget()
+                        //           .withAlpha(127),
+                        //       backgroundColor:
+                        //           AppTheme.greyGradient.colors[0],
+                        //       builder: (context) =>
+                        //           OnboardingSheet(value.showTutorial));
+                        //   return null;
+                        // },
+                        // showTutorial: (value) {
+                        //   context.read<OfflineCubit>().setTutorialShown();
+                        //   showModalBottomSheet(
+                        //     context:
+                        //         AppRouter.I.root.currentContext ?? context,
+                        //     isScrollControlled: true,
+                        //     showDragHandle: true,
+                        //     shape: RoundedRectangleBorder(
+                        //         borderRadius:
+                        //             BorderRadius.circular(Dimens.radius)),
+                        //     barrierColor: ColorManager()
+                        //         .getColorBackgroundDrawerWidget()
+                        //         .withAlpha(127),
+                        //     backgroundColor: AppTheme.greyGradient.colors[0],
+                        //     builder: (context) => const TutorialSheet(),
+                        //   );
+                        //   return null;
+                        // });
+                      );
                     },
                     child: Shortcuts(
                       shortcuts: <LogicalKeySet, Intent>{
@@ -145,7 +154,7 @@ class Application extends StatelessWidget {
                         LogicalKeySet(LogicalKeyboardKey.enter):
                             const ActivateIntent(),
                         LogicalKeySet(LogicalKeyboardKey.goBack):
-                            const ActivateIntent(),
+                            const BackIntent(),
                       },
                       // child: MaterialApp.router(
                       //   builder: (context, child) {
@@ -186,11 +195,23 @@ class Application extends StatelessWidget {
                       // ),
                       child: MaterialApp(
                         builder: (context, child) {
+                          final theme = GlowThemeData(
+                            glowColor: ColorManager()
+                                .getColorBackgroundPrimaryCta()
+                                .withOpacity(0.4),
+                            spreadRadius: 1.5,
+                            blurRadius: 12,
+                            offset: const Offset(0, 0),
+                          );
+
                           return MediaQuery(
                             data: MediaQuery.of(context).copyWith(
                                 navigationMode: NavigationMode.directional),
                             child: ResponsiveBreakpoints.builder(
-                              child: child!,
+                              child: GlowTheme(
+                                lightTheme: theme,
+                                child: child!,
+                              ),
                               useShortestSide: true,
                               debugLog: true,
                               breakpoints: [

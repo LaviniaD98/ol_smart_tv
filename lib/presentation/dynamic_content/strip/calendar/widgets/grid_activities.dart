@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../domain/entities/strip/calendar/activity/calendar_activity.dart';
-import '../../../../../domain/entities/strip/learning_object/learning_object_model.dart';
 import '../../../../../theme/app_theme.dart';
 import 'learning_object_activity.dart';
 import 'smart_learning_activity.dart';

@@ -12,7 +12,7 @@ SuggestionDto _$SuggestionDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = SuggestionDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert(
               'type',
               (v) => $enumDecode(_$LearningObjectTypologyEnumMap, v,
@@ -23,9 +23,9 @@ SuggestionDto _$SuggestionDtoFromJson(Map<String, dynamic> json) =>
               (v) => $enumDecode(_$LearningObjectTypeEnumMap, v,
                   unknownValue: LearningObjectType.unknown)),
           $checkedConvert('shortDescription', (v) => v as String?),
-          $checkedConvert('duration', (v) => v as int?),
-          $checkedConvert('expirationDate', (v) => v as int?),
-          $checkedConvert('availableEditions', (v) => v as int?),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
+          $checkedConvert('expirationDate', (v) => (v as num?)?.toInt()),
+          $checkedConvert('availableEditions', (v) => (v as num?)?.toInt()),
           $checkedConvert('enrollType', (v) => v as String?),
         );
         return val;

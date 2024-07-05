@@ -4,7 +4,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationManager {
-
   static final LocalNotificationManager I = LocalNotificationManager._();
   LocalNotificationManager._();
 
@@ -13,7 +12,8 @@ class LocalNotificationManager {
   /// Init LocalNotification
   Future<void> init(void Function(NotificationResponse) onTap) async {
     const iOS = DarwinInitializationSettings();
-    const android = AndroidInitializationSettings('@mipmap/ic_stat_notification');
+    const android =
+        AndroidInitializationSettings('@drawable/ic_stat_notification');
     const settings = InitializationSettings(iOS: iOS, android: android);
     await _localNotification.initialize(
       settings,

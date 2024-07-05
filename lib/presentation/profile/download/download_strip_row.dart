@@ -2,7 +2,6 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/cubit/local_card_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/download_card.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/download_card_status/cubit/local_card_status_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/profile/download/wall/download_wall_strip_page.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';

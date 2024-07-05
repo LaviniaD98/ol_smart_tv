@@ -12,21 +12,21 @@ DetailPageDto _$DetailPageDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = DetailPageDto(
-          $checkedConvert('id', (v) => v as int?),
+          $checkedConvert('id', (v) => (v as num?)?.toInt()),
           $checkedConvert('title', (v) => v as String?),
-          $checkedConvert('coverId', (v) => v as int?),
+          $checkedConvert('coverId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverPrivateURL', (v) => v as String?),
           $checkedConvert('coverPublicURL', (v) => v as String?),
-          $checkedConvert('coverVideoId', (v) => v as int?),
+          $checkedConvert('coverVideoId', (v) => (v as num?)?.toInt()),
           $checkedConvert('coverVideoPrivateURL', (v) => v as String?),
           $checkedConvert('coverVideoPublicURL', (v) => v as String?),
           $checkedConvert('brightCoverId', (v) => v as String?),
           $checkedConvert('isMandatory', (v) => v as bool?),
           $checkedConvert('isStandAlone', (v) => v as bool?),
           $checkedConvert('link', (v) => v as String?),
-          $checkedConvert('badgeId', (v) => v as int?),
-          $checkedConvert('certificateId', (v) => v as int?),
-          $checkedConvert('testId', (v) => v as int?),
+          $checkedConvert('badgeId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('certificateId', (v) => (v as num?)?.toInt()),
+          $checkedConvert('testId', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'learningObjectType',
               (v) => $enumDecode(_$LearningObjectTypeEnumMap, v,
@@ -35,16 +35,22 @@ DetailPageDto _$DetailPageDtoFromJson(Map<String, dynamic> json) =>
               'learningObjectTypology',
               (v) => $enumDecode(_$LearningObjectTypologyEnumMap, v,
                   unknownValue: LearningObjectTypology.unknown)),
-          $checkedConvert('enrollId', (v) => v as int?),
+          $checkedConvert('enrollId', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'enrollType',
               (v) => $enumDecodeNullable(_$EnrollTypeEnumMap, v,
                   unknownValue: EnrollType.unknown)),
           $checkedConvert('ecmType', (v) => v as String?),
-          $checkedConvert('ecmStartDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('ecmEndDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'ecmStartDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'ecmEndDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert('ecmRegistration', (v) => v as bool?),
           $checkedConvert('ecm_specialization', (v) => v as bool?),
           $checkedConvert('sponsors',
@@ -55,28 +61,47 @@ DetailPageDto _$DetailPageDtoFromJson(Map<String, dynamic> json) =>
           $checkedConvert('prereqType', (v) => v as String?),
           $checkedConvert('topicTags',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          $checkedConvert('topicTagIds',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('badgeIds',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('certificateIds',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('duration', (v) => v as int?),
+          $checkedConvert(
+              'topicTagIds',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'badgeIds',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'certificateIds',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
           $checkedConvert('status', (v) => v as String?),
           $checkedConvert('percentageOfCompletion', (v) => v as String?),
           $checkedConvert('shortDescription', (v) => v as String?),
           $checkedConvert('longDescription', (v) => v as String?),
-          $checkedConvert('publicationDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('obsolescenceDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
-          $checkedConvert('expirationDate',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'publicationDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'obsolescenceDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
+          $checkedConvert(
+              'expirationDate',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert('isExpirationDateHard', (v) => v as bool?),
-          $checkedConvert('courseNumber', (v) => v as int?),
-          $checkedConvert('learningActivityNumber', (v) => v as int?),
-          $checkedConvert('toolNumber', (v) => v as int?),
-          $checkedConvert('badgeNumber', (v) => v as int?),
+          $checkedConvert('courseNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert(
+              'learningActivityNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert('toolNumber', (v) => (v as num?)?.toInt()),
+          $checkedConvert('badgeNumber', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'teachers',
               (v) => (v as List<dynamic>?)

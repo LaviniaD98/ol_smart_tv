@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_text_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
-import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
 import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_confirm_page_cubit.dart';

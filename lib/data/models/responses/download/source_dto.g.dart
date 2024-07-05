@@ -19,13 +19,13 @@ SourceDto _$SourceDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
           $checkedConvert('ext_x_version', (v) => v as String?),
           $checkedConvert('type', (v) => v as String?),
           $checkedConvert('profiles', (v) => v as String?),
-          $checkedConvert('avg_bitrate', (v) => v as int?),
+          $checkedConvert('avg_bitrate', (v) => (v as num?)?.toInt()),
           $checkedConvert('codec', (v) => v as String?),
           $checkedConvert('container', (v) => v as String?),
-          $checkedConvert('duration', (v) => v as int?),
-          $checkedConvert('height', (v) => v as int?),
-          $checkedConvert('width', (v) => v as int?),
-          $checkedConvert('size', (v) => v as int?),
+          $checkedConvert('duration', (v) => (v as num?)?.toInt()),
+          $checkedConvert('height', (v) => (v as num?)?.toInt()),
+          $checkedConvert('width', (v) => (v as num?)?.toInt()),
+          $checkedConvert('size', (v) => (v as num?)?.toInt()),
           $checkedConvert('src', (v) => v as String?),
         );
         return val;

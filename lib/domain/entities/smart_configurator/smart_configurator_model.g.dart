@@ -25,8 +25,8 @@ SmartConfiguratorModel _$SmartConfiguratorModelFromJson(
               $checkedConvert('INT_SCORM_TRACKER', (v) => v as String?),
           intXapiTracker:
               $checkedConvert('INT_XAPI_TRACKER', (v) => v as String?),
-          aiSuggestedAltSlots:
-              $checkedConvert('aiSuggestedAltSlots', (v) => v as int?),
+          aiSuggestedAltSlots: $checkedConvert(
+              'aiSuggestedAltSlots', (v) => (v as num?)?.toInt()),
           api: $checkedConvert('api', (v) => v as bool?),
           appNativa: $checkedConvert('appNativa', (v) => v as bool?),
           brandassetName:
@@ -55,13 +55,16 @@ SmartConfiguratorModel _$SmartConfiguratorModelFromJson(
           funcFavourites: $checkedConvert('funcFavourites', (v) => v as bool?),
           funcRating: $checkedConvert('funcRating', (v) => v as bool?),
           goalsWidgets: $checkedConvert('goalsWidgets', (v) => v as bool?),
-          hrSuggestedAltSlots:
-              $checkedConvert('hrSuggestedAltSlots', (v) => v as int?),
-          idConfiguration: $checkedConvert('idConfiguration', (v) => v as int?),
-          idCorporate: $checkedConvert('idCorporate', (v) => v as int?),
+          hrSuggestedAltSlots: $checkedConvert(
+              'hrSuggestedAltSlots', (v) => (v as num?)?.toInt()),
+          idConfiguration:
+              $checkedConvert('idConfiguration', (v) => (v as num?)?.toInt()),
+          idCorporate:
+              $checkedConvert('idCorporate', (v) => (v as num?)?.toInt()),
           idWidgetFreshdesk:
-              $checkedConvert('idWidgetFreshdesk', (v) => v as int?),
-          initiativeId: $checkedConvert('initiativeId', (v) => v as int?),
+              $checkedConvert('idWidgetFreshdesk', (v) => (v as num?)?.toInt()),
+          initiativeId:
+              $checkedConvert('initiativeId', (v) => (v as num?)?.toInt()),
           initiativeName:
               $checkedConvert('initiativeName', (v) => v as String?),
           intscormtracker:
@@ -86,16 +89,16 @@ SmartConfiguratorModel _$SmartConfiguratorModelFromJson(
           logoRgbName: $checkedConvert('logoRgbName', (v) => v as String?),
           logoWhiteName: $checkedConvert('logoWhiteName', (v) => v as String?),
           lrsEsterno: $checkedConvert('lrsEsterno', (v) => v as bool?),
-          managerSuggestedAltSlots:
-              $checkedConvert('managerSuggestedAltSlots', (v) => v as int?),
+          managerSuggestedAltSlots: $checkedConvert(
+              'managerSuggestedAltSlots', (v) => (v as num?)?.toInt()),
           mandatoryAltSlots:
-              $checkedConvert('mandatoryAltSlots', (v) => v as int?),
+              $checkedConvert('mandatoryAltSlots', (v) => (v as num?)?.toInt()),
           multiUserMassiv:
               $checkedConvert('multiUserMassiv', (v) => v as bool?),
           notificationName:
               $checkedConvert('notificationName', (v) => v as String?),
           progressWidget: $checkedConvert('progressWidget', (v) => v as bool?),
-          ratingMax: $checkedConvert('ratingMax', (v) => v as int?),
+          ratingMax: $checkedConvert('ratingMax', (v) => (v as num?)?.toInt()),
           skillsHRWeight:
               $checkedConvert('skillsHRWeight', (v) => (v as num?)?.toDouble()),
           skillsUserWeight: $checkedConvert(
@@ -110,7 +113,7 @@ SmartConfiguratorModel _$SmartConfiguratorModelFromJson(
           templateWebappName:
               $checkedConvert('templateWebappName', (v) => v as String?),
           totalForYouSlots:
-              $checkedConvert('totalForYouSlots', (v) => v as int?),
+              $checkedConvert('totalForYouSlots', (v) => (v as num?)?.toInt()),
           trainingMandatory:
               $checkedConvert('trainingMandatory', (v) => v as bool?),
           updateDate: $checkedConvert('updateDate', (v) => v as String?),

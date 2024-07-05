@@ -1,0 +1,100 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
+import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
+import 'package:simple_shadow/simple_shadow.dart';
+
+class OLSideItem extends StatefulWidget {
+  const OLSideItem({
+    required this.title,
+    required this.icon,
+    this.isSelected = false,
+    super.key,
+  });
+
+  final String title;
+  final String icon;
+  final bool isSelected;
+
+  @override
+  State<OLSideItem> createState() => _OLSideItemState();
+}
+
+class _OLSideItemState extends State<OLSideItem> {
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode(debugLabel: '${widget.title} - focusNode');
+  }
+
+  @override
+  dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Focus(
+      focusNode: focusNode,
+      onFocusChange: (value) {
+        print('Focus CHANGED ${focusNode.debugLabel}:-- ${value}');
+        setState(() {});
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SimpleShadow(
+            color: focusNode.hasFocus || widget.isSelected
+                ? OLColors.accentVariantA
+                : OLColors.textPrimary,
+            offset: Offset.zero,
+            sigma: focusNode.hasFocus ? 10 : 0,
+            opacity: 1,
+            child: SvgPicture.asset(
+              widget.icon,
+              height: 24,
+              width: 24,
+              colorFilter: ColorFilter.mode(
+                focusNode.hasFocus || widget.isSelected
+                    ? OLColors.accentVariantA
+                    : OLColors.textPrimary,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            widget.title,
+            style: AppTextTheme.body(
+              size: 16,
+              weight: FontWeight.w600,
+              color: focusNode.hasFocus || widget.isSelected
+                  ? OLColors.accentVariantA
+                  : OLColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          GlowContainer(
+            width: 75,
+            height: 2.5,
+            blurRadius: 8,
+            spreadRadius: 1,
+            glowColor: focusNode.hasFocus || widget.isSelected
+                ? OLColors.accentVariantA.withOpacity(0.5)
+                : Colors.transparent,
+            color: focusNode.hasFocus || widget.isSelected
+                ? OLColors.accentVariantA
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(5),
+          )
+        ],
+      ),
+    );
+  }
+}

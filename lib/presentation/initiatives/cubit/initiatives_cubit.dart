@@ -192,6 +192,7 @@ class InitiativesCubit extends Cubit<InitiativesState> {
                 .apiPath);
             await _communityWallCubit.refresh();
           }
+
           emit(InitiativesState.success(
               relativePaths, initialRoute ?? entryPoint));
         } else {

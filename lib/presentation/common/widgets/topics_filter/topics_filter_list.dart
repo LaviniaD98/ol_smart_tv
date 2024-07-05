@@ -59,21 +59,25 @@ class TopicsFilterList extends StatelessWidget {
         child: BlocBuilder<TopicsFilterCubit, TopicsFilterState>(
           builder: (context, state) => state.maybeWhen(
             loading: () => _shimmerLoader,
-            success: (topics) => topics.isNotEmpty
-                ? switch (type) {
-                    TopicsFilterListType.navigation => _TopicsFilterNavigation(
-                        key: const ValueKey('_TopicsFilterNavigation'),
-                        topics: topics,
-                        onTap: onTap!,
-                      ),
-                    TopicsFilterListType.reload => _TopicsFilterReload(
-                        key: const ValueKey('_TopicsFilterReload'),
-                        initialFilters: initialFilters,
-                        topics: topics,
-                        onTapReload: onReload!,
-                      ),
-                  }
-                : const SizedBox.shrink(),
+            success: (topics) {
+              if (topics.isNotEmpty) {
+                return switch (type) {
+                  TopicsFilterListType.navigation => _TopicsFilterNavigation(
+                      key: const ValueKey('_TopicsFilterNavigation'),
+                      topics: topics,
+                      onTap: onTap!,
+                    ),
+                  TopicsFilterListType.reload => _TopicsFilterReload(
+                      key: const ValueKey('_TopicsFilterReload'),
+                      initialFilters: initialFilters,
+                      topics: topics,
+                      onTapReload: onReload!,
+                    ),
+                };
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
             orElse: () => const SizedBox.shrink(),
           ),
         ),
@@ -199,7 +203,7 @@ class _TopicsFilterReloadState extends State<_TopicsFilterReload> {
 }
 
 /// Navigation
-class _TopicsFilterNavigation extends StatelessWidget {
+class _TopicsFilterNavigation extends StatefulWidget {
   final OnTapNavigation onTap;
   final List<TopicModel> topics;
 
@@ -207,26 +211,52 @@ class _TopicsFilterNavigation extends StatelessWidget {
       {super.key, required this.onTap, required this.topics});
 
   @override
+  State<_TopicsFilterNavigation> createState() =>
+      _TopicsFilterNavigationState();
+}
+
+class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
+  late FocusScopeNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode = FocusScopeNode(debugLabel: '_TopicsFilterNavigation');
+  }
+
+  @override
+  void dispose() {
+    focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      key: key,
-      padding: const EdgeInsets.only(bottom: 30 + Dimens.spacingM),
-      child: SizedBox(
-        height: 60,
-        child: ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          separatorBuilder: (context, index) =>
-              const SizedBox(width: Dimens.spacingM),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return TopicFilterItem(
-              onTap: () => onTap(topics[index].id),
-              path: topics[index].url?.publicUrl,
-              isSelected: false,
-              label: topics[index].name,
-            );
-          },
-          itemCount: topics.length,
+    return FocusScope(
+      node: focusNode,
+      child: Padding(
+        key: widget.key,
+        padding: const EdgeInsets.only(bottom: 30 + Dimens.spacingM),
+        child: SizedBox(
+          height: 100,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            separatorBuilder: (context, index) =>
+                const SizedBox(width: Dimens.spacingM),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 56),
+                child: TopicFilterItem(
+                  onTap: () => widget.onTap(widget.topics[index].id),
+                  path: widget.topics[index].url?.publicUrl,
+                  isSelected: false,
+                  label: widget.topics[index].name,
+                ),
+              );
+            },
+            itemCount: widget.topics.length,
+          ),
         ),
       ),
     );

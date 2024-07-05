@@ -14,8 +14,8 @@ EditionResponseDto _$EditionResponseDtoFromJson(Map<String, dynamic> json) =>
         final val = EditionResponseDto(
           $checkedConvert('errorMessages',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          $checkedConvert('numberRowNotSaved', (v) => v as int?),
-          $checkedConvert('numberRowSaved', (v) => v as int?),
+          $checkedConvert('numberRowNotSaved', (v) => (v as num?)?.toInt()),
+          $checkedConvert('numberRowSaved', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

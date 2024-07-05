@@ -10,7 +10,6 @@ import '../../../../../../domain/entities/community/comment/comment_model.dart';
 import '../../../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../../../../theme/app_theme.dart';
-import '../../../../../common/widgets/user_avatar/user_avatar.dart';
 
 class CommentItemContent extends StatelessWidget {
   final CommentModel args;

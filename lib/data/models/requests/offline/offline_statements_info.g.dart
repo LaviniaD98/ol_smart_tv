@@ -22,7 +22,7 @@ OfflineStatementsInfo _$OfflineStatementsInfoFromJson(
           description: $checkedConvert('description', (v) => v as String?),
           completed: $checkedConvert('completed', (v) => v as bool),
           duration: $checkedConvert(
-              'duration', (v) => Duration(microseconds: v as int)),
+              'duration', (v) => Duration(microseconds: (v as num).toInt())),
           pathId: $checkedConvert('pathId', (v) => v as String?),
           tentativeId: $checkedConvert('tentativeId', (v) => v as String?),
         );

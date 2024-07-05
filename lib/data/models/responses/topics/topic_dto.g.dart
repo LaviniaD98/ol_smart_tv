@@ -12,9 +12,10 @@ TopicDto _$TopicDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       ($checkedConvert) {
         final val = TopicDto(
           $checkedConvert('name', (v) => v as String),
-          $checkedConvert('order', (v) => v as int),
-          $checkedConvert('id', (v) => v as int),
-          $checkedConvert('learning_object_associated', (v) => v as int),
+          $checkedConvert('order', (v) => (v as num).toInt()),
+          $checkedConvert('id', (v) => (v as num).toInt()),
+          $checkedConvert(
+              'learning_object_associated', (v) => (v as num).toInt()),
           $checkedConvert(
               'url', (v) => UrlDto.fromJson(v as Map<String, dynamic>)),
         );

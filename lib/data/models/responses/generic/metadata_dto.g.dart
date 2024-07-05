@@ -11,8 +11,8 @@ MetadataDto _$MetadataDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = MetadataDto(
-          $checkedConvert('totalPages', (v) => v as int),
-          $checkedConvert('totalElements', (v) => v as int),
+          $checkedConvert('totalPages', (v) => (v as num).toInt()),
+          $checkedConvert('totalElements', (v) => (v as num).toInt()),
           $checkedConvert(
               'output',
               (v) => (v as List<dynamic>?)

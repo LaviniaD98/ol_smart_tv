@@ -74,7 +74,7 @@ class _TextFieldInputState extends State<TextFieldInput>
       //autofocus: widget.autofocus,
       shortcuts: <LogicalKeySet, Intent>{
         LogicalKeySet(LogicalKeyboardKey.goBack): const BackIntent(),
-        //LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
+        LogicalKeySet(LogicalKeyboardKey.select): const ActivateIntent(),
         LogicalKeySet(LogicalKeyboardKey.enter): const ActivateIntent(),
       },
       actions: <Type, Action<Intent>>{

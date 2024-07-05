@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -34,34 +32,36 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void _initPlayer() async {
     listener = () {
       if (context.mounted && widget.args.controller.value.isInitialized) {
-          setState(() {
-            if (status != VideoPlayerWidgetStatus.completed &&
+        setState(() {
+          if (status != VideoPlayerWidgetStatus.completed &&
               widget.args.controller.value.isCompleted) {
             widget.args.onComplete?.call(widget.args.controller);
-                status = VideoPlayerWidgetStatus.completed;
-                if (kDebugMode) print('VIDEO EVENT: ****** END ******');
-            } else if (status == VideoPlayerWidgetStatus.inPause &&
+            status = VideoPlayerWidgetStatus.completed;
+            if (kDebugMode) print('VIDEO EVENT: ****** END ******');
+          } else if (status == VideoPlayerWidgetStatus.inPause &&
               widget.args.controller.value.isPlaying &&
               !_isScrubbing &&
               !widget.args.controller.value.isCompleted) {
-                status = VideoPlayerWidgetStatus.inPlay;
-                if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
-            } else if (status == VideoPlayerWidgetStatus.inPlay &&
+            status = VideoPlayerWidgetStatus.inPlay;
+            if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
+          } else if (status == VideoPlayerWidgetStatus.inPlay &&
               !widget.args.controller.value.isPlaying &&
               !_isScrubbing &&
               !widget.args.controller.value.isCompleted) {
-                widget.args.onPause?.call(widget.args.controller);
-                status = VideoPlayerWidgetStatus.inPause;
-                if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
-            }
-          });
+            widget.args.onPause?.call(widget.args.controller);
+            status = VideoPlayerWidgetStatus.inPause;
+            if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
+          }
+        });
       }
     };
 
-    widget.args.controller..addListener(listener)
+    widget.args.controller
+      ..addListener(listener)
       ..setLooping(false)
       ..initialize().then((_) async {
-        if (widget.args.start != null) await widget.args.controller.seekTo(widget.args.start!);
+        if (widget.args.start != null)
+          await widget.args.controller.seekTo(widget.args.start!);
         widget.args.controller.play().then((value) {
           if (kDebugMode) print('VIDEO EVENT: ****** START ******');
           setState(() => status = VideoPlayerWidgetStatus.inPlay);
@@ -80,7 +80,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   ScrubberActionsArgs? _getScrubberActionArgs(bool isMandatory) {
-    if(isMandatory) return null;
+    if (isMandatory) return null;
     return ScrubberActionsArgs(
       onScrubbingStart: () {
         setState(() => _isScrubbing = true);
@@ -113,25 +113,24 @@ class VideoPlayerArgs {
   final VideoPlayerController controller;
 
   VideoPlayerArgs(
-      this.url, {
-        required this.title,
-        this.typology,
-        this.type,
-        required this.isMandatory,
-        required this.videoPlayerType,
-        this.start,
-        this.onTapDetail,
-        this.onStart,
-        this.onPause,
-        this.onClose,
-        this.onComplete,
-        required this.controller,
-      });
+    this.url, {
+    required this.title,
+    this.typology,
+    this.type,
+    required this.isMandatory,
+    required this.videoPlayerType,
+    this.start,
+    this.onTapDetail,
+    this.onStart,
+    this.onPause,
+    this.onClose,
+    this.onComplete,
+    required this.controller,
+  });
 }
 
-enum VideoPlayerType {file, network, assets}
+enum VideoPlayerType { file, network, assets }
 
-enum VideoPlayerWidgetStatus {idle, inPause, inScrubbing, inPlay, completed}
+enum VideoPlayerWidgetStatus { idle, inPause, inScrubbing, inPlay, completed }
 
 typedef VideoCallback = void Function(VideoPlayerController);
-

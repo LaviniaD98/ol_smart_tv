@@ -11,10 +11,12 @@ EcmPagerDto _$EcmPagerDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = EcmPagerDto(
-          totalElements: $checkedConvert('total_elements', (v) => v as int?),
-          totalPages: $checkedConvert('total_pages', (v) => v as int?),
-          page: $checkedConvert('num_page', (v) => v as int?),
-          pageSize: $checkedConvert('page_size', (v) => v as int?),
+          totalElements:
+              $checkedConvert('total_elements', (v) => (v as num?)?.toInt()),
+          totalPages:
+              $checkedConvert('total_pages', (v) => (v as num?)?.toInt()),
+          page: $checkedConvert('num_page', (v) => (v as num?)?.toInt()),
+          pageSize: $checkedConvert('page_size', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

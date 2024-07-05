@@ -4,6 +4,7 @@ class Dimens {
   Dimens._();
 
   static const hPadding = 68.0;
+  static const hViewPadding = 40.0;
 
   static const buttonWidth = 128.0;
   static const buttonHeight = 40.0;
@@ -22,7 +23,7 @@ class Dimens {
   static const bottomNavBarHeight = 60.0;
   static const textFieldHeight = 56.0;
   static const menuIconSize = 24.0;
-  static const checkBoxSize = 20.0;
+  static const checkBoxSize = 24.0;
   static const addCommentInput = 100;
 
   static const radius = 8.0;
@@ -48,6 +49,9 @@ class Dimens {
   /// Learning card ratio
   static const learningCardHeight = 150.0;
   static const learningCardRatio = 290 / 150;
+
+  static const learningCardTVHeight = 243.0;
+  static const learningCardTVRatio = 438.0 / 243.0;
 
   /// Continue card ratio
   static const continueCardHeight = 164.0;

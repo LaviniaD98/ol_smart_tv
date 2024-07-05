@@ -11,7 +11,7 @@ SlotDto _$SlotDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = SlotDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert('start_date', (v) => v as String),
           $checkedConvert('end_date', (v) => v as String),
         );

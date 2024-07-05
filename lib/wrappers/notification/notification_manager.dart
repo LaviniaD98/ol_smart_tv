@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:open_learning_smart_tv/core/shared_preferences_keys.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/notification/notification_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/notification/notification_page.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';

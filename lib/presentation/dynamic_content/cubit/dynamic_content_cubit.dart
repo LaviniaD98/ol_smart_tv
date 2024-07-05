@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:open_learning_smart_tv/domain/use_cases/page/get_page_structure_use_case.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +11,6 @@ import '../../../domain/use_cases/smart_configurator/get_stored_smart_configurat
 import '../../offline_state/offline_cubit.dart';
 
 part 'dynamic_content_state.dart';
-
 part 'dynamic_content_cubit.freezed.dart';
 
 @injectable
@@ -39,11 +36,14 @@ class DynamicContentCubit extends Cubit<DynamicContentState> {
         final smartConfig = await _getStoredSmartConfigurationUseCase();
         final elapsed = start - DateTime.now().millisecond;
         if (kDebugMode) print("https:// smartConfig elapsed: $elapsed");
-        emit(DynamicContentState.success(
+        emit(
+          DynamicContentState.success(
             path: path,
             filters: filters,
             smartConfig: smartConfig,
-            page: page));
+            page: page,
+          ),
+        );
       },
     );
   }

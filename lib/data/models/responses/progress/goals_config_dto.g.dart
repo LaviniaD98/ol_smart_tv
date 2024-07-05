@@ -13,7 +13,7 @@ GoalsConfigDto _$GoalsConfigDtoFromJson(Map<String, dynamic> json) =>
       ($checkedConvert) {
         final val = GoalsConfigDto(
           $checkedConvert('enabled', (v) => v as bool?),
-          $checkedConvert('durationInMonths', (v) => v as int?),
+          $checkedConvert('durationInMonths', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'learningPlans',
               (v) => v == null

@@ -18,8 +18,8 @@ EnrollmentResponseDto _$EnrollmentResponseDtoFromJson(
           $checkedConvert('enrollSaved',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           $checkedConvert('errorMessage', (v) => v as String?),
-          $checkedConvert('numberNotSaved', (v) => v as int?),
-          $checkedConvert('numberSaved', (v) => v as int?),
+          $checkedConvert('numberNotSaved', (v) => (v as num?)?.toInt()),
+          $checkedConvert('numberSaved', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

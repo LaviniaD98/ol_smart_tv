@@ -16,7 +16,7 @@ AuthTokenResponseDto _$AuthTokenResponseDtoFromJson(
           $checkedConvert('id_token', (v) => v as String?),
           $checkedConvert('access_token', (v) => v as String?),
           $checkedConvert('refresh_token', (v) => v as String?),
-          $checkedConvert('expires_in', (v) => v as int?),
+          $checkedConvert('expires_in', (v) => (v as num?)?.toInt()),
           $checkedConvert('token_type', (v) => v as String?),
         );
         return val;

@@ -36,8 +36,11 @@ ExtendedInformationDto _$ExtendedInformationDtoFromJson(
           corporateId:
               $checkedConvert('corporateId', (v) => (v as num?)?.toDouble()),
           idUser: $checkedConvert('idUser', (v) => (v as num?)?.toDouble()),
-          skills: $checkedConvert('skills',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          skills: $checkedConvert(
+              'skills',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           receievedCredentialsFlag:
               $checkedConvert('receievedCredentialsFlag', (v) => v as bool?),
           onboardingFlag: $checkedConvert('onboardingFlag', (v) => v as bool?),

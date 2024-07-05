@@ -1,19 +1,17 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-class VideoPlayerTrailerWidget extends StatefulWidget{
+class VideoPlayerTrailerWidget extends StatefulWidget {
   final String videoPlayerUrl;
   const VideoPlayerTrailerWidget(this.videoPlayerUrl, {super.key});
 
   @override
-  State<VideoPlayerTrailerWidget>  createState() => _VideoPlayerTrailerWidgetState();
+  State<VideoPlayerTrailerWidget> createState() =>
+      _VideoPlayerTrailerWidgetState();
 }
 
 class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
-  
   late VideoPlayerController controller;
 
   @override
@@ -22,18 +20,18 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
     super.initState();
   }
 
-  loadVideoPlayer(){
-     controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoPlayerUrl));
-     controller.addListener(() {
-        setState(() {});
-     });
-    controller.initialize().then((value){
-        setState(() {});
-        controller.setLooping(true);
-        controller.setVolume(0.0);
-        controller.play();
+  loadVideoPlayer() {
+    controller =
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoPlayerUrl));
+    controller.addListener(() {
+      setState(() {});
     });
-
+    controller.initialize().then((value) {
+      setState(() {});
+      controller.setLooping(true);
+      controller.setVolume(0.0);
+      controller.play();
+    });
   }
 
   @override
@@ -62,11 +60,11 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
   @override
   void didUpdateWidget(covariant VideoPlayerTrailerWidget oldWidget) {
     if (kDebugMode) print("didUpdateWidget key: ${widget.key}");
-    if (!controller.value.isPlaying) {
-      controller.play();
-    } else {
-      controller.pause();
-    }
+    // if (!controller.value.isPlaying) {
+    //   controller.play();
+    // } else {
+    //   controller.pause();
+    // }
     super.didUpdateWidget(oldWidget);
   }
 

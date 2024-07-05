@@ -18,7 +18,7 @@ SmartLearningSlotsDto _$SmartLearningSlotsDtoFromJson(
               (v) => (v as List<dynamic>)
                   .map((e) => SlotDto.fromJson(e as Map<String, dynamic>))
                   .toList()),
-          $checkedConvert('hours_available', (v) => v as int?),
+          $checkedConvert('hours_available', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

@@ -38,12 +38,6 @@ class _CorporateCodePageState extends State<CorporateCodePage> {
     Future.delayed(const Duration(milliseconds: 300), () {
       _focusNode.requestFocus();
     });
-
-    // HardwareKeyboard.instance.addHandler(
-    //   (e) {
-    //     return true;
-    //   },
-    // );
   }
 
   @override
@@ -69,7 +63,7 @@ class _CorporateCodePageState extends State<CorporateCodePage> {
                       state.whenOrNull(
                         showInitiatives: (session, selfModel, sessionId) {
                           return unawaited(
-                            Nav.push(
+                            Nav.pushReplacement(
                               context,
                               screen: InitiativesPage(
                                 args: InitiativesPageArgs(

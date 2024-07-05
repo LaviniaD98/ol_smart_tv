@@ -132,7 +132,8 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                 obscureText: true,
                 onChanged: (form) {
                   final pwd2 =
-                      form.findControl('confermapassword')?.value as String;
+                      form.findControl('confermapassword').value as String? ??
+                          '';
                   setPwdState(pwd2);
                 },
                 showErrors: (_) => false,

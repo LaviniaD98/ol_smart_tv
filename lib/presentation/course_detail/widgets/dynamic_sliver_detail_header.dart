@@ -29,22 +29,26 @@ import '../../../core/utils/extension.dart';
 class DynamicSliverDetailHeader extends StatefulWidget {
   final DetailPageModel model;
   final DetailPageArgs args;
+  final bool isSliver;
 
   const DynamicSliverDetailHeader({
-    super. key,
+    super.key,
+    this.isSliver = true,
     required this.model,
     required this.args,
   });
 
   @override
-  DynamicSliverDetailHeaderState createState() => DynamicSliverDetailHeaderState();
+  DynamicSliverDetailHeaderState createState() =>
+      DynamicSliverDetailHeaderState();
 }
 
 class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   final GlobalKey _childKey = GlobalKey();
   double? height;
 
-  objLOCharacterization get _loCharacterization => CourseLogic().loCharacterizationNew(
+  objLOCharacterization get _loCharacterization =>
+      CourseLogic().loCharacterizationNew(
         status: widget.model.status ?? "",
         learningObjectType: widget.model.learningObjectType,
         learningObjectTypology: widget.model.learningObjectTypology,
@@ -54,25 +58,32 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
         ecmRegistration: widget.model.ecmRegistration,
       );
 
-  String get _durationString => CourseLogic().getDurationString(widget.model.duration);
+  String get _durationString =>
+      CourseLogic().getDurationString(widget.model.duration);
 
   String get _dateString {
     if (widget.model.ecmSpecialization == true) {
-      return CourseLogic().getEcmDurationStringDate(widget.model.ecmStartDate, widget.model.ecmEndDate);
+      return CourseLogic().getEcmDurationStringDate(
+          widget.model.ecmStartDate, widget.model.ecmEndDate);
     }
     if (widget.model.isToj() && widget.model.meetingDetails != null) {
-      return CourseLogic().getTojDurationStringDate(widget.model.meetingDetails?.startDate, widget.model.meetingDetails?.endDate);
+      return CourseLogic().getTojDurationStringDate(
+          widget.model.meetingDetails?.startDate,
+          widget.model.meetingDetails?.endDate);
     }
     return CourseLogic().getExpirationStringDate(widget.model.expirationDate);
   }
 
-  bool get showStatus => (widget.model.iconStatus != IconStatus.idle || widget.model.status == "E");
+  bool get showStatus => (widget.model.iconStatus != IconStatus.idle ||
+      widget.model.status == "E");
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       setState(() {
-        height = (_childKey.currentContext?.findRenderObject() as RenderBox?)?.size.height;
+        height = (_childKey.currentContext?.findRenderObject() as RenderBox?)
+            ?.size
+            .height;
       });
     });
     super.initState();
@@ -80,19 +91,18 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: height,
-        child: Stack(
-          fit: height != null ? StackFit.expand : StackFit.loose,
-          children: [
-            if(height != null) _background,
-            _overlay,
-            _foreground()
-          ],
-        ),
+    print('heihgt: $height');
+    final child = SizedBox(
+      height: height,
+      child: Stack(
+        fit: height != null ? StackFit.expand : StackFit.loose,
+        children: [if (height != null) _background, _overlay, _foreground()],
       ),
     );
+    if (widget.isSliver) {
+      return SliverToBoxAdapter(child: child);
+    }
+    return child;
   }
 
   Widget get _overlay {
@@ -119,9 +129,13 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
       children: [
         /// Status tag
         Padding(
-          padding: EdgeInsets.only(top: 120.0 + kToolbarHeight + MediaQuery.of(context).viewInsets.top),
+          padding: EdgeInsets.only(
+              top: 120.0 +
+                  kToolbarHeight +
+                  MediaQuery.of(context).viewInsets.top),
           child: _getStatusTag,
         ),
+
         /// Type - Typology - Title
         Padding(
           padding: EdgeInsets.fromLTRB(
@@ -138,13 +152,17 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                   children: [
                     /// Type Label
                     TextSpan(
-                      text: (widget.model.ecmSpecialization ? widget.model.ecmType ?? '' : widget.model.learningObjectType.getTranslatedValue()).toUpperCase(),
+                      text: (widget.model.ecmSpecialization
+                              ? widget.model.ecmType ?? ''
+                              : widget.model.learningObjectType
+                                  .getTranslatedValue())
+                          .toUpperCase(),
                       style: AppTextTheme.body(
                         color: ColorManager().getColorTextMandatory(),
                         weight: FontWeight.bold,
                       ),
                     ),
-                    if(!widget.model.ecmSpecialization) ...[
+                    if (!widget.model.ecmSpecialization) ...[
                       TextSpan(
                         text: ' | ',
                         style: AppTextTheme.body(
@@ -153,7 +171,9 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                         ),
                       ),
                       TextSpan(
-                        text: widget.model.learningObjectTypology.getTranslatedValue().toUpperCase(),
+                        text: widget.model.learningObjectTypology
+                            .getTranslatedValue()
+                            .toUpperCase(),
                         style: AppTextTheme.body(
                           color: ColorManager().getColorTextPrimary(),
                           weight: FontWeight.bold,
@@ -164,8 +184,9 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                 ),
                 maxLines: 1,
               ),
+
               /// Title
-              if(widget.model.title != null) ...[
+              if (widget.model.title != null) ...[
                 const SizedBox(height: Dimens.spacingXXS),
                 Text(
                   widget.model.title!,
@@ -178,8 +199,10 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
             ],
           ),
         ),
+
         /// Topics
-        if(widget.model.topicTags != null && widget.model.topicTags!.isNotEmpty) ...[
+        if (widget.model.topicTags != null &&
+            widget.model.topicTags!.isNotEmpty) ...[
           const SizedBox(height: Dimens.spacingXXS),
           SizedBox(
             height: 22.0,
@@ -189,105 +212,119 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
               itemBuilder: (context, index) => TopicTag(
                 label: widget.model.topicTags![index],
                 boxFit: BoxFit.fitWidth,
-                color: ColorManager().getColorSystemSecondary05().withOpacity(.6),
+                color:
+                    ColorManager().getColorSystemSecondary05().withOpacity(.6),
               ),
-              separatorBuilder: (context, index) => const SizedBox(width: Dimens.spacingXXS),
-              itemCount:  widget.model.topicTags!.length,
+              separatorBuilder: (context, index) =>
+                  const SizedBox(width: Dimens.spacingXXS),
+              itemCount: widget.model.topicTags!.length,
             ),
           ),
         ],
+
         /// Duration info
-        if(_durationString.isNotEmpty) Padding(
-          padding: const EdgeInsets.only(
-            left: Dimens.spacingL,
-            right: Dimens.spacingL,
-            top: Dimens.spacingS,
-          ),
-          child: Row(
-            children: [
-              SizedBox.square(
-                dimension: Dimens.spacingL,
-                child: SvgPicture.asset(
-                  'assets/icons/detail/dettaglio_tempo.svg',
-                  colorFilter: ColorFilter.mode(
-                    ColorManager().getColorTextPrimary(),
-                    BlendMode.srcIn,
+        if (_durationString.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: Dimens.spacingL,
+              right: Dimens.spacingL,
+              top: Dimens.spacingS,
+            ),
+            child: Row(
+              children: [
+                SizedBox.square(
+                  dimension: Dimens.spacingL,
+                  child: SvgPicture.asset(
+                    'assets/icons/detail/dettaglio_tempo.svg',
+                    colorFilter: ColorFilter.mode(
+                      ColorManager().getColorTextPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: Dimens.spacingXS),
-              Expanded(
-                child: Text(
-                  _durationString,
-                  style: AppTextTheme.caption(color: ColorManager().getColorTextPrimary(),
+                const SizedBox(width: Dimens.spacingXS),
+                Expanded(
+                  child: Text(
+                    _durationString,
+                    style: AppTextTheme.caption(
+                      color: ColorManager().getColorTextPrimary(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+
         /// Expiration info
-        if(_dateString.isNotEmpty) Padding(
-          padding: const EdgeInsets.only(
-            left: Dimens.spacingL,
-            right: Dimens.spacingL,
-            top: Dimens.spacingXXS,
-          ),
-          child: Row(
-            children: [
-              SizedBox.square(
-                dimension: 22.0,
-                child: SvgPicture.asset(
-                  'assets/icons/calendar.svg',
-                  colorFilter: ColorFilter.mode(
-                    ColorManager().getColorTextPrimary(),
-                    BlendMode.srcIn,
+        if (_dateString.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: Dimens.spacingL,
+              right: Dimens.spacingL,
+              top: Dimens.spacingXXS,
+            ),
+            child: Row(
+              children: [
+                SizedBox.square(
+                  dimension: 22.0,
+                  child: SvgPicture.asset(
+                    'assets/icons/calendar.svg',
+                    colorFilter: ColorFilter.mode(
+                      ColorManager().getColorTextPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: Dimens.spacingXS),
-              Expanded(
-                child: Text(
-                  _dateString,
-                  style: AppTextTheme.caption(
-                    color: ColorManager().getColorTextPrimary(),
+                const SizedBox(width: Dimens.spacingXS),
+                Expanded(
+                  child: Text(
+                    _dateString,
+                    style: AppTextTheme.caption(
+                      color: ColorManager().getColorTextPrimary(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        if(widget.model.isToj() && widget.model.meetingDetails?.meetingNumber != null) Padding(
-          padding: const EdgeInsets.only(
-            left: Dimens.spacingL,
-            right: Dimens.spacingL,
-            top: Dimens.spacingXXS,
-          ),
-          child: Row(
-            children: [
-              SizedBox.square(
-                dimension: 22.0,
-                child: SvgPicture.asset(
-                  'assets/icons/meeting.svg',
-                  colorFilter: ColorFilter.mode(
-                    ColorManager().getColorTextPrimary(),
-                    BlendMode.srcIn,
+        if (widget.model.isToj() &&
+            widget.model.meetingDetails?.meetingNumber != null)
+          Padding(
+            padding: const EdgeInsets.only(
+              left: Dimens.spacingL,
+              right: Dimens.spacingL,
+              top: Dimens.spacingXXS,
+            ),
+            child: Row(
+              children: [
+                SizedBox.square(
+                  dimension: 22.0,
+                  child: SvgPicture.asset(
+                    'assets/icons/meeting.svg',
+                    colorFilter: ColorFilter.mode(
+                      ColorManager().getColorTextPrimary(),
+                      BlendMode.srcIn,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(width: Dimens.spacingXS),
-              Expanded(
-                child: Text(
-                  CourseLogic().getMeetingString(widget.model.meetingDetails?.meetingNumber),
-                  style: AppTextTheme.caption(
-                    color: ColorManager().getColorTextPrimary(),
+                const SizedBox(width: Dimens.spacingXS),
+                Expanded(
+                  child: Text(
+                    CourseLogic().getMeetingString(
+                        widget.model.meetingDetails?.meetingNumber),
+                    style: AppTextTheme.caption(
+                      color: ColorManager().getColorTextPrimary(),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),/// Progress bar and info
-        if(CourseLogic().getCompletionPercentageFromString(widget.model.percentageOfCompletion) > 0)
+
+        /// Progress bar and info
+        if (CourseLogic().getCompletionPercentageFromString(
+                widget.model.percentageOfCompletion) >
+            0)
           Padding(
             padding: const EdgeInsets.only(
               left: Dimens.spacingL,
@@ -295,31 +332,37 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
               top: Dimens.spacingS,
             ),
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 RichText(
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.percentageOfCompletion),
-                        style: AppTextTheme.body(color: ColorManager().getColorTextPrimary()),
+                        text: LabelsManager().getRemoteStringFromLabelKeys(
+                            RemoteLabelKeys.percentageOfCompletion),
+                        style: AppTextTheme.body(
+                            color: ColorManager().getColorTextPrimary()),
                       ),
                       TextSpan(
-                        text: ' ${double.parse(widget.model.percentageOfCompletion!.replaceAll("%", "")).toStringAsFixed(0)}%',
-                        style: AppTextTheme.body(color: ColorManager().getColorTextPrimary(), weight: FontWeight.bold),
+                        text:
+                            ' ${double.parse(widget.model.percentageOfCompletion!.replaceAll("%", "")).toStringAsFixed(0)}%',
+                        style: AppTextTheme.body(
+                            color: ColorManager().getColorTextPrimary(),
+                            weight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: Dimens.spacingXS),
                 GlowProgressBar(
-                  percentage: CourseLogic().getCompletionPercentageFromString(widget.model.percentageOfCompletion),
+                  percentage: CourseLogic().getCompletionPercentageFromString(
+                      widget.model.percentageOfCompletion),
                   withFactor: .8,
                 ),
               ],
             ),
           ),
+
         /// Buttons
         Padding(
           padding: const EdgeInsets.only(
@@ -327,102 +370,149 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
             right: Dimens.spacingL,
             top: Dimens.spacingM,
           ),
-          child:
-          Row(
+          child: Row(
             children: [
               /// Download Button
               BlocProvider(
                   create: (_) => getIt<DownloadItemCubit>()..init(widget.model),
-                  child: Row(children: [
-                    DownloadButton(detailPageModel: widget.model, parentId: widget.args.parentId ?? '', buildContext: context, args: widget.args,),
-                  ],)
-              ),
+                  child: Row(
+                    children: [
+                      DownloadButton(
+                        detailPageModel: widget.model,
+                        parentId: widget.args.parentId ?? '',
+                        buildContext: context,
+                        args: widget.args,
+                      ),
+                    ],
+                  )),
+
               /// Button
               ElevatedButton(
-                onPressed: !_loCharacterization.buttonEnabled ? null :  () async {
-                  int idToAE = widget.model.id!;
-                  if(widget.args.grandParentId != null) {
-                    idToAE = int.parse(widget.args.grandParentId!);
-                  } else if(widget.args.parentId != null) {
-                    idToAE = int.parse(widget.args.parentId!);
-                  }
-                  switch(_loCharacterization.objLOAction) {
-                    case ObjLOAction.none:
-                    case ObjLOAction.notApplicable:
-                      break;
-                    case ObjLOAction.startFruition:
-                      String parentId = (widget.args.parentId == null || widget.args.parentId!.toLowerCase() == "null") ? widget.model.id!.toString(): widget.args.parentId!;
-                      context.read<DetailPageCubit>().getStartOrResumeModel(widget.model.id!, parentId, widget.model);
-                      break;
-                    case ObjLOAction.autoEnrollmentBottom:
-                      context.read<DetailPageCubit>().executeAutoEnrollment(widget.args, idToAE, "BOTTOM", widget.model, false);
-                      break;
-                    case ObjLOAction.autoEnrollmentAuto:
-                      context.read<DetailPageCubit>().executeAutoEnrollment(widget.args, idToAE, "AUTO", widget.model, true);
-                      break;
-                    case ObjLOAction.autoEnrollmentWithPatch:
-                    case ObjLOAction.seeEditions:
-                      context.read<DetailPageCubit>().selectEditionsIfPresentIndex(widget.args, widget.model);
-                      break;
-                    case ObjLOAction.ecmNotRegistered:
-                      final res = await context.pushNamed<bool?>(
-                        EcmRegistrationPage.routeName,
-                        extra: EcmRegistrationPageArgs(
-                          enrollId: widget.model.enrollId,
-                          loId: widget.model.id,
-                          sponsors: widget.model.sponsors ?? [],
-                        ),
-                      );
-                      if(res != null && res && context.mounted) {
-                        context.read<DetailPageCubit>().init(widget.args);
-                      }
-                      break;
-                    case ObjLOAction.showDetailMaterials:
-                    case ObjLOAction.showDetailGoals:
-                    case ObjLOAction.showDetailFinalBalance:
-                      String parentId = (widget.args.parentId == null || widget.args.parentId!.toLowerCase() == "null") ? widget.model.id!.toString(): widget.args.parentId!;
-                      context.read<DetailPageCubit>().getStartOrResumeModel(widget.model.id!, parentId, widget.model);
-                      break;
-                    case ObjLOAction.showDetailMeeting:
-                      OlAlertDialog.show(
-                        context,
-                        title: LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.show_info),
-                        message: LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.from_meeting_info),
-                        actionLabel: LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
-                      );
-                      break;
-                  }
-                },
-                child: Text(
-                    CourseLogic().loCharacterizationNew(
+                onPressed: !_loCharacterization.buttonEnabled
+                    ? null
+                    : () async {
+                        int idToAE = widget.model.id!;
+                        if (widget.args.grandParentId != null) {
+                          idToAE = int.parse(widget.args.grandParentId!);
+                        } else if (widget.args.parentId != null) {
+                          idToAE = int.parse(widget.args.parentId!);
+                        }
+                        switch (_loCharacterization.objLOAction) {
+                          case ObjLOAction.none:
+                          case ObjLOAction.notApplicable:
+                            break;
+                          case ObjLOAction.startFruition:
+                            String parentId = (widget.args.parentId == null ||
+                                    widget.args.parentId!.toLowerCase() ==
+                                        "null")
+                                ? widget.model.id!.toString()
+                                : widget.args.parentId!;
+                            context
+                                .read<DetailPageCubit>()
+                                .getStartOrResumeModel(
+                                    widget.model.id!, parentId, widget.model);
+                            break;
+                          case ObjLOAction.autoEnrollmentBottom:
+                            context
+                                .read<DetailPageCubit>()
+                                .executeAutoEnrollment(widget.args, idToAE,
+                                    "BOTTOM", widget.model, false);
+                            break;
+                          case ObjLOAction.autoEnrollmentAuto:
+                            context
+                                .read<DetailPageCubit>()
+                                .executeAutoEnrollment(widget.args, idToAE,
+                                    "AUTO", widget.model, true);
+                            break;
+                          case ObjLOAction.autoEnrollmentWithPatch:
+                          case ObjLOAction.seeEditions:
+                            context
+                                .read<DetailPageCubit>()
+                                .selectEditionsIfPresentIndex(
+                                    widget.args, widget.model);
+                            break;
+                          case ObjLOAction.ecmNotRegistered:
+                            final res = await context.pushNamed<bool?>(
+                              EcmRegistrationPage.routeName,
+                              extra: EcmRegistrationPageArgs(
+                                enrollId: widget.model.enrollId,
+                                loId: widget.model.id,
+                                sponsors: widget.model.sponsors ?? [],
+                              ),
+                            );
+                            if (res != null && res && context.mounted) {
+                              context.read<DetailPageCubit>().init(widget.args);
+                            }
+                            break;
+                          case ObjLOAction.showDetailMaterials:
+                          case ObjLOAction.showDetailGoals:
+                          case ObjLOAction.showDetailFinalBalance:
+                            String parentId = (widget.args.parentId == null ||
+                                    widget.args.parentId!.toLowerCase() ==
+                                        "null")
+                                ? widget.model.id!.toString()
+                                : widget.args.parentId!;
+                            context
+                                .read<DetailPageCubit>()
+                                .getStartOrResumeModel(
+                                    widget.model.id!, parentId, widget.model);
+                            break;
+                          case ObjLOAction.showDetailMeeting:
+                            OlAlertDialog.show(
+                              context,
+                              title: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.show_info),
+                              message: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.from_meeting_info),
+                              actionLabel: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.ok),
+                            );
+                            break;
+                        }
+                      },
+                child: Text(CourseLogic()
+                    .loCharacterizationNew(
                       status: widget.model.status ?? "",
                       learningObjectType: widget.model.learningObjectType,
-                      learningObjectTypology: widget.model.learningObjectTypology,
-                      percentageOfCompletion: widget.model.percentageOfCompletion ?? "0",
-                      enrollType: widget.model.enrollType ?? EnrollType.autoEnroll,
+                      learningObjectTypology:
+                          widget.model.learningObjectTypology,
+                      percentageOfCompletion:
+                          widget.model.percentageOfCompletion ?? "0",
+                      enrollType:
+                          widget.model.enrollType ?? EnrollType.autoEnroll,
                       ecmSpecialization: widget.model.ecmSpecialization,
                       ecmRegistration: widget.model.ecmRegistration,
-                    ).buttonTitle
-                ),
+                    )
+                    .buttonTitle),
               ),
               const SizedBox(width: Dimens.spacingS),
+
               /// Button
-              BadgeIcon(hasBadge: (widget.model.badge != null || widget.model.certificate != null), isCompleted: widget.model.status == "C"),
+              BadgeIcon(
+                  hasBadge: (widget.model.badge != null ||
+                      widget.model.certificate != null),
+                  isCompleted: widget.model.status == "C"),
             ],
           ),
         ),
+
         /// Short description
-        if(widget.model.shortDescription != null) Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: Dimens.spacingL,
-            vertical: Dimens.spacingS,
-          ),
-          child: Text(
-            widget.model.shortDescription!,
-            style: AppTextTheme.body(color: ColorManager().getColorTextPrimary(),
+        if (widget.model.shortDescription != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Dimens.spacingL,
+              vertical: Dimens.spacingS,
             ),
-          ),
-        )
+            child: Text(
+              widget.model.shortDescription!,
+              style: AppTextTheme.body(
+                color: ColorManager().getColorTextPrimary(),
+              ),
+            ),
+          )
       ],
     );
   }
@@ -430,9 +520,11 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   Widget get _background {
     const placeholder = SizedBox.shrink();
     if (widget.model.coverVideoPublicURL?.isNotEmpty == true) {
-      return VideoPlayerTrailerWidget(
-        widget.model.coverVideoPublicURL!,
-        key: ValueKey(widget.model.id),
+      return ExcludeFocus(
+        child: VideoPlayerTrailerWidget(
+          widget.model.coverVideoPublicURL!,
+          key: ValueKey(widget.model.id),
+        ),
       );
     } else if (widget.model.coverPublicURL != null &&
         widget.model.coverPublicURL!.isNotEmpty) {
@@ -454,13 +546,17 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
 
   Widget get _getStatusTag {
     if (widget.model.status == "E" &&
-      (widget.model.learningObjectTypology == LearningObjectTypology.physicalClass || widget.model.learningObjectTypology == LearningObjectTypology.virtualClass)) {
+        (widget.model.learningObjectTypology ==
+                LearningObjectTypology.physicalClass ||
+            widget.model.learningObjectTypology ==
+                LearningObjectTypology.virtualClass)) {
       return StatusTag(
         backgroundColor: ColorManager().getColorBorderAccent(),
         height: 40,
         width: 100,
         child: Text(
-          LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.registered),
+          LabelsManager()
+              .getRemoteStringFromLabelKeys(RemoteLabelKeys.registered),
           style: AppTextTheme.body(
             color: ColorManager().getColorTextPrimaryAlternative(),
             weight: FontWeight.w500,

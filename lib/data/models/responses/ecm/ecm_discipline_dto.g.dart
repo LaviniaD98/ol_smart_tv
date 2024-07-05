@@ -12,7 +12,7 @@ EcmDisciplineDto _$EcmDisciplineDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = EcmDisciplineDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert('identifier', (v) => v as String),
           $checkedConvert('name', (v) => v as String),
           $checkedConvert('profession',

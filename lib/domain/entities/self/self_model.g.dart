@@ -22,7 +22,7 @@ SelfModel _$SelfModelFromJson(Map<String, dynamic> json) => $checkedCreate(
           countryCode: $checkedConvert('country_code', (v) => v as String?),
           countryDescription:
               $checkedConvert('country_description', (v) => v as String?),
-          birthday: $checkedConvert('birthday', (v) => v as int?),
+          birthday: $checkedConvert('birthday', (v) => (v as num?)?.toInt()),
           birthCountry: $checkedConvert('birth_country', (v) => v as String?),
           birthProvince: $checkedConvert('birth_province', (v) => v as String?),
           atecoCode: $checkedConvert('ateco_code', (v) => v as String?),
@@ -34,9 +34,9 @@ SelfModel _$SelfModelFromJson(Map<String, dynamic> json) => $checkedCreate(
           contractualFrameworkType: $checkedConvert(
               'contractual_framework_type', (v) => v as String?),
           newHireFlag: $checkedConvert('new_hire_flag', (v) => v as bool?),
-          hireDate: $checkedConvert('hire_date', (v) => v as int?),
+          hireDate: $checkedConvert('hire_date', (v) => (v as num?)?.toInt()),
           terminationDate:
-              $checkedConvert('termination_date', (v) => v as int?),
+              $checkedConvert('termination_date', (v) => (v as num?)?.toInt()),
           contractType: $checkedConvert('contract_type', (v) => v as String?),
           scheduleType: $checkedConvert('schedule_type', (v) => v as String?),
           ccnl: $checkedConvert('ccnl', (v) => v as String?),
@@ -76,8 +76,8 @@ SelfModel _$SelfModelFromJson(Map<String, dynamic> json) => $checkedCreate(
                   ? null
                   : IdLabelModel.fromJson(v as Map<String, dynamic>)),
           adminFlag: $checkedConvert('admin_flag', (v) => v as bool?),
-          smartLearningHours:
-              $checkedConvert('smart_learning_hours', (v) => v as int?),
+          smartLearningHours: $checkedConvert(
+              'smart_learning_hours', (v) => (v as num?)?.toInt()),
           onboardingFlag: $checkedConvert('onboarding_flag', (v) => v as bool?),
           uogList: $checkedConvert(
               'uog',

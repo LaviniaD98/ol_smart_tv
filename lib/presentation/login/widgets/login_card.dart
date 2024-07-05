@@ -56,7 +56,7 @@ class LoginCard extends StatelessWidget {
             textAlign: TextAlign.start,
             style: AppTextTheme.subtitle(
               color: ColorManager().getColorTextPrimary(),
-            ),
+            ).copyWith(height: 1.2),
           ),
           const SizedBox(height: 32.0),
           child,

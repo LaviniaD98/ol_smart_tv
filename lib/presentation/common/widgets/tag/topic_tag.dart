@@ -24,11 +24,11 @@ class TopicTag extends StatelessWidget {
     final child = Container(
       margin: margin,
       constraints: constraints,
-      alignment: Alignment.center,
       decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: ColorManager().getColorSystemPrimary01()),
-          borderRadius: BorderRadius.circular(Dimens.radiusImage)),
+        color: color,
+        border: Border.all(color: ColorManager().getColorSystemPrimary01()),
+        borderRadius: BorderRadius.circular(Dimens.radiusImage),
+      ),
       padding: const EdgeInsets.symmetric(
         vertical: 4,
         horizontal: 8.0,
@@ -39,8 +39,9 @@ class TopicTag extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         label.toUpperCase(),
         style: AppTextTheme.caption(
-            weight: FontWeight.w700,
-            color: ColorManager().getColorTextPrimary()),
+          weight: FontWeight.w700,
+          color: ColorManager().getColorTextPrimary(),
+        ),
       ),
     );
     if (boxFit != null) {

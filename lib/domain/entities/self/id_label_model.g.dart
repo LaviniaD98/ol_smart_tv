@@ -12,7 +12,7 @@ IdLabelModel _$IdLabelModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = IdLabelModel(
-          id: $checkedConvert('id', (v) => v as int?),
+          id: $checkedConvert('id', (v) => (v as num?)?.toInt()),
           label: $checkedConvert('label', (v) => v as String?),
         );
         return val;

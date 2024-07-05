@@ -14,7 +14,7 @@ NotificationDto _$NotificationDtoFromJson(Map<String, dynamic> json) =>
         final val = NotificationDto(
           $checkedConvert('userId', (v) => v as String),
           $checkedConvert('outputChannel', (v) => v as String?),
-          $checkedConvert('eventSentId', (v) => v as int),
+          $checkedConvert('eventSentId', (v) => (v as num).toInt()),
           $checkedConvert('createdDate',
               (v) => const DateTimeConverter().fromJson(v as String?)),
           $checkedConvert('isSent', (v) => v as String?),

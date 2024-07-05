@@ -17,59 +17,22 @@ class TopicList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? const EdgeInsets.only(top: 8.0),
-      child: topics.length >= 3 ? _adaptive : _linear,
-    );
-  }
+    if (topics.isEmpty) {
+      return const SizedBox.shrink();
+    }
 
-  Widget get _adaptive => Row(
+    return Wrap(
+      runSpacing: 8,
+      spacing: 8,
       children: [
-        Expanded(
-          flex: 4,
-          child: Row(
-            children: topics
-                .sublist(0, 2)
-                .asMap()
-                .entries
-                .map(
-                  (e) => Expanded(
-                child: TopicTag(
-                  label: e.value,
-                  color: color,
-                  margin: e.key == 0
-                      ? EdgeInsets.zero
-                      : const EdgeInsets.only(left: Dimens.spacingXXS),
-                ),
-              ),
-            )
-                .toList(),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: TopicTag(
-            label: '+${topics.length - 2}',
+        ...topics.map(
+          (e) => TopicTag(
+            label: e,
             color: color,
-            margin: const EdgeInsets.only(left: Dimens.spacingXXS),
+            margin: const EdgeInsets.only(right: Dimens.spacingXXS),
           ),
         ),
       ],
     );
-  Widget get _linear => Row(
-    children: topics
-        .asMap()
-        .entries
-        .map(
-          (e) => Expanded(
-        child: TopicTag(
-          label: e.value,
-          color: color,
-          margin: e.key == 0
-              ? EdgeInsets.zero
-              : const EdgeInsets.only(left: Dimens.spacingXXS),
-        ),
-      ),
-    ).toList(),
-  );
+  }
 }

@@ -14,7 +14,7 @@ XapiStateResultsDto _$XapiStateResultsDtoFromJson(Map<String, dynamic> json) =>
         final val = XapiStateResultsDto(
           $checkedConvert('attemptComplete', (v) => v as bool),
           $checkedConvert('attemptDuration', (v) => (v as num).toDouble()),
-          $checkedConvert('location', (v) => v as int),
+          $checkedConvert('location', (v) => (v as num).toInt()),
         );
         return val;
       },

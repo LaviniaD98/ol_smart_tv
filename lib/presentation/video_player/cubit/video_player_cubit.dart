@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:open_learning_smart_tv/domain/entities/download/downloaded_item.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_download_content_info_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart';

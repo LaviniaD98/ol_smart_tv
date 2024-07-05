@@ -13,7 +13,7 @@ UserInfoModel _$UserInfoModelFromJson(Map<String, dynamic> json) =>
       ($checkedConvert) {
         final val = UserInfoModel(
           $checkedConvert('sessionId', (v) => v as String?),
-          $checkedConvert('initiativeId', (v) => v as int?),
+          $checkedConvert('initiativeId', (v) => (v as num?)?.toInt()),
           $checkedConvert(
               'userModel',
               (v) => v == null

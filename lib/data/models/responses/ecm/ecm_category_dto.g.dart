@@ -12,7 +12,7 @@ EcmCategoryDto _$EcmCategoryDtoFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = EcmCategoryDto(
-          $checkedConvert('id', (v) => v as int),
+          $checkedConvert('id', (v) => (v as num).toInt()),
           $checkedConvert('label', (v) => v as String),
         );
         return val;

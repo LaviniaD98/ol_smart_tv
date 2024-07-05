@@ -12,7 +12,7 @@ CorporateCodeModel _$CorporateCodeModelFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = CorporateCodeModel(
-          id: $checkedConvert('id', (v) => v as int?),
+          id: $checkedConvert('id', (v) => (v as num?)?.toInt()),
           name: $checkedConvert('name', (v) => v as String?),
           country: $checkedConvert('country', (v) => v as String?),
           province: $checkedConvert('province', (v) => v as String?),

@@ -11,15 +11,15 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = UserDto(
-          $checkedConvert('id_user', (v) => v as int?),
-          $checkedConvert('organization_id', (v) => v as int?),
+          $checkedConvert('id_user', (v) => (v as num?)?.toInt()),
+          $checkedConvert('organization_id', (v) => (v as num?)?.toInt()),
           $checkedConvert('external_id', (v) => v as String?),
           $checkedConvert('name', (v) => v as String?),
           $checkedConvert('surname', (v) => v as String?),
           $checkedConvert('email', (v) => v as String?),
           $checkedConvert('phone_number', (v) => v as String?),
           $checkedConvert('address', (v) => v as String?),
-          $checkedConvert('job', (v) => v as int?),
+          $checkedConvert('job', (v) => (v as num?)?.toInt()),
           $checkedConvert('status', (v) => v as String?),
           $checkedConvert(
               'roles',
@@ -30,14 +30,17 @@ UserDto _$UserDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           $checkedConvert('uog',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          $checkedConvert('skills',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          $checkedConvert(
+              'skills',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           $checkedConvert(
               'personas',
               (v) => (v as List<dynamic>?)
                   ?.map((e) => $enumDecode(_$UserPersonasEnumMap, e))
                   .toList()),
-          $checkedConvert('initiative_id', (v) => v as int?),
+          $checkedConvert('initiative_id', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

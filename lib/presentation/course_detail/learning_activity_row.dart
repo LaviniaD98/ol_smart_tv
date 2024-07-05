@@ -45,12 +45,13 @@ class LearningActivityRow extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, index) {
                 return LearningCard(
-                    enable: items[index].isEnable ?? true,
-                    data: items[index],
-                    parentDetailPageModel: parentModel,
-                    parentId: parentId,
-                    grandParentId: grandParentId,
-                    returnFromDetailCallback: returnFromDetailCallback);
+                  enable: items[index].isEnable ?? true,
+                  data: items[index],
+                  parentDetailPageModel: parentModel,
+                  parentId: parentId,
+                  grandParentId: grandParentId,
+                  returnFromDetailCallback: returnFromDetailCallback,
+                );
               },
             ),
           ),

@@ -11,15 +11,16 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = UserModel(
-          idUser: $checkedConvert('id_user', (v) => v as int?),
-          organizationId: $checkedConvert('organization_id', (v) => v as int?),
+          idUser: $checkedConvert('id_user', (v) => (v as num?)?.toInt()),
+          organizationId:
+              $checkedConvert('organization_id', (v) => (v as num?)?.toInt()),
           externalId: $checkedConvert('external_id', (v) => v as String?),
           name: $checkedConvert('name', (v) => v as String?),
           surname: $checkedConvert('surname', (v) => v as String?),
           email: $checkedConvert('email', (v) => v as String?),
           phoneNumber: $checkedConvert('phone_number', (v) => v as String?),
           address: $checkedConvert('address', (v) => v as String?),
-          job: $checkedConvert('job', (v) => v as int?),
+          job: $checkedConvert('job', (v) => (v as num?)?.toInt()),
           status: $checkedConvert('status', (v) => v as String?),
           roles: $checkedConvert(
               'roles',
@@ -30,14 +31,18 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           uog: $checkedConvert('uog',
               (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
-          skills: $checkedConvert('skills',
-              (v) => (v as List<dynamic>?)?.map((e) => e as int).toList()),
+          skills: $checkedConvert(
+              'skills',
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => (e as num).toInt())
+                  .toList()),
           personas: $checkedConvert(
               'personas',
               (v) => (v as List<dynamic>?)
                   ?.map((e) => $enumDecode(_$UserPersonasEnumMap, e))
                   .toList()),
-          initiativeid: $checkedConvert('initiative_id', (v) => v as int?),
+          initiativeid:
+              $checkedConvert('initiative_id', (v) => (v as num?)?.toInt()),
         );
         return val;
       },

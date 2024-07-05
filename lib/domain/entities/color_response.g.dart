@@ -8,8 +8,8 @@ part of 'color_response.dart';
 
 ColorResponse _$ColorResponseFromJson(Map<String, dynamic> json) =>
     ColorResponse(
-      idColor: json['idColor'] as int?,
-      idConfColour: json['idConfColour'] as int?,
+      idColor: (json['idColor'] as num?)?.toInt(),
+      idConfColour: (json['idConfColour'] as num?)?.toInt(),
       name: json['name'] as String,
       rgb: json['rgb'] as String,
     );

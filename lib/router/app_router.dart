@@ -418,6 +418,8 @@ class AppRouter {
               final branchKey =
                   GlobalKey<NavigatorState>(debugLabel: e.routeName);
 
+              // TODO(UmbertoGrimaldi): Start logic from here by generating the pageview pages from the dynamicRoutes
+
               return StatefulShellBranch(
                 navigatorKey: branchKey,
                 routes: [

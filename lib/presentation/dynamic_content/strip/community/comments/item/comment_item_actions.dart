@@ -1,4 +1,3 @@
-import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/comments/item/answers/answers.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/detail/widgets/add_comment_widget/cubit/add_comment_widget_cubit.dart';
 import 'package:flutter/material.dart';

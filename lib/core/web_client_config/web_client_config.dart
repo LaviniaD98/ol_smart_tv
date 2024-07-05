@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:open_learning_smart_tv/domain/entities/user/user_info_model.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/get_secure_stored_user_info_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
