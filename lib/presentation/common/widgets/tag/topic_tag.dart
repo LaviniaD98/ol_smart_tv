@@ -9,6 +9,7 @@ class TopicTag extends StatelessWidget {
   final BoxFit? boxFit;
   final Color? color;
   final BoxConstraints? constraints;
+  final bool isBig;
 
   const TopicTag({
     super.key,
@@ -17,6 +18,7 @@ class TopicTag extends StatelessWidget {
     this.boxFit,
     this.constraints,
     this.color,
+    this.isBig = false,
   });
 
   @override
@@ -26,13 +28,21 @@ class TopicTag extends StatelessWidget {
       constraints: constraints,
       decoration: BoxDecoration(
         color: color,
-        border: Border.all(color: ColorManager().getColorSystemPrimary01()),
+        border: Border.all(
+          color: ColorManager().getColorSystemPrimary01(),
+          width: isBig ? 2 : 1,
+        ),
         borderRadius: BorderRadius.circular(Dimens.radiusImage),
       ),
-      padding: const EdgeInsets.symmetric(
-        vertical: 4,
-        horizontal: 8.0,
-      ),
+      padding: isBig
+          ? const EdgeInsets.symmetric(
+              vertical: 6,
+              horizontal: 14.0,
+            )
+          : const EdgeInsets.symmetric(
+              vertical: 3,
+              horizontal: 7.0,
+            ),
       child: Text(
         textAlign: TextAlign.center,
         maxLines: 1,
@@ -41,6 +51,7 @@ class TopicTag extends StatelessWidget {
         style: AppTextTheme.caption(
           weight: FontWeight.w700,
           color: ColorManager().getColorTextPrimary(),
+          size: isBig ? 20 : null,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
-import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/favourite_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/repositories/detail/detail_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -23,7 +23,7 @@ class AddFavouritesUseCase {
   );
 
   Future<Either<Failure, FavouriteModel>> call({
-    required DetailPageModel detailPageModel,
+    required LearningObjectModel model,
     String? parentId,
     String? grandParentId,
   }) async {
@@ -45,11 +45,11 @@ class AddFavouritesUseCase {
     String path =
         "favourites/learner/{learnerId}/learning-object/{learningObjectId}/favourite?corporate-id={corporateId}&domain-id={domainId}&learning-object-type={learningObjectType}&parentId={parentId}&grandParentId={grandParentId}"
             .replaceFirst('{learnerId}', '$idUser')
-            .replaceFirst('{learningObjectId}', '${detailPageModel.id}')
+            .replaceFirst('{learningObjectId}', '${model.id}')
             .replaceFirst('{corporateId}', '${corporateId?.id}')
             .replaceFirst('{domainId}', '$initiativeId')
             .replaceFirst('{learningObjectType}',
-                detailPageModel.learningObjectTypology.requestValue)
+                model.learningObjectTypology.requestValue)
             .replaceFirst('{parentId}', parId)
             .replaceFirst('{grandParentId}', gparId);
     return await _repository.addLearningObjectToFavourites(path);

@@ -153,18 +153,12 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
+class _$InitialImpl implements Initial {
   const _$InitialImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'DetailPageState.initial'));
   }
 
   @override
@@ -337,23 +331,15 @@ class __$$AutoEnrollImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AutoEnrollImpl with DiagnosticableTreeMixin implements AutoEnroll {
+class _$AutoEnrollImpl implements AutoEnroll {
   const _$AutoEnrollImpl(this.data);
 
   @override
   final DetailPageModel data;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.autoEnroll(data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.autoEnroll'))
-      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -539,25 +525,15 @@ class __$$AutoEnrollFailImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AutoEnrollFailImpl
-    with DiagnosticableTreeMixin
-    implements AutoEnrollFail {
+class _$AutoEnrollFailImpl implements AutoEnrollFail {
   const _$AutoEnrollFailImpl(this.eres);
 
   @override
   final EnrollmentModel eres;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.autoEnrollFail(eres: $eres)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.autoEnrollFail'))
-      ..add(DiagnosticsProperty('eres', eres));
   }
 
   @override
@@ -758,7 +734,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
+class _$SuccessImpl implements Success {
   const _$SuccessImpl(this.selectedIndex, this.data, this.smartConfig);
 
   @override
@@ -769,18 +745,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   final SmartConfiguratorModel? smartConfig;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.success(selectedIndex: $selectedIndex, data: $data, smartConfig: $smartConfig)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.success'))
-      ..add(DiagnosticsProperty('selectedIndex', selectedIndex))
-      ..add(DiagnosticsProperty('data', data))
-      ..add(DiagnosticsProperty('smartConfig', smartConfig));
   }
 
   @override
@@ -979,7 +945,7 @@ class __$$ReadyToPlayImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ReadyToPlayImpl with DiagnosticableTreeMixin implements ReadyToPlay {
+class _$ReadyToPlayImpl implements ReadyToPlay {
   const _$ReadyToPlayImpl(this.model, this.data);
 
   @override
@@ -988,17 +954,8 @@ class _$ReadyToPlayImpl with DiagnosticableTreeMixin implements ReadyToPlay {
   final DetailPageModel data;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.readyToPlay(model: $model, data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.readyToPlay'))
-      ..add(DiagnosticsProperty('model', model))
-      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -1193,7 +1150,7 @@ class __$$OpenDetailImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$OpenDetailImpl with DiagnosticableTreeMixin implements OpenDetail {
+class _$OpenDetailImpl implements OpenDetail {
   const _$OpenDetailImpl(this.model, this.data);
 
   @override
@@ -1202,17 +1159,8 @@ class _$OpenDetailImpl with DiagnosticableTreeMixin implements OpenDetail {
   final DetailPageModel data;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.openDetail(model: $model, data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.openDetail'))
-      ..add(DiagnosticsProperty('model', model))
-      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -1387,18 +1335,12 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'DetailPageState.loading'));
   }
 
   @override
@@ -1556,18 +1498,12 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
+class _$ErrorImpl implements Error {
   const _$ErrorImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.error()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'DetailPageState.error'));
   }
 
   @override
@@ -1740,25 +1676,15 @@ class __$$ErrorWithDialogImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorWithDialogImpl
-    with DiagnosticableTreeMixin
-    implements ErrorWithDialog {
+class _$ErrorWithDialogImpl implements ErrorWithDialog {
   const _$ErrorWithDialogImpl(this.message);
 
   @override
   final String message;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.errorWithDialog(message: $message)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DetailPageState.errorWithDialog'))
-      ..add(DiagnosticsProperty('message', message));
   }
 
   @override
@@ -1946,26 +1872,15 @@ class __$$GoToSharedPostDetailsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GoToSharedPostDetailsImpl
-    with DiagnosticableTreeMixin
-    implements GoToSharedPostDetails {
+class _$GoToSharedPostDetailsImpl implements GoToSharedPostDetails {
   const _$GoToSharedPostDetailsImpl(this.args);
 
   @override
   final PostDetailPageArgs args;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+  String toString() {
     return 'DetailPageState.goToSharedPostDetails(args: $args)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(
-          DiagnosticsProperty('type', 'DetailPageState.goToSharedPostDetails'))
-      ..add(DiagnosticsProperty('args', args));
   }
 
   @override

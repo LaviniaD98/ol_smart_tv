@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/domain/entities/community/community_posts_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
@@ -67,6 +68,10 @@ class DetailPageCubit extends Cubit<DetailPageState> {
 
   final paginate = ConfigManager()
       .getRemoteBoolean(RemoteConfigKeys.paginate_opinions, false);
+
+  FocusScopeNode? mainNode;
+  FocusScopeNode? leftPanelNode;
+  FocusScopeNode? rightPanelNode;
 
   DetailPageCubit(
     this._getDetailPageUseCase,
@@ -149,20 +154,27 @@ class DetailPageCubit extends Cubit<DetailPageState> {
   }
 
   Future<void> selectEditionsIfPresentIndex(
-      DetailPageArgs args, DetailPageModel model) async {
+    DetailPageArgs args,
+    DetailPageModel model,
+  ) async {
     if (model.learningObjectTypology != LearningObjectTypology.course &&
         model.learningObjectTypology != LearningObjectTypology.path &&
         model.editionsModel != null &&
         model.editionsModel?.editions?.isNotEmpty == true) {
       init(args, selectedIndex: 1);
     } else {
-      emit(ErrorWithDialog(LabelsManager().getRemoteStringFromLabelKeys(
-          RemoteLabelKeys.detail_editions_not_present)));
+      emit(
+        ErrorWithDialog(
+          LabelsManager().getRemoteStringFromLabelKeys(
+              RemoteLabelKeys.detail_editions_not_present),
+        ),
+      );
     }
   }
 
   void getStartOrResumeModel(
       int loId, String parentId, DetailPageModel detail) async {
+    print('kokokokokokokokokokokokook-----------------');
     if (kDebugMode) print("getStartOrResumeModel callingApi: $callingApi");
     if (callingApi) {
       return;
@@ -179,11 +191,13 @@ class DetailPageCubit extends Cubit<DetailPageState> {
       if ((detail.learningObjectTypology == LearningObjectTypology.path ||
               detail.learningObjectTypology == LearningObjectTypology.course) &&
           srResponseModel.isToj()) {
+        print('11111---------');
         emit(DetailPageState.openDetail(srResponseModel, detail));
         await Future.delayed(const Duration(milliseconds: 300));
         callingApi = false;
         if (kDebugMode) print("getStartOrResumeModel callingApi SET to false");
       } else {
+        print('22222---------');
         if (srResponseModel.learningObjectType == LearningObjectType.sync) {
           emit(DetailPageState.openDetail(srResponseModel, detail));
           await Future.delayed(const Duration(milliseconds: 300));
@@ -191,6 +205,7 @@ class DetailPageCubit extends Cubit<DetailPageState> {
           if (kDebugMode)
             print("getStartOrResumeModel callingApi SET to false");
         } else {
+          print('33333---------');
           emit(DetailPageState.readyToPlay(srResponseModel, detail));
           await Future.delayed(const Duration(milliseconds: 300));
           callingApi = false;
@@ -202,8 +217,13 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     });
   }
 
-  void executeAutoEnrollment(DetailPageArgs args, int idOggetto,
-      String enrollType, DetailPageModel model, bool playContent) async {
+  void executeAutoEnrollment(
+    DetailPageArgs args,
+    int idOggetto,
+    String enrollType,
+    DetailPageModel model,
+    bool playContent,
+  ) async {
     // emit(const DetailPageState.loading());
     final detailPageRes =
         await _getAutoEnrollmentUseCase(idOggetto, enrollType);

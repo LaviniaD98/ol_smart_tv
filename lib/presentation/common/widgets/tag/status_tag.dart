@@ -1,5 +1,4 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -47,9 +46,11 @@ class StatusTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width + 4.0,
-      height: height + 4.0,
+      // width: width + 4.0,
+      // height: height + 4.0,
+      constraints: const BoxConstraints(maxHeight: 40),
       margin: EdgeInsets.zero,
+      padding: const EdgeInsets.symmetric(horizontal: 23),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.only(
@@ -57,11 +58,9 @@ class StatusTag extends StatelessWidget {
           bottomRight: Radius.circular(radius),
         ),
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(4),
-          child: child,
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: child,
       ),
     );
   }

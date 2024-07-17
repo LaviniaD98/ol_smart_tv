@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 
-class OLButton extends StatefulWidget {
-  const OLButton({
-    required this.title,
+class OLIconButton extends StatefulWidget {
+  const OLIconButton({
+    required this.image,
     this.focusNode,
     this.onPressed,
     this.width = 264,
@@ -16,7 +17,7 @@ class OLButton extends StatefulWidget {
     super.key,
   });
 
-  final String title;
+  final String image;
   final void Function()? onPressed;
   final FocusNode? focusNode;
   final double? width;
@@ -27,10 +28,10 @@ class OLButton extends StatefulWidget {
   final void Function(bool)? onFocusChanded;
 
   @override
-  State<OLButton> createState() => _OLButtonState();
+  State<OLIconButton> createState() => _OLIconButtonState();
 }
 
-class _OLButtonState extends State<OLButton> {
+class _OLIconButtonState extends State<OLIconButton> {
   final _statesController = WidgetStatesController();
 
   late FocusNode _focusNode;
@@ -40,7 +41,7 @@ class _OLButtonState extends State<OLButton> {
     super.initState();
 
     _focusNode = FocusNode(
-      debugLabel: widget.debugLabel ?? 'OLButton - ${widget.title}',
+      debugLabel: widget.debugLabel ?? 'OLIconButton - ${widget.image}',
     );
     _statesController.addListener(updateStates);
   }
@@ -63,9 +64,9 @@ class _OLButtonState extends State<OLButton> {
   }
 
   @override
-  void didUpdateWidget(covariant OLButton oldWidget) {
+  void didUpdateWidget(covariant OLIconButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.title != oldWidget.title) {
+    if (widget.image != oldWidget.image) {
       setState(() {});
     }
   }
@@ -82,7 +83,7 @@ class _OLButtonState extends State<OLButton> {
 
     return SizedBox(
       height: 61,
-      width: widget.isFlexible ? null : widget.width,
+      width: 61,
       child: widget.outline
           ? OutlinedButton(
               focusNode: widget.focusNode ?? _focusNode,
@@ -103,7 +104,15 @@ class _OLButtonState extends State<OLButton> {
                     ),
                   ),
               onPressed: widget.onPressed,
-              child: Text(widget.title),
+              child: SvgPicture.asset(
+                widget.image,
+                height: 29,
+                width: 29,
+                colorFilter: ColorFilter.mode(
+                  ColorManager().getColorBackgroundPrimaryCta(),
+                  BlendMode.srcIn,
+                ),
+              ),
             )
           : ElevatedButton(
               focusNode: widget.focusNode ?? _focusNode,
@@ -140,7 +149,17 @@ class _OLButtonState extends State<OLButton> {
                         ),
                       ),
               onPressed: widget.onPressed,
-              child: Text(widget.title),
+              child: Center(
+                child: SvgPicture.asset(
+                  widget.image,
+                  height: 29,
+                  width: 29,
+                  colorFilter: ColorFilter.mode(
+                    ColorManager().getColorBackgroundPrimaryCta(),
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
             ),
     );
   }
@@ -153,7 +172,11 @@ class _OLButtonState extends State<OLButton> {
     };
 
     if (widget.outline) {
-      return Colors.white;
+      if (states.any(focusedStates.contains)) {
+        return Colors.white;
+      } else {
+        return Colors.grey;
+      }
     }
 
     if (states.any(focusedStates.contains)) {

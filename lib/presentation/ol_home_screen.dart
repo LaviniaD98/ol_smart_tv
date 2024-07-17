@@ -62,7 +62,6 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.yellow,
         body: Stack(
           children: [
             Positioned(
@@ -79,7 +78,13 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                     if (index == 0) {
                       return const SearchScreen();
                     } else if (index == 1) {
-                      return const ForYouScreen();
+                      return IGTabNavigator(
+                        navigatorKey: forYouTabKey,
+                        tabRoute: 'routeKeyForYou',
+                        tabScreen: ForYouScreen(
+                          dynamicRoutes: widget.dynamicRoutes,
+                        ),
+                      );
                     } else if (index == 2) {
                       return IGTabNavigator(
                         navigatorKey: exploreTabKey,
@@ -89,7 +94,13 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                         ),
                       );
                     } else if (index == 3) {
-                      return const FavoritesScreen();
+                      return IGTabNavigator(
+                        navigatorKey: favoritesTabKey,
+                        tabRoute: 'routeKeyFavorites',
+                        tabScreen: FavoritesScreen(
+                          dynamicRoutes: widget.dynamicRoutes,
+                        ),
+                      );
                     } else if (index == 4) {
                       return const AgendaScreen();
                     } else if (index == 5) {

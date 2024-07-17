@@ -1,23 +1,22 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../remote_theming/labels/labels_manager.dart';
-import '../../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../../theme/app_theme.dart';
-import '../tag/status_tag.dart';
-import '../tag/duration_tag.dart';
 
-class LearningCard extends StatefulWidget {
+class ForYouCard extends StatefulWidget {
   final LearningObjectModel data;
   final DetailPageModel? parentDetailPageModel;
   final String? parentId;
@@ -27,7 +26,7 @@ class LearningCard extends StatefulWidget {
   final VoidCallback? returnFromDetailCallback;
   final void Function(bool)? onFocusChange;
 
-  const LearningCard({
+  const ForYouCard({
     super.key,
     required this.data,
     this.parentDetailPageModel,
@@ -40,15 +39,16 @@ class LearningCard extends StatefulWidget {
   });
 
   @override
-  State<LearningCard> createState() => _LearningCardState();
+  State<ForYouCard> createState() => _ForYouCardState();
 }
 
-class _LearningCardState extends State<LearningCard> {
+class _ForYouCardState extends State<ForYouCard> {
   late FocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
+
     focusNode = FocusNode(debugLabel: '${widget.grandParentId} ----- 1');
   }
 
@@ -84,6 +84,7 @@ class _LearningCardState extends State<LearningCard> {
                   ? () async {
                       await context.pushNamed(DetailPage.routeName,
                           extra: DetailPageArgs(
+                            object: widget.data,
                             id: widget.data.id.toString(),
                             typology: widget.data.learningObjectTypology,
                             parentId: widget.parentId?.isNotEmpty == true
@@ -126,92 +127,58 @@ class _LearningCardState extends State<LearningCard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Spacer(),
-                          ((widget.data.isTest == null ||
-                                      widget.data.isSurvey == null) ||
-                                  (widget.data.isTest == false &&
-                                      widget.data.isSurvey == false))
-                              ? RichText(
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: RichText(
                                   text: TextSpan(
                                     children: [
+                                      /// Type Label
                                       TextSpan(
-                                        text: widget.data.learningObjectType
-                                            .getTranslatedValue()
-                                            .toUpperCase(),
-                                        style: AppTextTheme.caption(
-                                          weight: FontWeight.w700,
+                                        text: 'Digitale'.toUpperCase(),
+                                        style: AppTextTheme.body(
                                           color: ColorManager()
                                               .getColorTextMandatory(),
+                                          weight: FontWeight.bold,
                                         ),
                                       ),
                                       TextSpan(
                                         text: ' | ',
-                                        style: AppTextTheme.caption(
-                                            weight: FontWeight.w700,
-                                            color: ColorManager()
-                                                .getColorTextPrimary()),
+                                        style: AppTextTheme.body(
+                                          color: ColorManager()
+                                              .getColorTextPrimary(),
+                                          weight: FontWeight.bold,
+                                        ),
                                       ),
                                       TextSpan(
-                                        text: widget.data.learningObjectTypology
+                                        text: widget.data.learningObjectType
                                             .getTranslatedValue()
                                             .toUpperCase(),
-                                        style: AppTextTheme.caption(
-                                            weight: FontWeight.w700,
-                                            color: ColorManager()
-                                                .getColorTextPrimary()),
+                                        style: AppTextTheme.body(
+                                          color: ColorManager()
+                                              .getColorTextPrimary(),
+                                          weight: FontWeight.bold,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                )
-                              : Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 24.0,
-                                      height: 24.0,
-                                      child: SvgPicture.asset(
-                                        widget.data.isTest == true
-                                            ? "assets/icons/test_survey.svg"
-                                            : "assets/icons/survey.svg",
-                                      ),
-                                    ),
-                                    RichText(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: widget.data.isTest == true
-                                                ? LabelsManager()
-                                                    .getRemoteStringFromLabelKeys(
-                                                        RemoteLabelKeys.test)
-                                                : LabelsManager()
-                                                    .getRemoteStringFromLabelKeys(
-                                                        RemoteLabelKeys.survey),
-                                            style: AppTextTheme.caption(
-                                              weight: FontWeight.w700,
-                                              color: ColorManager()
-                                                  .getColorSystemSecondary01(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                  maxLines: 1,
                                 ),
-                          const SizedBox(height: 8),
+                              ),
+                            ],
+                          ),
                           Text(
-                            widget.data.title ?? 'No title',
-                            maxLines: 1,
+                            (widget.data.title ?? 'No title').toUpperCase(),
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: AppTextTheme.body(
-                                weight: FontWeight.w700,
-                                size: 24,
-                                color: ColorManager().getColorTextPrimary()),
+                              color: ColorManager().getColorTextPrimary(),
+                              weight: FontWeight.bold,
+                              size: 32,
+                            ),
                           ),
                           if ((widget.data.topicTags ?? []).isNotEmpty) ...[
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 32),
                             TopicList(
                               widget.data.topicTags ?? [],
                               color: ColorManager()
@@ -219,14 +186,34 @@ class _LearningCardState extends State<LearningCard> {
                                   .withOpacity(.6),
                             ),
                           ],
+                          const SizedBox(height: 32),
+                          // descrizione
+                          Text(
+                            widget.data.shortDescription ?? 'No description',
+                            style: TextStyle(
+                              color: ColorManager().getColorTextPrimary(),
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+                          buildDurationTag(),
+                          const Spacer(),
+                          Row(
+                            children: [
+                              FocusTraversalOrder(
+                                order: const NumericFocusOrder(0),
+                                child: OLButton(
+                                  debugLabel: 'START-BUTTON-0',
+                                  title: 'Inizia',
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                    Positioned(
-                      top: 16,
-                      right: 24,
-                      child: _durationTag(),
-                    )
                   ],
                 ),
               ),
@@ -252,17 +239,17 @@ class _LearningCardState extends State<LearningCard> {
     return OLColors.textPrimary;
   }
 
-  Widget _durationTag() {
+  Widget buildDurationTag() {
     if (widget.data.duration == null) {
       return const SizedBox.shrink();
     }
-    Color? color;
-    if (widget.data.iconStatus == IconStatus.completed) {
-      color = ColorManager().getColorBackgroundDisabled();
-    }
-    return Align(
-      alignment: Alignment.topRight,
-      child: DurationTag.fromMinutes(widget.data.duration ?? 0, color: color),
+
+    return IconText(
+      bkColor: ColorManager().getColorTextPrimary(),
+      text: convertMinutesToHours(widget.data.duration ?? 0),
+      textColor: ColorManager().getColorTextPrimary(),
+      icon: Icons.watch_later_outlined,
+      iconSize: 16,
     );
   }
 

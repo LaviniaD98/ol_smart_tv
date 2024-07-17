@@ -25,17 +25,17 @@ class WebViewPage extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
           extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            automaticallyImplyLeading: false,
-            actions: [
-              StyledIconButton(
-                svgPath: 'assets/icons/cross.svg',
-                margin: const EdgeInsets.only(right: Dimens.spacingM),
-                onTap: () => Navigator.pop(context, true),
-              ),
-            ],
-          ),
+          // appBar: AppBar(
+          //   backgroundColor: Colors.transparent,
+          //   automaticallyImplyLeading: false,
+          //   actions: [
+          //     StyledIconButton(
+          //       svgPath: 'assets/icons/cross.svg',
+          //       margin: const EdgeInsets.only(right: Dimens.spacingM),
+          //       onTap: () => Navigator.pop(context, true),
+          //     ),
+          //   ],
+          // ),
           body: Container(
             decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
             child: SafeArea(
@@ -44,15 +44,16 @@ class WebViewPage extends StatelessWidget {
                   getToken: () =>
                       context.read<WebViewPageCubit>().requestSessionId(),
                   error: () async {
-                    await OlAlertDialog.show(context,
-                        title: LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.error),
-                        message: LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.error_occurred),
-                        actionLabel: LabelsManager()
-                            .getRemoteStringFromLabelKeys(
-                                RemoteLabelKeys.retry),
-                        barrierDismissible: false);
+                    await OlAlertDialog.show(
+                      context,
+                      title: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                      message: LabelsManager().getRemoteStringFromLabelKeys(
+                          RemoteLabelKeys.error_occurred),
+                      actionLabel: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
+                      barrierDismissible: false,
+                    );
                     if (context.mounted) Navigator.pop(context, true);
                     return null;
                   },
@@ -81,9 +82,10 @@ class WebViewPage extends StatelessWidget {
   Widget _content(BuildContext context, String playerUrl) {
     String urlStr = playerUrl;
     return FullScreenWebView(
-        url: urlStr,
-        onClose: () {
-          Navigator.pop(context, true);
-        });
+      url: urlStr,
+      onClose: () {
+        Navigator.pop(context, true);
+      },
+    );
   }
 }

@@ -12,8 +12,6 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_ale
 import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
 import 'package:open_learning_smart_tv/presentation/ol_home_screen.dart';
-import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/privacy/privacy_page.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/foundation.dart';
@@ -118,9 +116,10 @@ class _InitiativesPageState extends State<InitiativesPage> {
                     );
                   },
                   success: (routes, initial) {
-                    // routes?.forEach((element) {
-                    //   print('success -[element--${element}]');
-                    // });
+                    routes?.forEach((element) {
+                      print(
+                          'success -[${element.labelMapping}--${element.apiPath}]');
+                    });
 
                     Nav.pushAndRemoveUntil(
                       context,

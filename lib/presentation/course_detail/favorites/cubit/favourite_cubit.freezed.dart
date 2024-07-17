@@ -19,7 +19,7 @@ mixin _$FavouriteState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(DetailPageModel detailPageModel) success,
+    required TResult Function(LearningObjectModel object) success,
     required TResult Function() loading,
     required TResult Function() error,
   }) =>
@@ -27,7 +27,7 @@ mixin _$FavouriteState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(DetailPageModel detailPageModel)? success,
+    TResult? Function(LearningObjectModel object)? success,
     TResult? Function()? loading,
     TResult? Function()? error,
   }) =>
@@ -35,7 +35,7 @@ mixin _$FavouriteState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(DetailPageModel detailPageModel)? success,
+    TResult Function(LearningObjectModel object)? success,
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
@@ -125,7 +125,7 @@ class _$InitialImpl implements Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(DetailPageModel detailPageModel) success,
+    required TResult Function(LearningObjectModel object) success,
     required TResult Function() loading,
     required TResult Function() error,
   }) {
@@ -136,7 +136,7 @@ class _$InitialImpl implements Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(DetailPageModel detailPageModel)? success,
+    TResult? Function(LearningObjectModel object)? success,
     TResult? Function()? loading,
     TResult? Function()? error,
   }) {
@@ -147,7 +147,7 @@ class _$InitialImpl implements Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(DetailPageModel detailPageModel)? success,
+    TResult Function(LearningObjectModel object)? success,
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
@@ -206,7 +206,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({DetailPageModel detailPageModel});
+  $Res call({LearningObjectModel object});
 }
 
 /// @nodoc
@@ -220,13 +220,13 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? detailPageModel = null,
+    Object? object = null,
   }) {
     return _then(_$SuccessImpl(
-      null == detailPageModel
-          ? _value.detailPageModel
-          : detailPageModel // ignore: cast_nullable_to_non_nullable
-              as DetailPageModel,
+      null == object
+          ? _value.object
+          : object // ignore: cast_nullable_to_non_nullable
+              as LearningObjectModel,
     ));
   }
 }
@@ -234,14 +234,14 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements Success {
-  const _$SuccessImpl(this.detailPageModel);
+  const _$SuccessImpl(this.object);
 
   @override
-  final DetailPageModel detailPageModel;
+  final LearningObjectModel object;
 
   @override
   String toString() {
-    return 'FavouriteState.success(detailPageModel: $detailPageModel)';
+    return 'FavouriteState.success(object: $object)';
   }
 
   @override
@@ -249,12 +249,11 @@ class _$SuccessImpl implements Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            (identical(other.detailPageModel, detailPageModel) ||
-                other.detailPageModel == detailPageModel));
+            (identical(other.object, object) || other.object == object));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, detailPageModel);
+  int get hashCode => Object.hash(runtimeType, object);
 
   @JsonKey(ignore: true)
   @override
@@ -266,35 +265,35 @@ class _$SuccessImpl implements Success {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(DetailPageModel detailPageModel) success,
+    required TResult Function(LearningObjectModel object) success,
     required TResult Function() loading,
     required TResult Function() error,
   }) {
-    return success(detailPageModel);
+    return success(object);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(DetailPageModel detailPageModel)? success,
+    TResult? Function(LearningObjectModel object)? success,
     TResult? Function()? loading,
     TResult? Function()? error,
   }) {
-    return success?.call(detailPageModel);
+    return success?.call(object);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(DetailPageModel detailPageModel)? success,
+    TResult Function(LearningObjectModel object)? success,
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(detailPageModel);
+      return success(object);
     }
     return orElse();
   }
@@ -338,9 +337,9 @@ class _$SuccessImpl implements Success {
 }
 
 abstract class Success implements FavouriteState {
-  const factory Success(final DetailPageModel detailPageModel) = _$SuccessImpl;
+  const factory Success(final LearningObjectModel object) = _$SuccessImpl;
 
-  DetailPageModel get detailPageModel;
+  LearningObjectModel get object;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -385,7 +384,7 @@ class _$LoadingImpl implements Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(DetailPageModel detailPageModel) success,
+    required TResult Function(LearningObjectModel object) success,
     required TResult Function() loading,
     required TResult Function() error,
   }) {
@@ -396,7 +395,7 @@ class _$LoadingImpl implements Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(DetailPageModel detailPageModel)? success,
+    TResult? Function(LearningObjectModel object)? success,
     TResult? Function()? loading,
     TResult? Function()? error,
   }) {
@@ -407,7 +406,7 @@ class _$LoadingImpl implements Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(DetailPageModel detailPageModel)? success,
+    TResult Function(LearningObjectModel object)? success,
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),
@@ -499,7 +498,7 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(DetailPageModel detailPageModel) success,
+    required TResult Function(LearningObjectModel object) success,
     required TResult Function() loading,
     required TResult Function() error,
   }) {
@@ -510,7 +509,7 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(DetailPageModel detailPageModel)? success,
+    TResult? Function(LearningObjectModel object)? success,
     TResult? Function()? loading,
     TResult? Function()? error,
   }) {
@@ -521,7 +520,7 @@ class _$ErrorImpl implements Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(DetailPageModel detailPageModel)? success,
+    TResult Function(LearningObjectModel object)? success,
     TResult Function()? loading,
     TResult Function()? error,
     required TResult orElse(),

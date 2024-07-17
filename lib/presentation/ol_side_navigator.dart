@@ -179,10 +179,10 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
     } else if (index == 1) {
       context.read<MainStateCubit>().forYouFocusNode?.requestFocus();
     } else if (index == 2) {
-      print(
-          'cslkjndclksndlkncs....${context.read<MainStateCubit>().exploreFocusNode?.debugLabel}');
       context.read<MainStateCubit>().exploreFocusNode?.requestFocus();
     } else if (index == 3) {
+      print(
+          'cslkdnclknsdlkcnslkdnclksndlkcnslkdnc.....${context.read<MainStateCubit>().favoritesFocusNode}');
       context.read<MainStateCubit>().favoritesFocusNode?.requestFocus();
     } else if (index == 4) {
       context.read<MainStateCubit>().agendaFocusNode?.requestFocus();

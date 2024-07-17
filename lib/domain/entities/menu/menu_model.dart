@@ -1,9 +1,7 @@
 import 'package:open_learning_smart_tv/data/models/responses/menu/menu_dto.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:collection/collection.dart';
-
 import '../../../data/models/responses/generic/relative_path_dto.dart';
-import '../../../remote_theming/labels/labels_manager.dart';
 
 class MenuModel {
   final String? menuType;

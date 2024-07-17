@@ -32,13 +32,16 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     this._offlineCubit,
   ) : super(const DynamicAllContentState.loading());
 
-  void init(String path, [List<String>? filters]) async {
-    print('INITING--------${path}');
+  void init(String path, [List<String>? filters, bool debug = false]) async {
+    print('cslkdnclknsdlkcnnsldkc........csl,dcsdc,');
     _offlineCubit.checkUserMissingAlerts();
     emit(const DynamicAllContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
-      (l) => emit(DynamicAllContentState.error(l)),
+      (l) {
+        print('ERRORRRR--------: $l');
+        emit(DynamicAllContentState.error(l));
+      },
       (page) async {
         final smartConfig = await _getStoredSmartConfigurationUseCase();
         dynamicContent = DynamicLocalContent(
@@ -50,12 +53,15 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
 
         final v = await getAllRows();
 
+        print('dynamicContent: ${dynamicContent?.page.strips}');
+
         emit(DynamicAllContentState.success(rowItems: v));
       },
     );
   }
 
-  Future<List<Map<StripRow, List<LearningObjectModel>>>> getAllRows() async {
+  Future<List<Map<StripRow, List<LearningObjectModel>>>> getAllRows(
+      {bool debug = false}) async {
     if (dynamicContent == null) {
       return [];
     }
@@ -75,8 +81,11 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     return mappedList;
   }
 
-  Future<Map<StripRow, List<LearningObjectModel>>> fetch(
-      {StripRow? strip}) async {
+  Future<Map<StripRow, List<LearningObjectModel>>> fetch({
+    StripRow? strip,
+    bool debug = false,
+  }) async {
+    print('1---------------');
     if (strip == null) {
       return {};
     }
@@ -88,8 +97,15 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
       filters: dynamicContent?.filters,
     );
 
-    res.fold((l) {}, (r) {
-      print('-------response: $r');
+    print('2---------------$res');
+
+    res.fold((l) {
+      if (debug) {
+        print('Error: $l');
+      }
+    }, (r) {
+      print('FINISHED: ${r.length}');
+
       if (r.isNotEmpty) {
         mappedList[strip] = List.from(r);
       }
@@ -100,7 +116,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
 
   Future<void> refresh(String path) async {
     if (state is Success) {
-      final current = (state as Success);
+      // final current = (state as Success);
       emit(const DynamicAllContentState.loading());
       final res = await _getPageStructureUseCase(path);
       res.fold(

@@ -3,8 +3,6 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_syncing_dialog.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/onboarding_sheet.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/tutorial_sheet.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart';
@@ -35,6 +33,11 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print('context.screenSize: ${context.screenSize}');
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
 
     return MultiBlocProvider(
       providers: [

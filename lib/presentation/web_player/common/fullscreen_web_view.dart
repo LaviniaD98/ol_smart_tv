@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,6 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
 
   @override
   void initState() {
-
     // Map<String, dynamic> jsonMap = widget.sessionIdResponseModel.toJson();
     // String cookieValue = jsonEncode(jsonMap);
 
@@ -52,7 +50,7 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
     //         ).then((cookies) {
     //           print("cookie: $cookies");
     //         });
-            
+
     //       },
     //       onWebResourceError: (WebResourceError error) {
 
@@ -64,7 +62,7 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
     //   )
     //   ..loadRequest(Uri.parse(widget.url));
     //   setState(() {
-        
+
     //   });
     // });
 
@@ -79,12 +77,10 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor( Colors.transparent)
+      ..setBackgroundColor(Colors.transparent)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {
             setState(() {
               isLoading = true;
@@ -94,16 +90,13 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
             setState(() {
               isLoading = false;
             });
-            _controller!.runJavaScriptReturningResult(
-              'document.cookie',
-            ).then((cookies) {
+            _controller!
+                .runJavaScriptReturningResult('document.cookie')
+                .then((cookies) {
               if (kDebugMode) print("cookie: $cookies");
             });
-            
           },
-          onWebResourceError: (WebResourceError error) {
-
-          },
+          onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             return NavigationDecision.navigate;
           },
@@ -117,24 +110,26 @@ class _FullScreenWebViewState extends State<FullScreenWebView> {
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
-  ]);
+    ]);
   }
 
   @override
   void dispose() async {
     super.dispose();
     _controller?.loadFlutterAsset("assets/webpage/empty.html");
-    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-        children: [
-          if (_controller != null) WebViewWidget(controller: _controller!),
-          if (isLoading)
-            Center(child: CircularProgressIndicator(),),
+      children: [
+        if (_controller != null) ...[
+          WebViewWidget(controller: _controller!),
         ],
+        if (isLoading) ...[
+          const Center(child: CircularProgressIndicator()),
+        ],
+      ],
     );
   }
 }

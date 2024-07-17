@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/edition_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/teacher_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
-import 'package:open_learning_smart_tv/presentation/notification/cubit/notification_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

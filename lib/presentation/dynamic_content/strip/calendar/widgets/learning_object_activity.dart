@@ -27,6 +27,7 @@ class LearningObjectActivity extends StatelessWidget {
           context.pushNamed(DetailPage.routeName,
               extra: DetailPageArgs(
                 id: model.id.toString(),
+                object: model,
                 typology: model.learningObjectTypology,
                 parentId: model.parentId?.toString(),
                 grandParentId: model.grandParentId?.toString(),

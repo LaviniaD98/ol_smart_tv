@@ -33,9 +33,8 @@ class _ExploreScreenState extends State<ExploreScreen>
   final _focusNode = FocusScopeNode(debugLabel: 'Explore');
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
-  var controller = ScrollController();
   final autoScrollController = AutoScrollController(
-    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 440, 0, 0),
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 340, 0, 0),
     axis: Axis.vertical,
   );
 
@@ -105,6 +104,7 @@ class _ExploreScreenState extends State<ExploreScreen>
                 //     labelMapping: 'topicsFilter',
                 //   ),
                 // );
+
                 return _stripRows(success);
               },
               loading: (value) => const Center(
@@ -205,7 +205,6 @@ class _ExploreScreenState extends State<ExploreScreen>
     if (row == null) {
       return const SizedBox.shrink();
     }
-    //return buildElementsRow(index: index, row: r);
 
     if (row.key.labelMapping == 'sliderTopContentExplore') {
       return FocusTraversalOrder(
@@ -237,7 +236,7 @@ class _ExploreScreenState extends State<ExploreScreen>
       return buildElementsRow(index: index, row: r);
     }
 
-    if (row.key.labelMapping == 'visCarTrainingTransversal') {
+    /* if (row.key.labelMapping == 'visCarTrainingTransversal') {
       return buildElementsRow(index: index, row: r);
     } else if (row.key.labelMapping == 'carConteSpeciDurata') {
       return buildElementsRow(index: index, row: r);
@@ -280,6 +279,8 @@ class _ExploreScreenState extends State<ExploreScreen>
     }
 
     return const SizedBox.shrink();
+
+    */
   }
 
   Widget buildElementsRow({

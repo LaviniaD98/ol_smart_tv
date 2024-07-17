@@ -1,5 +1,7 @@
 import 'package:flutter/services.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/data/models/responses/generic/object_statistics_dto.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
@@ -9,11 +11,10 @@ import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_type
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_editions.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_opinions_no_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_text.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/learning_activity_row.dart';
+import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -28,17 +29,12 @@ import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../color_management/color_manager.dart';
 import '../../domain/entities/generic/course_model.dart';
-import '../../domain/entities/menu/route/menu_route.dart';
 import '../../domain/entities/smart_configurator/smart_configurator_model.dart';
 import '../../theme/app_theme.dart';
-import '../app_state/cubit/app_cubit.dart';
-import '../common/widgets/app_bar/gradient_app_bar.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
 import '../common/widgets/error/error_screen.dart';
 import '../common/widgets/rating/ratings_dialog.dart';
-import '../common/widgets/styled_icon_button.dart';
 import '../dynamic_content/strip/community/detail/post_detail_page_connector.dart';
-import '../dynamic_content/strip/community/post/post_page.dart';
 import '../video_player/video_player_page.dart';
 import 'course_detail_modules.dart';
 import 'course_detail_opinions.dart';
@@ -50,9 +46,13 @@ import 'widgets/tools/tools_list.dart';
 
 class DetailPage extends StatefulWidget {
   final DetailPageArgs args;
+
   static String routeName = 'detail';
 
-  const DetailPage({super.key, required this.args});
+  const DetailPage({
+    super.key,
+    required this.args,
+  });
 
   @override
   State<DetailPage> createState() => _DetailPageState();
@@ -60,29 +60,40 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   final _focusNode = FocusScopeNode(debugLabel: 'DetailPage');
+  final _focusNodeLeft = FocusScopeNode(debugLabel: 'DetailPage - Left Panel');
+  final _focusNodeRight =
+      FocusScopeNode(debugLabel: 'DetailPage - Right Panel');
+
+  final ValueNotifier<bool> _expanded = ValueNotifier(false);
+  final ValueNotifier<RightPanelState> _rightPanelState = ValueNotifier(
+    RightPanelState.start,
+  );
 
   @override
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(milliseconds: 300), () {
-      _focusNode.requestFocus();
+    context.read<DetailPageCubit>().mainNode = _focusNode;
+    context.read<DetailPageCubit>().leftPanelNode = _focusNodeLeft;
+    context.read<DetailPageCubit>().rightPanelNode = _focusNodeRight;
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      final focus = _focusNodeLeft.descendants.firstOrNull;
+      focus?.requestFocus();
     });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    _focusNodeLeft.dispose();
+    _focusNodeRight.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: GradientAppBar(
-        automaticallyImplyLeading: false,
-        actions: [
-          StyledIconButton(
-            svgPath: 'assets/icons/cross_alt.svg',
-            onTap: context.pop,
-          ),
-        ],
-      ),
       body: BlocConsumer<DetailPageCubit, DetailPageState>(
         listener: (context, state) => state.whenOrNull(
           autoEnroll: (data) => startOrResumeCheck(context, data.id!, data),
@@ -115,6 +126,7 @@ class _DetailPageState extends State<DetailPage> {
               DetailPage.routeName,
               extra: DetailPageArgs(
                 id: model.id.toString(),
+                object: model,
                 parentId: widget.args.id,
                 typology: model.learningObjectTypology,
                 grandParentId: widget.args.parentId,
@@ -144,8 +156,9 @@ class _DetailPageState extends State<DetailPage> {
         ),
         builder: (context, state) => state.maybeWhen(
           loading: () => _loading,
-          success: (selectedIndex, model, smartConfig) =>
-              _content(context, selectedIndex, model, smartConfig),
+          success: (selectedIndex, model, smartConfig) {
+            return _content(context, selectedIndex, model, smartConfig);
+          },
           error: () => _error(context),
           orElse: () => const SizedBox(),
         ),
@@ -183,94 +196,121 @@ class _DetailPageState extends State<DetailPage> {
   ) {
     return FocusScope(
       node: _focusNode,
-      autofocus: true,
       child: Container(
-        color: Colors.purple,
+        color: OLColors.backgroundPrimary,
         child: Row(
           children: [
-            Focus(
-              onFocusChange: (value) {
-                if (value) {
-                  setState(() => expanded = false);
-                }
+            CallbackShortcuts(
+              bindings: <ShortcutActivator, VoidCallback>{
+                const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+                  if (_rightPanelState.value == RightPanelState.related) {
+                    if ((model.releatedLearningActivityResponseModel
+                                ?.relatedLearningActivities ??
+                            [])
+                        .isNotEmpty) {
+                      _focusNodeRight.requestFocus();
+                    }
+                  } else {
+                    _focusNodeRight.requestFocus();
+                  }
+                },
               },
-              child: AnimatedContainer(
-                curve: Curves.easeInOut,
-                width: expanded ? 40 : 870,
-                duration: const Duration(milliseconds: 500),
-                child: CallbackShortcuts(
-                  bindings: <ShortcutActivator, VoidCallback>{
-                    const SingleActivator(LogicalKeyboardKey.goBack): () {
-                      print('csljdnclknsdlkcs.d------------GO BACK');
-                    },
-                    // const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-                    //   print('csljdnclknsdlkcs.d------------arrowRight');
-                    // },
-                  },
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        child: buildLeftPanel(model: model),
+              child: FocusScope(
+                node: _focusNodeLeft,
+                onFocusChange: (value) {
+                  if (value) {
+                    _expanded.value = false;
+                  }
+                },
+                child: ValueListenableBuilder(
+                  valueListenable: _expanded,
+                  builder: (context, expanded, _) {
+                    return AnimatedContainer(
+                      curve: Curves.easeInOut,
+                      width: expanded ? 40 : 870,
+                      duration: const Duration(milliseconds: 500),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            top: 0,
+                            bottom: 0,
+                            right: 0,
+                            child: buildLeftPanel(model: model),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
               ),
             ),
             Expanded(
-              child: Focus(
-                onFocusChange: (value) {
-                  if (value) {
-                    setState(() {
-                      expanded = true;
-                      descriptionFocused = true;
-                    });
-                  } else {
-                    setState(() => descriptionFocused = false);
-                  }
-                },
-                child: Container(
-                  color: Colors.blue,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        child: Container(
-                          margin: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: 0,
-                          ),
-                          color: Colors.amber,
-                          width: 1706,
-                          child: Row(
-                            children: [
-                              Expanded(child: Container(color: Colors.green)),
-                              Expanded(
-                                child: Container(
-                                  margin: EdgeInsets.symmetric(horizontal: 30),
-                                  color: descriptionFocused
-                                      ? Colors.brown
-                                      : Colors.blue,
+              child: ValueListenableBuilder<RightPanelState>(
+                valueListenable: _rightPanelState,
+                builder: (context, state, _) {
+                  return FocusScope(
+                    //canRequestFocus: state == RightPanelState.start,
+                    node: _focusNodeRight,
+                    onFocusChange: (value) {
+                      if (value) {
+                        if (state == RightPanelState.start) {
+                          _expanded.value = true;
+                        }
+
+                        if (_focusNodeRight.focusedChild == null) {
+                          final focus = _focusNodeRight.descendants.firstOrNull;
+                          focus?.requestFocus();
+                        }
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          top: 0,
+                          bottom: 0,
+                          left: 0,
+                          child: Container(
+                            width: 1750,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ValueListenableBuilder(
+                                    valueListenable: _rightPanelState,
+                                    builder: (context, value, child) {
+                                      if (value == RightPanelState.start) {
+                                        return getTabModules(
+                                                context, model, false) ??
+                                            const SizedBox.shrink();
+                                      } else if (value ==
+                                          RightPanelState.details) {
+                                        return getTabDetail(model, false);
+                                      } else if (value ==
+                                          RightPanelState.related) {
+                                        return getTabRelated(model, false) ??
+                                            const SizedBox.shrink();
+                                      }
+                                      return const SizedBox.shrink();
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Container(color: Colors.blue),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],
         ),
       ),
     );
+    /*
     int tabContentLength = contentBarLength(context, model, false);
     return DefaultTabController(
       length: tabContentLength,
@@ -285,6 +325,7 @@ class _DetailPageState extends State<DetailPage> {
               DynamicSliverDetailHeader(
                 model: model,
                 args: widget.args,
+                rightPanelState: _rightPanelState,
               ),
 
               /// Actions
@@ -414,7 +455,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ),
       ),
-    );
+    );*/
   }
 
   Widget buildLeftPanel({
@@ -426,6 +467,7 @@ class _DetailPageState extends State<DetailPage> {
         model: model,
         isSliver: false,
         args: widget.args,
+        rightPanelState: _rightPanelState,
       ),
     );
   }
@@ -443,22 +485,33 @@ class _DetailPageState extends State<DetailPage> {
 
   void startPlay(BuildContext context, LearningObjectModel lo,
       DetailPageModel detail) async {
+    print('WEAAAA-------1-------');
     if (lo.fruitionFlag == true) {
+      print('WEAAAA-------2-------');
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
+        print('WEAAAA-------3-------');
         if (lo.link != null && context.mounted) {
+          print('WEAAAA-------4-------');
           WakelockPlus.enable();
-          await context.pushNamed(
-            WebViewPage.routeName,
-            extra: WebViewPageArgs(
-              model: lo,
+
+          await Nav.push(
+            context,
+            screen: BlocProvider(
+              create: (_) =>
+                  getIt<WebViewPageCubit>()..init(WebViewPageArgs(model: lo)),
+              child: WebViewPage(
+                args: WebViewPageArgs(model: lo),
+              ),
             ),
-          );
+          ) as bool?;
+
           WakelockPlus.disable();
           if (context.mounted) {
             context.read<DetailPageCubit>().refreshContinueLearningStrip();
             context.read<DetailPageCubit>().init(widget.args);
           }
         } else {
+          print('WEAAAA-------5-------');
           OlAlertDialog.show(
             context,
             title: LabelsManager()
@@ -470,48 +523,63 @@ class _DetailPageState extends State<DetailPage> {
           );
         }
       } else {
+        print('WEAAAA-------6-------');
         WakelockPlus.enable();
-        final res = await context.pushNamed<bool?>(
-          VideoPlayerPage.routeName,
-          extra: VideoPlayerPageArgs(
-            id: lo.id,
-            title: lo.title ?? '',
-            typology: lo.learningObjectTypology,
-            type: lo.learningObjectType,
-            isMandatory: lo.isMandatory ?? false,
-            brightcoveId: lo.brightcoveId,
-            pathId: widget.args.parentId,
-            tentativeId: "${lo.tentativeId}",
-            onTapDetail: () async {
-              final subNavigationTypes = [
-                LearningObjectTypology.course,
-                LearningObjectTypology.path
-              ];
-              context.pop();
-              if (subNavigationTypes.contains(detail.learningObjectTypology)) {
-                /// navigate to detail sub route
-                await context.pushNamed(
-                  DetailPage.routeName,
-                  extra: DetailPageArgs(
-                    id: lo.id.toString(),
-                    parentId: lo.id == detail.id ? null : detail.id.toString(),
-                    typology: lo.learningObjectTypology,
-                    grandParentId:
-                        lo.id == detail.id ? null : widget.args.parentId,
-                    parent: detail,
-                  ),
-                );
 
-                /// reload parent detail
-                if (context.mounted)
-                  context.read<DetailPageCubit>().init(widget.args);
-              } else {
-                /// reload parent detail
+        final args = VideoPlayerPageArgs(
+          id: lo.id,
+          title: lo.title ?? '',
+          typology: lo.learningObjectTypology,
+          type: lo.learningObjectType,
+          isMandatory: lo.isMandatory ?? false,
+          brightcoveId: lo.brightcoveId,
+          pathId: widget.args.parentId,
+          tentativeId: "${lo.tentativeId}",
+          onTapDetail: () async {
+            final subNavigationTypes = [
+              LearningObjectTypology.course,
+              LearningObjectTypology.path
+            ];
+            context.pop();
+            if (subNavigationTypes.contains(detail.learningObjectTypology)) {
+              /// navigate to detail sub route
+              await context.pushNamed(
+                DetailPage.routeName,
+                extra: DetailPageArgs(
+                  id: lo.id.toString(),
+                  object: lo,
+                  parentId: lo.id == detail.id ? null : detail.id.toString(),
+                  typology: lo.learningObjectTypology,
+                  grandParentId:
+                      lo.id == detail.id ? null : widget.args.parentId,
+                  parent: detail,
+                ),
+              );
+
+              /// reload parent detail
+              if (context.mounted)
                 context.read<DetailPageCubit>().init(widget.args);
-              }
-            },
-          ),
+            } else {
+              /// reload parent detail
+              context.read<DetailPageCubit>().init(widget.args);
+            }
+          },
         );
+
+        final res = await Nav.push(
+          context,
+          screen: BlocProvider(
+            create: (_) => getIt<VideoPlayerCubit>()
+              ..init(
+                args.brightcoveId,
+                args,
+              ),
+            child: VideoPlayerPage(args: args),
+          ),
+        ) as bool?;
+
+        print('RESPONSE; ${res}');
+
         WakelockPlus.disable();
         if (res != null && res && context.mounted) {
           /// reload detail
@@ -519,14 +587,16 @@ class _DetailPageState extends State<DetailPage> {
         }
       }
     } else {
-      OlAlertDialog.show(context,
-          title: LabelsManager()
-              .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-          message: LabelsManager().getRemoteStringFromLabelKeys(
-              RemoteLabelKeys.details_no_fruition),
-          actionLabel: LabelsManager()
-              .getRemoteStringFromLabelKeys(RemoteLabelKeys.continue_button),
-          barrierDismissible: false);
+      OlAlertDialog.show(
+        context,
+        title:
+            LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+        message: LabelsManager()
+            .getRemoteStringFromLabelKeys(RemoteLabelKeys.details_no_fruition),
+        actionLabel: LabelsManager()
+            .getRemoteStringFromLabelKeys(RemoteLabelKeys.continue_button),
+        barrierDismissible: false,
+      );
     }
   }
 
@@ -572,11 +642,20 @@ class _DetailPageState extends State<DetailPage> {
           text: LabelsManager()
               .getRemoteStringFromLabelKeys(RemoteLabelKeys.details));
     } else {
-      return DetailsTab(
-          model: model,
-          parentModel: widget.args.parent,
-          showDuration:
-              (model.learningObjectTypology == LearningObjectTypology.course));
+      return Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 140.0),
+            child: DetailsTab(
+              model: model,
+              parentModel: widget.args.parent,
+              showDuration: (model.learningObjectTypology ==
+                  LearningObjectTypology.course),
+            ),
+          ),
+          buildHeader(title: 'Dettagli del Percorso'),
+        ],
+      );
     }
   }
 
@@ -605,10 +684,19 @@ class _DetailPageState extends State<DetailPage> {
             text: LabelsManager()
                 .getRemoteStringFromLabelKeys(RemoteLabelKeys.related));
       } else {
-        return LearningActivityRow(
-          items: model.releatedLearningActivityResponseModel!
-              .relatedLearningActivities!,
-          parentModel: model,
+        return Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 140.0),
+              child: LearningActivityRow(
+                items: model.releatedLearningActivityResponseModel!
+                    .relatedLearningActivities!,
+                isGridView: true,
+                parentModel: model,
+              ),
+            ),
+            buildHeader(title: 'Dettagli del Percorso'),
+          ],
         );
       }
     }
@@ -634,90 +722,94 @@ class _DetailPageState extends State<DetailPage> {
           ecmRegistration: model.ecmRegistration,
         );
         return CourseDetailModules(
-            model: model,
-            parentId: widget.args.parentId,
-            onButtonPressed: (int index, bool isACourse,
-                LearningObjectModel? ll, CourseModel? cc) {
-              if (loCharacterization.buttonEnabled &&
-                  (loCharacterization.objLOAction != ObjLOAction.none &&
-                      loCharacterization.objLOAction !=
-                          ObjLOAction.notApplicable)) {
-                int idToAE = model.id!;
-                if (widget.args.grandParentId != null) {
-                  idToAE = int.parse(widget.args.grandParentId!);
-                } else if (widget.args.parentId != null) {
-                  idToAE = int.parse(widget.args.parentId!);
-                }
-                switch (loCharacterization.objLOAction) {
-                  case ObjLOAction.none:
-                  case ObjLOAction.notApplicable:
-                    //do nothing
-                    break;
-                  case ObjLOAction.startFruition:
-                    if (isACourse) {
-                      CourseModel cm = model.courses!
-                          .where((element) => element.id == index)
-                          .single;
-                      startOrResumeCheck(context, cm.id!, model);
-                    } else {
-                      LearningObjectModel lm = model.learningActivities!
-                          .where((element) => element.id == index)
-                          .single;
-                      startOrResumeCheck(context, lm.id, model);
-                    }
-                    break;
-                  case ObjLOAction.autoEnrollmentBottom:
-                    context.read<DetailPageCubit>().executeAutoEnrollment(
-                        widget.args, idToAE, "BOTTOM", model, false);
-                    break;
-                  case ObjLOAction.autoEnrollmentAuto:
-                    context.read<DetailPageCubit>().executeAutoEnrollment(
-                        widget.args, idToAE, "AUTO", model, true);
-                    break;
-                  case ObjLOAction.autoEnrollmentWithPatch:
-                  case ObjLOAction.seeEditions:
-                    String? id =
-                        ll != null ? ll.id.toString() : cc?.id.toString();
-                    if (id != null) {
-                      context.pushNamed(
-                        DetailPage.routeName,
-                        extra: DetailPageArgs(
-                          id: id,
-                          parentId: model.id.toString(),
-                          typology: model.learningObjectTypology,
-                          grandParentId: widget.args.parentId,
-                          parent: model,
-                        ),
-                      );
-                    }
-                    break;
-                  case ObjLOAction.ecmNotRegistered:
-                    if (kDebugMode) print('ECM module');
-                    break;
-                  case ObjLOAction.showDetailMaterials:
-                  case ObjLOAction.showDetailGoals:
-                  case ObjLOAction.showDetailFinalBalance:
-                    int? id = ll != null ? ll.id : cc?.id;
-                    if (id != null) {
-                      context
-                          .read<DetailPageCubit>()
-                          .getStartOrResumeModel(id, '${model.id}', model);
-                    }
-                    break;
-                  case ObjLOAction.showDetailMeeting:
-                    OlAlertDialog.show(
-                      context,
-                      title: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.show_info),
-                      message: LabelsManager().getRemoteStringFromLabelKeys(
-                          RemoteLabelKeys.from_meeting_info),
-                      actionLabel: LabelsManager()
-                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
-                    );
-                    break;
-                }
+          model: model,
+          parentId: widget.args.parentId,
+          onButtonPressed: (int index, bool isACourse, LearningObjectModel? ll,
+              CourseModel? cc) {
+            print('clksndkcnslkdnclknsdlkcnlksdc-------');
+            if (loCharacterization.buttonEnabled &&
+                (loCharacterization.objLOAction != ObjLOAction.none &&
+                    loCharacterization.objLOAction !=
+                        ObjLOAction.notApplicable)) {
+              int idToAE = model.id!;
+              if (widget.args.grandParentId != null) {
+                idToAE = int.parse(widget.args.grandParentId!);
+              } else if (widget.args.parentId != null) {
+                idToAE = int.parse(widget.args.parentId!);
               }
-            });
+
+              switch (loCharacterization.objLOAction) {
+                case ObjLOAction.none:
+                case ObjLOAction.notApplicable:
+                  //do nothing
+                  break;
+                case ObjLOAction.startFruition:
+                  if (isACourse) {
+                    CourseModel cm = model.courses!
+                        .where((element) => element.id == index)
+                        .single;
+                    startOrResumeCheck(context, cm.id!, model);
+                  } else {
+                    LearningObjectModel lm = model.learningActivities!
+                        .where((element) => element.id == index)
+                        .single;
+                    startOrResumeCheck(context, lm.id, model);
+                  }
+                  break;
+                case ObjLOAction.autoEnrollmentBottom:
+                  context.read<DetailPageCubit>().executeAutoEnrollment(
+                      widget.args, idToAE, "BOTTOM", model, false);
+                  break;
+                case ObjLOAction.autoEnrollmentAuto:
+                  context.read<DetailPageCubit>().executeAutoEnrollment(
+                      widget.args, idToAE, "AUTO", model, true);
+                  break;
+                case ObjLOAction.autoEnrollmentWithPatch:
+                case ObjLOAction.seeEditions:
+                  String? id =
+                      ll != null ? ll.id.toString() : cc?.id.toString();
+                  if (id != null) {
+                    context.pushNamed(
+                      DetailPage.routeName,
+                      extra: DetailPageArgs(
+                        id: id,
+                        object: ll,
+                        parentId: model.id.toString(),
+                        typology: model.learningObjectTypology,
+                        grandParentId: widget.args.parentId,
+                        parent: model,
+                      ),
+                    );
+                  }
+                  break;
+                case ObjLOAction.ecmNotRegistered:
+                  if (kDebugMode) print('ECM module');
+                  break;
+                case ObjLOAction.showDetailMaterials:
+                case ObjLOAction.showDetailGoals:
+                case ObjLOAction.showDetailFinalBalance:
+                  int? id = ll != null ? ll.id : cc?.id;
+                  if (id != null) {
+                    context
+                        .read<DetailPageCubit>()
+                        .getStartOrResumeModel(id, '${model.id}', model);
+                  }
+                  break;
+                case ObjLOAction.showDetailMeeting:
+                  OlAlertDialog.show(
+                    context,
+                    title: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.show_info),
+                    message: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.from_meeting_info),
+                    actionLabel: LabelsManager()
+                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
+                  );
+                  break;
+              }
+            }
+          },
+        );
       }
     }
     return null;
@@ -799,7 +891,7 @@ class _DetailPageState extends State<DetailPage> {
           contentBarLength++;
         }
         if (model.sharedPostsModel != null &&
-            model.sharedPostsModel?.data?.isNotEmpty == true) {
+            model.sharedPostsModel?.data.isNotEmpty == true) {
           contentBarLength++;
         }
         break;
@@ -941,6 +1033,44 @@ class _DetailPageState extends State<DetailPage> {
           )),
     );
   }
+
+  Widget buildHeader({required String title}) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.only(
+              top: 60,
+              bottom: 50,
+              left: Dimens.hViewPadding,
+              right: Dimens.hViewPadding,
+            ),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.8, 1],
+                colors: [
+                  OLColors.backgroundPrimary,
+                  OLColors.backgroundPrimary.withOpacity(0),
+                ],
+              ),
+            ),
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextTheme.body(
+                weight: FontWeight.w700,
+                size: 32,
+                color: ColorManager().getColorTextPrimary(),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class DetailPageArgs {
@@ -949,12 +1079,20 @@ class DetailPageArgs {
   final String? parentId;
   final String? grandParentId;
   final DetailPageModel? parent;
+  final LearningObjectModel? object;
 
   DetailPageArgs({
     required this.id,
     required this.typology,
+    this.object,
     this.parentId,
     this.grandParentId,
     this.parent,
   });
+}
+
+enum RightPanelState {
+  start,
+  details,
+  related,
 }

@@ -1,12 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/trailer/video_player_trailer.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
 class FadedBannerImage extends StatelessWidget {
-  const FadedBannerImage({super.key, required this.urlImage});
+  const FadedBannerImage({
+    super.key,
+    this.urlImage,
+    this.urlVideo,
+  });
 
   final String? urlImage;
+  final String? urlVideo;
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +37,30 @@ class FadedBannerImage extends StatelessWidget {
             );
           },
           blendMode: BlendMode.dstIn,
-          child: CachedNetworkImage(
-            imageUrl: urlImage ?? '',
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+          child: Builder(builder: (context) {
+            if (urlVideo != null) {
+              return VideoPlayerTrailerWidget(
+                urlVideo!,
+                //key: ValueKey(widget.model.id),
+              );
+            }
+            return CachedNetworkImage(
+              imageUrl: urlImage ?? '',
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            errorWidget: (context, url, error) => DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(.05),
+              errorWidget: (context, url, error) => DecoratedBox(
+                decoration: BoxDecoration(
+                  color: AppColors.white.withOpacity(.05),
+                ),
               ),
-            ),
-          ),
+            );
+          }),
         ),
         Align(
           alignment: Alignment.topCenter,

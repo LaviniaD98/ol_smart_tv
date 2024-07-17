@@ -39,8 +39,11 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           popping = true;
           await context.read<VideoPlayerCubit>().setStateCall(
               widget.args, false, controller.value.position, controller, true);
+
           if (context.mounted) {
-            context.pop(true);
+            //  context.pop(true);
+
+            Navigator.of(context).pop(true);
           }
         }
       },

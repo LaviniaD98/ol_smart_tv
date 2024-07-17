@@ -107,6 +107,7 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
                                   DetailPage.routeName,
                                   extra: DetailPageArgs(
                                     id: value.items[index].id.toString(),
+                                    object: value.items[index],
                                     parentId:
                                         value.items[index].parentId?.toString(),
                                     grandParentId: value

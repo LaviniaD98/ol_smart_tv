@@ -24,13 +24,17 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
     controller =
         VideoPlayerController.networkUrl(Uri.parse(widget.videoPlayerUrl));
     controller.addListener(() {
-      setState(() {});
+      if (context.mounted) {
+        setState(() {});
+      }
     });
     controller.initialize().then((value) {
-      setState(() {});
-      controller.setLooping(true);
-      controller.setVolume(0.0);
-      controller.play();
+      if (mounted) {
+        setState(() {});
+        controller.setLooping(true);
+        controller.setVolume(0.0);
+        controller.play();
+      }
     });
   }
 

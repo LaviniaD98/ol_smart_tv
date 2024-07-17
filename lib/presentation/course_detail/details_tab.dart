@@ -46,118 +46,114 @@ class DetailsTab extends StatelessWidget {
         (model.learningObjectType != LearningObjectType.blended &&
             model.isStandAlone == false);
 
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverToBoxAdapter(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (showDuration)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(Dimens.spacingS,
-                      Dimens.spacingXS, Dimens.spacingL, Dimens.spacingXS),
-                  child: DurationTag.fromMinutes(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.hViewPadding),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (showDuration) ...[
+                  DurationTag.fromMinutes(
                     model.duration ?? 0,
                     color: Colors.transparent,
                     textStyle: AppTextTheme.body(
-                        color: ColorManager().getColorTextPrimary()),
+                      color: ColorManager().getColorTextPrimary(),
+                    ),
                   ),
-                ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(Dimens.spacingL,
-                    Dimens.spacingXS, Dimens.spacingL, Dimens.spacingXS),
-                child: Text(
+                ],
+                Text(
                   LabelsManager().getRemoteStringFromLabelKeys(
                       RemoteLabelKeys.what_to_expect),
                   style: AppTextTheme.title(
-                      color: ColorManager().getColorTextPrimaryCta()),
+                    color: ColorManager().getColorTextPrimaryCta(),
+                    size: 24,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    Dimens.spacingL, 0, Dimens.spacingL, Dimens.spacingL),
-                child: Text(model.longDescription ?? "",
-                    style: AppTextTheme.subtitle(
-                        color: ColorManager().getColorTextPrimary())),
-              ),
-              if (agenda.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      Dimens.spacingL, 0, Dimens.spacingL, Dimens.spacingXS),
-                  child: Text(
+                const SizedBox(height: 12),
+                Text(
+                  model.longDescription ?? "",
+                  style: AppTextTheme.subtitle(
+                    color: ColorManager().getColorTextPrimary(),
+                    weight: FontWeight.w500,
+                    size: 20,
+                  ),
+                ),
+                if (agenda.isNotEmpty) ...[
+                  Text(
                     LabelsManager()
                         .getRemoteStringFromLabelKeys(RemoteLabelKeys.agenda),
                     style: AppTextTheme.title(
-                        color: ColorManager().getColorTextPrimaryCta()),
+                      color: ColorManager().getColorTextPrimaryCta(),
+                      size: 24,
+                    ),
                   ),
-                ),
-              if (agenda.isNotEmpty)
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: _agendaTiles(agenda),
-                ),
-              if (showExtraDetailsCard)
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(Dimens.spacingL, 0,
-                        Dimens.spacingL, Dimens.spacingXXL2),
-                    child: ExtraDetailsCard(
-                      model: model,
-                      showAdditionalInfo: showAdditionalInfo,
-                    )),
-              if (showParentCard && parentModel != null)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      Dimens.spacingL, 0, Dimens.spacingL, Dimens.spacingXXL2),
-                  child: ParentCourseCard(
-                    parentModel: parentModel!,
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: _agendaTiles(agenda),
                   ),
-                ),
-              if (teachers.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      Dimens.spacingL, 0, Dimens.spacingL, Dimens.spacingM),
-                  child: Text(
+                ],
+                if (showExtraDetailsCard) ...[
+                  ExtraDetailsCard(
+                    model: model,
+                    showAdditionalInfo: showAdditionalInfo,
+                  ),
+                ],
+                if (showParentCard && parentModel != null) ...[
+                  ParentCourseCard(parentModel: parentModel!),
+                ],
+                if (teachers.isNotEmpty) ...[
+                  Text(
                     LabelsManager()
                         .getRemoteStringFromLabelKeys(RemoteLabelKeys.teachers),
                     style: AppTextTheme.title(
-                        color: ColorManager().getColorTextPrimaryCta()),
+                      color: ColorManager().getColorTextPrimaryCta(),
+                      size: 24,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 90,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.only(left: 20),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: teachers.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: Dimens.spacingXS),
-                    itemBuilder: (context, index) {
-                      TeacherModel item = teachers[index];
-                      return _teacherCard(context, item);
-                    },
-                  ),
-                )
-              ]
-            ],
-          ),
-        )
-      ],
+                  SizedBox(
+                    height: 90,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(left: 20),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: teachers.length,
+                      separatorBuilder: (context, index) => const SizedBox(
+                        width: Dimens.spacingXS,
+                      ),
+                      itemBuilder: (context, index) {
+                        TeacherModel item = teachers[index];
+                        return _teacherCard(context, item);
+                      },
+                    ),
+                  )
+                ]
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
   List<Widget> _agendaTiles(List<AgendaModel> agendas) {
     List<Widget> result = List.empty(growable: true);
     for (final element in agendas) {
-      result.add(Padding(
-        padding: const EdgeInsets.fromLTRB(Dimens.spacingL, Dimens.spacingXS,
-            Dimens.spacingL, Dimens.spacingXS),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 24,
-              height: 24,
-              child: Transform.scale(
+      result.add(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(
+            Dimens.spacingL,
+            Dimens.spacingXS,
+            Dimens.spacingL,
+            Dimens.spacingXS,
+          ),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 24,
+                height: 24,
+                child: Transform.scale(
                   scale: 0.9999,
                   child: SvgPicture.asset(
                     (element.isBreak == true)
@@ -166,19 +162,20 @@ class DetailsTab extends StatelessWidget {
                     colorFilter: ColorFilter.mode(
                         ColorManager().getColorSystemPrimary02(),
                         BlendMode.srcIn),
-                  )),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            Text(
-              element.item ?? "",
-              style: AppTextTheme.subtitle(
-                  color: ColorManager().getColorTextPrimary()),
-            )
-          ],
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                element.item ?? "",
+                style: AppTextTheme.subtitle(
+                  color: ColorManager().getColorTextPrimary(),
+                ),
+              )
+            ],
+          ),
         ),
-      ));
+      );
     }
     return result;
   }

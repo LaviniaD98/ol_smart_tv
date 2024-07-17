@@ -1,13 +1,25 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
+import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_vertical_carousel.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
-import 'package:open_learning_smart_tv/theme/app_theme.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 
 class ForYouScreen extends StatefulWidget {
-  const ForYouScreen({super.key});
+  const ForYouScreen({required this.dynamicRoutes, super.key});
+
+  final List<MenuRoute> dynamicRoutes;
 
   @override
   State<ForYouScreen> createState() => _ForYouScreenState();
@@ -17,11 +29,20 @@ class _ForYouScreenState extends State<ForYouScreen>
     with AutomaticKeepAliveClientMixin {
   final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
 
+  MenuRoute? currentMenuRoute;
+
   final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'ForYou');
 
   @override
   void initState() {
     super.initState();
+
+    currentMenuRoute = widget.dynamicRoutes.firstWhereOrNull(
+      (element) => element.routeName == 'visForyou',
+    );
+
+    print('currentMenuRoute: ${currentMenuRoute?.title}');
+
     context.read<MainStateCubit>().forYouFocusNode = focusNode;
   }
 
@@ -41,39 +62,108 @@ class _ForYouScreenState extends State<ForYouScreen>
           focus.requestFocus();
         },
       },
-      child: FocusTraversalGroup(
-        policy: _focusNodeOrder,
-        child: Focus(
-          focusNode: focusNode,
-          onFocusChange: (value) {
-            setState(() {});
-          },
-          child: Scaffold(
-            backgroundColor: OLColors.backgroundPrimary,
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/white_logo.svg',
-                  height: 100,
-                  width: 100,
+      child: Scaffold(
+        backgroundColor: OLColors.backgroundPrimary,
+        body: BlocProvider(
+          create: (_) => getIt<DynamicAllContentCubit>()
+            ..init(currentMenuRoute?.apiPath ?? ''),
+          child: RefreshIndicator(
+            color: ColorManager().getColorTextPrimaryCta(),
+            backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
+            onRefresh: () => context.read<DynamicAllContentCubit>().refresh(
+                  currentMenuRoute?.apiPath ?? '',
                 ),
-                const SizedBox(height: 32),
-                Text(
-                  'For You',
-                  style: AppTextTheme.body(
-                    size: 50,
-                    weight: FontWeight.w600,
-                    color: OLColors.textPrimary,
+
+            /// Dynamic Strip
+            child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
+              listener: (context, state) {
+                state.maybeWhen(
+                  success: (_) {},
+                  loading: () {},
+                  error: (f) {},
+                  orElse: () {},
+                );
+              },
+              listenWhen: (previous, current) {
+                return current.maybeWhen(
+                  success: (_) => true,
+                  orElse: () => false,
+                );
+              },
+              builder: (context, state) => state.map(
+                success: (value) {
+                  final smart = context
+                      .read<DynamicAllContentCubit>()
+                      .dynamicContent
+                      ?.smartConfig;
+
+                  print('smartConfig: ${smart?.visForyou}');
+                  // success.page.strips.insert(
+                  //   1,
+                  //   const StripRow.smartLearning(
+                  //     id: 0000001,
+                  //     apiPath: '',
+                  //     labelMapping: 'topicsFilter',
+                  //   ),
+                  // );
+
+                  final source =
+                      List<Map<StripRow, List<LearningObjectModel>>>.from(
+                    value.rowItems ?? [],
+                  );
+                  source.removeWhere(
+                    (element) => element.entries.firstOrNull == null,
+                  );
+
+                  final contentSource = source.firstWhereOrNull(
+                    (element) =>
+                        element.entries.firstOrNull?.key.labelMapping ==
+                        'visForyou',
+                  );
+
+                  // source.forEach((e) {
+                  //   final row = e.entries.firstOrNull;
+                  //   print('LABEL------${row?.key.labelMapping}');
+                  // });
+
+                  return content(contentSource);
+                },
+                loading: (value) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (value) => ErrorScreen(
+                  title: LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.error,
                   ),
-                  textAlign: TextAlign.center,
+                  message: value.failure.error ??
+                      LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.error_occurred,
+                      ),
+                  onReload: () => context.read<DynamicAllContentCubit>().init(
+                        currentMenuRoute?.apiPath ?? '',
+                      ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget content(Map<StripRow, List<LearningObjectModel>>? contentSource) {
+    if (contentSource == null) {
+      return const SizedBox.shrink();
+    }
+    return Row(
+      children: [
+        Expanded(
+          child: ForYouVerticalCarousel(
+            strip: contentSource,
+          ),
+        ),
+        Container(width: 450)
+      ],
     );
   }
 

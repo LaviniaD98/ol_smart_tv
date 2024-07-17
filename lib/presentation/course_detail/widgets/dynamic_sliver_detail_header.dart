@@ -1,11 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
+import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_button_page.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
 
 import '../../../color_management/color_manager.dart';
-import '../../../core/dependency_injection/dependency_injection.dart';
 import '../../../domain/entities/detail/detail_page_model.dart';
 import '../../../domain/enums/types.dart';
 import '../../../remote_theming/labels/labels_manager.dart';
@@ -20,22 +27,23 @@ import '../common/lo_types.dart';
 import '../cubit/detail_page_cubit.dart';
 import '../detail_page.dart';
 import '../ecm/registration/ecm_registration_page.dart';
-import '../trailer/video_player_trailer.dart';
 import 'badge_icon.dart';
-import 'download_button/cubit/download_item_cubit.dart';
-import 'download_button/download_button.dart';
 import '../../../core/utils/extension.dart';
 
 class DynamicSliverDetailHeader extends StatefulWidget {
   final DetailPageModel model;
   final DetailPageArgs args;
   final bool isSliver;
+  final SmartConfiguratorModel? smartConfig;
+  final ValueNotifier<RightPanelState> rightPanelState;
 
   const DynamicSliverDetailHeader({
     super.key,
     this.isSliver = true,
     required this.model,
     required this.args,
+    required this.rightPanelState,
+    this.smartConfig,
   });
 
   @override
@@ -46,6 +54,10 @@ class DynamicSliverDetailHeader extends StatefulWidget {
 class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   final GlobalKey _childKey = GlobalKey();
   double? height;
+
+  final FocusScopeNode focusNode = FocusScopeNode(
+    debugLabel: 'DetailHeaderActionButtons',
+  );
 
   objLOCharacterization get _loCharacterization =>
       CourseLogic().loCharacterizationNew(
@@ -80,23 +92,33 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      setState(() {
-        height = (_childKey.currentContext?.findRenderObject() as RenderBox?)
-            ?.size
-            .height;
-      });
+      if (mounted) {
+        setState(() {
+          height = (_childKey.currentContext?.findRenderObject() as RenderBox?)
+              ?.size
+              .height;
+        });
+      }
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('heihgt: $height');
     final child = SizedBox(
       height: height,
+      width: 870,
       child: Stack(
-        fit: height != null ? StackFit.expand : StackFit.loose,
-        children: [if (height != null) _background, _overlay, _foreground()],
+        fit: StackFit.expand,
+        children: [
+          // Positioned(
+          //   left: 0,
+          //   right: 0,
+          //   child: Container(height: 500, child: _background),
+          // ),
+          _overlay,
+          _foreground()
+        ],
       ),
     );
     if (widget.isSliver) {
@@ -121,423 +143,498 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   }
 
   Widget _foreground() {
-    return Column(
-      key: _childKey,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        /// Status tag
-        Padding(
-          padding: EdgeInsets.only(
-              top: 120.0 +
-                  kToolbarHeight +
-                  MediaQuery.of(context).viewInsets.top),
-          child: _getStatusTag,
-        ),
-
-        /// Type - Typology - Title
-        Padding(
-          padding: EdgeInsets.fromLTRB(
-            Dimens.spacingL,
-            showStatus ? Dimens.spacingXXL : 0.0,
-            Dimens.spacingL,
-            Dimens.spacingXXXS,
-          ),
-          child: Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Dimens.hViewPadding),
+      child: Column(
+        key: _childKey,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          /// Type - Typology - Title
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    /// Type Label
-                    TextSpan(
-                      text: (widget.model.ecmSpecialization
-                              ? widget.model.ecmType ?? ''
-                              : widget.model.learningObjectType
-                                  .getTranslatedValue())
-                          .toUpperCase(),
-                      style: AppTextTheme.body(
-                        color: ColorManager().getColorTextMandatory(),
-                        weight: FontWeight.bold,
-                      ),
+              Wrap(
+                spacing: 12,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  /// Status tag
+                  _getStatusTag,
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        /// Type Label
+                        TextSpan(
+                          text: (widget.model.ecmSpecialization
+                                  ? widget.model.ecmType ?? ''
+                                  : widget.model.learningObjectType
+                                      .getTranslatedValue())
+                              .toUpperCase(),
+                          style: AppTextTheme.body(
+                            color: ColorManager().getColorTextMandatory(),
+                            weight: FontWeight.bold,
+                          ),
+                        ),
+                        if (!widget.model.ecmSpecialization) ...[
+                          TextSpan(
+                            text: ' | ',
+                            style: AppTextTheme.body(
+                              color: ColorManager().getColorTextPrimary(),
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: widget.model.learningObjectTypology
+                                .getTranslatedValue()
+                                .toUpperCase(),
+                            style: AppTextTheme.body(
+                              color: ColorManager().getColorTextPrimary(),
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
-                    if (!widget.model.ecmSpecialization) ...[
-                      TextSpan(
-                        text: ' | ',
-                        style: AppTextTheme.body(
-                          color: ColorManager().getColorTextPrimary(),
-                          weight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: widget.model.learningObjectTypology
-                            .getTranslatedValue()
-                            .toUpperCase(),
-                        style: AppTextTheme.body(
-                          color: ColorManager().getColorTextPrimary(),
-                          weight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-                maxLines: 1,
+                    maxLines: 1,
+                  ),
+                ],
               ),
 
               /// Title
               if (widget.model.title != null) ...[
-                const SizedBox(height: Dimens.spacingXXS),
+                const SizedBox(height: 6),
                 Text(
                   widget.model.title!,
                   style: AppTextTheme.title(
                     color: ColorManager().getColorTextPrimary(),
                     weight: FontWeight.bold,
+                    size: 56,
                   ),
                 ),
               ],
             ],
           ),
-        ),
 
-        /// Topics
-        if (widget.model.topicTags != null &&
-            widget.model.topicTags!.isNotEmpty) ...[
-          const SizedBox(height: Dimens.spacingXXS),
-          SizedBox(
-            height: 22.0,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: Dimens.spacingL),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) => TopicTag(
-                label: widget.model.topicTags![index],
-                boxFit: BoxFit.fitWidth,
-                color:
-                    ColorManager().getColorSystemSecondary05().withOpacity(.6),
-              ),
-              separatorBuilder: (context, index) =>
-                  const SizedBox(width: Dimens.spacingXXS),
-              itemCount: widget.model.topicTags!.length,
-            ),
-          ),
-        ],
-
-        /// Duration info
-        if (_durationString.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Dimens.spacingL,
-              right: Dimens.spacingL,
-              top: Dimens.spacingS,
-            ),
-            child: Row(
+          /// Topics
+          if (widget.model.topicTags != null &&
+              widget.model.topicTags!.isNotEmpty) ...[
+            const SizedBox(height: 32),
+            Wrap(
               children: [
-                SizedBox.square(
-                  dimension: Dimens.spacingL,
-                  child: SvgPicture.asset(
-                    'assets/icons/detail/dettaglio_tempo.svg',
-                    colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimary(),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: Dimens.spacingXS),
-                Expanded(
-                  child: Text(
-                    _durationString,
-                    style: AppTextTheme.caption(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
+                ...(widget.model.topicTags ?? []).map(
+                  (e) => TopicTag(
+                    label: e,
+                    isBig: true,
+                    boxFit: BoxFit.fitWidth,
+                    color: ColorManager()
+                        .getColorSystemSecondary05()
+                        .withOpacity(.6),
                   ),
                 ),
               ],
             ),
-          ),
+          ],
 
-        /// Expiration info
-        if (_dateString.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Dimens.spacingL,
-              right: Dimens.spacingL,
-              top: Dimens.spacingXXS,
-            ),
-            child: Row(
-              children: [
-                SizedBox.square(
-                  dimension: 22.0,
-                  child: SvgPicture.asset(
-                    'assets/icons/calendar.svg',
-                    colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimary(),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: Dimens.spacingXS),
-                Expanded(
-                  child: Text(
-                    _dateString,
-                    style: AppTextTheme.caption(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        if (widget.model.isToj() &&
-            widget.model.meetingDetails?.meetingNumber != null)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Dimens.spacingL,
-              right: Dimens.spacingL,
-              top: Dimens.spacingXXS,
-            ),
-            child: Row(
-              children: [
-                SizedBox.square(
-                  dimension: 22.0,
-                  child: SvgPicture.asset(
-                    'assets/icons/meeting.svg',
-                    colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimary(),
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: Dimens.spacingXS),
-                Expanded(
-                  child: Text(
-                    CourseLogic().getMeetingString(
-                        widget.model.meetingDetails?.meetingNumber),
-                    style: AppTextTheme.caption(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-        /// Progress bar and info
-        if (CourseLogic().getCompletionPercentageFromString(
-                widget.model.percentageOfCompletion) >
-            0)
-          Padding(
-            padding: const EdgeInsets.only(
-              left: Dimens.spacingL,
-              right: Dimens.spacingL,
-              top: Dimens.spacingS,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.percentageOfCompletion),
-                        style: AppTextTheme.body(
-                            color: ColorManager().getColorTextPrimary()),
-                      ),
-                      TextSpan(
-                        text:
-                            ' ${double.parse(widget.model.percentageOfCompletion!.replaceAll("%", "")).toStringAsFixed(0)}%',
-                        style: AppTextTheme.body(
-                            color: ColorManager().getColorTextPrimary(),
-                            weight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: Dimens.spacingXS),
-                GlowProgressBar(
-                  percentage: CourseLogic().getCompletionPercentageFromString(
-                      widget.model.percentageOfCompletion),
-                  withFactor: .8,
-                ),
-              ],
-            ),
-          ),
-
-        /// Buttons
-        Padding(
-          padding: const EdgeInsets.only(
-            left: Dimens.spacingL,
-            right: Dimens.spacingL,
-            top: Dimens.spacingM,
-          ),
-          child: Row(
-            children: [
-              /// Download Button
-              BlocProvider(
-                  create: (_) => getIt<DownloadItemCubit>()..init(widget.model),
-                  child: Row(
-                    children: [
-                      DownloadButton(
-                        detailPageModel: widget.model,
-                        parentId: widget.args.parentId ?? '',
-                        buildContext: context,
-                        args: widget.args,
-                      ),
-                    ],
-                  )),
-
-              /// Button
-              ElevatedButton(
-                onPressed: !_loCharacterization.buttonEnabled
-                    ? null
-                    : () async {
-                        int idToAE = widget.model.id!;
-                        if (widget.args.grandParentId != null) {
-                          idToAE = int.parse(widget.args.grandParentId!);
-                        } else if (widget.args.parentId != null) {
-                          idToAE = int.parse(widget.args.parentId!);
-                        }
-                        switch (_loCharacterization.objLOAction) {
-                          case ObjLOAction.none:
-                          case ObjLOAction.notApplicable:
-                            break;
-                          case ObjLOAction.startFruition:
-                            String parentId = (widget.args.parentId == null ||
-                                    widget.args.parentId!.toLowerCase() ==
-                                        "null")
-                                ? widget.model.id!.toString()
-                                : widget.args.parentId!;
-                            context
-                                .read<DetailPageCubit>()
-                                .getStartOrResumeModel(
-                                    widget.model.id!, parentId, widget.model);
-                            break;
-                          case ObjLOAction.autoEnrollmentBottom:
-                            context
-                                .read<DetailPageCubit>()
-                                .executeAutoEnrollment(widget.args, idToAE,
-                                    "BOTTOM", widget.model, false);
-                            break;
-                          case ObjLOAction.autoEnrollmentAuto:
-                            context
-                                .read<DetailPageCubit>()
-                                .executeAutoEnrollment(widget.args, idToAE,
-                                    "AUTO", widget.model, true);
-                            break;
-                          case ObjLOAction.autoEnrollmentWithPatch:
-                          case ObjLOAction.seeEditions:
-                            context
-                                .read<DetailPageCubit>()
-                                .selectEditionsIfPresentIndex(
-                                    widget.args, widget.model);
-                            break;
-                          case ObjLOAction.ecmNotRegistered:
-                            final res = await context.pushNamed<bool?>(
-                              EcmRegistrationPage.routeName,
-                              extra: EcmRegistrationPageArgs(
-                                enrollId: widget.model.enrollId,
-                                loId: widget.model.id,
-                                sponsors: widget.model.sponsors ?? [],
-                              ),
-                            );
-                            if (res != null && res && context.mounted) {
-                              context.read<DetailPageCubit>().init(widget.args);
-                            }
-                            break;
-                          case ObjLOAction.showDetailMaterials:
-                          case ObjLOAction.showDetailGoals:
-                          case ObjLOAction.showDetailFinalBalance:
-                            String parentId = (widget.args.parentId == null ||
-                                    widget.args.parentId!.toLowerCase() ==
-                                        "null")
-                                ? widget.model.id!.toString()
-                                : widget.args.parentId!;
-                            context
-                                .read<DetailPageCubit>()
-                                .getStartOrResumeModel(
-                                    widget.model.id!, parentId, widget.model);
-                            break;
-                          case ObjLOAction.showDetailMeeting:
-                            OlAlertDialog.show(
-                              context,
-                              title: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.show_info),
-                              message: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.from_meeting_info),
-                              actionLabel: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.ok),
-                            );
-                            break;
-                        }
-                      },
-                child: Text(CourseLogic()
-                    .loCharacterizationNew(
-                      status: widget.model.status ?? "",
-                      learningObjectType: widget.model.learningObjectType,
-                      learningObjectTypology:
-                          widget.model.learningObjectTypology,
-                      percentageOfCompletion:
-                          widget.model.percentageOfCompletion ?? "0",
-                      enrollType:
-                          widget.model.enrollType ?? EnrollType.autoEnroll,
-                      ecmSpecialization: widget.model.ecmSpecialization,
-                      ecmRegistration: widget.model.ecmRegistration,
-                    )
-                    .buttonTitle),
-              ),
-              const SizedBox(width: Dimens.spacingS),
-
-              /// Button
-              BadgeIcon(
-                  hasBadge: (widget.model.badge != null ||
-                      widget.model.certificate != null),
-                  isCompleted: widget.model.status == "C"),
-            ],
-          ),
-        ),
-
-        /// Short description
-        if (widget.model.shortDescription != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.spacingL,
-              vertical: Dimens.spacingS,
-            ),
-            child: Text(
+          /// Short description
+          if (widget.model.shortDescription != null) ...[
+            const SizedBox(height: 32),
+            Text(
               widget.model.shortDescription!,
               style: AppTextTheme.body(
                 color: ColorManager().getColorTextPrimary(),
+                size: 24,
+                weight: FontWeight.w500,
+              ),
+            )
+          ],
+
+          Padding(
+            padding: const EdgeInsets.only(top: 32),
+            child: Wrap(
+              spacing: 24,
+              children: [
+                if (_durationString.isNotEmpty) ...[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox.square(
+                        dimension: Dimens.spacingL,
+                        child: SvgPicture.asset(
+                          'assets/icons/detail/dettaglio_tempo.svg',
+                          colorFilter: ColorFilter.mode(
+                            ColorManager().getColorTextPrimary(),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: Dimens.spacingXS),
+                      Text(
+                        _durationString,
+                        style: AppTextTheme.caption(
+                          color: ColorManager().getColorTextPrimary(),
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+                if (_dateString.isNotEmpty) ...[
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox.square(
+                        dimension: 22.0,
+                        child: SvgPicture.asset(
+                          'assets/icons/calendar.svg',
+                          colorFilter: ColorFilter.mode(
+                            ColorManager().getColorTextPrimary(),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: Dimens.spacingXS),
+                      Text(
+                        _dateString,
+                        style: AppTextTheme.caption(
+                          color: ColorManager().getColorTextPrimary(),
+                          size: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+
+          if (widget.model.isToj() &&
+              widget.model.meetingDetails?.meetingNumber != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(top: Dimens.spacingXXS),
+              child: Row(
+                children: [
+                  SizedBox.square(
+                    dimension: 22.0,
+                    child: SvgPicture.asset(
+                      'assets/icons/meeting.svg',
+                      colorFilter: ColorFilter.mode(
+                        ColorManager().getColorTextPrimary(),
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: Dimens.spacingXS),
+                  Expanded(
+                    child: Text(
+                      CourseLogic().getMeetingString(
+                          widget.model.meetingDetails?.meetingNumber),
+                      style: AppTextTheme.caption(
+                        color: ColorManager().getColorTextPrimary(),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
-      ],
+          ],
+
+          CallbackShortcuts(
+            bindings: <ShortcutActivator, VoidCallback>{
+              const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+                final hasNextFocus =
+                    focusNode.focusInDirection(TraversalDirection.right);
+
+                if (!hasNextFocus) {
+                  context
+                      .read<DetailPageCubit>()
+                      .rightPanelNode
+                      ?.requestFocus();
+                }
+              },
+              const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+                FocusScope.of(context).nextFocus();
+              },
+            },
+            child: FocusScope(
+              node: focusNode,
+              onFocusChange: (value) {
+                if (value) {
+                  focusNode.children.firstOrNull?.requestFocus();
+                }
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 32),
+                  Row(
+                    children: [
+                      //if (widget.smartConfig?.funcFavourites == true) ...[
+
+                      if (widget.args.object != null) ...[
+                        BlocProvider(
+                          create: (_) => getIt<FavouriteCubit>()
+                            ..init(widget.args.object!),
+                          child: FavoriteButton(
+                            object: widget.args.object!,
+                            parentId: widget.args.parentId,
+                            grandParentId: widget.args.grandParentId,
+                          ),
+                        ),
+                      ],
+
+                      const SizedBox(width: 24),
+                      //],
+
+                      //if (widget.smartConfig?.funcRating == true) ...[
+                      BlocProvider(
+                        create: (_) => getIt<RatingCubit>()..init(widget.model),
+                        child: RatingButton(
+                          detailPageModel: widget.model,
+                          parentId: widget.args.parentId,
+                          grandParentId: widget.args.grandParentId,
+                        ),
+                      ),
+                      //],
+
+                      /// Progress bar and info
+                      if (CourseLogic().getCompletionPercentageFromString(
+                              widget.model.percentageOfCompletion) >
+                          0) ...[
+                        Expanded(
+                          child: Column(
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                        RemoteLabelKeys.percentageOfCompletion,
+                                      ),
+                                      style: AppTextTheme.body(
+                                        color: ColorManager()
+                                            .getColorTextPrimary(),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text:
+                                          ' ${double.parse(widget.model.percentageOfCompletion!.replaceAll("%", "")).toStringAsFixed(0)}%',
+                                      style: AppTextTheme.body(
+                                        color: ColorManager()
+                                            .getColorTextPrimary(),
+                                        weight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: Dimens.spacingXS),
+                              GlowProgressBar(
+                                percentage: CourseLogic()
+                                    .getCompletionPercentageFromString(
+                                  widget.model.percentageOfCompletion,
+                                ),
+                                withFactor: .8,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          ),
+
+          /// Buttons
+          Padding(
+            padding: const EdgeInsets.only(top: Dimens.spacingM),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Row(
+                  children: [
+                    OLButton(
+                      key: const Key('loginForm_continue_raisedButton'),
+                      onFocusChanded: (hasFocus) {
+                        if (hasFocus) {
+                          widget.rightPanelState.value = RightPanelState.start;
+                        }
+                      },
+                      title: CourseLogic()
+                          .loCharacterizationNew(
+                            status: widget.model.status ?? "",
+                            learningObjectType: widget.model.learningObjectType,
+                            learningObjectTypology:
+                                widget.model.learningObjectTypology,
+                            percentageOfCompletion:
+                                widget.model.percentageOfCompletion ?? "0",
+                            enrollType: widget.model.enrollType ??
+                                EnrollType.autoEnroll,
+                            ecmSpecialization: widget.model.ecmSpecialization,
+                            ecmRegistration: widget.model.ecmRegistration,
+                          )
+                          .buttonTitle,
+                      onPressed: !_loCharacterization.buttonEnabled
+                          ? null
+                          : () async {
+                              int idToAE = widget.model.id!;
+                              if (widget.args.grandParentId != null) {
+                                idToAE = int.parse(widget.args.grandParentId!);
+                              } else if (widget.args.parentId != null) {
+                                idToAE = int.parse(widget.args.parentId!);
+                              }
+                              switch (_loCharacterization.objLOAction) {
+                                case ObjLOAction.none:
+                                case ObjLOAction.notApplicable:
+                                  break;
+                                case ObjLOAction.startFruition:
+                                  String parentId = (widget.args.parentId ==
+                                              null ||
+                                          widget.args.parentId!.toLowerCase() ==
+                                              "null")
+                                      ? widget.model.id!.toString()
+                                      : widget.args.parentId!;
+                                  context
+                                      .read<DetailPageCubit>()
+                                      .getStartOrResumeModel(widget.model.id!,
+                                          parentId, widget.model);
+                                  break;
+                                case ObjLOAction.autoEnrollmentBottom:
+                                  context
+                                      .read<DetailPageCubit>()
+                                      .executeAutoEnrollment(
+                                          widget.args,
+                                          idToAE,
+                                          "BOTTOM",
+                                          widget.model,
+                                          false);
+                                  break;
+                                case ObjLOAction.autoEnrollmentAuto:
+                                  context
+                                      .read<DetailPageCubit>()
+                                      .executeAutoEnrollment(widget.args,
+                                          idToAE, "AUTO", widget.model, true);
+                                  break;
+                                case ObjLOAction.autoEnrollmentWithPatch:
+                                case ObjLOAction.seeEditions:
+                                  context
+                                      .read<DetailPageCubit>()
+                                      .selectEditionsIfPresentIndex(
+                                          widget.args, widget.model);
+                                  break;
+                                case ObjLOAction.ecmNotRegistered:
+                                  final res = await context.pushNamed<bool?>(
+                                    EcmRegistrationPage.routeName,
+                                    extra: EcmRegistrationPageArgs(
+                                      enrollId: widget.model.enrollId,
+                                      loId: widget.model.id,
+                                      sponsors: widget.model.sponsors ?? [],
+                                    ),
+                                  );
+                                  if (res != null && res && context.mounted) {
+                                    context
+                                        .read<DetailPageCubit>()
+                                        .init(widget.args);
+                                  }
+                                  break;
+                                case ObjLOAction.showDetailMaterials:
+                                case ObjLOAction.showDetailGoals:
+                                case ObjLOAction.showDetailFinalBalance:
+                                  String parentId = (widget.args.parentId ==
+                                              null ||
+                                          widget.args.parentId!.toLowerCase() ==
+                                              "null")
+                                      ? widget.model.id!.toString()
+                                      : widget.args.parentId!;
+                                  context
+                                      .read<DetailPageCubit>()
+                                      .getStartOrResumeModel(widget.model.id!,
+                                          parentId, widget.model);
+                                  break;
+                                case ObjLOAction.showDetailMeeting:
+                                  OlAlertDialog.show(
+                                    context,
+                                    title: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.show_info),
+                                    message: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.from_meeting_info),
+                                    actionLabel: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.ok),
+                                  );
+                                  break;
+                              }
+                            },
+                    ),
+
+                    const SizedBox(width: Dimens.spacingS),
+
+                    /// Button
+                    BadgeIcon(
+                        hasBadge: (widget.model.badge != null ||
+                            widget.model.certificate != null),
+                        isCompleted: widget.model.status == "C"),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: CallbackShortcuts(
+                    bindings: <ShortcutActivator, VoidCallback>{
+                      const SingleActivator(LogicalKeyboardKey.arrowRight):
+                          () {},
+                    },
+                    child: OLButton(
+                      title: 'Dettagli',
+                      outline: true,
+                      onFocusChanded: (hasFocus) {
+                        if (hasFocus) {
+                          widget.rightPanelState.value =
+                              RightPanelState.details;
+                        }
+                      },
+                      onPressed: () {},
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: OLButton(
+                    title: 'Correlati',
+                    outline: true,
+                    onFocusChanded: (hasFocus) {
+                      if (hasFocus) {
+                        widget.rightPanelState.value = RightPanelState.related;
+                      }
+                    },
+                    onPressed: () {},
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget get _background {
     const placeholder = SizedBox.shrink();
     if (widget.model.coverVideoPublicURL?.isNotEmpty == true) {
-      return ExcludeFocus(
-        child: VideoPlayerTrailerWidget(
-          widget.model.coverVideoPublicURL!,
-          key: ValueKey(widget.model.id),
-        ),
+      return FadedBannerImage(
+        urlVideo: widget.model.coverVideoPublicURL!,
       );
     } else if (widget.model.coverPublicURL != null &&
         widget.model.coverPublicURL!.isNotEmpty) {
-      return CachedNetworkImage(
-        imageUrl: widget.model.coverPublicURL!,
-        fit: BoxFit.cover,
-        placeholder: (context, url) => const Center(
-          child: SizedBox.square(
-            dimension: 24.0,
-            child: CircularProgressIndicator(),
-          ),
-        ),
-        errorWidget: (context, url, error) => placeholder,
+      return FadedBannerImage(
+        urlImage: widget.model.coverPublicURL!,
       );
     } else {
       return placeholder;
@@ -560,6 +657,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
           style: AppTextTheme.body(
             color: ColorManager().getColorTextPrimaryAlternative(),
             weight: FontWeight.w500,
+            size: 16,
           ),
         ),
       );
@@ -567,6 +665,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
     if (widget.model.iconStatus == IconStatus.idle) {
       return const SizedBox.shrink();
     }
+
     return StatusTag.svg(
       backgroundColor: widget.model.iconStatus.color,
       svgPath: widget.model.iconStatus.svgPath!,

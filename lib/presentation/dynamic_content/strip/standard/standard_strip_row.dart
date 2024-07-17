@@ -119,34 +119,6 @@ class _StandardStripContentState extends State<_StandardStripContent>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // AnimatedSwitcher(
-                        //   duration: const Duration(milliseconds: 100),
-                        //   reverseDuration: const Duration(milliseconds: 300),
-                        //   layoutBuilder: (currentChild, previousChildren) {
-                        //     return Stack(
-                        //       children: <Widget>[
-                        //         ...previousChildren,
-                        //         if (currentChild != null)
-                        //           SingleChildScrollView(child: currentChild),
-                        //       ],
-                        //     );
-                        //   },
-                        //   transitionBuilder: (child, animation) {
-                        //     return SizeTransition(
-                        //       sizeFactor: animation,
-                        //       child: FadeTransition(
-                        //         opacity: animation,
-                        //         child: child,
-                        //       ),
-                        //     );
-                        //   },
-                        //   child: expanded
-                        //       ? Container(
-                        //           height: detailsHeight,
-                        //           color: Colors.red,
-                        //         )
-                        //       : const SizedBox.shrink(),
-                        // ),
                         const SizedBox(height: 8),
                         Padding(
                           padding: const EdgeInsets.symmetric(

@@ -1,42 +1,41 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
-import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
-import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
+import 'package:open_learning_smart_tv/presentation/main/favorites/favorite_card.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../../../theme/app_theme.dart';
-import '../../../common/widgets/cards/learning_card.dart';
 
-class StripRowContent extends StatefulWidget {
+class FavoritesVerticalCarousel extends StatefulWidget {
   final Map<StripRow, List<LearningObjectModel>> strip;
   final void Function(bool)? onFocusChange;
-  final ValueNotifier<LearningObjectModel?>? focusedObjectNotifier;
-  final int order;
 
-  const StripRowContent({
+  const FavoritesVerticalCarousel({
     super.key,
     required this.strip,
-    required this.order,
     this.onFocusChange,
-    this.focusedObjectNotifier,
   });
   @override
-  State<StripRowContent> createState() => StripRowContentState();
+  State<FavoritesVerticalCarousel> createState() =>
+      FavoritesVerticalCarouselState();
 }
 
-class StripRowContentState extends State<StripRowContent>
+class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
     with AutomaticKeepAliveClientMixin {
   late FocusScopeNode focusNode;
-
-  static const detailsHeight = 411.0;
-
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
+
+  final autoScrollController = AutoScrollController(
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 100, 0, 0),
+    axis: Axis.vertical,
+  );
 
   int currentFocusIndex = 0;
 
@@ -45,7 +44,8 @@ class StripRowContentState extends State<StripRowContent>
     super.initState();
 
     focusNode = FocusScopeNode(
-      debugLabel: 'Explore-----${widget.strip.keys.firstOrNull?.labelMapping}',
+      debugLabel:
+          'FAVORITES-----${widget.strip.keys.firstOrNull?.labelMapping}',
     );
   }
 
@@ -58,6 +58,10 @@ class StripRowContentState extends State<StripRowContent>
     if (strip == null) {
       return const SizedBox.shrink();
     }
+
+    focusNode.descendants.forEach((element) {
+      print('sdcsdcsldckmsd---- ${element.debugLabel}');
+    });
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
@@ -75,83 +79,57 @@ class StripRowContentState extends State<StripRowContent>
           }
         },
       },
-      child: FocusTraversalOrder(
-        order: NumericFocusOrder(widget.order.toDouble()),
-        child: FocusTraversalGroup(
-          key: ValueKey(strip.key.labelMapping),
-          policy: _policy,
-          child: FocusScope(
-            node: focusNode,
-            onFocusChange: (value) {
-              widget.onFocusChange?.call(value);
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Dimens.hViewPadding,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          strip.key.label,
-                          style: AppTextTheme.subtitle(
-                            weight: FontWeight.w700,
-                            size: 32,
-                            color: ColorManager().getColorTextPrimary(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 38,
-                    bottom: 44,
-                  ),
-                  child: SizedBox(
-                    height: Dimens.learningCardTVHeight,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      clipBehavior: Clip.none,
-                      padding: const EdgeInsets.only(
-                        left: Dimens.hViewPadding,
-                        right: Dimens.hViewPadding,
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: Dimens.spacingXS),
-                      itemCount: strip.value.length,
-                      itemBuilder: (context, index) {
-                        final item = strip.value[index];
-                        final cell = LearningCard(
-                          data: item,
-                          onFocusChange: (hasFocus) {
-                            if (hasFocus) {
-                              currentFocusIndex = index;
-                              widget.focusedObjectNotifier?.value = item;
-                            }
-                          },
-                        );
+      child: FocusTraversalGroup(
+        key: ValueKey(strip.key.labelMapping),
+        policy: _policy,
+        child: FocusScope(
+          node: focusNode,
+          onFocusChange: (value) {
+            print('FAVORITES NESTED---- HAS FOCUS: $value');
+            widget.onFocusChange?.call(value);
 
-                        return CallbackShortcuts(
-                          bindings: <ShortcutActivator, VoidCallback>{
-                            const SingleActivator(LogicalKeyboardKey.enter):
-                                () => pushDetails(item: item),
-                            const SingleActivator(LogicalKeyboardKey.select):
-                                () => pushDetails(item: item),
-                          },
-                          child: cell,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+            if (value) {
+              if (focusNode.focusedChild == null) {
+                final focus = focusNode.descendants.firstWhereOrNull(
+                    (e) => e.debugLabel == 'BUTTONS FOCUS 0 ----- 1');
+
+                print('focus: $focus');
+
+                focus?.requestFocus();
+              }
+            }
+          },
+          child: ListView.separated(
+            clipBehavior: Clip.none,
+            padding: const EdgeInsets.only(
+              left: Dimens.hViewPadding,
+              right: Dimens.hViewPadding,
             ),
+            separatorBuilder: (context, index) =>
+                const SizedBox(width: Dimens.spacingXS),
+            itemCount: strip.value.length,
+            itemBuilder: (context, index) {
+              final item = strip.value[index];
+              final cell = FavoriteCard(
+                data: item,
+                index: index,
+                onFocusChange: (hasFocus) {
+                  if (hasFocus) {
+                    currentFocusIndex = index;
+                  }
+                },
+              );
+
+              return CallbackShortcuts(
+                bindings: <ShortcutActivator, VoidCallback>{
+                  const SingleActivator(LogicalKeyboardKey.enter): () =>
+                      pushDetails(item: item),
+                  const SingleActivator(LogicalKeyboardKey.select): () =>
+                      pushDetails(item: item),
+                },
+                child: cell,
+              );
+            },
           ),
         ),
       ),

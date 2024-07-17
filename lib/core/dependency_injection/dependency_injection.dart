@@ -37,11 +37,11 @@ abstract class ExternalModule {
 
   @lazySingleton
   PrettyDioLogger get logInterceptor => PrettyDioLogger(
-      requestBody: true,
-      responseBody: true,
+      requestBody: false, // true,
+      responseBody: false, // true,
       error: true,
-      requestHeader: true,
-      responseHeader: true,
+      requestHeader: false, // true,
+      responseHeader: false, // true,
       compact: true,
       logPrint: (message) =>
           {if (kDebugMode) print("${DateTime.now()} - ${message.toString()}")});

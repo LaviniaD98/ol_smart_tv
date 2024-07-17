@@ -180,7 +180,7 @@ class LearningObjectModel {
   final String? videoPublicURL;
   final String? title;
   final String? aiItemType;
-  final bool? isFavourite;
+  bool? isFavourite;
   final bool? isTest;
   final bool? isSurvey;
   final int? surveyId;

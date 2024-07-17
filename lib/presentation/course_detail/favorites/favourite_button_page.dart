@@ -1,19 +1,18 @@
-import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/favourite_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_icon_button.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 class FavoriteButton extends StatelessWidget {
-  final DetailPageModel detailPageModel;
+  final LearningObjectModel object;
   final String? parentId;
   final String? grandParentId;
 
   const FavoriteButton({
     super.key,
-    required this.detailPageModel,
+    required this.object,
     this.parentId,
     this.grandParentId,
   });
@@ -28,6 +27,7 @@ class FavoriteButton extends StatelessWidget {
       ),
       buildWhen: (previous, current) => current.maybeMap(
         success: (_) => true,
+        loading: (_) => false,
         orElse: () => true,
       ),
       builder: (context, state) => AnimatedSwitcher(
@@ -37,15 +37,14 @@ class FavoriteButton extends StatelessWidget {
           error: () {
             return buildAddToFavoriteButton(
               context,
-              detailPageModel: detailPageModel,
+              object: object,
               parentId: parentId,
               grandParentId: grandParentId,
             );
           },
-          success: (DetailPageModel detailPageModel) =>
-              buildAddToFavoriteButton(
+          success: (LearningObjectModel model) => buildAddToFavoriteButton(
             context,
-            detailPageModel: detailPageModel,
+            object: model,
             parentId: parentId,
             grandParentId: grandParentId,
           ),
@@ -55,59 +54,44 @@ class FavoriteButton extends StatelessWidget {
     );
   }
 
-  Widget get _loading {
-    return const Center(
-      child: SizedBox.square(
-        dimension: 12.0,
-        child: CircularProgressIndicator(
-          strokeWidth: 1,
-        ),
-      ),
-    );
-  }
+  // Widget get _loading {
+  //   return const Center(
+  //     child: SizedBox.square(
+  //       dimension: 12.0,
+  //       child: CircularProgressIndicator(
+  //         strokeWidth: 1,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget buildAddToFavoriteButton(
     BuildContext context, {
-    required DetailPageModel detailPageModel,
+    required LearningObjectModel object,
     String? parentId,
     String? grandParentId,
     FavouriteModel? favouriteModel,
   }) {
-    return GestureDetector(
-        onTap: () {
-          if (detailPageModel.isFavourite == true) {
-            context.read<FavouriteCubit>().removeFromFavorite(
-                  detailPageModel: detailPageModel,
-                  parentId: parentId,
-                  grandParentId: grandParentId,
-                );
-          } else {
-            context.read<FavouriteCubit>().addToFavorite(
-                  detailPageModel: detailPageModel,
-                  parentId: parentId,
-                  grandParentId: grandParentId,
-                );
-          }
-        },
-        behavior: HitTestBehavior.translucent,
-        child: detailPageModel.isFavourite == true
-            ? SizedBox.square(
-                dimension: 24.0,
-                child: Transform.scale(
-                  scale: 0.9999,
-                  child: SvgPicture.asset("assets/icons/detail/favourite.svg",
-                      colorFilter: ColorFilter.mode(
-                          ColorManager().getColorBackgroundPrimaryCta(),
-                          BlendMode.srcIn)),
-                ),
-              )
-            : Transform.scale(
-                scale: 0.9999,
-                child: SvgPicture.asset(
-                  "assets/icons/detail/dettaglio_add.svg",
-                  colorFilter: ColorFilter.mode(
-                      ColorManager().getColorBackgroundPrimaryCta(),
-                      BlendMode.srcIn),
-                )));
+    return OLIconButton(
+      outline: true,
+      image: object.isFavourite == true
+          ? "assets/icons/detail/favourite.svg"
+          : "assets/icons/detail/dettaglio_add.svg",
+      onPressed: () {
+        if (object.isFavourite == true) {
+          context.read<FavouriteCubit>().removeFromFavorite(
+                model: object,
+                parentId: parentId,
+                grandParentId: grandParentId,
+              );
+        } else {
+          context.read<FavouriteCubit>().addToFavorite(
+                model: object,
+                parentId: parentId,
+                grandParentId: grandParentId,
+              );
+        }
+      },
+    );
   }
 }

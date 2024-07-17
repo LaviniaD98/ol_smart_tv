@@ -24,21 +24,9 @@ class VideoPlayerWrapper extends StatefulWidget {
 }
 
 class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
-  Orientation? target = Orientation.portrait;
-
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations(DeviceOrientation.values);
     super.initState();
-  }
-
-  void setOrientation(bool isPortrait) {
-    if (isPortrait) {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: SystemUiOverlay.values);
-    } else {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    }
   }
 
   @override
@@ -48,46 +36,32 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
         : const Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildVideo() => OrientationBuilder(
-        builder: (context, orientation) {
-          final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait; //orientation == Orientation.portrait;
-          setOrientation(isPortrait);
-          return Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.center,
-                child: AspectRatio(
-                  aspectRatio: widget.controller.value.aspectRatio,
-                  child: VideoPlayer(widget.controller),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: VideoOverlayWidget(
-                  controller: widget.controller,
-                  args: widget.args,
-                  scrubberActionsArgs: widget.scrubberActionsArgs,
-                  isPortrait: isPortrait,
-                  onFullScreen: () {
-                    target = isPortrait ? Orientation.landscape : Orientation.portrait;
-                    if (isPortrait) {
-                      AutoOrientation.landscapeAutoMode();
-                    } else {
-                      AutoOrientation.portraitUpMode();
-                    }
-                  },
-                ),
-              ),
-            ],
-          );
-        },
+  Widget _buildVideo() => Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: AspectRatio(
+              aspectRatio: widget.controller.value.aspectRatio,
+              child: VideoPlayer(widget.controller),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: VideoOverlayWidget(
+              controller: widget.controller,
+              args: widget.args,
+              scrubberActionsArgs: widget.scrubberActionsArgs,
+              isPortrait: false,
+              onFullScreen: () {
+                AutoOrientation.landscapeAutoMode();
+              },
+            ),
+          ),
+        ],
       );
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: SystemUiOverlay.values);
     super.dispose();
   }
 }
