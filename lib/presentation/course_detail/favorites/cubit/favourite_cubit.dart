@@ -30,6 +30,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     required LearningObjectModel model,
     String? parentId,
     String? grandParentId,
+    void Function()? completion,
   }) async {
     emit(const Loading());
     final addFavouritesRes = await _addFavouritesUseCase(
@@ -45,6 +46,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         model.isFavourite = true;
         _favouritesStripCubit.refresh();
         emit(Success(model));
+        completion?.call();
       },
     );
   }
@@ -53,6 +55,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     required LearningObjectModel model,
     String? parentId,
     String? grandParentId,
+    void Function()? completion,
   }) async {
     emit(const Loading());
     final removeFavouriteRes = await _removeFavouritesUseCase(
@@ -69,6 +72,7 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         model.isFavourite = false;
         _favouritesStripCubit.refresh();
         emit(Success(model));
+        completion?.call();
       },
     );
   }

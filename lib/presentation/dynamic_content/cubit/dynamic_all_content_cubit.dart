@@ -33,13 +33,11 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   ) : super(const DynamicAllContentState.loading());
 
   void init(String path, [List<String>? filters, bool debug = false]) async {
-    print('cslkdnclknsdlkcnnsldkc........csl,dcsdc,');
     _offlineCubit.checkUserMissingAlerts();
     emit(const DynamicAllContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
       (l) {
-        print('ERRORRRR--------: $l');
         emit(DynamicAllContentState.error(l));
       },
       (page) async {
@@ -52,9 +50,6 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
         );
 
         final v = await getAllRows();
-
-        print('dynamicContent: ${dynamicContent?.page.strips}');
-
         emit(DynamicAllContentState.success(rowItems: v));
       },
     );
@@ -85,7 +80,6 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     StripRow? strip,
     bool debug = false,
   }) async {
-    print('1---------------');
     if (strip == null) {
       return {};
     }
@@ -115,6 +109,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   }
 
   Future<void> refresh(String path) async {
+    print('REFRESHING------------------------------------');
     if (state is Success) {
       // final current = (state as Success);
       emit(const DynamicAllContentState.loading());

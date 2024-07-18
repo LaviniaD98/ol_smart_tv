@@ -4,6 +4,8 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 
 class FavoriteButton extends StatelessWidget {
   final LearningObjectModel object;
@@ -54,17 +56,6 @@ class FavoriteButton extends StatelessWidget {
     );
   }
 
-  // Widget get _loading {
-  //   return const Center(
-  //     child: SizedBox.square(
-  //       dimension: 12.0,
-  //       child: CircularProgressIndicator(
-  //         strokeWidth: 1,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget buildAddToFavoriteButton(
     BuildContext context, {
     required LearningObjectModel object,
@@ -74,6 +65,7 @@ class FavoriteButton extends StatelessWidget {
   }) {
     return OLIconButton(
       outline: true,
+      debugLabel: 'FAVORITE-BUTTON-LABEL',
       image: object.isFavourite == true
           ? "assets/icons/detail/favourite.svg"
           : "assets/icons/detail/dettaglio_add.svg",
@@ -83,12 +75,26 @@ class FavoriteButton extends StatelessWidget {
                 model: object,
                 parentId: parentId,
                 grandParentId: grandParentId,
+                completion: () {
+                  print('completion - kcjbsdkjbkjnsjkdckjsdc....');
+                  context
+                      .read<MainStateCubit>()
+                      .favoriteContentCubit
+                      ?.refresh(FavoritesScreen.apiPath);
+                },
               );
         } else {
           context.read<FavouriteCubit>().addToFavorite(
                 model: object,
                 parentId: parentId,
                 grandParentId: grandParentId,
+                completion: () {
+                  print('completion - kcjbsdkjbkjnsjkdckjsdc....');
+                  context
+                      .read<MainStateCubit>()
+                      .favoriteContentCubit
+                      ?.refresh(FavoritesScreen.apiPath);
+                },
               );
         }
       },

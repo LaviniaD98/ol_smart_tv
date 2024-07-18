@@ -42,32 +42,29 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        appBar: const StyledAppBar(title: ''),
-        body: Container(
-          decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
-          child: BlocConsumer<PwdConfirmCubit, PwdConfirmState>(
-            listener: (context, state) => state.whenOrNull(
-              success: () => context.pushNamed(
-                PwdChangedPage.routeName,
-              ),
-              error: () => OlAlertDialog.show(
-                context,
-                title: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                message: LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.wrong_password),
-                actionLabel: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
-              ),
+    return Scaffold(
+      appBar: const StyledAppBar(title: ''),
+      body: Container(
+        decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
+        child: BlocConsumer<PwdConfirmCubit, PwdConfirmState>(
+          listener: (context, state) => state.whenOrNull(
+            success: () => context.pushNamed(
+              PwdChangedPage.routeName,
             ),
-            builder: (context, state) => state.maybeWhen(
-              loading: () => _loading,
-              init: (form) => _content(context, form),
-              orElse: () => const SizedBox(),
+            error: () => OlAlertDialog.show(
+              context,
+              title: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+              message: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.wrong_password),
+              actionLabel: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
             ),
+          ),
+          builder: (context, state) => state.maybeWhen(
+            loading: () => _loading,
+            init: (form) => _content(context, form),
+            orElse: () => const SizedBox(),
           ),
         ),
       ),
@@ -203,29 +200,33 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                                   RemoteLabelKeys.pw_let),
                               style: TextStyle(fontSize: 12)),
                         ]),
-                        Row(children: [
-                          SvgPicture.asset(
-                            "assets/icons/border_check.svg",
-                            width: 24,
-                            height: 24,
-                            colorFilter: aN
-                                ? ColorFilter.mode(
-                                    ColorManager().getColorSystemSecondary02(),
-                                    BlendMode.srcIn,
-                                  )
-                                : ColorFilter.mode(
-                                    ColorManager().getColorSystemPrimary01(),
-                                    BlendMode.srcIn,
-                                  ),
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          Text(
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/border_check.svg",
+                              width: 24,
+                              height: 24,
+                              colorFilter: aN
+                                  ? ColorFilter.mode(
+                                      ColorManager()
+                                          .getColorSystemSecondary02(),
+                                      BlendMode.srcIn,
+                                    )
+                                  : ColorFilter.mode(
+                                      ColorManager().getColorSystemPrimary01(),
+                                      BlendMode.srcIn,
+                                    ),
+                            ),
+                            const SizedBox(
+                              width: 8,
+                            ),
+                            Text(
                               LabelsManager().getRemoteStringFromLabelKeys(
                                   RemoteLabelKeys.pw_num),
-                              style: TextStyle(fontSize: 12))
-                        ]),
+                              style: const TextStyle(fontSize: 12),
+                            )
+                          ],
+                        ),
                         Row(children: [
                           SvgPicture.asset(
                             "assets/icons/border_check.svg",
@@ -241,9 +242,7 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                                     BlendMode.srcIn,
                                   ),
                           ),
-                          const SizedBox(
-                            width: 8,
-                          ),
+                          const SizedBox(width: 8),
                           SizedBox(
                               width: MediaQuery.sizeOf(context).width * 0.25,
                               child: Text(

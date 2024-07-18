@@ -16,6 +16,9 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 
 class FavoritesScreen extends StatefulWidget {
+  static const apiPath =
+      '/learning-catalogue/{corporateId}/{initiativeId}/pageStructures?pageName=FAVOURITES_OVERVIEW';
+
   const FavoritesScreen({required this.dynamicRoutes, super.key});
 
   final List<MenuRoute> dynamicRoutes;
@@ -24,8 +27,7 @@ class FavoritesScreen extends StatefulWidget {
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen>
-    with AutomaticKeepAliveClientMixin {
+class _FavoritesScreenState extends State<FavoritesScreen> {
   MenuRoute? currentMenuRoute;
 
   final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'ForYou');
@@ -38,6 +40,9 @@ class _FavoritesScreenState extends State<FavoritesScreen>
       (element) => element.routeName == 'favourites',
     );
 
+    context.read<MainStateCubit>().favoriteContentCubit =
+        getIt<DynamicAllContentCubit>();
+
     context.read<MainStateCubit>().favoritesFocusNode = focusNode;
   }
 
@@ -47,13 +52,8 @@ class _FavoritesScreenState extends State<FavoritesScreen>
     super.dispose();
   }
 
-  final apiPath =
-      '/learning-catalogue/{corporateId}/{initiativeId}/pageStructures?pageName=FAVOURITES_OVERVIEW';
-
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
@@ -64,13 +64,14 @@ class _FavoritesScreenState extends State<FavoritesScreen>
       child: Scaffold(
         backgroundColor: OLColors.backgroundPrimary,
         body: BlocProvider(
-          create: (_) =>
-              getIt<DynamicAllContentCubit>()..init(apiPath, null, true),
+          create: (_) => context.read<MainStateCubit>().favoriteContentCubit!
+            ..init(FavoritesScreen.apiPath, null, true),
           child: RefreshIndicator(
             color: ColorManager().getColorTextPrimaryCta(),
             backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
-            onRefresh: () =>
-                context.read<DynamicAllContentCubit>().refresh(apiPath),
+            onRefresh: () => context
+                .read<DynamicAllContentCubit>()
+                .refresh(FavoritesScreen.apiPath),
 
             /// Dynamic Strip
             child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
@@ -94,6 +95,19 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                   //     .read<DynamicAllContentCubit>()
                   //     .dynamicContent
                   //     ?.smartConfig;
+
+                  Future.delayed(
+                    const Duration(milliseconds: 300),
+                    () {
+                      if (focusNode.focusedChild == null) {
+                        final f = focusNode.descendants.firstWhereOrNull(
+                          (element) =>
+                              element.debugLabel == 'BUTTONS FOCUS 0 ----- 1',
+                        );
+                        f?.requestFocus();
+                      }
+                    },
+                  );
 
                   final source =
                       List<Map<StripRow, List<LearningObjectModel>>>.from(
@@ -141,14 +155,10 @@ class _FavoritesScreenState extends State<FavoritesScreen>
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
-        print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
-        if (value) {
-          if (focusNode.focusedChild == null) {
-            focusNode.children.firstOrNull?.requestFocus();
-          }
-        }
+        // print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
+        // if (value) {}
 
-        print('focusNode.children: ${focusNode.children.length}');
+        // print('focusNode.children: ${focusNode.children.length}');
       },
       child: Row(
         children: [
@@ -161,7 +171,4 @@ class _FavoritesScreenState extends State<FavoritesScreen>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => false;
 }

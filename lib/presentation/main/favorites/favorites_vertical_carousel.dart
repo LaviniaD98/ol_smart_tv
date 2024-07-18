@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorite_card.dart';
-import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../../../theme/app_theme.dart';
 
@@ -59,21 +58,14 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
       return const SizedBox.shrink();
     }
 
-    focusNode.descendants.forEach((element) {
-      print('sdcsdcsldckmsd---- ${element.debugLabel}');
-    });
-
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+        const SingleActivator(LogicalKeyboardKey.arrowUp): () {
           if (currentFocusIndex > 0) {
             _policy.previous(focusNode);
-          } else {
-            final focus = context.read<MainStateCubit>().state;
-            focus.requestFocus();
           }
         },
-        const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
           if (currentFocusIndex < strip.value.length - 1) {
             _policy.next(focusNode);
           }
@@ -85,16 +77,12 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
         child: FocusScope(
           node: focusNode,
           onFocusChange: (value) {
-            print('FAVORITES NESTED---- HAS FOCUS: $value');
             widget.onFocusChange?.call(value);
 
             if (value) {
               if (focusNode.focusedChild == null) {
                 final focus = focusNode.descendants.firstWhereOrNull(
                     (e) => e.debugLabel == 'BUTTONS FOCUS 0 ----- 1');
-
-                print('focus: $focus');
-
                 focus?.requestFocus();
               }
             }
@@ -110,7 +98,7 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
             itemCount: strip.value.length,
             itemBuilder: (context, index) {
               final item = strip.value[index];
-              final cell = FavoriteCard(
+              return FavoriteCard(
                 data: item,
                 index: index,
                 onFocusChange: (hasFocus) {
@@ -118,16 +106,6 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
                     currentFocusIndex = index;
                   }
                 },
-              );
-
-              return CallbackShortcuts(
-                bindings: <ShortcutActivator, VoidCallback>{
-                  const SingleActivator(LogicalKeyboardKey.enter): () =>
-                      pushDetails(item: item),
-                  const SingleActivator(LogicalKeyboardKey.select): () =>
-                      pushDetails(item: item),
-                },
-                child: cell,
               );
             },
           ),

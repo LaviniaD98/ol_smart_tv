@@ -42,7 +42,6 @@ class _OLSideItemState extends State<OLSideItem> {
     return Focus(
       focusNode: focusNode,
       onFocusChange: (value) {
-        print('Focus CHANGED ${focusNode.debugLabel}:-- ${value}');
         setState(() {});
       },
       child: Column(

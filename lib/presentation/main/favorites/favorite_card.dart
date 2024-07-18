@@ -154,45 +154,41 @@ class _FavoriteCardState extends State<FavoriteCard> {
                       Row(
                         children: [
                           Expanded(
-                            child: FocusScope(
-                              node: buttonsFocusNode,
-                              onFocusChange: (v) {
-                                widget.onFocusChange?.call(v);
-
-                                if (v) {
-                                  if (buttonsFocusNode.focusedChild == null) {
-                                    Future.delayed(
-                                        const Duration(milliseconds: 100), () {
-                                      print(
-                                          'BUTTON FOCUS HAS FOCUS: $v - ${buttonsFocusNode.children.firstOrNull?.debugLabel}');
-                                      buttonsFocusNode.children.firstOrNull
-                                          ?.requestFocus();
-                                    });
-                                  }
-                                }
+                            child: CallbackShortcuts(
+                              bindings: <ShortcutActivator, VoidCallback>{
+                                const SingleActivator(
+                                    LogicalKeyboardKey.arrowLeft): () {
+                                  context
+                                      .read<MainStateCubit>()
+                                      .state
+                                      .requestFocus();
+                                },
                               },
-                              child: CallbackShortcuts(
-                                bindings: <ShortcutActivator, VoidCallback>{
-                                  const SingleActivator(
-                                      LogicalKeyboardKey.arrowLeft): () {
-                                    context
-                                        .read<MainStateCubit>()
-                                        .state
-                                        .requestFocus();
-                                  },
+                              child: FocusScope(
+                                node: buttonsFocusNode,
+                                onFocusChange: (v) {
+                                  widget.onFocusChange?.call(v);
+
+                                  if (v) {
+                                    if (buttonsFocusNode.focusedChild == null) {
+                                      Future.delayed(
+                                          const Duration(milliseconds: 100),
+                                          () {
+                                        buttonsFocusNode.children.firstOrNull
+                                            ?.requestFocus();
+                                      });
+                                    }
+                                  }
                                 },
                                 child: Row(
                                   children: [
-                                    FocusTraversalOrder(
-                                      order: const NumericFocusOrder(0),
-                                      child: BlocProvider(
-                                        create: (_) => getIt<FavouriteCubit>()
-                                          ..init(widget.data),
-                                        child: FavoriteButton(
-                                          object: widget.data,
-                                          parentId: widget.parentId,
-                                          grandParentId: widget.grandParentId,
-                                        ),
+                                    BlocProvider(
+                                      create: (_) => getIt<FavouriteCubit>()
+                                        ..init(widget.data),
+                                      child: FavoriteButton(
+                                        object: widget.data,
+                                        parentId: widget.parentId,
+                                        grandParentId: widget.grandParentId,
                                       ),
                                     ),
                                   ],
@@ -202,43 +198,45 @@ class _FavoriteCardState extends State<FavoriteCard> {
                           ),
                           SizedBox(
                             width: 357,
-                            child: Column(
-                              children: [
-                                Builder(builder: (context) {
-                                  double glowPercentage = double.tryParse(
-                                          (widget.data.percentageOfCompletion ??
-                                                  "0.0")
-                                              .replaceAll("%", "")) ??
-                                      0.0;
+                            child: Builder(
+                              builder: (context) {
+                                double glowPercentage = double.tryParse(
+                                        (widget.data.percentageOfCompletion ??
+                                                "0.0")
+                                            .replaceAll("%", "")) ??
+                                    0.0;
 
-                                  return RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        TextSpan(
-                                          text:
-                                              '${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.percentageOfCompletion)}:',
-                                          style: AppTextTheme.body(
-                                            weight: FontWeight.w500,
-                                            size: 14,
-                                            color: ColorManager()
-                                                .getColorTextPrimary(),
+                                return Column(
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text:
+                                                '${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.percentageOfCompletion)}:',
+                                            style: AppTextTheme.body(
+                                              weight: FontWeight.w500,
+                                              size: 14,
+                                              color: ColorManager()
+                                                  .getColorTextPrimary(),
+                                            ),
                                           ),
-                                        ),
-                                        TextSpan(
-                                          text: ' $glowPercentage%',
-                                          style: AppTextTheme.body(
-                                            color: ColorManager()
-                                                .getColorTextPrimary(),
-                                            weight: FontWeight.bold,
-                                            size: 14,
+                                          TextSpan(
+                                            text: ' $glowPercentage%',
+                                            style: AppTextTheme.body(
+                                              color: ColorManager()
+                                                  .getColorTextPrimary(),
+                                              weight: FontWeight.bold,
+                                              size: 14,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  );
-                                }),
-                                GlowProgressBar(percentage: 0),
-                              ],
+                                    GlowProgressBar(percentage: glowPercentage),
+                                  ],
+                                );
+                              },
                             ),
                           ),
                         ],

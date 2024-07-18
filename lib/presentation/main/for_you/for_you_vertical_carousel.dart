@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
-import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';

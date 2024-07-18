@@ -161,15 +161,9 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
   int getCurrentScreenIndex() {
     final f = context.read<MainStateCubit>().state;
-    print('f---: ${f.focusedChild?.debugLabel}');
     final i = f.children.toList().indexWhere((focus) {
-      print(
-          'focus.debugLabel == f.focusedChild?.debugLabel: ${focus.debugLabel} - ${f.focusedChild?.debugLabel}');
       return focus.debugLabel == f.focusedChild?.debugLabel;
     });
-
-    print('INDEX: $i');
-
     return i;
   }
 
@@ -181,8 +175,6 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
     } else if (index == 2) {
       context.read<MainStateCubit>().exploreFocusNode?.requestFocus();
     } else if (index == 3) {
-      print(
-          'cslkdnclknsdlkcnslkdnclksndlkcnslkdnc.....${context.read<MainStateCubit>().favoritesFocusNode}');
       context.read<MainStateCubit>().favoritesFocusNode?.requestFocus();
     } else if (index == 4) {
       context.read<MainStateCubit>().agendaFocusNode?.requestFocus();
