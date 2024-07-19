@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
@@ -8,6 +10,7 @@ import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_screen.
 import 'package:open_learning_smart_tv/presentation/main/profile/profile_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/search/search_screen.dart';
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
+import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
 
 class OLHomeScreen extends StatefulWidget {
   const OLHomeScreen({
@@ -76,7 +79,14 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                 child: PageView.builder(
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return const SearchScreen();
+                      return BlocProvider(
+                        create: (_) => getIt<SearchCubit>(),
+                        child: IGTabNavigator(
+                          navigatorKey: searchTabKey,
+                          tabRoute: 'routeKeySearch',
+                          tabScreen: const SearchScreen(),
+                        ),
+                      );
                     } else if (index == 1) {
                       return IGTabNavigator(
                         navigatorKey: forYouTabKey,

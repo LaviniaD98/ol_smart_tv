@@ -127,6 +127,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
               }
 
               objLOCharacterization? llCh;
+
               if (ll != null) {
                 llCh = CourseLogic().loCharacterizationNew(
                   status: ll.status ?? "",

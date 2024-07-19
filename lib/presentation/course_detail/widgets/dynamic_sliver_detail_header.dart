@@ -464,6 +464,9 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                           widget.rightPanelState.value = RightPanelState.start;
                         }
                       },
+
+                      // widget.args.object?.status
+
                       title: CourseLogic()
                           .loCharacterizationNew(
                             status: widget.model.status ?? "",
@@ -474,6 +477,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                                 widget.model.percentageOfCompletion ?? "0",
                             enrollType: widget.model.enrollType ??
                                 EnrollType.autoEnroll,
+                            // TODO(UmbertoGrimaldi): FARE AGGIUNGERE QUESTI
                             ecmSpecialization: widget.model.ecmSpecialization,
                             ecmRegistration: widget.model.ecmRegistration,
                           )

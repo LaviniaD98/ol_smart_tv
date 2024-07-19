@@ -37,26 +37,26 @@ class SearchCubit extends Cubit<SearchState> {
   ) : super(const SearchState.loading());
 
   PagingController<int, LearningObjectModel>? controller;
-  int pageSize = ConfigManager().getRemoteInt(RemoteConfigKeys.page_size_search, 20);
+  int pageSize =
+      ConfigManager().getRemoteInt(RemoteConfigKeys.page_size_search, 20);
   int? totalElements;
   Timer? _timer;
 
   void localSuggestions([bool reset = false]) async {
     _timer?.cancel();
     _resetPagingController();
-    if(reset) {
+    if (reset) {
       await _cleanLocalSuggestionsUseCase();
     }
     final localSuggestions = _getLocalSuggestionsUseCase().reversed.toList();
     emit(SearchState.initial(localSuggestions));
   }
 
-  void onChanged(FormControl control) async {
-    final text = (control.value as String);
+  void onChanged(String text) async {
     _timer?.cancel();
-    if(text.length >= 3) {
-      _getSuggestions(control.value as String);
-    } else if(text.isEmpty) {
+    if (text.length >= 3) {
+      _getSuggestions(text);
+    } else if (text.isEmpty) {
       localSuggestions();
     } else {
       emit(const SearchState.empty());
@@ -64,7 +64,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void initPagingController(String searchText) async {
-    if(controller == null) {
+    if (controller == null) {
       controller = PagingController(firstPageKey: 0);
       controller?.addPageRequestListener((pageKey) {
         _search(searchText, pageKey);
@@ -81,7 +81,7 @@ class SearchCubit extends Cubit<SearchState> {
       res.fold((l) {
         emit(SearchState.error(l));
       }, (r) {
-        if(r.isNotEmpty) {
+        if (r.isNotEmpty) {
           emit(SearchState.suggestions(r, text));
         } else {
           emit(SearchState.empty(text));
@@ -122,8 +122,8 @@ class SearchCubit extends Cubit<SearchState> {
       controller?.error = l.error;
     }, (r) {
       _setLocalSuggestionsUseCase(searchText);
-      if(r.metadata != null && r.metadata!.totalPages != null) {
-        final isLast = page == r.metadata!.totalPages!-1;
+      if (r.metadata != null && r.metadata!.totalPages != null) {
+        final isLast = page == r.metadata!.totalPages! - 1;
         _updatePagingController(
           items: r.learningObjects,
           page: page,

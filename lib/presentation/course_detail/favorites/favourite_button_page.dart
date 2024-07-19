@@ -76,7 +76,6 @@ class FavoriteButton extends StatelessWidget {
                 parentId: parentId,
                 grandParentId: grandParentId,
                 completion: () {
-                  print('completion - kcjbsdkjbkjnsjkdckjsdc....');
                   context
                       .read<MainStateCubit>()
                       .favoriteContentCubit
@@ -89,7 +88,6 @@ class FavoriteButton extends StatelessWidget {
                 parentId: parentId,
                 grandParentId: grandParentId,
                 completion: () {
-                  print('completion - kcjbsdkjbkjnsjkdckjsdc....');
                   context
                       .read<MainStateCubit>()
                       .favoriteContentCubit

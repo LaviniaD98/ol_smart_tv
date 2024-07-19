@@ -377,7 +377,7 @@ class AppRouter {
           pageBuilder: (context, state) => CustomTransitionPage(
             fullscreenDialog: true,
             child: BlocProvider(
-              create: (_) => getIt<SearchCubit>()..localSuggestions(),
+              create: (_) => getIt<SearchCubit>(),
               child: const SearchPage(),
             ),
             transitionsBuilder: (BuildContext context,

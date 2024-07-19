@@ -42,16 +42,23 @@ class LocalSuggestions extends StatelessWidget {
             ),
             child: Row(
               children: [
-                SvgPicture.asset("assets/icons/time.svg",
-                    width: 16.0,
-                    colorFilter: ColorFilter.mode(
-                        ColorManager().getColorTextPrimary(), BlendMode.srcIn)),
-                const SizedBox(width: Dimens.spacingXS),
+                SvgPicture.asset(
+                  "assets/icons/time.svg",
+                  width: 24.0,
+                  colorFilter: ColorFilter.mode(
+                    ColorManager().getColorTextPrimary(),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Text(
                     suggestions[index],
                     style: AppTextTheme.subtitle(
-                        color: ColorManager().getColorTextPrimary()),
+                      color: ColorManager().getColorTextPrimary(),
+                      weight: FontWeight.w500,
+                      size: 22,
+                    ),
                   ),
                 ),
               ],
@@ -82,18 +89,9 @@ class LocalSuggestions extends StatelessWidget {
                         LabelsManager().getRemoteStringFromLabelKeys(
                             RemoteLabelKeys.latest_research),
                         style: AppTextTheme.caption(
-                            color: ColorManager().getColorTextPrimary()),
-                      ),
-                    ),
-                    const SizedBox(width: Dimens.spacingXL),
-                    GestureDetector(
-                      onTap: onDelete,
-                      behavior: HitTestBehavior.opaque,
-                      child: Text(
-                        LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.delete),
-                        style: AppTextTheme.caption(
-                          color: ColorManager().getColorTextPrimaryCta(),
+                          color: ColorManager().getColorTextPrimary(),
+                          weight: FontWeight.w500,
+                          size: 20,
                         ),
                       ),
                     ),

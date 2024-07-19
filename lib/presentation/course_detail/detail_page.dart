@@ -157,6 +157,14 @@ class _DetailPageState extends State<DetailPage> {
         builder: (context, state) => state.maybeWhen(
           loading: () => _loading,
           success: (selectedIndex, model, smartConfig) {
+            model.learningActivities?.forEach((element) {
+              //print('element: ${element.}');
+            });
+
+            print(
+                'lo grandParentId: ${widget.args.object?.grandParentId} - ParentId: ${widget.args.object?.parentId}');
+            // print(
+            //     'model.learningActivities: ${model.learningActivities?.length}');
             return _content(context, selectedIndex, model, smartConfig);
           },
           error: () => _error(context),
@@ -541,6 +549,7 @@ class _DetailPageState extends State<DetailPage> {
               LearningObjectTypology.path
             ];
             context.pop();
+
             if (subNavigationTypes.contains(detail.learningObjectTypology)) {
               /// navigate to detail sub route
               await context.pushNamed(
@@ -726,7 +735,6 @@ class _DetailPageState extends State<DetailPage> {
           parentId: widget.args.parentId,
           onButtonPressed: (int index, bool isACourse, LearningObjectModel? ll,
               CourseModel? cc) {
-            print('clksndkcnslkdnclknsdlkcnlksdc-------');
             if (loCharacterization.buttonEnabled &&
                 (loCharacterization.objLOAction != ObjLOAction.none &&
                     loCharacterization.objLOAction !=
