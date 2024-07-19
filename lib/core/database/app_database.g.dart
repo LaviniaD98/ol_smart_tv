@@ -202,6 +202,17 @@ class LocalNotification extends DataClass
         sentTime: sentTime ?? this.sentTime,
         type: type ?? this.type,
       );
+  LocalNotification copyWithCompanion(LocalNotificationsCompanion data) {
+    return LocalNotification(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      body: data.body.present ? data.body.value : this.body,
+      read: data.read.present ? data.read.value : this.read,
+      sentTime: data.sentTime.present ? data.sentTime.value : this.sentTime,
+      type: data.type.present ? data.type.value : this.type,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('LocalNotification(')
@@ -537,6 +548,20 @@ class OfflineStatement extends DataClass
             : this.offlineVideoJsongObject,
         type: type ?? this.type,
       );
+  OfflineStatement copyWithCompanion(OfflineStatementsCompanion data) {
+    return OfflineStatement(
+      timestamp: data.timestamp.present ? data.timestamp.value : this.timestamp,
+      videoId: data.videoId.present ? data.videoId.value : this.videoId,
+      trackinJsongObject: data.trackinJsongObject.present
+          ? data.trackinJsongObject.value
+          : this.trackinJsongObject,
+      offlineVideoJsongObject: data.offlineVideoJsongObject.present
+          ? data.offlineVideoJsongObject.value
+          : this.offlineVideoJsongObject,
+      type: data.type.present ? data.type.value : this.type,
+    );
+  }
+
   @override
   String toString() {
     return (StringBuffer('OfflineStatement(')
@@ -666,6 +691,7 @@ class OfflineStatementsCompanion extends UpdateCompanion<OfflineStatement> {
 
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
+  $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $LocalNotificationsTable localNotifications =
       $LocalNotificationsTable(this);
   late final $OfflineStatementsTable offlineStatements =
@@ -680,4 +706,293 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
       [localNotifications, offlineStatements];
+}
+
+typedef $$LocalNotificationsTableCreateCompanionBuilder
+    = LocalNotificationsCompanion Function({
+  required int id,
+  Value<String?> title,
+  Value<String?> body,
+  Value<bool> read,
+  Value<DateTime> sentTime,
+  required LocalNotificationType type,
+  Value<int> rowid,
+});
+typedef $$LocalNotificationsTableUpdateCompanionBuilder
+    = LocalNotificationsCompanion Function({
+  Value<int> id,
+  Value<String?> title,
+  Value<String?> body,
+  Value<bool> read,
+  Value<DateTime> sentTime,
+  Value<LocalNotificationType> type,
+  Value<int> rowid,
+});
+
+class $$LocalNotificationsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $LocalNotificationsTable,
+    LocalNotification,
+    $$LocalNotificationsTableFilterComposer,
+    $$LocalNotificationsTableOrderingComposer,
+    $$LocalNotificationsTableCreateCompanionBuilder,
+    $$LocalNotificationsTableUpdateCompanionBuilder> {
+  $$LocalNotificationsTableTableManager(
+      _$AppDatabase db, $LocalNotificationsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$LocalNotificationsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$LocalNotificationsTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String?> title = const Value.absent(),
+            Value<String?> body = const Value.absent(),
+            Value<bool> read = const Value.absent(),
+            Value<DateTime> sentTime = const Value.absent(),
+            Value<LocalNotificationType> type = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LocalNotificationsCompanion(
+            id: id,
+            title: title,
+            body: body,
+            read: read,
+            sentTime: sentTime,
+            type: type,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required int id,
+            Value<String?> title = const Value.absent(),
+            Value<String?> body = const Value.absent(),
+            Value<bool> read = const Value.absent(),
+            Value<DateTime> sentTime = const Value.absent(),
+            required LocalNotificationType type,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              LocalNotificationsCompanion.insert(
+            id: id,
+            title: title,
+            body: body,
+            read: read,
+            sentTime: sentTime,
+            type: type,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$LocalNotificationsTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $LocalNotificationsTable> {
+  $$LocalNotificationsTableFilterComposer(super.$state);
+  ColumnFilters<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get title => $state.composableBuilder(
+      column: $state.table.title,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<bool> get read => $state.composableBuilder(
+      column: $state.table.read,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<DateTime> get sentTime => $state.composableBuilder(
+      column: $state.table.sentTime,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnWithTypeConverterFilters<LocalNotificationType, LocalNotificationType,
+          String>
+      get type => $state.composableBuilder(
+          column: $state.table.type,
+          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
+              column,
+              joinBuilders: joinBuilders));
+}
+
+class $$LocalNotificationsTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $LocalNotificationsTable> {
+  $$LocalNotificationsTableOrderingComposer(super.$state);
+  ColumnOrderings<int> get id => $state.composableBuilder(
+      column: $state.table.id,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get title => $state.composableBuilder(
+      column: $state.table.title,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get body => $state.composableBuilder(
+      column: $state.table.body,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<bool> get read => $state.composableBuilder(
+      column: $state.table.read,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<DateTime> get sentTime => $state.composableBuilder(
+      column: $state.table.sentTime,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+typedef $$OfflineStatementsTableCreateCompanionBuilder
+    = OfflineStatementsCompanion Function({
+  Value<DateTime> timestamp,
+  Value<String?> videoId,
+  Value<String?> trackinJsongObject,
+  Value<String?> offlineVideoJsongObject,
+  required PlayerEvent type,
+  Value<int> rowid,
+});
+typedef $$OfflineStatementsTableUpdateCompanionBuilder
+    = OfflineStatementsCompanion Function({
+  Value<DateTime> timestamp,
+  Value<String?> videoId,
+  Value<String?> trackinJsongObject,
+  Value<String?> offlineVideoJsongObject,
+  Value<PlayerEvent> type,
+  Value<int> rowid,
+});
+
+class $$OfflineStatementsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $OfflineStatementsTable,
+    OfflineStatement,
+    $$OfflineStatementsTableFilterComposer,
+    $$OfflineStatementsTableOrderingComposer,
+    $$OfflineStatementsTableCreateCompanionBuilder,
+    $$OfflineStatementsTableUpdateCompanionBuilder> {
+  $$OfflineStatementsTableTableManager(
+      _$AppDatabase db, $OfflineStatementsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          filteringComposer:
+              $$OfflineStatementsTableFilterComposer(ComposerState(db, table)),
+          orderingComposer: $$OfflineStatementsTableOrderingComposer(
+              ComposerState(db, table)),
+          updateCompanionCallback: ({
+            Value<DateTime> timestamp = const Value.absent(),
+            Value<String?> videoId = const Value.absent(),
+            Value<String?> trackinJsongObject = const Value.absent(),
+            Value<String?> offlineVideoJsongObject = const Value.absent(),
+            Value<PlayerEvent> type = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              OfflineStatementsCompanion(
+            timestamp: timestamp,
+            videoId: videoId,
+            trackinJsongObject: trackinJsongObject,
+            offlineVideoJsongObject: offlineVideoJsongObject,
+            type: type,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            Value<DateTime> timestamp = const Value.absent(),
+            Value<String?> videoId = const Value.absent(),
+            Value<String?> trackinJsongObject = const Value.absent(),
+            Value<String?> offlineVideoJsongObject = const Value.absent(),
+            required PlayerEvent type,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              OfflineStatementsCompanion.insert(
+            timestamp: timestamp,
+            videoId: videoId,
+            trackinJsongObject: trackinJsongObject,
+            offlineVideoJsongObject: offlineVideoJsongObject,
+            type: type,
+            rowid: rowid,
+          ),
+        ));
+}
+
+class $$OfflineStatementsTableFilterComposer
+    extends FilterComposer<_$AppDatabase, $OfflineStatementsTable> {
+  $$OfflineStatementsTableFilterComposer(super.$state);
+  ColumnFilters<DateTime> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get videoId => $state.composableBuilder(
+      column: $state.table.videoId,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get trackinJsongObject => $state.composableBuilder(
+      column: $state.table.trackinJsongObject,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnFilters<String> get offlineVideoJsongObject => $state.composableBuilder(
+      column: $state.table.offlineVideoJsongObject,
+      builder: (column, joinBuilders) =>
+          ColumnFilters(column, joinBuilders: joinBuilders));
+
+  ColumnWithTypeConverterFilters<PlayerEvent, PlayerEvent, String> get type =>
+      $state.composableBuilder(
+          column: $state.table.type,
+          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
+              column,
+              joinBuilders: joinBuilders));
+}
+
+class $$OfflineStatementsTableOrderingComposer
+    extends OrderingComposer<_$AppDatabase, $OfflineStatementsTable> {
+  $$OfflineStatementsTableOrderingComposer(super.$state);
+  ColumnOrderings<DateTime> get timestamp => $state.composableBuilder(
+      column: $state.table.timestamp,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get videoId => $state.composableBuilder(
+      column: $state.table.videoId,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get trackinJsongObject => $state.composableBuilder(
+      column: $state.table.trackinJsongObject,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get offlineVideoJsongObject =>
+      $state.composableBuilder(
+          column: $state.table.offlineVideoJsongObject,
+          builder: (column, joinBuilders) =>
+              ColumnOrderings(column, joinBuilders: joinBuilders));
+
+  ColumnOrderings<String> get type => $state.composableBuilder(
+      column: $state.table.type,
+      builder: (column, joinBuilders) =>
+          ColumnOrderings(column, joinBuilders: joinBuilders));
+}
+
+class $AppDatabaseManager {
+  final _$AppDatabase _db;
+  $AppDatabaseManager(this._db);
+  $$LocalNotificationsTableTableManager get localNotifications =>
+      $$LocalNotificationsTableTableManager(_db, _db.localNotifications);
+  $$OfflineStatementsTableTableManager get offlineStatements =>
+      $$OfflineStatementsTableTableManager(_db, _db.offlineStatements);
 }
