@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:bloc/bloc.dart';

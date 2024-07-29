@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

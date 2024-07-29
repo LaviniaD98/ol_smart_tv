@@ -32,6 +32,7 @@ class SuggestionsCubit extends Cubit<List<String>> {
 
   void setLocalSuggestions({required String text}) {
     _setLocalSuggestionsUseCase(text);
+    localSuggestions();
   }
 
   @override

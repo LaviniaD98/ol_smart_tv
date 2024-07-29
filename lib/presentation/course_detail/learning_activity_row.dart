@@ -52,21 +52,7 @@ class _LearningActivityRowState extends State<LearningActivityRow> {
   @override
   void initState() {
     super.initState();
-
-    items = widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items +
-        widget.items;
+    items = widget.items;
   }
 
   @override
@@ -83,17 +69,7 @@ class _LearningActivityRowState extends State<LearningActivityRow> {
       },
       child: FocusScope(
         node: _focusNode,
-        onFocusChange: (value) {
-          // if (value) {
-          //   if (_focusNode.focusedChild == null) {
-          //     final firstFocus = _policy.findFirstFocus(_focusNode);
-          //     print(
-          //         '_policy.findFirstFocus(_focusNode)?: ${firstFocus?.debugLabel}');
-          //     firstFocus?.requestFocus();
-          //   }
-          // }
-          //print('LearningActivityRow FOCUS: $value');
-        },
+        onFocusChange: (value) {},
         child: Builder(
           builder: (context) {
             if (widget.isGridView) {

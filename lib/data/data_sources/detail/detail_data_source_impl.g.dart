@@ -6,7 +6,7 @@ part of 'detail_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _DetailDataSourceImpl implements DetailDataSourceImpl {
   _DetailDataSourceImpl(
@@ -41,8 +41,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DetailPageDto.fromJson(_result.data!);
-    return value;
+    final _value = DetailPageDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -68,8 +68,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ToolResponseDto.fromJson(_result.data!);
-    return value;
+    final _value = ToolResponseDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -101,8 +101,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ToolUrlDto.fromJson(_result.data!);
-    return value;
+    final _value = ToolUrlDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -129,8 +129,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ReleatedLearningActivityResponseDto.fromJson(_result.data!);
-    return value;
+    final _value = ReleatedLearningActivityResponseDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -156,8 +156,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = EditionsDto.fromJson(_result.data!);
-    return value;
+    final _value = EditionsDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -183,8 +183,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = FavouriteDto.fromJson(_result.data!);
-    return value;
+    final _value = FavouriteDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -234,8 +234,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = RatingDto.fromJson(_result.data!);
-    return value;
+    final _value = RatingDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -268,8 +268,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommunityPostsDto.fromJson(_result.data!);
-    return value;
+    final _value = CommunityPostsDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -300,8 +300,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CommunityPostsDto.fromJson(_result.data!);
-    return value;
+    final _value = CommunityPostsDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -332,8 +332,8 @@ class _DetailDataSourceImpl implements DetailDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = TeacherDetailDto.fromJson(_result.data!);
-    return value;
+    final _value = TeacherDetailDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

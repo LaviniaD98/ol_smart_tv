@@ -1,19 +1,13 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:injectable/injectable.dart';
-import 'package:reactive_forms/reactive_forms.dart';
-
 import '../../../data/models/failure.dart';
 import '../../../domain/entities/search/suggestion_model.dart';
 import '../../../domain/entities/strip/learning_object/learning_object_model.dart';
-import '../../../domain/use_cases/search/clean_local_suggestions_use_case.dart';
-import '../../../domain/use_cases/search/get_local_suggestions_use_case.dart';
 import '../../../domain/use_cases/search/get_search_results_use_case.dart';
 import '../../../domain/use_cases/search/get_suggestions_use_case.dart';
-import '../../../domain/use_cases/search/set_local_suggestions_use_case.dart';
 import '../../../remote_theming/config/config_manager.dart';
 import '../../../remote_theming/config/remote_config_keys.dart';
 
@@ -24,16 +18,10 @@ part 'search_cubit.freezed.dart';
 class SearchCubit extends Cubit<SearchState> {
   final GetSearchResultsUseCase _getSearchResultsUseCase;
   final GetSuggestionsUseCase _getSuggestionsUseCase;
-  final GetLocalSuggestionsUseCase _getLocalSuggestionsUseCase;
-  final SetLocalSuggestionsUseCase _setLocalSuggestionsUseCase;
-  final CleanLocalSuggestionsUseCase _cleanLocalSuggestionsUseCase;
 
   SearchCubit(
     this._getSearchResultsUseCase,
     this._getSuggestionsUseCase,
-    this._getLocalSuggestionsUseCase,
-    this._setLocalSuggestionsUseCase,
-    this._cleanLocalSuggestionsUseCase,
   ) : super(const SearchState.loading());
 
   PagingController<int, LearningObjectModel>? controller;
@@ -42,22 +30,10 @@ class SearchCubit extends Cubit<SearchState> {
   int? totalElements;
   Timer? _timer;
 
-  void localSuggestions([bool reset = false]) async {
-    _timer?.cancel();
-    _resetPagingController();
-    if (reset) {
-      await _cleanLocalSuggestionsUseCase();
-    }
-    final localSuggestions = _getLocalSuggestionsUseCase().reversed.toList();
-    emit(SearchState.initial(localSuggestions));
-  }
-
   void onChanged(String text) async {
     _timer?.cancel();
     if (text.length >= 3) {
       _getSuggestions(text);
-    } else if (text.isEmpty) {
-      localSuggestions();
     } else {
       emit(const SearchState.empty());
     }
@@ -76,7 +52,7 @@ class SearchCubit extends Cubit<SearchState> {
   void _getSuggestions(String text) async {
     _timer = Timer(const Duration(milliseconds: 500), () async {
       emit(const SearchState.loading());
-      _resetPagingController();
+      resetPagingController();
       final res = await _getSuggestionsUseCase(text);
       res.fold((l) {
         emit(SearchState.error(l));
@@ -90,10 +66,11 @@ class SearchCubit extends Cubit<SearchState> {
     });
   }
 
-  void _resetPagingController() {
+  void resetPagingController() {
     if (controller != null) {
       controller!.dispose();
       controller = null;
+      emit(const SearchState.empty());
     }
   }
 
@@ -121,7 +98,6 @@ class SearchCubit extends Cubit<SearchState> {
     res.fold((l) {
       controller?.error = l.error;
     }, (r) {
-      _setLocalSuggestionsUseCase(searchText);
       if (r.metadata != null && r.metadata!.totalPages != null) {
         final isLast = page == r.metadata!.totalPages! - 1;
         _updatePagingController(

@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/data/models/responses/generic/object_stat
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_editions.dart';
@@ -30,7 +31,6 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../color_management/color_manager.dart';
 import '../../domain/entities/generic/course_model.dart';
 import '../../domain/entities/smart_configurator/smart_configurator_model.dart';
-import '../../theme/app_theme.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
 import '../common/widgets/error/error_screen.dart';
 import '../common/widgets/rating/ratings_dialog.dart';
@@ -662,7 +662,7 @@ class _DetailPageState extends State<DetailPage> {
                   LearningObjectTypology.course),
             ),
           ),
-          buildHeader(title: 'Dettagli del Percorso'),
+          const ListHeaderTitle(title: 'Dettagli del Percorso'),
         ],
       );
     }
@@ -704,7 +704,7 @@ class _DetailPageState extends State<DetailPage> {
                 parentModel: model,
               ),
             ),
-            buildHeader(title: 'Dettagli del Percorso'),
+            const ListHeaderTitle(title: 'Dettagli del Percorso'),
           ],
         );
       }
@@ -1039,44 +1039,6 @@ class _DetailPageState extends State<DetailPage> {
               BlendMode.srcIn,
             ),
           )),
-    );
-  }
-
-  Widget buildHeader({required String title}) {
-    return Row(
-      children: [
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 60,
-              bottom: 50,
-              left: Dimens.hViewPadding,
-              right: Dimens.hViewPadding,
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.8, 1],
-                colors: [
-                  OLColors.backgroundPrimary,
-                  OLColors.backgroundPrimary.withOpacity(0),
-                ],
-              ),
-            ),
-            child: Text(
-              title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextTheme.body(
-                weight: FontWeight.w700,
-                size: 32,
-                color: ColorManager().getColorTextPrimary(),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -6,10 +6,9 @@ import 'package:simple_shadow/simple_shadow.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../theme/app_theme.dart';
-import '../../../../common/widgets/glow.dart';
 
 class TopicFilterItem extends StatefulWidget {
-  static const _iconSize = 24.0;
+ // static const _iconSize = 24.0;
 
   final String? label;
   final String? path;

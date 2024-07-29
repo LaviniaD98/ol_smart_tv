@@ -464,9 +464,6 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                           widget.rightPanelState.value = RightPanelState.start;
                         }
                       },
-
-                      // widget.args.object?.status
-
                       title: CourseLogic()
                           .loCharacterizationNew(
                             status: widget.model.status ?? "",

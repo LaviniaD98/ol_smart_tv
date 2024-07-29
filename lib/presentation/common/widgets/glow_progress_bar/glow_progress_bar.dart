@@ -4,7 +4,6 @@ import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 //import 'package:flutter_glow/flutter_glow.dart';
 
 import '../../../../color_management/color_manager.dart';
-import '../../../../theme/app_theme.dart';
 
 class GlowProgressBar extends StatelessWidget {
   final double percentage;

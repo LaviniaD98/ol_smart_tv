@@ -6,7 +6,7 @@ part of 'rating_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _RatingDataSourceImpl implements RatingDataSourceImpl {
   _RatingDataSourceImpl(
@@ -45,8 +45,8 @@ class _RatingDataSourceImpl implements RatingDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = RatingDto.fromJson(_result.data!);
-    return value;
+    final _value = RatingDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

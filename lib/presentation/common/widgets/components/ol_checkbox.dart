@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
-import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
 import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 

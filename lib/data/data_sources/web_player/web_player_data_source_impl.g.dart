@@ -6,7 +6,7 @@ part of 'web_player_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _WebPlayerDataSourceImpl implements WebPlayerDataSourceImpl {
   _WebPlayerDataSourceImpl(
@@ -45,8 +45,8 @@ class _WebPlayerDataSourceImpl implements WebPlayerDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SessionIdResponseDto.fromJson(_result.data!);
-    return value;
+    final _value = SessionIdResponseDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -76,8 +76,8 @@ class _WebPlayerDataSourceImpl implements WebPlayerDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LinkedinResponseDto.fromJson(_result.data!);
-    return value;
+    final _value = LinkedinResponseDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 
@@ -13,6 +14,10 @@ class OLButton extends StatefulWidget {
     this.isFlexible = false,
     this.debugLabel,
     this.onFocusChanded,
+    this.backgroundColor,
+    this.foregroundColor,
+    this.icon,
+    this.image,
     super.key,
   });
 
@@ -25,6 +30,10 @@ class OLButton extends StatefulWidget {
   final bool isFlexible;
   final String? debugLabel;
   final void Function(bool)? onFocusChanded;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
+  final IconData? icon;
+  final String? image;
 
   @override
   State<OLButton> createState() => _OLButtonState();
@@ -90,10 +99,12 @@ class _OLButtonState extends State<OLButton> {
               onFocusChange: widget.onFocusChanded,
               statesController: _statesController,
               style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                    backgroundColor:
-                        WidgetStateProperty.all(Colors.transparent),
-                    foregroundColor:
-                        WidgetStateProperty.all(OLColors.textPrimary),
+                    backgroundColor: WidgetStateProperty.all(
+                      widget.backgroundColor ?? Colors.transparent,
+                    ),
+                    foregroundColor: WidgetStateProperty.all(
+                      widget.foregroundColor ?? OLColors.textPrimary,
+                    ),
                     side: WidgetStateProperty.all(
                       BorderSide(
                         width: borderWidth.resolve(_statesController.value),
@@ -103,7 +114,7 @@ class _OLButtonState extends State<OLButton> {
                     ),
                   ),
               onPressed: widget.onPressed,
-              child: Text(widget.title),
+              child: buildButtonBody(context),
             )
           : ElevatedButton(
               focusNode: widget.focusNode ?? _focusNode,
@@ -140,8 +151,25 @@ class _OLButtonState extends State<OLButton> {
                         ),
                       ),
               onPressed: widget.onPressed,
-              child: Text(widget.title),
+              child: buildButtonBody(context),
             ),
+    );
+  }
+
+  Widget buildButtonBody(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (widget.title.isNotEmpty) ...[
+          Text(widget.title),
+        ],
+        if (widget.image != null && widget.image?.isNotEmpty == true) ...[
+          SvgPicture.asset(widget.image!),
+        ],
+        if (widget.icon != null) ...[
+          Icon(widget.icon, size: 30),
+        ],
+      ],
     );
   }
 
@@ -152,12 +180,14 @@ class _OLButtonState extends State<OLButton> {
       WidgetState.focused,
     };
 
-    if (widget.outline) {
+    if (states.any(focusedStates.contains)) {
+      if (widget.outline) {
+        return Colors.white;
+      }
       return Colors.white;
     }
-
-    if (states.any(focusedStates.contains)) {
-      return Colors.white;
+    if (widget.outline) {
+      return widget.backgroundColor ?? Colors.white;
     }
     return Colors.transparent;
   }

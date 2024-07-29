@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -18,10 +16,12 @@ class CommunityFullScreenWebView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CommunityFullScreenWebViewState createState() => _CommunityFullScreenWebViewState();
+  _CommunityFullScreenWebViewState createState() =>
+      _CommunityFullScreenWebViewState();
 }
 
-class _CommunityFullScreenWebViewState extends State<CommunityFullScreenWebView> {
+class _CommunityFullScreenWebViewState
+    extends State<CommunityFullScreenWebView> {
   WebViewController? _controller;
   bool isLoading = true;
   bool communityLoaded = false;
@@ -30,12 +30,10 @@ class _CommunityFullScreenWebViewState extends State<CommunityFullScreenWebView>
   void initState() {
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor( Colors.transparent)
+      ..setBackgroundColor(Colors.transparent)
       ..setNavigationDelegate(
         NavigationDelegate(
-          onProgress: (int progress) {
-
-          },
+          onProgress: (int progress) {},
           onPageStarted: (String url) {
             setState(() {
               isLoading = true;
@@ -62,21 +60,20 @@ class _CommunityFullScreenWebViewState extends State<CommunityFullScreenWebView>
               // });
             }
           },
-          onWebResourceError: (WebResourceError error) {
-
-          },
+          onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             if (kDebugMode) print("CWeb NavigationRequest: ${request.url}");
             return NavigationDecision.navigate;
           },
           onUrlChange: (UrlChange urlChange) {
             if (kDebugMode) print("CWeb onUrlChange: ${urlChange.url}");
-            if (communityLoaded && (urlChange.url?.endsWith("/bookmarks") == true ||
-              urlChange.url?.endsWith("/esplora") == true ||
-              urlChange.url?.endsWith("/per-te") == true ||
-              urlChange.url?.contains("/agenda") == true ||
-              urlChange.url?.contains("/smart-learning") == true)) {
-                context.pop();
+            if (communityLoaded &&
+                (urlChange.url?.endsWith("/bookmarks") == true ||
+                    urlChange.url?.endsWith("/esplora") == true ||
+                    urlChange.url?.endsWith("/per-te") == true ||
+                    urlChange.url?.contains("/agenda") == true ||
+                    urlChange.url?.contains("/smart-learning") == true)) {
+              context.pop();
             }
           },
         ),
@@ -94,23 +91,25 @@ class _CommunityFullScreenWebViewState extends State<CommunityFullScreenWebView>
   @override
   Widget build(BuildContext context) {
     return Stack(
-        children: [
-          if (_controller != null) WebViewWidget(controller: _controller!),
-          if (isLoading)
-            Center(child: CircularProgressIndicator(),),
-          Positioned(
-            top: MediaQuery.of(context).padding.top,
-            right: 24,
-            child: SafeArea(
-              child: IconButton(
-                icon: Icon(Icons.close, color: Colors.black),
-                onPressed: () {
-                  widget.onClose();
-                  },
-              ),
+      children: [
+        if (_controller != null) WebViewWidget(controller: _controller!),
+        if (isLoading)
+          Center(
+            child: CircularProgressIndicator(),
+          ),
+        Positioned(
+          top: MediaQuery.of(context).padding.top,
+          right: 24,
+          child: SafeArea(
+            child: IconButton(
+              icon: Icon(Icons.close, color: Colors.black),
+              onPressed: () {
+                widget.onClose();
+              },
             ),
           ),
-        ],
+        ),
+      ],
     );
   }
 }

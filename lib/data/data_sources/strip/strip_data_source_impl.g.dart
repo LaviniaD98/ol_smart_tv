@@ -6,7 +6,7 @@ part of 'strip_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _StripDataSourceImpl implements StripDataSourceImpl {
   _StripDataSourceImpl(
@@ -41,8 +41,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SuggestedStripDto.fromJson(_result.data!);
-    return value;
+    final _value = SuggestedStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -68,8 +68,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VisForStripDto.fromJson(_result.data!);
-    return value;
+    final _value = VisForStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -95,8 +95,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = TrainingMandatoryStripDto.fromJson(_result.data!);
-    return value;
+    final _value = TrainingMandatoryStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -122,8 +122,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SliderTopContentStripDto.fromJson(_result.data!);
-    return value;
+    final _value = SliderTopContentStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -149,8 +149,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VisCarBestRatingStripDto.fromJson(_result.data!);
-    return value;
+    final _value = VisCarBestRatingStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -176,8 +176,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LatestLearningStripDto.fromJson(_result.data!);
-    return value;
+    final _value = LatestLearningStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -204,8 +204,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VisCarTrainingTransversalStripDto.fromJson(_result.data!);
-    return value;
+    final _value = VisCarTrainingTransversalStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -231,8 +231,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = FavouritesStripDto.fromJson(_result.data!);
-    return value;
+    final _value = FavouritesStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -258,8 +258,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = VisCarCategoryStripDto.fromJson(_result.data!);
-    return value;
+    final _value = VisCarCategoryStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -285,8 +285,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = CalendarStripDto.fromJson(_result.data!);
-    return value;
+    final _value = CalendarStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -312,8 +312,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ContinueLearningDto.fromJson(_result.data!);
-    return value;
+    final _value = ContinueLearningDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -339,8 +339,8 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SmartLearningStripDto.fromJson(_result.data!);
-    return value;
+    final _value = SmartLearningStripDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

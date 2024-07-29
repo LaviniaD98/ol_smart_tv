@@ -6,7 +6,7 @@ part of 'learner_progress_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _LearnerProgressDataSourceImpl implements LearnerProgressDataSourceImpl {
   _LearnerProgressDataSourceImpl(
@@ -44,8 +44,8 @@ class _LearnerProgressDataSourceImpl implements LearnerProgressDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LearnerProgressDto.fromJson(_result.data!);
-    return value;
+    final _value = LearnerProgressDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -74,8 +74,8 @@ class _LearnerProgressDataSourceImpl implements LearnerProgressDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LearnerGoalsDto.fromJson(_result.data!);
-    return value;
+    final _value = LearnerGoalsDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -103,8 +103,8 @@ class _LearnerProgressDataSourceImpl implements LearnerProgressDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = ProgressGoalsConfigDto.fromJson(_result.data!);
-    return value;
+    final _value = ProgressGoalsConfigDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

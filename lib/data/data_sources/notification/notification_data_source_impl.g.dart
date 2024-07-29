@@ -6,7 +6,7 @@ part of 'notification_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _NotificationDataSourceImpl implements NotificationDataSourceImpl {
   _NotificationDataSourceImpl(
@@ -45,10 +45,10 @@ class _NotificationDataSourceImpl implements NotificationDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = _result.data == null
+    final _value = _result.data == null
         ? null
         : RegisterDeviceResponse.fromJson(_result.data!);
-    return value;
+    return _value;
   }
 
   @override
@@ -74,9 +74,9 @@ class _NotificationDataSourceImpl implements NotificationDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value =
+    final _value =
         _result.data == null ? null : NotificationsDto.fromJson(_result.data!);
-    return value;
+    return _value;
   }
 
   @override
@@ -103,9 +103,9 @@ class _NotificationDataSourceImpl implements NotificationDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value =
+    final _value =
         _result.data == null ? null : NotificationsDto.fromJson(_result.data!);
-    return value;
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

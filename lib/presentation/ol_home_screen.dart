@@ -11,6 +11,7 @@ import 'package:open_learning_smart_tv/presentation/main/profile/profile_screen.
 import 'package:open_learning_smart_tv/presentation/main/search/search_screen.dart';
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart';
 
 class OLHomeScreen extends StatefulWidget {
   const OLHomeScreen({
@@ -79,8 +80,15 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                 child: PageView.builder(
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return BlocProvider(
-                        create: (_) => getIt<SearchCubit>(),
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => getIt<SuggestionsCubit>(),
+                          ),
+                          BlocProvider(
+                            create: (_) => getIt<SearchCubit>(),
+                          ),
+                        ],
                         child: IGTabNavigator(
                           navigatorKey: searchTabKey,
                           tabRoute: 'routeKeySearch',

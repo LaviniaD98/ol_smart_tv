@@ -1,7 +1,5 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:open_learning_smart_tv/core/utils/nav.dart';
 
 import '../../../../theme/app_theme.dart';
 import 'dialog_page.dart';

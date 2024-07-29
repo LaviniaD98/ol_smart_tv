@@ -6,7 +6,7 @@ part of 'search_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _SearchDataSourceImpl implements SearchDataSourceImpl {
   _SearchDataSourceImpl(
@@ -41,8 +41,8 @@ class _SearchDataSourceImpl implements SearchDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SuggestionsDto.fromJson(_result.data!);
-    return value;
+    final _value = SuggestionsDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -75,8 +75,8 @@ class _SearchDataSourceImpl implements SearchDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = SearchResultsDto.fromJson(_result.data!);
-    return value;
+    final _value = SearchResultsDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

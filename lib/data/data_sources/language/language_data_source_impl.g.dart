@@ -6,7 +6,7 @@ part of 'language_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _LanguageSourceImpl implements LanguageSourceImpl {
   _LanguageSourceImpl(
@@ -41,8 +41,8 @@ class _LanguageSourceImpl implements LanguageSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LanguagesDto.fromJson(_result.data!);
-    return value;
+    final _value = LanguagesDto.fromJson(_result.data!);
+    return _value;
   }
 
   @override
@@ -72,8 +72,8 @@ class _LanguageSourceImpl implements LanguageSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = LabelsDto.fromJson(_result.data!);
-    return value;
+    final _value = LabelsDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

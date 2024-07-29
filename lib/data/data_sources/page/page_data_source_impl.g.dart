@@ -6,7 +6,7 @@ part of 'page_data_source_impl.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
+// ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers,unused_element
 
 class _PageDataSourceImpl implements PageDataSourceImpl {
   _PageDataSourceImpl(
@@ -41,8 +41,8 @@ class _PageDataSourceImpl implements PageDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = PageDto.fromJson(_result.data!);
-    return value;
+    final _value = PageDto.fromJson(_result.data!);
+    return _value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
