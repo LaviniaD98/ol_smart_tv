@@ -34,7 +34,7 @@ class _ExploreScreenState extends State<ExploreScreen>
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(
-    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 340, 0, 0),
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 420, 0, 0),
     axis: Axis.vertical,
   );
 

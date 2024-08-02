@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
@@ -78,7 +79,10 @@ class _DetailPageState extends State<DetailPage> {
     context.read<DetailPageCubit>().rightPanelNode = _focusNodeRight;
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      final focus = _focusNodeLeft.descendants.firstOrNull;
+      //final focus = _focusNodeLeft.descendants.firstOrNull;
+      final focus = _focusNodeLeft.descendants.firstWhereOrNull((element) {
+        return element.debugLabel == 'BUTTON DETAILS CONTINUE';
+      });
       focus?.requestFocus();
     });
   }
@@ -154,22 +158,17 @@ class _DetailPageState extends State<DetailPage> {
           error: (_) => true,
           orElse: () => false,
         ),
-        builder: (context, state) => state.maybeWhen(
-          loading: () => _loading,
-          success: (selectedIndex, model, smartConfig) {
-            model.learningActivities?.forEach((element) {
-              //print('element: ${element.}');
-            });
-
-            print(
-                'lo grandParentId: ${widget.args.object?.grandParentId} - ParentId: ${widget.args.object?.parentId}');
-            // print(
-            //     'model.learningActivities: ${model.learningActivities?.length}');
-            return _content(context, selectedIndex, model, smartConfig);
-          },
-          error: () => _error(context),
-          orElse: () => const SizedBox(),
-        ),
+        builder: (context, state) {
+          return state.maybeWhen(
+            loading: () => _loading,
+            success: (selectedIndex, model, smartConfig) {
+              print('model: ${model.learningObjectTypology}');
+              return _content(context, selectedIndex, model, smartConfig);
+            },
+            error: () => _error(context),
+            orElse: () => const SizedBox(),
+          );
+        },
       ),
     );
   }

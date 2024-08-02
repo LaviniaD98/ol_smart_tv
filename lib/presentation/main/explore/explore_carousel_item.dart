@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/duration_tag.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
@@ -32,22 +33,30 @@ class _ExploreCarouselItemState extends State<ExploreCarouselItem> {
       color: OLColors.backgroundCard,
       child: Stack(
         children: [
-          CachedNetworkImage(
-            imageUrl: widget.item.coverPublicURL!,
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            errorWidget: (context, url, error) => DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(.05),
-              ),
+          Positioned.fill(
+            child: OLImage(
+              imageURL: widget.item.coverPublicURL,
+              cacheWidth: 100,
+              height: 100,
+              width: 100,
             ),
           ),
+          // CachedNetworkImage(
+          //   imageUrl: widget.item.coverPublicURL!,
+          //   imageBuilder: (context, imageProvider) => Container(
+          //     decoration: BoxDecoration(
+          //       image: DecorationImage(
+          //         image: imageProvider,
+          //         fit: BoxFit.cover,
+          //       ),
+          //     ),
+          //   ),
+          //   errorWidget: (context, url, error) => DecoratedBox(
+          //     decoration: BoxDecoration(
+          //       color: AppColors.white.withOpacity(.05),
+          //     ),
+          //   ),
+          // ),
           Container(
             clipBehavior: Clip.hardEdge,
             padding: const EdgeInsets.symmetric(vertical: 110, horizontal: 96),

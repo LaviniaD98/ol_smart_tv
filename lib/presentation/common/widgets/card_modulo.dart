@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/badge_icon.dart';
@@ -369,17 +370,9 @@ class _CardModuloState extends State<CardModulo>
       height: 330,
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius),
-            child: widget.imageUrl.isNotEmpty
-                ? CachedNetworkImage(
-                    imageUrl: widget.imageUrl,
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    errorWidget: (context, url, error) =>
-                        Container(color: AppColors.white.withOpacity(.05)),
-                  )
-                : Container(color: AppColors.white.withOpacity(.05)),
+          OLImage(
+            imageURL: widget.imageUrl,
+            cacheWidth: 50,
           ),
           if (widget.status == 'C')
             Positioned(

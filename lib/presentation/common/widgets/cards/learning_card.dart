@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +107,10 @@ class _LearningCardState extends State<LearningCard> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    _backgroundImage,
+                    OLImage(
+                      imageURL: widget.data.coverPublicURL,
+                      cacheWidth: 100,
+                    ),
                     Container(
                       clipBehavior: Clip.hardEdge,
                       padding: const EdgeInsets.fromLTRB(Dimens.spacingXL,
@@ -263,32 +267,6 @@ class _LearningCardState extends State<LearningCard> {
     return Align(
       alignment: Alignment.topRight,
       child: DurationTag.fromMinutes(widget.data.duration ?? 0, color: color),
-    );
-  }
-
-  Widget get _backgroundImage {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: OLColors.backgroundCard,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: widget.data.coverPublicURL != null &&
-              widget.data.coverPublicURL!.isNotEmpty
-          ? CachedNetworkImage(
-              imageUrl: widget.data.coverPublicURL!,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.05),
-                ),
-              ),
-            )
-          : DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(.05),
-              ),
-            ),
     );
   }
 

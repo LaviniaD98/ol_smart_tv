@@ -7,6 +7,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
@@ -107,7 +108,10 @@ class _ForYouCardState extends State<ForYouCard> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    _backgroundImage,
+                    OLImage(
+                      imageURL: widget.data.coverPublicURL,
+                      cacheWidth: 200,
+                    ),
                     Container(
                       clipBehavior: Clip.hardEdge,
                       padding: const EdgeInsets.fromLTRB(Dimens.spacingXL,

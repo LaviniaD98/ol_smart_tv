@@ -25,6 +25,7 @@ dependencies:
   dio: ^5.4.0
   drift: ^2.19.1+1
   equatable: ^2.0.5
+  extended_image: ^8.2.1
   file_picker: ^6.1.1
   firebase_core: ^2.25.4
   firebase_crashlytics: ^3.4.14

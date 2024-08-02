@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
@@ -264,18 +265,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
       height: 330,
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(Dimens.radius),
-            child: widget.data.coverPublicURL != null &&
-                    widget.data.coverPublicURL?.isNotEmpty == true
-                ? CachedNetworkImage(
-                    imageUrl: widget.data.coverPublicURL!,
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    errorWidget: (context, url, error) =>
-                        Container(color: AppColors.white.withOpacity(.05)),
-                  )
-                : Container(color: AppColors.white.withOpacity(.05)),
+          OLImage(
+            imageURL: widget.data.coverPublicURL,
+            cacheHeight: 100,
           ),
           Positioned(
             top: 8,
