@@ -70,6 +70,10 @@ class _DetailPageState extends State<DetailPage> {
     RightPanelState.start,
   );
 
+  final ValueNotifier<RightPanelState> currentModule = ValueNotifier(
+    RightPanelState.start,
+  );
+
   @override
   void initState() {
     super.initState();
@@ -162,7 +166,6 @@ class _DetailPageState extends State<DetailPage> {
           return state.maybeWhen(
             loading: () => _loading,
             success: (selectedIndex, model, smartConfig) {
-              print('model: ${model.learningObjectTypology}');
               return _content(context, selectedIndex, model, smartConfig);
             },
             error: () => _error(context),
@@ -252,66 +255,7 @@ class _DetailPageState extends State<DetailPage> {
               ),
             ),
             Expanded(
-              child: ValueListenableBuilder<RightPanelState>(
-                valueListenable: _rightPanelState,
-                builder: (context, state, _) {
-                  return FocusScope(
-                    //canRequestFocus: state == RightPanelState.start,
-                    node: _focusNodeRight,
-                    onFocusChange: (value) {
-                      if (value) {
-                        if (state == RightPanelState.start) {
-                          _expanded.value = true;
-                        }
-
-                        if (_focusNodeRight.focusedChild == null) {
-                          final focus = _focusNodeRight.descendants.firstOrNull;
-                          focus?.requestFocus();
-                        }
-                      }
-                    },
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          top: 0,
-                          bottom: 0,
-                          left: 0,
-                          child: Container(
-                            width: 1750,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ValueListenableBuilder(
-                                    valueListenable: _rightPanelState,
-                                    builder: (context, value, child) {
-                                      if (value == RightPanelState.start) {
-                                        return getTabModules(
-                                                context, model, false) ??
-                                            const SizedBox.shrink();
-                                      } else if (value ==
-                                          RightPanelState.details) {
-                                        return getTabDetail(model, false);
-                                      } else if (value ==
-                                          RightPanelState.related) {
-                                        return getTabRelated(model, false) ??
-                                            const SizedBox.shrink();
-                                      }
-                                      return const SizedBox.shrink();
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(color: Colors.blue),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+              child: buildRightPanel(model: model),
             ),
           ],
         ),
@@ -463,6 +407,95 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );*/
+  }
+
+  Widget buildRightPanel({required DetailPageModel model}) {
+    return ValueListenableBuilder<RightPanelState>(
+      valueListenable: _rightPanelState,
+      builder: (context, state, _) {
+        return FocusScope(
+          node: _focusNodeRight,
+          onFocusChange: (value) {
+            if (value) {
+              if (state == RightPanelState.start) {
+                _expanded.value = true;
+              }
+
+              if (_focusNodeRight.focusedChild == null) {
+                final focus = _focusNodeRight.descendants.firstOrNull;
+                focus?.requestFocus();
+              }
+            }
+          },
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                bottom: 0,
+                left: 0,
+                child: Builder(builder: (context) {
+                  // if (model.learningObjectTypology ==
+                  //     LearningObjectTypology.path) {
+                  //   return Container(
+                  //     width: 1750,
+                  //     color: Colors.red,
+                  //   );
+                  // } else if (model.learningObjectTypology ==
+                  //     LearningObjectTypology.course) {
+                  //   return Container(
+                  //     width: 1750,
+                  //     color: Colors.green,
+                  //   );
+                  // } else {
+                  //   return Container(
+                  //     width: 1750,
+                  //     color: Colors.blue,
+                  //   );
+                  // }
+
+                  return Container(
+                    width: 1750,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ValueListenableBuilder(
+                            valueListenable: _rightPanelState,
+                            builder: (context, value, child) {
+                              if (value == RightPanelState.start) {
+                                return getTabModules(context, model, false) ??
+                                    const SizedBox.shrink();
+                              } else if (value == RightPanelState.details) {
+                                return getTabDetail(model, false);
+                              }
+                              /*else if (value == RightPanelState.related) {
+                                return getTabRelated(model, false) ??
+                                    const SizedBox.shrink();
+                              }*/
+                              return const SizedBox.shrink();
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            color: Colors.blue,
+                            child: ValueListenableBuilder(
+                              valueListenable: currentModule,
+                              builder: (context, value, child) {
+                                return const SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget buildLeftPanel({
@@ -732,8 +765,25 @@ class _DetailPageState extends State<DetailPage> {
         return CourseDetailModules(
           model: model,
           parentId: widget.args.parentId,
-          onButtonPressed: (int index, bool isACourse, LearningObjectModel? ll,
-              CourseModel? cc) {
+          onLearningActivityFocused: (cc) async {
+            final res = await context.read<DetailPageCubit>().getCourseDetails(
+                  args: DetailPageArgs(
+                    id: cc.id.toString(),
+                    parentId: model.id.toString(),
+                    parent: model,
+                    object: null,
+                    typology: cc.learningObjectTypology,
+                  ),
+                );
+
+            print('RESPONSE: ${res?.learningActivities?.length}');
+          },
+          onButtonPressed: (
+            int index,
+            bool isACourse,
+            LearningObjectModel? ll,
+            CourseModel? cc,
+          ) {
             if (loCharacterization.buttonEnabled &&
                 (loCharacterization.objLOAction != ObjLOAction.none &&
                     loCharacterization.objLOAction !=
@@ -744,6 +794,8 @@ class _DetailPageState extends State<DetailPage> {
               } else if (widget.args.parentId != null) {
                 idToAE = int.parse(widget.args.parentId!);
               }
+              print(
+                  'loCharacterization.objLOAction: ${loCharacterization.objLOAction}');
 
               switch (loCharacterization.objLOAction) {
                 case ObjLOAction.none:

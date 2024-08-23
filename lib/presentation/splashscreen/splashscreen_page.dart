@@ -4,7 +4,6 @@ import 'package:open_learning_smart_tv/presentation/profile/download/wall/downlo
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:native_video_view/native_video_view.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
 
 import '../corporate_code/corporate_code_page.dart';
@@ -18,8 +17,6 @@ class SplashScreenPage extends StatefulWidget {
 
 class _SplashScreenPageState extends State<SplashScreenPage>
     with WidgetsBindingObserver {
-  VideoViewController? _videoController;
-
   @override
   void initState() {
     super.initState();
@@ -31,19 +28,13 @@ class _SplashScreenPageState extends State<SplashScreenPage>
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       context.read<SplashScreenCubit>().videoEnd();
-    } else if (state == AppLifecycleState.paused) {
-      _videoController?.pause();
-    }
+    } else if (state == AppLifecycleState.paused) {}
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  void onVideoControllerCreated(VideoViewController controller) {
-    _videoController = controller;
   }
 
   @override

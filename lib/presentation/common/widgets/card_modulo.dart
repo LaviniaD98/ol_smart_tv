@@ -7,7 +7,6 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/badge_icon.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../color_management/color_manager.dart';
 import '../../../remote_theming/labels/labels_manager.dart';
@@ -36,6 +35,8 @@ class CardModulo extends StatefulWidget {
   final String? status;
   final void Function(bool)? onFocusChange;
   final FocusScopeNode? parentFocus;
+  final LearningObjectTypology type;
+  final void Function()? onLearningActivitiesFocused;
 
   const CardModulo({
     super.key,
@@ -58,6 +59,8 @@ class CardModulo extends StatefulWidget {
     this.status = "",
     this.onFocusChange,
     this.parentFocus,
+    this.type = LearningObjectTypology.path,
+    this.onLearningActivitiesFocused,
   });
 
   @override
@@ -90,8 +93,10 @@ class _CardModuloState extends State<CardModulo>
     return Column(
       children: [
         Container(
-          // color: ColorManager().getColorBackgroundPrimaryLighter(),
-          height: 380,
+          // color: widget.type == LearningObjectTypology.path
+          //     ? Colors.green
+          //     : Colors.red, //ColorManager().getColorBackgroundPrimaryLighter(),
+          height: widget.type == LearningObjectTypology.path ? 380 : null,
           padding: const EdgeInsets.only(top: 25, bottom: 25),
           child: Row(
             children: [
@@ -102,7 +107,7 @@ class _CardModuloState extends State<CardModulo>
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      widget.index.toString(),
+                      (widget.index + 1).toString(),
                       textAlign: TextAlign.center,
                       style:
                           AppTextTheme.body(weight: FontWeight.bold, size: 32),
@@ -110,8 +115,10 @@ class _CardModuloState extends State<CardModulo>
                   ],
                 ),
               ),
-              buildVerticalImage(),
-              const SizedBox(width: 32),
+              if (widget.type == LearningObjectTypology.path) ...[
+                buildVerticalImage(),
+                const SizedBox(width: 32),
+              ],
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(right: 30),
@@ -220,16 +227,19 @@ class _CardModuloState extends State<CardModulo>
                         ),
                       ),
                       const SizedBox(height: 16),
-                      // descrizione
-                      Text(
-                        widget.descrizione,
-                        style: TextStyle(
-                          color: ColorManager().getColorTextPrimary(),
-                          fontSize: 16,
+                      if (widget.type == LearningObjectTypology.path) ...[
+                        // descrizione
+                        Text(
+                          widget.descrizione,
+                          style: TextStyle(
+                            color: ColorManager().getColorTextPrimary(),
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: vPadding),
-                      const Spacer(),
+                        const SizedBox(height: vPadding),
+
+                        const Spacer(),
+                      ],
 
                       // pulsante e icona
                       SizedBox(
@@ -278,6 +288,12 @@ class _CardModuloState extends State<CardModulo>
                                       child: OLButton(
                                         title: 'Attività Didattiche',
                                         outline: true,
+                                        onFocusChanded: (p0) {
+                                          if (p0) {
+                                            widget.onLearningActivitiesFocused
+                                                ?.call();
+                                          }
+                                        },
                                         onPressed: !widget.isEnabled
                                             ? null
                                             : () {

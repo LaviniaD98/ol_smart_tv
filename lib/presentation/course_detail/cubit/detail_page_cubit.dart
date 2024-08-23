@@ -153,6 +153,23 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     );
   }
 
+  Future<DetailPageModel?> getCourseDetails({
+    required DetailPageArgs args,
+  }) async {
+    final detailPageRes = await _getDetailPageUseCase(args, args.typology);
+
+    DetailPageModel? result;
+
+    detailPageRes.fold(
+      (l) {},
+      (detailPageModel) {
+        result = detailPageModel;
+      },
+    );
+    await Future.delayed(const Duration(milliseconds: 100), () {});
+    return result;
+  }
+
   Future<void> selectEditionsIfPresentIndex(
     DetailPageArgs args,
     DetailPageModel model,

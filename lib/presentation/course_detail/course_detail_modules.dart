@@ -22,6 +22,7 @@ class CommonObject {
 class CourseDetailModules extends StatefulWidget {
   final DetailPageModel model;
   final String? parentId;
+  final void Function(CourseModel)? onLearningActivityFocused;
   final Function(
     int index,
     bool isACourse,
@@ -34,6 +35,7 @@ class CourseDetailModules extends StatefulWidget {
     required this.model,
     required this.parentId,
     required this.onButtonPressed,
+    this.onLearningActivityFocused,
   });
 
   @override
@@ -179,6 +181,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                     index: index,
                     child: CardModulo(
                       index: index,
+                      type: widget.model.learningObjectTypology,
                       parentFocus: _focusNode,
                       imageUrl: cc.coverPublicURL ?? "",
                       tipoText: cc.learningObjectTypology.value.toString(),
@@ -209,6 +212,9 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       },
                       onDownloadPressed: (_) {},
                       isEnabled: bIsEnabled,
+                      onLearningActivitiesFocused: () {
+                        widget.onLearningActivityFocused?.call(cc);
+                      },
                       onFocusChange: (hasFocus) {
                         //print('INDEXED: $index .. $hasFocus');
                         if (hasFocus) {
@@ -230,6 +236,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                     index: index,
                     child: CardModulo(
                       index: index,
+                      type: widget.model.learningObjectTypology,
                       parentFocus: _focusNode,
                       imageUrl: ll.coverPublicURL ?? "",
                       tipoText: ll.learningObjectTypology.value.toString(),

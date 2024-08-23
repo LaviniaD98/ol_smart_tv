@@ -296,14 +296,12 @@ class InitiativeListState extends State<InitiativeList> {
       children: [
         _header(args),
         const SizedBox(height: Dimens.spacingXXL2),
-        Expanded(
-          child: Center(
-            child: Text(
-              LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.no_initiatives_available),
-              textAlign: TextAlign.center,
-              style: AppTextTheme.body(),
-            ),
+        Center(
+          child: Text(
+            LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.no_initiatives_available),
+            textAlign: TextAlign.center,
+            style: AppTextTheme.body(),
           ),
         ),
       ],

@@ -24,7 +24,7 @@ class ExploreCarousel extends StatefulWidget {
 }
 
 class _ExploreCarouselState extends State<ExploreCarousel> {
-  late CarouselController carouselController;
+  late CarouselSliderController carouselController;
   late PageController pageController;
 
   final FocusScopeNode focusNode =
@@ -33,7 +33,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
   @override
   void initState() {
     super.initState();
-    carouselController = CarouselController();
+    carouselController = CarouselSliderController();
     pageController = PageController();
   }
 

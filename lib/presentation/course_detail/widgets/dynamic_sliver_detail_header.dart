@@ -458,6 +458,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                 Row(
                   children: [
                     OLButton(
+                      width: 340,
                       key: const Key('loginForm_continue_raisedButton'),
                       onFocusChanded: (hasFocus) {
                         if (hasFocus) {
@@ -594,6 +595,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                     },
                     child: OLButton(
                       title: 'Dettagli',
+                      width: 340,
                       outline: true,
                       onFocusChanded: (hasFocus) {
                         if (hasFocus) {
@@ -605,11 +607,12 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                /*const SizedBox(height: 16),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: OLButton(
                     title: 'Correlati',
+                    width: 340,
                     outline: true,
                     onFocusChanded: (hasFocus) {
                       if (hasFocus) {
@@ -618,7 +621,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                     },
                     onPressed: () {},
                   ),
-                ),
+                ),*/
               ],
             ),
           ),

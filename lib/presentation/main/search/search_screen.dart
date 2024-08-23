@@ -173,7 +173,6 @@ class _SearchScreenState extends State<SearchScreen>
                                             child: ValueListenableBuilder(
                                                 valueListenable: textNotifier,
                                                 builder: (context, value, _) {
-                                                  print('value: $value');
                                                   return OnscreenKeyboard(
                                                     initialCase:
                                                         InitialCase.LOWER_CASE,
@@ -264,7 +263,6 @@ class _SearchScreenState extends State<SearchScreen>
                               },
                               error: _error,
                               loading: () {
-                                return const SizedBox.shrink();
                                 return const Center(
                                   child: CircularProgressIndicator(),
                                 );
