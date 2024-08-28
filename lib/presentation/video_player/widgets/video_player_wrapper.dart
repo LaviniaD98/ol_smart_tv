@@ -1,6 +1,5 @@
 import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 import 'video_overlay_widget.dart';
@@ -51,7 +50,6 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
               controller: widget.controller,
               args: widget.args,
               scrubberActionsArgs: widget.scrubberActionsArgs,
-              isPortrait: false,
               onFullScreen: () {
                 AutoOrientation.landscapeAutoMode();
               },
