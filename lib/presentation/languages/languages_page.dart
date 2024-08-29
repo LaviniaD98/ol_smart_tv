@@ -151,7 +151,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
   }
 
   Widget get _backButton {
-    if (context.canPop()) {
+    if (Navigator.of(context).canPop()) {
       return Padding(
         padding: const EdgeInsets.only(
             top: Dimens.spacingM, bottom: Dimens.spacingXL),
@@ -160,7 +160,7 @@ class _LanguagesPageState extends State<LanguagesPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             GestureDetector(
-              onTap: context.pop,
+              onTap: Navigator.of(context).pop,
               behavior: HitTestBehavior.translucent,
               child: SvgPicture.asset("assets/icons/back_arrow.svg"),
             ),

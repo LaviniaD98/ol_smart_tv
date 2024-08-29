@@ -8,13 +8,12 @@ import 'video_scrubber_widget.dart';
 
 class VideoProgressWidget extends StatefulWidget {
   const VideoProgressWidget(
-      this.controller, {
-        super.key,
-        this.scrubberActionsArgs,
-        this.colors = const VideoProgressColors(),
-        this.padding = const EdgeInsets.only(top: 5.0),
-      });
-
+    this.controller, {
+    super.key,
+    this.scrubberActionsArgs,
+    this.colors = const VideoProgressColors(),
+    this.padding = const EdgeInsets.only(top: 5.0),
+  });
 
   /// The [VideoPlayerController] that actually associates a video with this
   /// widget.
@@ -38,7 +37,12 @@ class VideoProgressWidget extends StatefulWidget {
 }
 
 class _VideoProgressWidgetState extends State<VideoProgressWidget> {
-  static const dotSize = 16.0;
+  static const dotSize = 24.0;
+
+  final FocusNode focusNode = FocusNode(
+    debugLabel: 'VIDEO-PROGRESS',
+  );
+
   _VideoProgressWidgetState() {
     listener = () {
       if (!mounted) {
@@ -83,40 +87,56 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
         }
       }
     }
-    progressIndicator = LayoutBuilder(
-      builder: (context, constraints) {
-        return Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.centerLeft,
-          fit: StackFit.passthrough,
-          children: <Widget>[
-            LinearProgressIndicator(
-              borderRadius: BorderRadius.circular(Dimens.spacingXXS),
-              value: maxBuffering / duration,
-              valueColor: AlwaysStoppedAnimation<Color>(colors.bufferedColor),
-              backgroundColor: colors.backgroundColor,
-            ),
-            LinearProgressIndicator(
-              borderRadius: BorderRadius.circular(Dimens.spacingXXS),
-              value: (position / duration),
-              valueColor: AlwaysStoppedAnimation<Color>(colors.playedColor),
-              backgroundColor: Colors.transparent,
-            ),
-            Positioned(
-              left: (constraints.maxWidth * clampDouble((position / duration), 0, 100)) - dotSize/2,
-              child: Container(
-                width: dotSize,
-                height: dotSize,
-                decoration: BoxDecoration(
+    progressIndicator = Focus(
+      focusNode: focusNode,
+      onFocusChange: (value) {
+        setState(() {});
+      },
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.centerLeft,
+            fit: StackFit.passthrough,
+            children: <Widget>[
+              LinearProgressIndicator(
+                minHeight: 12,
+                borderRadius: BorderRadius.circular(12),
+                value: maxBuffering / duration,
+                valueColor: AlwaysStoppedAnimation<Color>(colors.bufferedColor),
+                backgroundColor:
+                    focusNode.hasFocus ? Colors.red : colors.backgroundColor,
+              ),
+              LinearProgressIndicator(
+                minHeight: 12,
+                borderRadius: BorderRadius.circular(12),
+                value: (position / duration),
+                valueColor: AlwaysStoppedAnimation<Color>(colors.playedColor),
+                //backgroundColor: Colors.transparent,
+                backgroundColor:
+                    focusNode.hasFocus ? Colors.red : colors.backgroundColor,
+              ),
+              Positioned(
+                left: (constraints.maxWidth *
+                        clampDouble((position / duration), 0, 100)) -
+                    dotSize / 2,
+                child: Container(
+                  width: dotSize,
+                  height: dotSize,
+                  decoration: BoxDecoration(
                     color: ColorManager().getColorSystemSecondary01(),
-                    border: Border.all(width: 2.0, color: ColorManager().getColorSystemPrimary01()),
-                    borderRadius: BorderRadius.circular(dotSize/2)
+                    border: Border.all(
+                      width: 4.0,
+                      color: ColorManager().getColorSystemPrimary01(),
+                    ),
+                    borderRadius: BorderRadius.circular(dotSize / 2),
+                  ),
                 ),
               ),
-            ),
-          ],
-        );
-      },
+            ],
+          );
+        },
+      ),
     );
     final Widget paddedProgressIndicator = Padding(
       padding: widget.padding,

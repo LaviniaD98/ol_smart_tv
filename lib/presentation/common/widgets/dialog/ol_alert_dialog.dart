@@ -1,10 +1,11 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 
 import '../../../../theme/app_theme.dart';
 import 'dialog_page.dart';
 
-class OlAlertDialog extends StatelessWidget {
+class OlAlertDialog extends StatefulWidget {
   final String title;
   final String message;
   final String actionLabel;
@@ -60,9 +61,25 @@ class OlAlertDialog extends StatelessWidget {
   }
 
   @override
+  State<OlAlertDialog> createState() => _OlAlertDialogState();
+}
+
+class _OlAlertDialogState extends State<OlAlertDialog> {
+  final _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 300), () {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Dimens.spacingL),
+      padding: const EdgeInsets.all(Dimens.hViewPadding),
       decoration: BoxDecoration(
         gradient: AppTheme.backgroundGradient,
         borderRadius: BorderRadius.circular(Dimens.radiusDialog),
@@ -72,30 +89,25 @@ class OlAlertDialog extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            title,
+            widget.title,
             textAlign: TextAlign.center,
             style: AppTextTheme.dialogTitle(
                 color: ColorManager().getColorTextPrimary()),
           ),
           const SizedBox(height: Dimens.spacingM),
           Text(
-            message,
+            widget.message,
             textAlign: TextAlign.center,
             style:
                 AppTextTheme.body(color: ColorManager().getColorTextPrimary()),
           ),
           const SizedBox(height: Dimens.spacingXXL),
-          ElevatedButton(
-            style: AppButtonStyle.red,
+          OLButton(
+            focusNode: _focusNode,
+            title: widget.actionLabel,
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
-              actionLabel,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              style: AppTextTheme.button(),
-            ),
           ),
         ],
       ),

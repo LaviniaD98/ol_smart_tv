@@ -12,6 +12,7 @@ import 'package:open_learning_smart_tv/presentation/main/search/search_screen.da
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
 
 class OLHomeScreen extends StatefulWidget {
   const OLHomeScreen({
@@ -120,9 +121,20 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                         ),
                       );
                     } else if (index == 4) {
-                      return const AgendaScreen();
+                      return IGTabNavigator(
+                        navigatorKey: agendaTabKey,
+                        tabRoute: 'routeKeyAgenda',
+                        tabScreen: const AgendaScreen(),
+                      );
                     } else if (index == 5) {
-                      return const ProfileScreen();
+                      return BlocProvider(
+                        create: (_) => getIt<SettingsCubit>()..init(),
+                        child: IGTabNavigator(
+                          navigatorKey: profileTabKey,
+                          tabRoute: 'routeKeyProfile',
+                          tabScreen: const ProfileScreen(),
+                        ),
+                      );
                     }
                     return const SizedBox.shrink();
                   },

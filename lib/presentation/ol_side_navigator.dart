@@ -130,6 +130,14 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 4,
                             ),
+                            const Spacer(),
+                            const SizedBox(height: 44),
+                            OLSideItem(
+                              icon: 'assets/icons/agenda_icon.svg',
+                              title: 'Profile',
+                              isSelected:
+                                  !focusNode.hasFocus && selectedIndex == 5,
+                            ),
                           ],
                         ),
                       ),

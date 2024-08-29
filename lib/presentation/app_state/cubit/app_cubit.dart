@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/shared_preferences_keys.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/corporate_code/corporate_code_page.dart';
+import 'package:open_learning_smart_tv/presentation/ol_home_screen.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:bloc/bloc.dart';
@@ -54,13 +57,20 @@ class AppCubit extends Cubit<AppState> {
     }
   }
 
-  void reload() {
+  void reload(BuildContext context) {
     if (state is _Initial) {
       final current = state as _Initial;
-      AppRouter.I.setRouter(
-        initial: current.initialRoute,
-        dynamicRoutes: current.dynamicRoutes,
+      Nav.pushAndRemoveUntil(
+        context,
+        screen: OLHomeScreen(
+          dynamicRoutes: current.dynamicRoutes ?? [],
+        ),
       );
+
+      // AppRouter.I.setRouter(
+      //   initial: current.initialRoute,
+      //   dynamicRoutes: current.dynamicRoutes,
+      // );
       emit(current.copyWith(
         date: DateTime.now(),
       ));

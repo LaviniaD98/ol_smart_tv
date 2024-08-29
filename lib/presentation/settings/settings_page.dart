@@ -298,7 +298,7 @@ class SettingsPage extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     final args = LanguagesPageArgs(
-                        onChanged: () => getIt<AppCubit>().reload());
+                        onChanged: () => getIt<AppCubit>().reload(context));
                     context.pushNamed(LanguagesPage.routeName, extra: args);
                   },
                   child: Padding(

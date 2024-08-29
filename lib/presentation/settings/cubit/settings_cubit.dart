@@ -58,36 +58,53 @@ class SettingsCubit extends Cubit<SettingsState> {
     final smartConfig = await _getStoredSmartConfigurationUseCase();
 
     var sessionRes = await _cognitoAuthManager.checkSession();
-    sessionRes.fold((l) {
-      emit(const SettingsState.error());
-      bool? loggedInViaSSO =
-          _sharedPreferences.getBool(SharedPreferencesKeys.loggedInViaSSO);
-      if (kDebugMode) print("loggedInViaSSO: $loggedInViaSSO");
-      emit(SettingsState.initial(
-          smartConfig: smartConfig, loggedInViaSSO: loggedInViaSSO));
-    }, (session) async {
-      UserInfoModel? userInfoModel =
-          await _getSecureStoredUserInfoUseCase.call();
-      String? sessionId = userInfoModel?.sessionId;
-
-      final userSelfRes =
-          await _getUserSelfUseCase(session.accessToken.jwtToken, sessionId);
-      userSelfRes.fold((l) {
+    sessionRes.fold(
+      (l) {
+        print('1-------csdcsdcs');
+        emit(const SettingsState.error());
         bool? loggedInViaSSO =
             _sharedPreferences.getBool(SharedPreferencesKeys.loggedInViaSSO);
-        emit(const SettingsState.error());
         if (kDebugMode) print("loggedInViaSSO: $loggedInViaSSO");
-        emit(SettingsState.initial(
-            smartConfig: smartConfig, loggedInViaSSO: loggedInViaSSO));
-      }, (userSelf) async {
-        // Questa chiamata resetta solo l'iniziativa
-        await _clearSecureStoredInitiativeUseCase.call();
-        UserInfoManager().clearInitiative();
+        emit(
+          SettingsState.initial(
+            smartConfig: smartConfig,
+            loggedInViaSSO: loggedInViaSSO,
+          ),
+        );
+      },
+      (session) async {
+        print('2-------csdcsdcs');
+        UserInfoModel? userInfoModel =
+            await _getSecureStoredUserInfoUseCase.call();
+        String? sessionId = userInfoModel?.sessionId;
 
-        emit(SettingsState.goToInitiatives(
-            session: session, sessionId: sessionId, selfModel: userSelf));
-      });
-    });
+        final userSelfRes =
+            await _getUserSelfUseCase(session.accessToken.jwtToken, sessionId);
+        userSelfRes.fold((l) {
+          bool? loggedInViaSSO =
+              _sharedPreferences.getBool(SharedPreferencesKeys.loggedInViaSSO);
+          emit(const SettingsState.error());
+          emit(
+            SettingsState.initial(
+              smartConfig: smartConfig,
+              loggedInViaSSO: loggedInViaSSO,
+            ),
+          );
+        }, (userSelf) async {
+          // Questa chiamata resetta solo l'iniziativa
+          await _clearSecureStoredInitiativeUseCase.call();
+          UserInfoManager().clearInitiative();
+
+          emit(
+            SettingsState.goToInitiatives(
+              session: session,
+              sessionId: sessionId,
+              selfModel: userSelf,
+            ),
+          );
+        });
+      },
+    );
   }
 
   String getFreshDeskHtmlPageUrl() {

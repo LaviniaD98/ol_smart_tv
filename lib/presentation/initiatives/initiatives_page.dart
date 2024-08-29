@@ -116,22 +116,12 @@ class _InitiativesPageState extends State<InitiativesPage> {
                     );
                   },
                   success: (routes, initial) {
-                    routes?.forEach((element) {
-                      print(
-                          'success -[${element.labelMapping}--${element.apiPath}]');
-                    });
-
                     Nav.pushAndRemoveUntil(
                       context,
                       screen: OLHomeScreen(
                         dynamicRoutes: routes ?? [],
                       ),
                     );
-
-                    // context.read<AppCubit>().updateRouter(
-                    //       initialRoute: initial,
-                    //       dynamicRoutes: routes ?? [],
-                    //     );
                     return;
                   },
                 ),
