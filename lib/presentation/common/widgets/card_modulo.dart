@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/core/utils/utility.dart';
@@ -14,6 +15,11 @@ import '../../../remote_theming/labels/remote_labels_keys.dart';
 import '../../../theme/app_theme.dart';
 import 'glow_progress_bar/glow_progress_bar.dart';
 import 'icon_text.dart';
+
+enum ButtonFocusedType {
+  resume,
+  learningActivities,
+}
 
 class CardModulo extends StatefulWidget {
   final int index;
@@ -36,7 +42,8 @@ class CardModulo extends StatefulWidget {
   final void Function(bool)? onFocusChange;
   final FocusScopeNode? parentFocus;
   final LearningObjectTypology type;
-  final void Function()? onLearningActivitiesFocused;
+  final void Function(ButtonFocusedType?)? onModuleButtonFocused;
+  final bool isSubActivities;
 
   const CardModulo({
     super.key,
@@ -60,7 +67,8 @@ class CardModulo extends StatefulWidget {
     this.onFocusChange,
     this.parentFocus,
     this.type = LearningObjectTypology.path,
-    this.onLearningActivitiesFocused,
+    this.onModuleButtonFocused,
+    this.isSubActivities = false,
   });
 
   @override
@@ -72,10 +80,14 @@ class _CardModuloState extends State<CardModulo>
   late FocusScopeNode _focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
+  bool isActivityButtonLastFocused = false;
+
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusScopeNode(debugLabel: 'CardModulo - ${widget.index}');
+    _focusNode = FocusScopeNode(
+      debugLabel: 'CardModulo - ${widget.index} - ${widget.type}',
+    );
   }
 
   @override
@@ -93,9 +105,6 @@ class _CardModuloState extends State<CardModulo>
     return Column(
       children: [
         Container(
-          // color: widget.type == LearningObjectTypology.path
-          //     ? Colors.green
-          //     : Colors.red, //ColorManager().getColorBackgroundPrimaryLighter(),
           height: widget.type == LearningObjectTypology.path ? 380 : null,
           padding: const EdgeInsets.only(top: 25, bottom: 25),
           child: Row(
@@ -237,83 +246,10 @@ class _CardModuloState extends State<CardModulo>
                           ),
                         ),
                         const SizedBox(height: vPadding),
-
                         const Spacer(),
                       ],
 
-                      // pulsante e icona
-                      SizedBox(
-                        child: FocusTraversalGroup(
-                          key: LabeledGlobalKey('BUTTONS TRAVERSAL - Main'),
-                          policy: _policy,
-                          child: FocusScope(
-                            node: _focusNode,
-                            onFocusChange: widget.onFocusChange,
-                            child: CallbackShortcuts(
-                              bindings: <ShortcutActivator, VoidCallback>{
-                                const SingleActivator(
-                                    LogicalKeyboardKey.arrowLeft): () {
-                                  final f = FocusManager.instance.primaryFocus;
-
-                                  if (f?.debugLabel == 'BUTTON-0') {
-                                    context
-                                        .read<DetailPageCubit>()
-                                        .leftPanelNode
-                                        ?.requestFocus();
-                                  } else {
-                                    _policy.previous(_focusNode);
-                                  }
-                                },
-                              },
-                              child: Row(
-                                children: [
-                                  FocusTraversalOrder(
-                                    order: const NumericFocusOrder(0),
-                                    child: OLButton(
-                                      debugLabel: 'BUTTON-0',
-                                      title: widget.buttonTitle,
-                                      onPressed: !widget.isEnabled
-                                          ? null
-                                          : () {
-                                              widget.onButtonPressed(
-                                                  widget.index);
-                                            },
-                                    ),
-                                  ),
-                                  if (widget.numAttivita != null &&
-                                      widget.numAttivita != 0) ...[
-                                    const SizedBox(width: 24),
-                                    FocusTraversalOrder(
-                                      order: const NumericFocusOrder(1),
-                                      child: OLButton(
-                                        title: 'Attività Didattiche',
-                                        outline: true,
-                                        onFocusChanded: (p0) {
-                                          if (p0) {
-                                            widget.onLearningActivitiesFocused
-                                                ?.call();
-                                          }
-                                        },
-                                        onPressed: !widget.isEnabled
-                                            ? null
-                                            : () {
-                                                widget.onButtonPressed(
-                                                    widget.index);
-                                              },
-                                      ),
-                                    ),
-                                  ],
-                                  const SizedBox(width: 8),
-                                  BadgeIcon(
-                                    hasBadge: widget.hasBadge,
-                                    isCompleted: widget.isCompleted,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      buildButtons(),
                       const SizedBox(height: 24),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,6 +299,127 @@ class _CardModuloState extends State<CardModulo>
           ),
         ],
       ],
+    );
+  }
+
+  Widget buildButtons() {
+    // pulsante e icona
+    return SizedBox(
+      child: FocusTraversalGroup(
+        key: LabeledGlobalKey('BUTTONS TRAVERSAL - Main'),
+        policy: _policy,
+        child: FocusScope(
+          node: _focusNode,
+          onFocusChange: (hasFocus) {
+            widget.onFocusChange?.call(hasFocus);
+
+            if (_focusNode.focusedChild == null) {
+              Future.delayed(const Duration(milliseconds: 100), () {
+                final f = _focusNode.descendants.firstWhereOrNull(
+                  (element) => element.debugLabel == 'BUTTON-0',
+                );
+                f?.requestFocus();
+              });
+            }
+          },
+          child: CallbackShortcuts(
+            bindings: <ShortcutActivator, VoidCallback>{
+              const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+                final f = FocusManager.instance.primaryFocus;
+
+                if (widget.isSubActivities) {
+                  context
+                      .read<DetailPageCubit>()
+                      .detailsFocusNode
+                      ?.requestFocus();
+                } else if (f?.debugLabel == 'BUTTON-0') {
+                  context.read<DetailPageCubit>().leftPanelNode?.requestFocus();
+                } else {
+                  _policy.previous(_focusNode);
+                }
+              },
+              const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+                final f = FocusManager.instance.primaryFocus;
+                if (f?.debugLabel == 'BUTTON-1') {
+                  context
+                      .read<DetailPageCubit>()
+                      .subActivitiesFocusNode
+                      ?.requestFocus();
+                } else {
+                  _policy.next(_focusNode);
+                }
+              },
+            },
+            child: Row(
+              children: [
+                Expanded(
+                  child: FocusTraversalOrder(
+                    order: const NumericFocusOrder(0),
+                    child: OLButton(
+                      debugLabel: 'BUTTON-0',
+                      title: widget.buttonTitle,
+                      onFocusChanded: (p0) {
+                        if (widget.isSubActivities) {
+                          return;
+                        }
+                        if (p0) {
+                          isActivityButtonLastFocused = false;
+                          widget.onModuleButtonFocused?.call(
+                            ButtonFocusedType.resume,
+                          );
+                        }
+                      },
+                      onPressed: !widget.isEnabled
+                          ? null
+                          : () {
+                              widget.onButtonPressed(widget.index);
+                            },
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 24),
+                if (widget.numAttivita != null && widget.numAttivita != 0) ...[
+                  Expanded(
+                    child: FocusTraversalOrder(
+                      order: const NumericFocusOrder(1),
+                      child: OLButton(
+                        debugLabel: 'BUTTON-1',
+                        title: 'Attività Didattiche',
+                        outline: true,
+                        onFocusChanded: (p0) {
+                          if (widget.isSubActivities) {
+                            return;
+                          }
+                          if (p0) {
+                            if (isActivityButtonLastFocused == false) {
+                              isActivityButtonLastFocused = true;
+                              widget.onModuleButtonFocused?.call(
+                                ButtonFocusedType.learningActivities,
+                              );
+                            }
+                          }
+                        },
+                        onPressed: !widget.isEnabled
+                            ? null
+                            : () {
+                                widget.onButtonPressed(widget.index);
+                              },
+                      ),
+                    ),
+                  ),
+                ] else ...[
+                  const Expanded(child: SizedBox())
+                ],
+                const SizedBox(width: 8),
+                BadgeIcon(
+                  hasBadge: widget.hasBadge,
+                  isCompleted: widget.isCompleted,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 

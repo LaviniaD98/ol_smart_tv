@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
@@ -161,7 +162,19 @@ class _OLButtonState extends State<OLButton> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (widget.title.isNotEmpty) ...[
-          Text(widget.title),
+          Expanded(
+            child: AutoSizeText(
+              widget.title,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .elevatedButtonTheme
+                  .style
+                  ?.textStyle
+                  ?.resolve({}),
+              textAlign: TextAlign.center,
+              minFontSize: 9,
+            ),
+          ),
         ],
         if (widget.image != null && widget.image?.isNotEmpty == true) ...[
           SvgPicture.asset(widget.image!),

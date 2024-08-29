@@ -24,11 +24,12 @@ class DetailsTab extends StatelessWidget {
   final DetailPageModel? parentModel;
   final bool showDuration;
 
-  const DetailsTab(
-      {super.key,
-      required this.model,
-      required this.showDuration,
-      this.parentModel});
+  const DetailsTab({
+    super.key,
+    required this.model,
+    required this.showDuration,
+    this.parentModel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +128,7 @@ class DetailsTab extends StatelessWidget {
                         return _teacherCard(context, item);
                       },
                     ),
-                  )
+                  ),
                 ]
               ],
             ),

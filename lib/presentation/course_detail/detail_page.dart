@@ -23,6 +23,7 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/presentation/web_player/web_view_page.dart';
 import 'package:open_learning_smart_tv/router/app_router.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:open_learning_smart_tv/wrappers/tracking/tracking_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -69,21 +70,25 @@ class _DetailPageState extends State<DetailPage> {
   final ValueNotifier<RightPanelState> _rightPanelState = ValueNotifier(
     RightPanelState.start,
   );
-
-  final ValueNotifier<RightPanelState> currentModule = ValueNotifier(
-    RightPanelState.start,
+  final ValueNotifier<RightPanelState> _subRightPanelState = ValueNotifier(
+    RightPanelState.details,
   );
+
+  final ValueNotifier<Future<DetailPageModel?>?> _subDetailsFutureNotifier =
+      ValueNotifier(null);
+  final ValueNotifier<Object?> currentModule = ValueNotifier(null);
+
+  String? currentSubActivityId;
 
   @override
   void initState() {
     super.initState();
 
-    context.read<DetailPageCubit>().mainNode = _focusNode;
+    //context.read<DetailPageCubit>().mainNode = _focusNode;
     context.read<DetailPageCubit>().leftPanelNode = _focusNodeLeft;
     context.read<DetailPageCubit>().rightPanelNode = _focusNodeRight;
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      //final focus = _focusNodeLeft.descendants.firstOrNull;
       final focus = _focusNodeLeft.descendants.firstWhereOrNull((element) {
         return element.debugLabel == 'BUTTON DETAILS CONTINUE';
       });
@@ -164,33 +169,23 @@ class _DetailPageState extends State<DetailPage> {
         ),
         builder: (context, state) {
           return state.maybeWhen(
-            loading: () => _loading,
+            loading: () => const Center(child: CircularProgressIndicator()),
             success: (selectedIndex, model, smartConfig) {
               return _content(context, selectedIndex, model, smartConfig);
             },
-            error: () => _error(context),
+            error: () => Center(
+              child: ErrorScreen(
+                title: LabelsManager()
+                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                message: LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.error_occurred),
+                onReload: () => {context.pop()},
+              ),
+            ),
             orElse: () => const SizedBox(),
           );
         },
       ),
-    );
-  }
-
-  Widget _error(BuildContext context) {
-    return Center(
-      child: ErrorScreen(
-        title:
-            LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-        message: LabelsManager()
-            .getRemoteStringFromLabelKeys(RemoteLabelKeys.error_occurred),
-        onReload: () => {context.pop()},
-      ),
-    );
-  }
-
-  Widget get _loading {
-    return const Center(
-      child: CircularProgressIndicator(),
     );
   }
 
@@ -261,152 +256,6 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );
-    /*
-    int tabContentLength = contentBarLength(context, model, false);
-    return DefaultTabController(
-      length: tabContentLength,
-      initialIndex: selectedIndex,
-      child: Container(
-        decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
-        child: NestedScrollView(
-          physics: const ClampingScrollPhysics(),
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return [
-              /// Header
-              DynamicSliverDetailHeader(
-                model: model,
-                args: widget.args,
-                rightPanelState: _rightPanelState,
-              ),
-
-              /// Actions
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Dimens.spacingL,
-                    vertical: Dimens.spacingXXS,
-                  ),
-                  child: Row(
-                    children: [
-                      if (smartConfig?.funcCommunity == true &&
-                          context
-                                  .read<AppCubit>()
-                                  .state
-                                  .dynamicRoutes
-                                  ?.whereType<VisCommunity>()
-                                  .isNotEmpty ==
-                              true)
-                        GestureDetector(
-                          onTap: () async {
-                            final res = await context.pushNamed<bool?>(
-                              PostPage.routeName,
-                              extra: PostPageArgs(
-                                pageType: PostPageType.shared,
-                                loId: '${model.id}',
-                                loAuthor:
-                                    'abc123', //TODO: hardcodato sul web, dove troviamo il campo?
-                                loType: model.learningObjectTypology,
-                              ),
-                            );
-                            getIt<TrackingManager>()
-                                .communityTrackingHandler(AppRouter.I.fullPath);
-                            if (context.mounted && res != null && res) {
-                              context.read<DetailPageCubit>().init(widget.args);
-                            }
-                          },
-                          behavior: HitTestBehavior.translucent,
-                          child: Transform.scale(
-                              scale: 0.9999,
-                              child: SvgPicture.asset(
-                                'assets/icons/detail/dettaglio_condividi.svg',
-                                colorFilter: ColorFilter.mode(
-                                  ColorManager().getColorBackgroundPrimaryCta(),
-                                  BlendMode.srcIn,
-                                ),
-                              )),
-                        ),
-                      if (smartConfig?.funcRating == true &&
-                          (smartConfig?.funcCommunity == true &&
-                              context
-                                      .read<AppCubit>()
-                                      .state
-                                      .dynamicRoutes
-                                      ?.whereType<VisCommunity>()
-                                      .isNotEmpty ==
-                                  true))
-                        Container(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: Dimens.spacingS),
-                          width: 1,
-                          height: 18,
-                          color: ColorManager().getColorBorder(),
-                        ),
-                      if (smartConfig?.funcRating == true)
-                        BlocProvider(
-                          create: (_) => getIt<RatingCubit>()..init(model),
-                          child: Row(
-                            children: [
-                              ratingStars(model),
-                              const SizedBox(width: Dimens.spacingXXS),
-                              RatingText(detailPageModel: model),
-                            ],
-                          ),
-                        ),
-                      if (smartConfig?.funcFavourites == true) const Spacer(),
-                      if (smartConfig?.funcFavourites == true)
-                        BlocProvider(
-                          create: (_) => getIt<FavouriteCubit>()
-                            ..init(model, widget.args.parent),
-                          child: FavoriteButton(
-                            detailPageModel: model,
-                            parentId: widget.args.parentId,
-                            grandParentId: widget.args.grandParentId,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-
-              /// Tab
-              SliverToBoxAdapter(
-                child: TabBar(
-                  tabAlignment: TabAlignment.start,
-                  indicator: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: ColorManager().getColorTextPrimary(),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  isScrollable: true,
-                  padding: const EdgeInsets.only(left: 5, right: 20),
-                  labelStyle: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: ColorManager().getColorTextPrimary()),
-                  unselectedLabelStyle: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                    color: ColorManager().getColorTextPrimary(),
-                  ),
-                  tabs: buildTabContentBar(context, model, true, smartConfig),
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: buildTabContentBar(
-              context,
-              model,
-              false,
-              smartConfig,
-            ),
-          ),
-        ),
-      ),
-    );*/
   }
 
   Widget buildRightPanel({required DetailPageModel model}) {
@@ -433,63 +282,63 @@ class _DetailPageState extends State<DetailPage> {
                 top: 0,
                 bottom: 0,
                 left: 0,
-                child: Builder(builder: (context) {
-                  // if (model.learningObjectTypology ==
-                  //     LearningObjectTypology.path) {
-                  //   return Container(
-                  //     width: 1750,
-                  //     color: Colors.red,
-                  //   );
-                  // } else if (model.learningObjectTypology ==
-                  //     LearningObjectTypology.course) {
-                  //   return Container(
-                  //     width: 1750,
-                  //     color: Colors.green,
-                  //   );
-                  // } else {
-                  //   return Container(
-                  //     width: 1750,
-                  //     color: Colors.blue,
-                  //   );
-                  // }
-
-                  return Container(
-                    width: 1750,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ValueListenableBuilder(
-                            valueListenable: _rightPanelState,
-                            builder: (context, value, child) {
-                              if (value == RightPanelState.start) {
-                                return getTabModules(context, model, false) ??
-                                    const SizedBox.shrink();
-                              } else if (value == RightPanelState.details) {
-                                return getTabDetail(model, false);
-                              }
-                              /*else if (value == RightPanelState.related) {
-                                return getTabRelated(model, false) ??
-                                    const SizedBox.shrink();
-                              }*/
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            color: Colors.blue,
+                child: Builder(
+                  builder: (context) {
+                    return SizedBox(
+                      width: 1710,
+                      child: Row(
+                        children: [
+                          Expanded(
                             child: ValueListenableBuilder(
-                              valueListenable: currentModule,
+                              valueListenable: _rightPanelState,
                               builder: (context, value, child) {
+                                if (value == RightPanelState.start) {
+                                  return getTabModules(context, model, false);
+                                } else if (value == RightPanelState.details) {
+                                  return getTabDetail(model, false);
+                                }
                                 return const SizedBox.shrink();
                               },
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                }),
+                          const VerticalDivider(
+                            thickness: 1,
+                            width: 1,
+                            color: OLColors.divider,
+                          ),
+                          Expanded(
+                            child: ValueListenableBuilder(
+                              valueListenable: currentModule,
+                              builder: (context, value, child) {
+                                return ValueListenableBuilder(
+                                  valueListenable: _subRightPanelState,
+                                  builder: (context, state, child) {
+                                    if (state == RightPanelState.details) {
+                                      String? description;
+
+                                      if (value is LearningObjectModel) {
+                                        description = value.longDescription;
+                                      } else if (value is CourseModel) {
+                                        description = value.shortDescription;
+                                      }
+                                      return buildDescriptionWidget(
+                                        description: description,
+                                      );
+                                    } else if (state ==
+                                        RightPanelState.subActivities) {
+                                      return buildSubActivitiesWidget();
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
             ],
           ),
@@ -498,9 +347,49 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  Widget buildLeftPanel({
-    required DetailPageModel model,
-  }) {
+  Widget buildSubActivitiesWidget() {
+    return ValueListenableBuilder(
+      valueListenable: _subDetailsFutureNotifier,
+      builder: (context, value, child) {
+        return FutureBuilder(
+          future: value,
+          builder:
+              (BuildContext context, AsyncSnapshot<DetailPageModel?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.data == null) {
+                return const SizedBox.shrink();
+              }
+
+              return Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 140.0),
+                    child: getTabModules(
+                      context,
+                      snapshot.data!,
+                      false,
+                      autoFocus: true,
+                      isSubActivities: true,
+                    ),
+                  ),
+                  ListHeaderTitle(
+                    title:
+                        '${snapshot.data?.learningActivities?.length ?? 0} Attività didattiche',
+                  ),
+                ],
+              );
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return const SizedBox.shrink();
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget buildLeftPanel({required DetailPageModel model}) {
     return SizedBox(
       width: 870,
       child: DynamicSliverDetailHeader(
@@ -513,7 +402,10 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   void startOrResumeCheck(
-      BuildContext context, int loId, DetailPageModel detail) {
+    BuildContext context,
+    int loId,
+    DetailPageModel detail,
+  ) {
     String parentId = (widget.args.parentId == null ||
             widget.args.parentId!.toLowerCase() == "null")
         ? loId.toString()
@@ -523,15 +415,18 @@ class _DetailPageState extends State<DetailPage> {
         .getStartOrResumeModel(loId, parentId, detail);
   }
 
-  void startPlay(BuildContext context, LearningObjectModel lo,
-      DetailPageModel detail) async {
+  void startPlay(
+    BuildContext context,
+    LearningObjectModel lo,
+    DetailPageModel detail,
+  ) async {
     print('WEAAAA-------1-------');
     if (lo.fruitionFlag == true) {
       print('WEAAAA-------2-------');
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
         print('WEAAAA-------3-------');
         if (lo.link != null && context.mounted) {
-          print('WEAAAA-------4-------');
+          print('WEAAAA-------4-------${lo.learningObjectTypology}');
           WakelockPlus.enable();
 
           await Nav.push(
@@ -541,6 +436,8 @@ class _DetailPageState extends State<DetailPage> {
                   getIt<WebViewPageCubit>()..init(WebViewPageArgs(model: lo)),
               child: WebViewPage(
                 args: WebViewPageArgs(model: lo),
+                isYoutube:
+                    lo.learningObjectTypology == LearningObjectTypology.youtube,
               ),
             ),
           ) as bool?;
@@ -610,11 +507,8 @@ class _DetailPageState extends State<DetailPage> {
         final res = await Nav.push(
           context,
           screen: BlocProvider(
-            create: (_) => getIt<VideoPlayerCubit>()
-              ..init(
-                args.brightcoveId,
-                args,
-              ),
+            create: (_) =>
+                getIt<VideoPlayerCubit>()..init(args.brightcoveId, args),
             child: VideoPlayerPage(args: args),
           ),
         ) as bool?;
@@ -700,6 +594,45 @@ class _DetailPageState extends State<DetailPage> {
     }
   }
 
+  Widget buildDescriptionWidget({String? description}) {
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 140.0,
+            left: Dimens.hViewPadding,
+            right: Dimens.hViewPadding,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.what_to_expect),
+                style: AppTextTheme.title(
+                  color: ColorManager().getColorTextPrimaryCta(),
+                  size: 24,
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (description != null) ...[
+                Text(
+                  description,
+                  style: AppTextTheme.subtitle(
+                    color: ColorManager().getColorTextPrimary(),
+                    weight: FontWeight.w500,
+                    size: 20,
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const ListHeaderTitle(title: 'Dettagli del Percorso'),
+      ],
+    );
+  }
+
   Widget? getTabTools(DetailPageModel model, bool isTabHeader) {
     if (model.toolResponseModel != null &&
         model.toolResponseModel?.tools?.isNotEmpty == true) {
@@ -744,14 +677,20 @@ class _DetailPageState extends State<DetailPage> {
     return null;
   }
 
-  Widget? getTabModules(
-      BuildContext context, DetailPageModel model, bool isTabHeader) {
+  Widget getTabModules(
+    BuildContext context,
+    DetailPageModel model,
+    bool isTabHeader, {
+    bool isSubActivities = false,
+    bool autoFocus = false,
+  }) {
     if ((model.courses?.isNotEmpty == true) ||
         (model.learningActivities?.isNotEmpty == true)) {
       if (isTabHeader) {
         return Tab(
-            text: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.modules));
+          text: LabelsManager()
+              .getRemoteStringFromLabelKeys(RemoteLabelKeys.modules),
+        );
       } else {
         var loCharacterization = CourseLogic().loCharacterizationNew(
           status: model.status ?? "",
@@ -764,19 +703,29 @@ class _DetailPageState extends State<DetailPage> {
         );
         return CourseDetailModules(
           model: model,
+          autoFocus: autoFocus,
+          isSubActivitites: isSubActivities,
           parentId: widget.args.parentId,
+          onResumeButtonFocused: (ll, cc) {
+            currentModule.value = cc ?? ll;
+            _subRightPanelState.value = RightPanelState.details;
+          },
           onLearningActivityFocused: (cc) async {
-            final res = await context.read<DetailPageCubit>().getCourseDetails(
-                  args: DetailPageArgs(
-                    id: cc.id.toString(),
-                    parentId: model.id.toString(),
-                    parent: model,
-                    object: null,
-                    typology: cc.learningObjectTypology,
-                  ),
-                );
+            _subRightPanelState.value = RightPanelState.subActivities;
 
-            print('RESPONSE: ${res?.learningActivities?.length}');
+            if (currentSubActivityId != cc.id.toString()) {
+              currentSubActivityId == cc.id.toString();
+              _subDetailsFutureNotifier.value =
+                  context.read<DetailPageCubit>().getCourseDetails(
+                        args: DetailPageArgs(
+                          id: cc.id.toString(),
+                          parentId: model.id.toString(),
+                          parent: model,
+                          object: null,
+                          typology: cc.learningObjectTypology,
+                        ),
+                      );
+            }
           },
           onButtonPressed: (
             int index,
@@ -871,7 +820,7 @@ class _DetailPageState extends State<DetailPage> {
         );
       }
     }
-    return null;
+    return const SizedBox.shrink();
   }
 
   Widget? getTabEditions(DetailPageModel model, bool isTabHeader) {
@@ -1003,10 +952,8 @@ class _DetailPageState extends State<DetailPage> {
         }
         break;
       case LearningObjectTypology.path:
-        Widget? tabModules = getTabModules(context, model, isTabHeader);
-        if (tabModules != null) {
-          widgets.add(tabModules);
-        }
+        Widget tabModules = getTabModules(context, model, isTabHeader);
+        widgets.add(tabModules);
         widgets.add(getTabDetail(model, isTabHeader));
         Widget? tabInstruments = getTabTools(model, isTabHeader);
         if (tabInstruments != null) {
@@ -1116,4 +1063,5 @@ enum RightPanelState {
   start,
   details,
   related,
+  subActivities,
 }

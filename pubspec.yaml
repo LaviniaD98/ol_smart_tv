@@ -78,6 +78,7 @@ dependencies:
   url_launcher: ^6.2.4
   uuid: ^4.3.3
   video_player: ^2.8.2
+  youtube_player_flutter: ^9.0.3
   wakelock_plus: ^1.1.4
   webview_flutter: ^4.8.0
 

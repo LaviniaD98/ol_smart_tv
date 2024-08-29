@@ -1,8 +1,11 @@
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/application.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../domain/entities/detail/detail_page_model.dart';
@@ -23,6 +26,10 @@ class CourseDetailModules extends StatefulWidget {
   final DetailPageModel model;
   final String? parentId;
   final void Function(CourseModel)? onLearningActivityFocused;
+  final void Function(
+    LearningObjectModel?,
+    CourseModel?,
+  )? onResumeButtonFocused;
   final Function(
     int index,
     bool isACourse,
@@ -30,12 +37,18 @@ class CourseDetailModules extends StatefulWidget {
     CourseModel? cc,
   ) onButtonPressed;
 
+  final bool isSubActivitites;
+  final bool autoFocus;
+
   const CourseDetailModules({
     super.key,
     required this.model,
     required this.parentId,
     required this.onButtonPressed,
     this.onLearningActivityFocused,
+    this.onResumeButtonFocused,
+    this.isSubActivitites = false,
+    this.autoFocus = false,
   });
 
   @override
@@ -47,7 +60,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
     viewportBoundaryGetter: () => const Rect.fromLTRB(0, 440, 0, 0),
     axis: Axis.vertical,
   );
-  final _focusNode = FocusScopeNode(debugLabel: 'CourseDetailModules');
+  late FocusScopeNode _focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   List<CommonObject> commonObjects = [];
@@ -56,6 +69,23 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
   @override
   void initState() {
     super.initState();
+
+    _focusNode =
+        FocusScopeNode(debugLabel: 'CourseDetailModules${widget.model.id}');
+
+    if (widget.autoFocus) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (context.mounted) {
+          _focusNode.requestFocus();
+        }
+      });
+    }
+
+    if (widget.isSubActivitites) {
+      context.read<DetailPageCubit>().subActivitiesFocusNode = _focusNode;
+    } else {
+      context.read<DetailPageCubit>().detailsFocusNode = _focusNode;
+    }
 
     for (var course in widget.model.courses ?? <CourseModel>[]) {
       commonObjects.add(
@@ -84,6 +114,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
           _policy.previous(_focusNode);
         },
         const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+          print('csldnclksndklcs-------------------');
           if (currentIndex == (commonObjects.length - 1)) {
             return;
           }
@@ -94,6 +125,13 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
         node: _focusNode,
         onFocusChange: (value) {
           if (value) {
+            if (widget.isSubActivitites) {
+              print('focusedChild: ${value} - ${_focusNode.focusedChild}');
+              _focusNode.children.forEach((element) {
+                print('CHILDREN: ${element}');
+              });
+            }
+
             if (_focusNode.focusedChild == null) {
               final firstFocus = _policy.findFirstFocus(_focusNode);
               firstFocus?.requestFocus();
@@ -194,6 +232,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       durataMinuti: cc.duration,
                       numAttivita: cc.learningActivityNumber,
                       numRisorse: cc.toolNumber,
+                      isSubActivities: widget.isSubActivitites,
                       onButtonPressed: (_) {
                         if (bIsEnabled) {
                           if (ccCh!.ctaMessage.isNotEmpty) {
@@ -212,11 +251,19 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       },
                       onDownloadPressed: (_) {},
                       isEnabled: bIsEnabled,
-                      onLearningActivitiesFocused: () {
-                        widget.onLearningActivityFocused?.call(cc);
+                      onModuleButtonFocused: (type) {
+                        if (type == ButtonFocusedType.resume) {
+                          widget.onResumeButtonFocused?.call(null, cc);
+                        } else if (type ==
+                            ButtonFocusedType.learningActivities) {
+                          widget.onLearningActivityFocused?.call(cc);
+                        }
                       },
                       onFocusChange: (hasFocus) {
-                        //print('INDEXED: $index .. $hasFocus');
+                        if (widget.isSubActivitites) {
+                          print('INDEXED: $index .. $hasFocus');
+                        }
+
                         if (hasFocus) {
                           scrollToPosition(index);
                         }
@@ -249,8 +296,16 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       durataMinuti: ll.duration,
                       numAttivita: null,
                       numRisorse: ll.toolNumber,
+                      isSubActivities: widget.isSubActivitites,
+                      onModuleButtonFocused: (type) {
+                        if (type == ButtonFocusedType.resume) {
+                          widget.onResumeButtonFocused?.call(ll, cc);
+                        }
+                      },
                       onFocusChange: (hasFocus) {
-                        //print('INDEXED: $index .. $hasFocus');
+                        if (widget.isSubActivitites) {
+                          print('INDEXED: $index .. $hasFocus');
+                        }
                         if (hasFocus) {
                           scrollToPosition(index);
                         }

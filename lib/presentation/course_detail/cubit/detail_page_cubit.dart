@@ -69,9 +69,12 @@ class DetailPageCubit extends Cubit<DetailPageState> {
   final paginate = ConfigManager()
       .getRemoteBoolean(RemoteConfigKeys.paginate_opinions, false);
 
-  FocusScopeNode? mainNode;
+  OrderedTraversalPolicy? mainPolicy;
+
   FocusScopeNode? leftPanelNode;
   FocusScopeNode? rightPanelNode;
+  FocusScopeNode? subActivitiesFocusNode;
+  FocusScopeNode? detailsFocusNode;
 
   DetailPageCubit(
     this._getDetailPageUseCase,
