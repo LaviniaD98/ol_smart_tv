@@ -44,6 +44,8 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
     focusNode = FocusScopeNode(
       debugLabel: 'FOR YOU-----${widget.strip.keys.firstOrNull?.labelMapping}',
     );
+
+    //context.read<MainStateCubit>().forYouFocusNode = focusNode;
   }
 
   @override
@@ -58,46 +60,56 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+        const SingleActivator(LogicalKeyboardKey.arrowUp): () {
           if (currentFocusIndex > 0) {
             _policy.previous(focusNode);
-          } else {
-            final focus = context.read<MainStateCubit>().state;
-            focus.requestFocus();
           }
         },
-        const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
           if (currentFocusIndex < strip.value.length - 1) {
             _policy.next(focusNode);
           }
+        },
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          final focus = context.read<MainStateCubit>().state;
+          focus.requestFocus();
         },
       },
       child: FocusTraversalGroup(
         key: ValueKey(strip.key.labelMapping),
         policy: _policy,
         child: FocusScope(
-          node: focusNode,
+          node: focusNode, //context.read<MainStateCubit>().forYouFocusNode,
           onFocusChange: (value) {
             widget.onFocusChange?.call(value);
           },
           child: ListView.separated(
+            controller: autoScrollController,
             clipBehavior: Clip.none,
             padding: const EdgeInsets.only(
               left: Dimens.hViewPadding,
               right: Dimens.hViewPadding,
+              top: 100,
+              bottom: 400,
             ),
             separatorBuilder: (context, index) =>
                 const SizedBox(width: Dimens.spacingXS),
             itemCount: strip.value.length,
             itemBuilder: (context, index) {
               final item = strip.value[index];
-              final cell = ForYouCard(
-                data: item,
-                onFocusChange: (hasFocus) {
-                  if (hasFocus) {
-                    currentFocusIndex = index;
-                  }
-                },
+              final cell = AutoScrollTag(
+                key: ValueKey(index),
+                controller: autoScrollController,
+                index: index,
+                child: ForYouCard(
+                  data: item,
+                  onFocusChange: (hasFocus) {
+                    if (hasFocus) {
+                      currentFocusIndex = index;
+                      scrollToPosition(index);
+                    }
+                  },
+                ),
               );
 
               return CallbackShortcuts(
@@ -130,6 +142,13 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
         create: (_) => getIt<DetailPageCubit>()..init(args),
         child: DetailPage(args: args),
       ),
+    );
+  }
+
+  Future<void> scrollToPosition(int index) async {
+    await autoScrollController.scrollToIndex(
+      index,
+      preferPosition: AutoScrollPosition.begin,
     );
   }
 

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:onscreen_keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/learning_card.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
@@ -68,217 +68,200 @@ class _SearchScreenState extends State<SearchScreen>
     super.build(context);
     return BlocProvider(
       create: (_) => getIt<SuggestionsCubit>()..localSuggestions(),
-      child: CallbackShortcuts(
-        bindings: <ShortcutActivator, VoidCallback>{
-          // const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-          //   final focus = context.read<MainStateCubit>().state;
-          //   focus.requestFocus();
-          // },
-        },
-        child: ReactiveForm(
-          formGroup: form,
-          child: FocusTraversalGroup(
-            policy: _focusNodeOrder,
-            child: Focus(
-              focusNode: focusNode,
-              onFocusChange: (value) {
-                setState(() {});
-              },
-              child: Scaffold(
-                body: SafeArea(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 50),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              const SizedBox(height: 50),
-                              Row(
+      child: ReactiveForm(
+        formGroup: form,
+        child: FocusTraversalGroup(
+          policy: _focusNodeOrder,
+          child: Focus(
+            focusNode: focusNode,
+            onFocusChange: (value) {
+              setState(() {});
+            },
+            child: Scaffold(
+              body: Row(
+                children: [
+                  const SizedBox(width: Dimens.hViewPadding),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 50),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ValueListenableBuilder(
+                                valueListenable: textNotifier,
+                                builder: (context, value, _) {
+                                  return Text(
+                                    value.isEmpty ? 'Start Searching' : value,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextTheme.body(
+                                      color: value.isEmpty
+                                          ? ColorManager()
+                                              .getColorTextDisabled()
+                                          : ColorManager()
+                                              .getColorTextPrimary(),
+                                      weight: FontWeight.w500,
+                                      size: 40,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: Row(
                                 children: [
-                                  Expanded(
-                                    child: ValueListenableBuilder(
-                                      valueListenable: textNotifier,
-                                      builder: (context, value, _) {
-                                        return Text(
-                                          value.isEmpty
-                                              ? 'Start Searching'
-                                              : value,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: AppTextTheme.body(
-                                            color: value.isEmpty
-                                                ? ColorManager()
-                                                    .getColorTextDisabled()
-                                                : ColorManager()
-                                                    .getColorTextPrimary(),
-                                            weight: FontWeight.w500,
-                                            size: 40,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      children: [
-                                        OLButton(
-                                          title: 'Clear',
-                                          width: 120,
-                                          outline: true,
-                                          onPressed: () async {
-                                            form.reset();
-                                            form.findControl('search')?.value =
-                                                '';
-                                            textNotifier.value = '';
-                                            context
-                                                .read<SuggestionsCubit>()
-                                                .localSuggestions();
-                                          },
-                                        ),
-                                      ],
-                                    ),
+                                  OLButton(
+                                    title: 'Clear',
+                                    width: 120,
+                                    outline: true,
+                                    onPressed: () async {
+                                      form.reset();
+                                      form.findControl('search')?.value = '';
+                                      textNotifier.value = '';
+                                      context
+                                          .read<SuggestionsCubit>()
+                                          .localSuggestions();
+                                    },
                                   ),
                                 ],
                               ),
-                              const Divider(
-                                color: OLColors.textPrimary,
-                                height: 4,
-                                thickness: 4,
-                              ),
-                              const SizedBox(height: 23),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  padding: const EdgeInsets.all(24),
-                                  height: 370,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: OLColors.textPrimary,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: SizedBox(
-                                            width: 540,
-                                            child: ValueListenableBuilder(
-                                                valueListenable: textNotifier,
-                                                builder: (context, value, _) {
-                                                  return OnscreenKeyboard(
-                                                    initialCase:
-                                                        InitialCase.LOWER_CASE,
-                                                    value: value,
-                                                    buttonColor: Colors.black,
-                                                    focusColor:
-                                                        Colors.grey.shade900,
-                                                    onChanged: (txt) {
-                                                      final text =
-                                                          (txt ?? '').trim();
-                                                      textNotifier.value = text;
-                                                      form
-                                                          .findControl('search')
-                                                          ?.value = text;
-                                                      context
-                                                          .read<SearchCubit>()
-                                                          .onChanged(text);
-                                                    },
-                                                  );
-                                                }),
-                                          ),
-                                        ),
-                                      ),
-                                      buildSearchButton(),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 40),
-                              Expanded(
-                                child:
-                                    BlocBuilder<SuggestionsCubit, List<String>>(
-                                  builder: (context, state) {
-                                    return LocalSuggestions(
-                                      state,
-                                      onDelete: () => context
-                                          .read<SuggestionsCubit>()
-                                          .localSuggestions(true),
-                                      onTap: (control) {
-                                        form.findControl('search')?.value =
-                                            control.trim();
-
-                                        textNotifier.value = control.trim();
-
-                                        context
-                                            .read<SearchCubit>()
-                                            .onChanged('');
-
-                                        Future.delayed(
-                                          const Duration(milliseconds: 600),
-                                          () {
-                                            context.read<SearchCubit>()
-                                              ..resetPagingController()
-                                              ..initPagingController(
-                                                control.trim(),
-                                              );
-
-                                            context
-                                                .read<SuggestionsCubit>()
-                                                .setLocalSuggestions(
-                                                    text: control);
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: AppTheme.backgroundGradient,
-                          ),
-                          child: BlocBuilder<SearchCubit, SearchState>(
-                            builder: (context, state) => state.maybeWhen(
-                              initial: (suggestions) {
-                                return const SizedBox.shrink();
-                              },
-                              suggestions: (items, search) {
-                                return Suggestions(items, search: search);
-                              },
-                              searchPaginated: () {
-                                return _searchPaginated(context);
-                              },
-                              error: _error,
-                              loading: () {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                              empty: _empty,
-                              orElse: () => const SizedBox.shrink(),
+                        const Divider(
+                          color: OLColors.textPrimary,
+                          height: 4,
+                          thickness: 4,
+                        ),
+                        const SizedBox(height: 23),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            padding: const EdgeInsets.all(24),
+                            height: 370,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                width: 1,
+                                color: OLColors.textPrimary,
+                              ),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(child: buildKeyboard()),
+                                buildSearchButton(),
+                              ],
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 40),
+                        Expanded(
+                          child: BlocBuilder<SuggestionsCubit, List<String>>(
+                            builder: (context, state) {
+                              return LocalSuggestions(
+                                state,
+                                onDelete: () => context
+                                    .read<SuggestionsCubit>()
+                                    .localSuggestions(true),
+                                onTap: (control) {
+                                  form.findControl('search')?.value =
+                                      control.trim();
+
+                                  textNotifier.value = control.trim();
+
+                                  context.read<SearchCubit>().onChanged('');
+
+                                  Future.delayed(
+                                    const Duration(milliseconds: 600),
+                                    () {
+                                      context.read<SearchCubit>()
+                                        ..resetPagingController()
+                                        ..initPagingController(
+                                          control.trim(),
+                                        );
+
+                                      context
+                                          .read<SuggestionsCubit>()
+                                          .setLocalSuggestions(text: control);
+                                    },
+                                  );
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(width: Dimens.hViewPadding),
+                  Expanded(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: AppTheme.backgroundGradient,
+                      ),
+                      child: BlocBuilder<SearchCubit, SearchState>(
+                        builder: (context, state) => state.maybeWhen(
+                          initial: (suggestions) {
+                            return const SizedBox.shrink();
+                          },
+                          suggestions: (items, search) {
+                            return Suggestions(items, search: search);
+                          },
+                          searchPaginated: () {
+                            return _searchPaginated(context);
+                          },
+                          error: _error,
+                          loading: () {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                          empty: _empty,
+                          orElse: () => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildKeyboard() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: SizedBox(
+        width: 540,
+        child: ValueListenableBuilder(
+          valueListenable: textNotifier,
+          builder: (context, value, _) {
+            return OnscreenKeyboard(
+              initialCase: InitialCase.LOWER_CASE,
+              onFocusOutside: (side) {
+                if (side == TraversalDirection.left) {
+                  final focus = context.read<MainStateCubit>().state;
+                  focus.requestFocus();
+                }
+              },
+              value: value,
+              buttonColor: Colors.black,
+              focusColor: Colors.grey.shade900,
+              onChanged: (txt) {
+                final text = (txt ?? '').trim();
+                textNotifier.value = text;
+                form.findControl('search')?.value = text;
+                context.read<SearchCubit>().onChanged(text);
+              },
+            );
+          },
         ),
       ),
     );
@@ -424,5 +407,5 @@ class _SearchScreenState extends State<SearchScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

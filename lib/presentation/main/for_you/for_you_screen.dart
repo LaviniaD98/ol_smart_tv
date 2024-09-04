@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
@@ -12,9 +11,12 @@ import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart'
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_vertical_carousel.dart';
+import 'package:open_learning_smart_tv/presentation/main/for_you/widget_focus_card.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ForYouScreen extends StatefulWidget {
   const ForYouScreen({required this.dynamicRoutes, super.key});
@@ -27,11 +29,20 @@ class ForYouScreen extends StatefulWidget {
 
 class _ForYouScreenState extends State<ForYouScreen>
     with AutomaticKeepAliveClientMixin {
-  final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
+  final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
+
+  final autoScrollController = AutoScrollController(
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 100, 0, 0),
+    axis: Axis.vertical,
+  );
 
   MenuRoute? currentMenuRoute;
 
   final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'ForYou');
+  final FocusScopeNode widgetsFocusNode =
+      FocusScopeNode(debugLabel: 'ForYou-Widgets');
+  final FocusScopeNode forYouFocusNode =
+      FocusScopeNode(debugLabel: 'ForYou-Widgets');
 
   @override
   void initState() {
@@ -40,8 +51,6 @@ class _ForYouScreenState extends State<ForYouScreen>
     currentMenuRoute = widget.dynamicRoutes.firstWhereOrNull(
       (element) => element.routeName == 'visForyou',
     );
-
-    print('currentMenuRoute: ${currentMenuRoute?.title}');
 
     context.read<MainStateCubit>().forYouFocusNode = focusNode;
   }
@@ -98,14 +107,6 @@ class _ForYouScreenState extends State<ForYouScreen>
                       ?.smartConfig;
 
                   print('smartConfig: ${smart?.visForyou}');
-                  // success.page.strips.insert(
-                  //   1,
-                  //   const StripRow.smartLearning(
-                  //     id: 0000001,
-                  //     apiPath: '',
-                  //     labelMapping: 'topicsFilter',
-                  //   ),
-                  // );
 
                   final source =
                       List<Map<StripRow, List<LearningObjectModel>>>.from(
@@ -120,11 +121,6 @@ class _ForYouScreenState extends State<ForYouScreen>
                         element.entries.firstOrNull?.key.labelMapping ==
                         'visForyou',
                   );
-
-                  // source.forEach((e) {
-                  //   final row = e.entries.firstOrNull;
-                  //   print('LABEL------${row?.key.labelMapping}');
-                  // });
 
                   return content(contentSource);
                 },
@@ -155,15 +151,110 @@ class _ForYouScreenState extends State<ForYouScreen>
     if (contentSource == null) {
       return const SizedBox.shrink();
     }
-    return Row(
-      children: [
-        Expanded(
-          child: ForYouVerticalCarousel(
-            strip: contentSource,
+    return FocusScope(
+      node: focusNode,
+      onFocusChange: (value) {
+        if (value) {
+          if (focusNode.focusedChild == null) {
+            forYouFocusNode.requestFocus();
+          }
+        }
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: FocusScope(
+              node: forYouFocusNode,
+              onFocusChange: (value) {
+                if (value) {
+                  if (forYouFocusNode.focusedChild == null) {
+                    forYouFocusNode.nextFocus();
+                  }
+                }
+              },
+              child: CallbackShortcuts(
+                bindings: <ShortcutActivator, VoidCallback>{
+                  const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+                    widgetsFocusNode.requestFocus();
+                  },
+                },
+                child: ForYouVerticalCarousel(
+                  strip: contentSource,
+                ),
+              ),
+            ),
           ),
-        ),
-        Container(width: 450)
-      ],
+          SizedBox(
+            width: 550,
+            child: CallbackShortcuts(
+              bindings: <ShortcutActivator, VoidCallback>{
+                const SingleActivator(LogicalKeyboardKey.arrowUp): () {
+                  _policy.previous(widgetsFocusNode);
+                },
+                const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+                  _policy.next(widgetsFocusNode);
+                },
+                const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+                  forYouFocusNode.requestFocus();
+                },
+              },
+              child: FocusTraversalGroup(
+                key: const ValueKey('Widgets-list'),
+                policy: _policy,
+                child: FocusScope(
+                  node: widgetsFocusNode,
+                  onFocusChange: (value) {
+                    if (value) {
+                      if (widgetsFocusNode.focusedChild == null) {
+                        final firstFocus =
+                            _policy.findFirstFocus(widgetsFocusNode);
+                        firstFocus?.requestFocus();
+                      }
+                    }
+                  },
+                  child: ListView.separated(
+                    controller: autoScrollController,
+                    clipBehavior: Clip.none,
+                    padding: const EdgeInsets.only(
+                      left: Dimens.hViewPadding,
+                      right: Dimens.hViewPadding,
+                      top: 100,
+                      bottom: 400,
+                    ),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(width: Dimens.spacingXS),
+                    itemCount: 8,
+                    itemBuilder: (context, index) {
+                      return CallbackShortcuts(
+                        bindings: <ShortcutActivator, VoidCallback>{
+                          const SingleActivator(LogicalKeyboardKey.enter):
+                              () {},
+                          const SingleActivator(LogicalKeyboardKey.select):
+                              () {},
+                        },
+                        child: AutoScrollTag(
+                          key: ValueKey(index),
+                          controller: autoScrollController,
+                          index: index,
+                          child: WidgetFocusCard(
+                            index: index,
+                            onFocusChange: (p0) {
+                              if (p0) {
+                                autoScrollController.scrollToIndex(index,
+                                    preferPosition: AutoScrollPosition.begin);
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 

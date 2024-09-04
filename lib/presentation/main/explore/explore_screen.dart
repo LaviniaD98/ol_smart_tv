@@ -235,7 +235,6 @@ class _ExploreScreenState extends State<ExploreScreen>
     } else {
       return buildElementsRow(index: index, row: r);
     }
-
     /* if (row.key.labelMapping == 'visCarTrainingTransversal') {
       return buildElementsRow(index: index, row: r);
     } else if (row.key.labelMapping == 'carConteSpeciDurata') {
@@ -277,9 +276,7 @@ class _ExploreScreenState extends State<ExploreScreen>
     } else if (row.key.labelMapping == 'visForyou') {
       return buildElementsRow(index: index, row: r);
     }
-
     return const SizedBox.shrink();
-
     */
   }
 

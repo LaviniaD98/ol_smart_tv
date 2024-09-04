@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 
 class MainStateCubit extends Cubit<FocusScopeNode> {
   MainStateCubit() : super(FocusScopeNode());
@@ -12,7 +12,7 @@ class MainStateCubit extends Cubit<FocusScopeNode> {
   FocusScopeNode? agendaFocusNode;
   FocusScopeNode? profileFocusNode;
 
-  DynamicAllContentCubit? favoriteContentCubit;
+  FavoritesContentCubit? favoriteContentCubit;
 
   OrderedTraversalPolicy? policy;
 

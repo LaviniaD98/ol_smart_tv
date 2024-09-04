@@ -10,6 +10,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_vertical_carousel.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -41,7 +42,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     );
 
     context.read<MainStateCubit>().favoriteContentCubit =
-        getIt<DynamicAllContentCubit>();
+        getIt<FavoritesContentCubit>();
 
     context.read<MainStateCubit>().favoritesFocusNode = focusNode;
   }
@@ -74,7 +75,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 .refresh(FavoritesScreen.apiPath),
 
             /// Dynamic Strip
-            child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
+            child: BlocConsumer<FavoritesContentCubit, FavoritesContentState>(
               listener: (context, state) {
                 state.maybeWhen(
                   success: (_) {},

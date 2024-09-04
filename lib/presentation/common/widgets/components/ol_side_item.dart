@@ -9,12 +9,14 @@ class OLSideItem extends StatefulWidget {
   const OLSideItem({
     required this.title,
     required this.icon,
+    required this.debugLabel,
     this.isSelected = false,
     super.key,
   });
 
   final String title;
   final String icon;
+  final String debugLabel;
   final bool isSelected;
 
   @override
@@ -28,7 +30,7 @@ class _OLSideItemState extends State<OLSideItem> {
   void initState() {
     super.initState();
 
-    focusNode = FocusNode(debugLabel: '${widget.title} - focusNode');
+    focusNode = FocusNode(debugLabel: widget.debugLabel);
   }
 
   @override

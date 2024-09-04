@@ -29,7 +29,7 @@ class OLHomeScreen extends StatefulWidget {
 class _OLHomeScreenState extends State<OLHomeScreen> {
   final focusNode = FocusScopeNode(debugLabel: 'Home');
   final pagesFocusNode = FocusScopeNode(debugLabel: 'Home - Pages');
-  final PageController pageController = PageController(initialPage: 0);
+  final PageController pageController = PageController(initialPage: 1);
 
   GlobalKey<NavigatorState> searchTabKey = GlobalKey<NavigatorState>();
   GlobalKey<NavigatorState> forYouTabKey = GlobalKey<NavigatorState>();

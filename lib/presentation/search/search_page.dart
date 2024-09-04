@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:onscreen_keyboard/onscreen_keyboard.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../color_management/color_manager.dart';

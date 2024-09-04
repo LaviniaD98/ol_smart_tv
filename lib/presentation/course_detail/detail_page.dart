@@ -707,7 +707,7 @@ class _DetailPageState extends State<DetailPage> {
           autoFocus: autoFocus,
           isSubActivitites: isSubActivities,
           parentId: widget.args.parentId,
-          onResumeButtonFocused: (ll, cc) {
+          onResumeButtonFocused: (ll, cc, _) {
             currentModule.value = cc ?? ll;
             _subRightPanelState.value = RightPanelState.details;
           },

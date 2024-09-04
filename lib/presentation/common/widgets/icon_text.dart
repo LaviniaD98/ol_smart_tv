@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class IconText extends StatelessWidget {
   const IconText({
@@ -7,21 +8,35 @@ class IconText extends StatelessWidget {
     required this.bkColor,
     required this.text,
     required this.textColor,
-    required this.icon,
+    this.icon,
+    this.image,
     this.iconSize = 16,
   });
   final Color bkColor;
   final String text;
+  final String? image;
   final Color textColor;
-  final IconData icon;
+  final IconData? icon;
   final double iconSize;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: iconSize, color: textColor),
-        const Padding(padding: EdgeInsets.only(right: 4.0)),
+        if (icon != null) ...[
+          Icon(icon, size: iconSize, color: textColor),
+        ] else if (image != null) ...[
+          SvgPicture.asset(
+            image!,
+            width: iconSize,
+            height: iconSize,
+            colorFilter: ColorFilter.mode(
+              textColor,
+              BlendMode.srcIn,
+            ),
+          ),
+        ],
+        const SizedBox(width: 8),
         Text(
           text,
           overflow: TextOverflow.ellipsis,

@@ -4,7 +4,7 @@ class Dimens {
   Dimens._();
 
   static const hPadding = 68.0;
-  static const hViewPadding = 40.0;
+  static const hViewPadding = 48.0;
 
   static const buttonWidth = 128.0;
   static const buttonHeight = 40.0;

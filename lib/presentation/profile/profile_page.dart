@@ -44,7 +44,7 @@ class ProfilePage extends StatelessWidget {
               child: SvgPicture.asset("assets/icons/three_dots.svg",
                   fit: BoxFit.none,
                   colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimary(), BlendMode.srcIn)),
+                      ColorManager().getColorTextPrimary(), BlendMode.srcIn),),
             ),
           )
         ],

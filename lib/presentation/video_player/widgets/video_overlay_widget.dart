@@ -110,6 +110,18 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           }
           setTimer();
         },
+        const SingleActivator(LogicalKeyboardKey.arrowUp): () {
+          if (!showInfo.value) {
+            setTimer();
+          }
+          focusNode.focusInDirection(TraversalDirection.up);
+        },
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+          if (!showInfo.value) {
+            setTimer();
+          }
+          focusNode.focusInDirection(TraversalDirection.down);
+        },
       },
       child: FocusScope(
         node: focusNode,
@@ -142,7 +154,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
 
     _hideTimer?.cancel();
     _hideTimer = null;
-    _hideTimer = Timer(const Duration(seconds: 4), () {
+    _hideTimer = Timer(const Duration(seconds: 20), () {
       showInfo.value = false;
     });
   }
@@ -230,8 +242,19 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
         children: <Widget>[
           Row(
             children: [
+              const SizedBox(width: Dimens.hViewPadding),
               controls,
-              const SizedBox(width: 84),
+              const Spacer(),
+              // if (widget.args.onTapDetail != null) ...[
+              //   details,
+              // ],
+              const SizedBox(width: Dimens.hViewPadding),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Row(
+            children: [
+              const SizedBox(width: Dimens.hViewPadding),
               Expanded(
                 child: VideoProgressWidget(
                   widget.controller,
@@ -253,9 +276,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                   ),
                 ),
               ),
-              if (widget.args.onTapDetail != null) ...[
-                details,
-              ],
+              const SizedBox(width: Dimens.hViewPadding),
             ],
           ),
         ],

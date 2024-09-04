@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:open_learning_smart_tv/application.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
@@ -29,6 +28,7 @@ class CourseDetailModules extends StatefulWidget {
   final void Function(
     LearningObjectModel?,
     CourseModel?,
+    bool isSubActivities,
   )? onResumeButtonFocused;
   final Function(
     int index,
@@ -114,7 +114,6 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
           _policy.previous(_focusNode);
         },
         const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-          print('csldnclksndklcs-------------------');
           if (currentIndex == (commonObjects.length - 1)) {
             return;
           }
@@ -125,13 +124,6 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
         node: _focusNode,
         onFocusChange: (value) {
           if (value) {
-            if (widget.isSubActivitites) {
-              print('focusedChild: ${value} - ${_focusNode.focusedChild}');
-              _focusNode.children.forEach((element) {
-                print('CHILDREN: ${element}');
-              });
-            }
-
             if (_focusNode.focusedChild == null) {
               final firstFocus = _policy.findFirstFocus(_focusNode);
               firstFocus?.requestFocus();
@@ -253,17 +245,14 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       isEnabled: bIsEnabled,
                       onModuleButtonFocused: (type) {
                         if (type == ButtonFocusedType.resume) {
-                          widget.onResumeButtonFocused?.call(null, cc);
+                          widget.onResumeButtonFocused
+                              ?.call(null, cc, widget.isSubActivitites);
                         } else if (type ==
                             ButtonFocusedType.learningActivities) {
                           widget.onLearningActivityFocused?.call(cc);
                         }
                       },
                       onFocusChange: (hasFocus) {
-                        if (widget.isSubActivitites) {
-                          print('INDEXED: $index .. $hasFocus');
-                        }
-
                         if (hasFocus) {
                           scrollToPosition(index);
                         }
@@ -299,13 +288,11 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       isSubActivities: widget.isSubActivitites,
                       onModuleButtonFocused: (type) {
                         if (type == ButtonFocusedType.resume) {
-                          widget.onResumeButtonFocused?.call(ll, cc);
+                          widget.onResumeButtonFocused
+                              ?.call(ll, cc, widget.isSubActivitites);
                         }
                       },
                       onFocusChange: (hasFocus) {
-                        if (widget.isSubActivitites) {
-                          print('INDEXED: $index .. $hasFocus');
-                        }
                         if (hasFocus) {
                           scrollToPosition(index);
                         }

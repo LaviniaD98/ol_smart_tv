@@ -79,13 +79,13 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
           onFocusChange: (value) {
             widget.onFocusChange?.call(value);
 
-            if (value) {
-              if (focusNode.focusedChild == null) {
-                final focus = focusNode.descendants.firstWhereOrNull(
-                    (e) => e.debugLabel == 'BUTTONS FOCUS 0 ----- 1');
-                focus?.requestFocus();
-              }
-            }
+            // if (value) {
+            //   if (focusNode.focusedChild == null) {
+            //     final focus = focusNode.descendants.firstWhereOrNull(
+            //         (e) => e.debugLabel == 'FAVORITE BUTTONS FOCUS 0:1');
+            //     focus?.requestFocus();
+            //   }
+            // }
           },
           child: ListView.separated(
             clipBehavior: Clip.none,

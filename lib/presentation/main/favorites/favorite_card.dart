@@ -51,7 +51,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
     super.initState();
 
     buttonsFocusNode =
-        FocusScopeNode(debugLabel: 'BUTTONS FOCUS ${widget.index} ----- 1');
+        FocusScopeNode(debugLabel: 'FAVORITE BUTTONS FOCUS ${widget.index}:1');
   }
 
   @override

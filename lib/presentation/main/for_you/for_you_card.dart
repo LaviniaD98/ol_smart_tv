@@ -1,3 +1,5 @@
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
@@ -7,13 +9,11 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
 
 import '../../../../theme/app_theme.dart';
 
@@ -44,193 +44,122 @@ class ForYouCard extends StatefulWidget {
 }
 
 class _ForYouCardState extends State<ForYouCard> {
-  late FocusNode focusNode;
+  late FocusScopeNode focusNode;
 
   @override
   void initState() {
     super.initState();
 
-    focusNode = FocusNode(debugLabel: '${widget.grandParentId} ----- 1');
+    focusNode = FocusScopeNode(debugLabel: '${widget.grandParentId} ----- 1');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
-      focusNode: focusNode,
+    return FocusScope(
+      node: focusNode,
       onFocusChange: (value) {
         widget.onFocusChange?.call(value);
         setState(() {});
       },
-      child: Stack(
-        children: [
-          Container(
-            margin: widget.isGridViewItem
-                ? EdgeInsets.zero
-                : const EdgeInsets.only(bottom: 10, right: 24, left: 5),
-            clipBehavior: Clip.none,
-            decoration: BoxDecoration(
-              color: OLColors.backgroundCard,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: focusNode.hasFocus
-                    ? getBorderFocusColor()
-                    : OLColors.border,
-                width: focusNode.hasFocus ? 5 : 1,
-                strokeAlign: BorderSide.strokeAlignOutside,
-              ),
-            ),
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: widget.enable
-                  ? () async {
-                      await context.pushNamed(DetailPage.routeName,
-                          extra: DetailPageArgs(
-                            object: widget.data,
-                            id: widget.data.id.toString(),
-                            typology: widget.data.learningObjectTypology,
-                            parentId: widget.parentId?.isNotEmpty == true
-                                ? widget.parentId
-                                : widget.data.parentId?.toString(),
-                            grandParentId:
-                                widget.grandParentId?.isNotEmpty == true
-                                    ? widget.grandParentId
-                                    : widget.data.grandParentId?.toString(),
-                            parent: widget.parentDetailPageModel,
-                          ));
-                      if (context.mounted &&
-                          widget.returnFromDetailCallback != null) {
-                        widget.returnFromDetailCallback?.call();
-                      }
-                    }
-                  : null,
-              child: AspectRatio(
-                aspectRatio: Dimens.learningCardRatio,
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    OLImage(
-                      imageURL: widget.data.coverPublicURL,
-                      cacheWidth: 200,
-                    ),
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      padding: const EdgeInsets.fromLTRB(Dimens.spacingXL,
-                          Dimens.spacingXS, Dimens.spacingM, Dimens.spacingM),
-                      decoration: BoxDecoration(
-                        border: _borderForeground,
-                        borderRadius: BorderRadius.circular(Dimens.radius),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            ColorManager().getColorGradient05Start(),
-                            ColorManager().getColorGradient05End(),
-                          ],
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: widget.enable
+              ? () async {
+                  await context.pushNamed(DetailPage.routeName,
+                      extra: DetailPageArgs(
+                        object: widget.data,
+                        id: widget.data.id.toString(),
+                        typology: widget.data.learningObjectTypology,
+                        parentId: widget.parentId?.isNotEmpty == true
+                            ? widget.parentId
+                            : widget.data.parentId?.toString(),
+                        grandParentId: widget.grandParentId?.isNotEmpty == true
+                            ? widget.grandParentId
+                            : widget.data.grandParentId?.toString(),
+                        parent: widget.parentDetailPageModel,
+                      ));
+                  if (context.mounted &&
+                      widget.returnFromDetailCallback != null) {
+                    widget.returnFromDetailCallback?.call();
+                  }
+                }
+              : null,
+          child: AspectRatio(
+            aspectRatio: Dimens.learningCardRatio,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 140),
+                  child: FadedBannerImage(
+                    urlImage: widget.data.coverPublicURL,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: Dimens.hViewPadding,
+                    right: Dimens.hViewPadding,
+                    bottom: 100,
+                    top: 80,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      iconByCardStatus(),
+                      const SizedBox(height: 6),
+                      Text(
+                        (widget.data.title ?? 'No title').toUpperCase(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextTheme.body(
+                          color: ColorManager().getColorTextPrimary(),
+                          weight: FontWeight.bold,
+                          size: 56,
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      if ((widget.data.topicTags ?? []).isNotEmpty) ...[
+                        const SizedBox(height: 32),
+                        TopicList(
+                          widget.data.topicTags ?? [],
+                          color: ColorManager()
+                              .getColorSystemSecondary05()
+                              .withOpacity(.6),
+                        ),
+                      ],
+                      const SizedBox(height: 32),
+                      // descrizione
+                      Text(
+                        widget.data.shortDescription ?? '',
+                        style: TextStyle(
+                          color: ColorManager().getColorTextPrimary(),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                      buildDurationTag(),
+                      const Spacer(),
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      /// Type Label
-                                      TextSpan(
-                                        text: 'Digitale'.toUpperCase(),
-                                        style: AppTextTheme.body(
-                                          color: ColorManager()
-                                              .getColorTextMandatory(),
-                                          weight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: ' | ',
-                                        style: AppTextTheme.body(
-                                          color: ColorManager()
-                                              .getColorTextPrimary(),
-                                          weight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: widget.data.learningObjectType
-                                            .getTranslatedValue()
-                                            .toUpperCase(),
-                                        style: AppTextTheme.body(
-                                          color: ColorManager()
-                                              .getColorTextPrimary(),
-                                          weight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                            (widget.data.title ?? 'No title').toUpperCase(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextTheme.body(
-                              color: ColorManager().getColorTextPrimary(),
-                              weight: FontWeight.bold,
-                              size: 32,
+                          FocusTraversalOrder(
+                            order: const NumericFocusOrder(0),
+                            child: OLButton(
+                              debugLabel: 'START-BUTTON-0',
+                              title: 'Inizia',
+                              onPressed: () {},
                             ),
-                          ),
-                          if ((widget.data.topicTags ?? []).isNotEmpty) ...[
-                            const SizedBox(height: 32),
-                            TopicList(
-                              widget.data.topicTags ?? [],
-                              color: ColorManager()
-                                  .getColorSystemSecondary05()
-                                  .withOpacity(.6),
-                            ),
-                          ],
-                          const SizedBox(height: 32),
-                          // descrizione
-                          Text(
-                            widget.data.shortDescription ?? 'No description',
-                            style: TextStyle(
-                              color: ColorManager().getColorTextPrimary(),
-                              fontSize: 24,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const SizedBox(height: 32),
-                          buildDurationTag(),
-                          const Spacer(),
-                          Row(
-                            children: [
-                              FocusTraversalOrder(
-                                order: const NumericFocusOrder(0),
-                                child: OLButton(
-                                  debugLabel: 'START-BUTTON-0',
-                                  title: 'Inizia',
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-          if (widget.data.iconStatus != IconStatus.idle) ...[
-            Positioned(
-              top: 22,
-              left: 0,
-              child: iconByCardStatus(),
-            ),
-          ],
-        ],
+        ),
       ),
     );
   }
@@ -244,79 +173,110 @@ class _ForYouCardState extends State<ForYouCard> {
   }
 
   Widget buildDurationTag() {
-    if (widget.data.duration == null) {
-      return const SizedBox.shrink();
-    }
-
-    return IconText(
-      bkColor: ColorManager().getColorTextPrimary(),
-      text: convertMinutesToHours(widget.data.duration ?? 0),
-      textColor: ColorManager().getColorTextPrimary(),
-      icon: Icons.watch_later_outlined,
-      iconSize: 16,
+    return Row(
+      children: [
+        if (widget.data.duration != null) ...[
+          IconText(
+            bkColor: ColorManager().getColorTextPrimary(),
+            text: convertMinutesToHours(widget.data.duration ?? 0),
+            textColor: ColorManager().getColorTextPrimary(),
+            image: 'assets/icons/clock.svg',
+            iconSize: 24,
+          ),
+          const SizedBox(width: 24),
+        ],
+        if (widget.data.expirationDate != null) ...[
+          IconText(
+            bkColor: ColorManager().getColorTextPrimary(),
+            text: DateFormat('dd/MM/yyyy').format(widget.data.expirationDate!),
+            textColor: ColorManager().getColorTextPrimary(),
+            image: 'assets/icons/calendar.svg',
+            iconSize: 24,
+          ),
+          const SizedBox(width: 24),
+        ],
+      ],
     );
-  }
-
-  Widget get _backgroundImage {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: OLColors.backgroundCard,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: widget.data.coverPublicURL != null &&
-              widget.data.coverPublicURL!.isNotEmpty
-          ? CachedNetworkImage(
-              imageUrl: widget.data.coverPublicURL!,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.05),
-                ),
-              ),
-            )
-          : DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(.05),
-              ),
-            ),
-    );
-  }
-
-  Border? get _borderForeground {
-    double width = 1.0;
-    switch (widget.data.iconStatus) {
-      case IconStatus.mandatory:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderAccent(),
-        );
-      case IconStatus.completed:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderSecondaryComplete(),
-        );
-      case IconStatus.expired:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderWarning(),
-        );
-      case IconStatus.suggestedAI:
-      case IconStatus.suggestedHR:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderSecondaryComplete(),
-        );
-      case IconStatus.idle:
-      default:
-        return null;
-    }
   }
 
   Widget iconByCardStatus() {
-    return StatusTag.svg(
-      backgroundColor: widget.data.iconStatus.color,
-      svgPath: widget.data.iconStatus.svgPath!,
+    if (widget.data.iconStatus == IconStatus.idle) {
+      return const SizedBox.shrink();
+    }
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 3),
+          decoration: BoxDecoration(
+            color: widget.data.iconStatus.color,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(4),
+              bottomRight: Radius.circular(4),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(4),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  widget.data.iconStatus.svgPath!,
+                  height: 18,
+                  width: 18,
+                  colorFilter: ColorFilter.mode(
+                    ColorManager().getColorBackgroundPrimary(),
+                    BlendMode.srcIn,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  widget.data.iconStatus.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextTheme.caption(
+                    weight: FontWeight.w500,
+                    color: ColorManager().getColorBackgroundPrimary(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        RichText(
+          text: TextSpan(
+            children: [
+              /// Type Label
+              TextSpan(
+                text: 'Digitale'.toUpperCase(),
+                style: AppTextTheme.body(
+                  color: ColorManager().getColorTextMandatory(),
+                  weight: FontWeight.bold,
+                  size: 20,
+                ),
+              ),
+              TextSpan(
+                text: ' | ',
+                style: AppTextTheme.body(
+                  color: ColorManager().getColorTextPrimary(),
+                  weight: FontWeight.bold,
+                  size: 20,
+                ),
+              ),
+              TextSpan(
+                text: widget.data.learningObjectType
+                    .getTranslatedValue()
+                    .toUpperCase(),
+                style: AppTextTheme.body(
+                  color: ColorManager().getColorTextPrimary(),
+                  weight: FontWeight.bold,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+          maxLines: 1,
+        ),
+      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
@@ -50,60 +51,74 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusTraversalGroup(
-      policy: _focusNodeOrder,
-      child: Focus(
-        focusNode: focusNode,
-        onFocusChange: (value) {
-          setState(() {});
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          final focus = context.read<MainStateCubit>().state;
+          focus.requestFocus();
         },
-        child: Scaffold(
-          body: Container(
-            decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
-            child: BlocConsumer<SettingsCubit, SettingsState>(
-              listener: (context, state) => state.whenOrNull(
-                goToInitiatives: (session, model, sessionId) async {
-                  Nav.push(
-                    context,
-                    screen: InitiativesPage(
-                      args: InitiativesPageArgs(
-                        session: session,
-                        selfModel: model!,
-                        sessionId: sessionId,
-                        isFromSettings: true,
+      },
+      child: FocusTraversalGroup(
+        policy: _focusNodeOrder,
+        child: Focus(
+          focusNode: focusNode,
+          onFocusChange: (value) {
+            if (value) {
+              if (focusNode.focusedChild == null) {
+                final f = _focusNodeOrder.findFirstFocus(focusNode);
+                f?.requestFocus();
+              }
+            }
+            setState(() {});
+          },
+          child: Scaffold(
+            body: Container(
+              decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
+              child: BlocConsumer<SettingsCubit, SettingsState>(
+                listener: (context, state) => state.whenOrNull(
+                  goToInitiatives: (session, model, sessionId) async {
+                    Nav.push(
+                      context,
+                      screen: InitiativesPage(
+                        args: InitiativesPageArgs(
+                          session: session,
+                          selfModel: model!,
+                          sessionId: sessionId,
+                          isFromSettings: true,
+                        ),
                       ),
-                    ),
-                  );
+                    );
 
-                  return;
-                },
-                error: () {
-                  return OlAlertDialog.show(
-                    context,
-                    title: LabelsManager()
-                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                    message: LabelsManager().getRemoteStringFromLabelKeys(
-                        RemoteLabelKeys.error_occurred),
-                    actionLabel: LabelsManager()
-                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
-                  );
-                },
-              ),
-              listenWhen: (previous, current) => current.maybeMap(
-                goToInitiatives: (_) => true,
-                error: (_) => true,
-                orElse: () => false,
-              ),
-              buildWhen: (previous, current) => current.maybeMap(
-                goToInitiatives: (_) => false,
-                orElse: () => true,
-              ),
-              builder: (context, state) => state.maybeWhen(
-                initial: (smartConfig, loggedInViaSSO) {
-                  return _content(context, smartConfig, loggedInViaSSO);
-                },
-                loading: () => _loading,
-                orElse: () => const SizedBox(),
+                    return;
+                  },
+                  error: () {
+                    return OlAlertDialog.show(
+                      context,
+                      title: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                      message: LabelsManager().getRemoteStringFromLabelKeys(
+                          RemoteLabelKeys.error_occurred),
+                      actionLabel: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
+                    );
+                  },
+                ),
+                listenWhen: (previous, current) => current.maybeMap(
+                  goToInitiatives: (_) => true,
+                  error: (_) => true,
+                  orElse: () => false,
+                ),
+                buildWhen: (previous, current) => current.maybeMap(
+                  goToInitiatives: (_) => false,
+                  orElse: () => true,
+                ),
+                builder: (context, state) => state.maybeWhen(
+                  initial: (smartConfig, loggedInViaSSO) {
+                    return _content(context, smartConfig, loggedInViaSSO);
+                  },
+                  loading: () => _loading,
+                  orElse: () => const SizedBox(),
+                ),
               ),
             ),
           ),

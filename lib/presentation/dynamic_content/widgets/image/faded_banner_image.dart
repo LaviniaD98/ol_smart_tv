@@ -18,49 +18,52 @@ class FadedBannerImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ShaderMask(
-          shaderCallback: (rect) {
-            return const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Colors.transparent,
-                Colors.black,
-              ],
-            ).createShader(
-              Rect.fromLTRB(
-                0,
-                0,
-                rect.width,
-                rect.height,
-              ),
-            );
-          },
-          blendMode: BlendMode.dstIn,
-          child: Builder(builder: (context) {
-            if (urlVideo != null) {
-              return VideoPlayerTrailerWidget(
-                urlVideo!,
-                //key: ValueKey(widget.model.id),
+        Opacity(
+          opacity: 0.8,
+          child: ShaderMask(
+            shaderCallback: (rect) {
+              return const LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Colors.transparent,
+                  OLColors.backgroundPrimary,
+                ],
+              ).createShader(
+                Rect.fromLTRB(
+                  0,
+                  0,
+                  rect.width,
+                  rect.height,
+                ),
               );
-            }
-            return CachedNetworkImage(
-              imageUrl: urlImage ?? '',
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
+            },
+            blendMode: BlendMode.dstIn,
+            child: Builder(builder: (context) {
+              if (urlVideo != null) {
+                return VideoPlayerTrailerWidget(
+                  urlVideo!,
+                  //key: ValueKey(widget.model.id),
+                );
+              }
+              return CachedNetworkImage(
+                imageUrl: urlImage ?? '',
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              errorWidget: (context, url, error) => DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.05),
+                errorWidget: (context, url, error) => DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withOpacity(.05),
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+          ),
         ),
         Align(
           alignment: Alignment.topCenter,
@@ -95,6 +98,25 @@ class FadedBannerImage extends StatelessWidget {
               ),
             ),
           ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    end: Alignment.centerRight,
+                    begin: Alignment.centerLeft,
+                    colors: <Color>[
+                      OLColors.backgroundPrimary,
+                      OLColors.backgroundPrimary.withOpacity(0.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
     );

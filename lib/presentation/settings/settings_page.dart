@@ -184,9 +184,7 @@ class SettingsPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 32,
-            ),
+            const SizedBox(height: 32),
             Material(
               color: ColorManager().getColorBackgroundList(),
               borderRadius: BorderRadius.circular(Dimens.radiusImage),

@@ -19,7 +19,7 @@ import 'package:open_learning_smart_tv/core/database/tables/local_notifications/
 import 'package:open_learning_smart_tv/core/database/tables/offline_player_tracking/offline_statements_dao.dart'
     as _i57;
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart'
-    as _i310;
+    as _i311;
 import 'package:open_learning_smart_tv/core/env/env.dart' as _i17;
 import 'package:open_learning_smart_tv/core/web_client_config/web_client_config.dart'
     as _i104;
@@ -482,7 +482,7 @@ import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.da
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/cubit/local_card_cubit.dart'
     as _i258;
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/download_card_status/cubit/local_card_status_cubit.dart'
-    as _i298;
+    as _i299;
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/calendar/cubit/ol_calendar_dialog_cubit.dart'
     as _i241;
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/cubit/ol_download_dialog_cubit.dart'
@@ -492,19 +492,19 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_head
 import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_header/logo_header_cubit.dart'
     as _i283;
 import 'package:open_learning_smart_tv/presentation/common/widgets/rating/ratings_dialog_cubit.dart'
-    as _i289;
+    as _i290;
 import 'package:open_learning_smart_tv/presentation/common/widgets/smart_learning_bottom_sheet/cubit/smart_learning_bottom_sheet_cubit.dart'
     as _i278;
 import 'package:open_learning_smart_tv/presentation/common/widgets/topics_filter/cubit/topics_filter_cubit.dart'
-    as _i303;
+    as _i304;
 import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/cubit/user_avatar_cubit.dart'
-    as _i288;
+    as _i289;
 import 'package:open_learning_smart_tv/presentation/community_webview/cubit/community_web_view_page_cubit.dart'
     as _i46;
 import 'package:open_learning_smart_tv/presentation/corporate_code/cubit/corporate_code_cubit.dart'
     as _i105;
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart'
-    as _i302;
+    as _i303;
 import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/cubit/ecm_registration_cubit.dart'
     as _i8;
 import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/steps/first_step/cubit/ecm_first_step_cubit.dart'
@@ -514,19 +514,21 @@ import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registrati
 import 'package:open_learning_smart_tv/presentation/course_detail/editions/edition_cubit.dart'
     as _i177;
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart'
-    as _i301;
+    as _i302;
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart'
-    as _i295;
+    as _i296;
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/download_button/cubit/download_item_cubit.dart'
     as _i261;
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/teachers_sheet/cubit/teacher_detail_sheet_cubit.dart'
-    as _i292;
+    as _i293;
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/tools/tool_item/cubit/tool_item_cubit.dart'
-    as _i305;
+    as _i306;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart'
     as _i286;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_content_cubit.dart'
-    as _i307;
+    as _i308;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart'
+    as _i287;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_manager_cubit.dart'
     as _i62;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_sheet_cubit.dart'
@@ -540,13 +542,13 @@ import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/commun
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/cubit/community_wall_cubit.dart'
     as _i265;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/detail/cubit/post_detail_cubit.dart'
-    as _i299;
+    as _i300;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/detail/widgets/add_comment_widget/cubit/add_comment_widget_cubit.dart'
-    as _i306;
+    as _i307;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/post/add_link/cubit/add_link_cubit.dart'
     as _i7;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/post/cubit/post_cubit.dart'
-    as _i290;
+    as _i291;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/widgets/cubit/community_card_cubit.dart'
     as _i279;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/widgets/cubit/like_post_cubit.dart'
@@ -558,17 +560,17 @@ import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/favour
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/cubit/standard_strip_cubit.dart'
     as _i282;
 import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart'
-    as _i309;
+    as _i310;
 import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart'
-    as _i304;
+    as _i305;
 import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart'
-    as _i294;
+    as _i295;
 import 'package:open_learning_smart_tv/presentation/login/mfa/cubit/mfa_cubit.dart'
     as _i100;
 import 'package:open_learning_smart_tv/presentation/login/sso/cubit/sso_cubit.dart'
     as _i95;
 import 'package:open_learning_smart_tv/presentation/notification/cubit/notification_cubit.dart'
-    as _i291;
+    as _i292;
 import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart'
     as _i280;
 import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart'
@@ -578,7 +580,7 @@ import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_c
 import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart'
     as _i53;
 import 'package:open_learning_smart_tv/presentation/profile/download/wall/cubit/download_wall_cubit.dart'
-    as _i308;
+    as _i309;
 import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_confirm_page_cubit.dart'
     as _i98;
 import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_recover_page_cubit.dart'
@@ -588,7 +590,7 @@ import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_pa
 import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_set_old_page_cubit.dart'
     as _i5;
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart'
-    as _i287;
+    as _i288;
 import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart'
     as _i63;
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart'
@@ -598,18 +600,18 @@ import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_sc
 import 'package:open_learning_smart_tv/presentation/video_player/community/cubit/video_player_thumbnail_cubit.dart'
     as _i90;
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart'
-    as _i293;
+    as _i294;
 import 'package:open_learning_smart_tv/presentation/video_player/offline/cubit/video_player_offline_cubit.dart'
-    as _i297;
+    as _i298;
 import 'package:open_learning_smart_tv/presentation/wall/cubit/wall_cubit.dart'
-    as _i300;
+    as _i301;
 import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart'
     as _i253;
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart'
     as _i263;
 import 'package:open_learning_smart_tv/wrappers/cognito_auth.dart' as _i96;
 import 'package:open_learning_smart_tv/wrappers/notification/notification_manager.dart'
-    as _i296;
+    as _i297;
 import 'package:open_learning_smart_tv/wrappers/ol_cognito_storage.dart'
     as _i18;
 import 'package:open_learning_smart_tv/wrappers/ol_secure_storage.dart' as _i16;
@@ -1453,28 +1455,34 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i242.GetStandardStripUseCase>(),
           gh<_i280.OfflineCubit>(),
         ));
-    gh.factory<_i287.SearchCubit>(() => _i287.SearchCubit(
+    gh.factory<_i287.FavoritesContentCubit>(() => _i287.FavoritesContentCubit(
+          gh<_i252.GetPageStructureUseCase>(),
+          gh<_i32.GetStoredSmartConfigurationUseCase>(),
+          gh<_i242.GetStandardStripUseCase>(),
+          gh<_i280.OfflineCubit>(),
+        ));
+    gh.factory<_i288.SearchCubit>(() => _i288.SearchCubit(
           gh<_i257.GetSearchResultsUseCase>(),
           gh<_i281.GetSuggestionsUseCase>(),
         ));
-    gh.factory<_i288.UserAvatarCubit>(
-        () => _i288.UserAvatarCubit(gh<_i223.GetUserImageUseCase>()));
-    gh.factory<_i289.RatingsDialogCubit>(
-        () => _i289.RatingsDialogCubit(gh<_i254.RatingUseCase>()));
-    gh.factory<_i290.PostCubit>(() => _i290.PostCubit(
+    gh.factory<_i289.UserAvatarCubit>(
+        () => _i289.UserAvatarCubit(gh<_i223.GetUserImageUseCase>()));
+    gh.factory<_i290.RatingsDialogCubit>(
+        () => _i290.RatingsDialogCubit(gh<_i254.RatingUseCase>()));
+    gh.factory<_i291.PostCubit>(() => _i291.PostCubit(
           gh<_i223.GetUserImageUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i247.CreatePostUseCase>(),
           gh<_i245.EditPostUseCase>(),
           gh<_i265.CommunityWallCubit>(),
         ));
-    gh.singleton<_i291.NotificationCubit>(() => _i291.NotificationCubit(
+    gh.singleton<_i292.NotificationCubit>(() => _i292.NotificationCubit(
           gh<_i259.GetNotificationsUseCase>(),
           gh<_i260.SetNotificationsUseCase>(),
         ));
-    gh.factory<_i292.TeacherDetailSheetCubit>(() =>
-        _i292.TeacherDetailSheetCubit(gh<_i274.GetTeacherDetailUseCase>()));
-    gh.factory<_i293.VideoPlayerCubit>(() => _i293.VideoPlayerCubit(
+    gh.factory<_i293.TeacherDetailSheetCubit>(() =>
+        _i293.TeacherDetailSheetCubit(gh<_i274.GetTeacherDetailUseCase>()));
+    gh.factory<_i294.VideoPlayerCubit>(() => _i294.VideoPlayerCubit(
           gh<_i249.StatementsUseCase>(),
           gh<_i248.SetStateUseCase>(),
           gh<_i250.GetStateUseCase>(),
@@ -1483,7 +1491,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i27.GetStoredDownloadContentInfoUseCase>(),
           gh<_i28.StoreDownloadContentInfoUseCase>(),
         ));
-    gh.factory<_i294.LoginCubit>(() => _i294.LoginCubit(
+    gh.factory<_i295.LoginCubit>(() => _i295.LoginCubit(
           gh<_i96.CognitoAuthManager>(),
           gh<_i20.GetStoredUsernameUseCase>(),
           gh<_i30.HandlerStoredUsernameUseCase>(),
@@ -1497,17 +1505,17 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i3.SharedPreferences>(),
           gh<_i263.RemoteLabels>(),
         ));
-    gh.factory<_i295.RatingCubit>(() => _i295.RatingCubit(
+    gh.factory<_i296.RatingCubit>(() => _i296.RatingCubit(
           gh<_i275.GetRatingUseCase>(),
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
         ));
-    gh.singleton<_i296.NotificationManager>(() => _i296.NotificationManager(
-          gh<_i291.NotificationCubit>(),
+    gh.singleton<_i297.NotificationManager>(() => _i297.NotificationManager(
+          gh<_i292.NotificationCubit>(),
           gh<_i3.SharedPreferences>(),
           gh<_i284.NotificationUseCase>(),
         ));
-    gh.factory<_i297.VideoPlayerOfflineCubit>(
-        () => _i297.VideoPlayerOfflineCubit(
+    gh.factory<_i298.VideoPlayerOfflineCubit>(
+        () => _i298.VideoPlayerOfflineCubit(
               gh<_i69.StoreStatementUseCase>(),
               gh<_i249.StatementsUseCase>(),
               gh<_i248.SetStateUseCase>(),
@@ -1515,13 +1523,13 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i27.GetStoredDownloadContentInfoUseCase>(),
               gh<_i28.StoreDownloadContentInfoUseCase>(),
             ));
-    gh.factory<_i298.LocalCardStatusCubit>(() => _i298.LocalCardStatusCubit(
+    gh.factory<_i299.LocalCardStatusCubit>(() => _i299.LocalCardStatusCubit(
           gh<_i27.GetStoredDownloadContentInfoUseCase>(),
           gh<_i271.GetDetailPageUseCase>(),
           gh<_i28.StoreDownloadContentInfoUseCase>(),
           gh<_i250.GetStateUseCase>(),
         ));
-    gh.factory<_i299.PostDetailCubit>(() => _i299.PostDetailCubit(
+    gh.factory<_i300.PostDetailCubit>(() => _i300.PostDetailCubit(
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i230.GetSharedPostUseCase>(),
           gh<_i223.GetUserImageUseCase>(),
@@ -1529,17 +1537,17 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i246.DeletePostUseCase>(),
           gh<_i265.CommunityWallCubit>(),
         ));
-    gh.factory<_i300.WallCubit>(() => _i300.WallCubit(
+    gh.factory<_i301.WallCubit>(() => _i301.WallCubit(
           gh<_i196.GetWallStripContentUseCase>(),
           gh<_i272.RemoveFavouritesUseCase>(),
           gh<_i264.FavouritesStripCubit>(),
         ));
-    gh.factory<_i301.FavouriteCubit>(() => _i301.FavouriteCubit(
+    gh.factory<_i302.FavouriteCubit>(() => _i302.FavouriteCubit(
           gh<_i266.AddFavouritesUseCase>(),
           gh<_i272.RemoveFavouritesUseCase>(),
           gh<_i264.FavouritesStripCubit>(),
         ));
-    gh.factory<_i302.DetailPageCubit>(() => _i302.DetailPageCubit(
+    gh.factory<_i303.DetailPageCubit>(() => _i303.DetailPageCubit(
           gh<_i271.GetDetailPageUseCase>(),
           gh<_i268.GetToolsUseCase>(),
           gh<_i267.GetRelatedActivitiesUseCase>(),
@@ -1557,25 +1565,25 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i28.StoreDownloadContentInfoUseCase>(),
           gh<_i53.DownloadStripCubit>(),
         ));
-    gh.factory<_i303.TopicsFilterCubit>(
-        () => _i303.TopicsFilterCubit(gh<_i256.GetTopicsUseCase>()));
-    gh.factory<_i304.LanguagesCubit>(
-        () => _i304.LanguagesCubit(gh<_i263.RemoteLabels>()));
-    gh.factory<_i305.ToolItemCubit>(
-        () => _i305.ToolItemCubit(gh<_i273.GetToolUrlUseCase>()));
-    gh.factory<_i306.AddCommentWidgetCubit>(() => _i306.AddCommentWidgetCubit(
+    gh.factory<_i304.TopicsFilterCubit>(
+        () => _i304.TopicsFilterCubit(gh<_i256.GetTopicsUseCase>()));
+    gh.factory<_i305.LanguagesCubit>(
+        () => _i305.LanguagesCubit(gh<_i263.RemoteLabels>()));
+    gh.factory<_i306.ToolItemCubit>(
+        () => _i306.ToolItemCubit(gh<_i273.GetToolUrlUseCase>()));
+    gh.factory<_i307.AddCommentWidgetCubit>(() => _i307.AddCommentWidgetCubit(
           gh<_i237.AddCommentUseCase>(),
           gh<_i231.AddAnswerUseCase>(),
           gh<_i233.EditCommentUseCase>(),
           gh<_i238.DeleteCommentUseCase>(),
           gh<_i265.CommunityWallCubit>(),
         ));
-    gh.factory<_i307.DynamicContentCubit>(() => _i307.DynamicContentCubit(
+    gh.factory<_i308.DynamicContentCubit>(() => _i308.DynamicContentCubit(
           gh<_i252.GetPageStructureUseCase>(),
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
           gh<_i280.OfflineCubit>(),
         ));
-    gh.factory<_i308.DownloadWallCubit>(() => _i308.DownloadWallCubit(
+    gh.factory<_i309.DownloadWallCubit>(() => _i309.DownloadWallCubit(
           gh<_i13.QueryDownloadManagerUseCase>(),
           gh<_i26.RemoveStoredDownloadContentInfoUseCase>(),
           gh<_i74.CancelDownloadUseCase>(),
@@ -1584,7 +1592,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i280.OfflineCubit>(),
           gh<_i68.GetStatementsUseCase>(),
         ));
-    gh.factory<_i309.InitiativesCubit>(() => _i309.InitiativesCubit(
+    gh.factory<_i310.InitiativesCubit>(() => _i310.InitiativesCubit(
           gh<_i91.SetInitiativeUseCase>(),
           gh<_i40.SetStoredUserSelfUseCase>(),
           gh<_i45.SetSecureStoredUserInfoUseCase>(),
@@ -1593,7 +1601,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i184.GetSmartConfigurationUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
           gh<_i11.SetStoredSmartConfigurationUseCase>(),
-          gh<_i296.NotificationManager>(),
+          gh<_i297.NotificationManager>(),
           gh<_i89.CleanLocalDatabaseUseCase>(),
           gh<_i92.CheckSessionUseCase>(),
           gh<_i185.GetColorsUseCase>(),
@@ -1605,4 +1613,4 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$ExternalModule extends _i310.ExternalModule {}
+class _$ExternalModule extends _i311.ExternalModule {}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:onscreen_keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
@@ -19,8 +19,6 @@ class _TextInputScreenState extends State<TextInputScreen> {
   final textEditingController = TextEditingController();
 
   final FocusNode focusNode = FocusNode();
-
-  //final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
 
   ValueNotifier<String> textNotifier = ValueNotifier<String>('');
 

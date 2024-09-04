@@ -22,7 +22,7 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit(
     this._getSearchResultsUseCase,
     this._getSuggestionsUseCase,
-  ) : super(const SearchState.loading());
+  ) : super(const SearchState.initial([]));
 
   PagingController<int, LearningObjectModel>? controller;
   int pageSize =

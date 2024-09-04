@@ -1,14 +1,7 @@
-<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g clip-path="url(#clip0_3296_13148)">
-        <path d="M17.92 21.4796C19.3449 21.4796 20.5 20.3245 20.5 18.8996C20.5 17.4747 19.3449 16.3196 17.92 16.3196C16.4951 16.3196 15.34 17.4747 15.34 18.8996C15.34 20.3245 16.4951 21.4796 17.92 21.4796Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
-        <path d="M19.5 14.0996V11.4796C19.5 10.3696 18.66 9.47961 17.62 9.47961H5.39C4.35 9.47961 3.5 10.3796 3.5 11.4796V18.4996C3.5 19.6096 4.34 20.4996 5.39 20.4996H10.59C11.06 20.4996 11.52 20.3496 11.9 20.0596L13.5 18.8696" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
-        <path d="M3.5 13.2096V7.34961C3.5 6.31961 4.34 5.47961 5.39 5.47961H17.65C18.69 5.47961 19.51 6.29961 19.51 7.33961V11.7496" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
-        <path d="M8.5 4.47961V6.47961" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
-        <path d="M14.5 4.47961V6.47961" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
-    </g>
-    <defs>
-        <clipPath id="clip0_3296_13148">
-            <rect width="18" height="18" fill="white" transform="translate(3 3.97961)"/>
-        </clipPath>
-    </defs>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.4198 19.9998C18.8447 19.9998 19.9998 18.8447 19.9998 17.4198C19.9998 15.9949 18.8447 14.8398 17.4198 14.8398C15.9949 14.8398 14.8398 15.9949 14.8398 17.4198C14.8398 18.8447 15.9949 19.9998 17.4198 19.9998Z" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M19 12.62V10C19 8.89 18.16 8 17.12 8H4.89C3.85 8 3 8.9 3 10V17.02C3 18.13 3.84 19.02 4.89 19.02H10.09C10.56 19.02 11.02 18.87 11.4 18.58L13 17.39" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M3 11.73V5.87C3 4.84 3.84 4 4.89 4H17.15C18.19 4 19.01 4.82 19.01 5.86V10.27" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M8 3V5" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
+<path d="M14 3V5" stroke="white" stroke-miterlimit="10" stroke-linecap="round"/>
 </svg>
