@@ -16,8 +16,8 @@ enum LearningObjectType {
   unknown('Live', '');
 
   String getTranslatedValue() {
-    String tr = LabelsManager().getRemoteStringFromString(this.apiValue);
-    if (tr == this.apiValue) return this.value;
+    String tr = LabelsManager().getRemoteStringFromString(apiValue);
+    if (tr == apiValue) return value;
     return tr;
   }
 
@@ -64,8 +64,8 @@ enum LearningObjectTypology {
   const LearningObjectTypology(this.value, this.apiValue);
 
   String getTranslatedValue() {
-    String tr = LabelsManager().getRemoteStringFromString(this.apiValue);
-    if (tr == this.apiValue) return this.value;
+    String tr = LabelsManager().getRemoteStringFromString(apiValue);
+    if (tr == apiValue) return value;
     return tr;
   }
 

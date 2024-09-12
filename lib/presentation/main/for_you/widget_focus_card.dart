@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 class WidgetFocusCard extends StatefulWidget {
   final void Function(bool)? onFocusChange;
   final int index;
+  final Widget? Function(bool hasFocus)? child;
+  final EdgeInsets? margin;
+  final BoxDecoration? decoration;
 
   const WidgetFocusCard({
     super.key,
     required this.index,
+    this.child,
     this.onFocusChange,
+    this.margin,
+    this.decoration,
   });
 
   @override
@@ -21,7 +27,7 @@ class _WidgetFocusCardState extends State<WidgetFocusCard> {
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(debugLabel: '${widget.index}:2');
+    focusNode = FocusScopeNode(debugLabel: 'WidgetFocusCard:${widget.index}:2');
   }
 
   @override
@@ -33,9 +39,16 @@ class _WidgetFocusCardState extends State<WidgetFocusCard> {
         setState(() {});
       },
       child: Container(
-        height: 100,
-        color: focusNode.hasFocus ? Colors.red : Colors.blue,
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+        decoration: (widget.decoration ?? const BoxDecoration()).copyWith(
+          border: Border.all(
+            color: focusNode.hasFocus ? Colors.white : Colors.transparent,
+            width: 5,
+            strokeAlign: BorderSide.strokeAlignOutside,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        margin: widget.margin,
+        child: widget.child?.call(focusNode.hasFocus),
       ),
     );
   }

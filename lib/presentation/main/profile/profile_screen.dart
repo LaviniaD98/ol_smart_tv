@@ -15,6 +15,7 @@ import 'package:open_learning_smart_tv/presentation/initiatives/initiatives_page
 import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/main/widgets/user_widgets_list.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_set_old_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_reset/pwd_set_old_page.dart';
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
@@ -134,109 +135,118 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 60,
         left: Dimens.hViewPadding,
         right: Dimens.hViewPadding,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
         children: [
-          buildYourDateSection(),
-          /* if (loggedInViaSSO == null || loggedInViaSSO == false) ...[
-            const SizedBox(height: 32),
-            buildSettingsOption(
-              title: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.change_password),
-              icon: "assets/icons/security.svg",
-              onTap: () {
-                _changePasswordOnTap(context);
-              },
-            ),
-          ],*/
-          const SizedBox(height: 32),
-          buildSettingsOption(
-            title: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.switch_to),
-            icon: "assets/icons/grid.svg",
-            onTap: () async {
-              await context.read<SettingsCubit>().goToInitiatives();
-            },
-          ),
-          const SizedBox(height: 32),
-          buildSettingsOption(
-            title: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.privacy_policy),
-            icon: "assets/icons/lock.svg",
-            onTap: () async {
-              Nav.push(context, screen: const PrivacyPolicyPage());
-            },
-          ),
-
-          // if (smartConfig?.freshDesk == true) ...[
-          //   const SizedBox(height: 32),
-          //   buildSettingsOption(
-          //     title: LabelsManager()
-          //         .getRemoteStringFromLabelKeys(RemoteLabelKeys.help),
-          //     icon: "assets/icons/help.svg",
-          //     onTap: () {
-          //       _helpOnTap(context);
-          //     },
-          //   ),
-          // ],
-          if (getIt<RemoteLabels>().enableMultiLanguages) ...[
-            const SizedBox(height: 32),
-            buildSettingsOption(
-              title: getIt<RemoteLabels>().selectedLanguage.label,
-              icon: "assets/icons/globo.svg",
-              onTap: () {
-                final args = LanguagesPageArgs(
-                    onChanged: () => getIt<AppCubit>().reload(context));
-
-                Nav.push(
-                  context,
-                  screen: BlocProvider(
-                    create: (_) => getIt<LanguagesCubit>()..init((args)),
-                    child: LanguagesPage(args: args),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 60),
+                buildYourDateSection(),
+                /* if (loggedInViaSSO == null || loggedInViaSSO == false) ...[
+                  const SizedBox(height: 32),
+                  buildSettingsOption(
+                    title: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.change_password),
+                    icon: "assets/icons/security.svg",
+                    onTap: () {
+                      _changePasswordOnTap(context);
+                    },
                   ),
-                );
-              },
-            ),
-          ],
-          const SizedBox(height: 32),
-          buildSettingsOption(
-            title: LabelsManager().getRemoteStringFromLabelKeys(
-              RemoteLabelKeys.exit,
-            ),
-            icon: "assets/icons/logout.svg",
-            onTap: () {
-              OlOkCancelDialog.show(
-                context,
-                title: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.exit,
+                ],*/
+                const SizedBox(height: 32),
+                buildSettingsOption(
+                  title: LabelsManager()
+                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.switch_to),
+                  icon: "assets/icons/grid.svg",
+                  onTap: () async {
+                    await context.read<SettingsCubit>().goToInitiatives();
+                  },
                 ),
-                message: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit_text),
-                okActionLabel: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit),
-                cancelActionLabel: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.cancel),
-                okCallback: () {
-                  context.read<AppCubit>().logout();
-                },
-              );
-            },
+                const SizedBox(height: 32),
+                buildSettingsOption(
+                  title: LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.privacy_policy),
+                  icon: "assets/icons/lock.svg",
+                  onTap: () async {
+                    Nav.push(context, screen: const PrivacyPolicyPage());
+                  },
+                ),
+
+                // if (smartConfig?.freshDesk == true) ...[
+                //   const SizedBox(height: 32),
+                //   buildSettingsOption(
+                //     title: LabelsManager()
+                //         .getRemoteStringFromLabelKeys(RemoteLabelKeys.help),
+                //     icon: "assets/icons/help.svg",
+                //     onTap: () {
+                //       _helpOnTap(context);
+                //     },
+                //   ),
+                // ],
+                if (getIt<RemoteLabels>().enableMultiLanguages) ...[
+                  const SizedBox(height: 32),
+                  buildSettingsOption(
+                    title: getIt<RemoteLabels>().selectedLanguage.label,
+                    icon: "assets/icons/globo.svg",
+                    onTap: () {
+                      final args = LanguagesPageArgs(
+                          onChanged: () => getIt<AppCubit>().reload(context));
+
+                      Nav.push(
+                        context,
+                        screen: BlocProvider(
+                          create: (_) => getIt<LanguagesCubit>()..init((args)),
+                          child: LanguagesPage(args: args),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+                const SizedBox(height: 32),
+                buildSettingsOption(
+                  title: LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.exit,
+                  ),
+                  icon: "assets/icons/logout.svg",
+                  onTap: () {
+                    OlOkCancelDialog.show(
+                      context,
+                      title: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.exit,
+                      ),
+                      message: LabelsManager().getRemoteStringFromLabelKeys(
+                          RemoteLabelKeys.exit_text),
+                      okActionLabel: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit),
+                      cancelActionLabel: LabelsManager()
+                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.cancel),
+                      okCallback: () {
+                        context.read<AppCubit>().logout();
+                      },
+                    );
+                  },
+                ),
+
+                /*Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      "v${context.read<SettingsCubit>().packageInfo?.version ?? ""}",
+                      style: AppTextTheme.body(),
+                    )
+                  ],
+                )*/
+              ],
+            ),
           ),
-          const Spacer(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Text(
-                "v${context.read<SettingsCubit>().packageInfo?.version ?? ""}",
-                style: AppTextTheme.body(),
-              )
-            ],
-          )
+          const SizedBox(width: 52),
+          const UserWidgetsList(),
+          const SizedBox(width: Dimens.hPadding),
         ],
       ),
     );

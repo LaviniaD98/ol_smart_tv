@@ -11,12 +11,11 @@ import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart'
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_vertical_carousel.dart';
-import 'package:open_learning_smart_tv/presentation/main/for_you/widget_focus_card.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/main/widgets/user_widgets_list.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
-import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ForYouScreen extends StatefulWidget {
   const ForYouScreen({required this.dynamicRoutes, super.key});
@@ -29,20 +28,12 @@ class ForYouScreen extends StatefulWidget {
 
 class _ForYouScreenState extends State<ForYouScreen>
     with AutomaticKeepAliveClientMixin {
-  final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
-
-  final autoScrollController = AutoScrollController(
-    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 100, 0, 0),
-    axis: Axis.vertical,
-  );
-
   MenuRoute? currentMenuRoute;
 
   final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'ForYou');
-  final FocusScopeNode widgetsFocusNode =
-      FocusScopeNode(debugLabel: 'ForYou-Widgets');
+
   final FocusScopeNode forYouFocusNode =
-      FocusScopeNode(debugLabel: 'ForYou-Widgets');
+      FocusScopeNode(debugLabel: 'ForYou-Items-List');
 
   @override
   void initState() {
@@ -161,6 +152,7 @@ class _ForYouScreenState extends State<ForYouScreen>
         }
       },
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: FocusScope(
@@ -175,7 +167,10 @@ class _ForYouScreenState extends State<ForYouScreen>
               child: CallbackShortcuts(
                 bindings: <ShortcutActivator, VoidCallback>{
                   const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-                    widgetsFocusNode.requestFocus();
+                    final focus = focusNode.descendants.firstWhereOrNull(
+                        (e) => e.debugLabel == 'User-Widgets');
+
+                    focus?.requestFocus();
                   },
                 },
                 child: ForYouVerticalCarousel(
@@ -184,75 +179,8 @@ class _ForYouScreenState extends State<ForYouScreen>
               ),
             ),
           ),
-          SizedBox(
-            width: 550,
-            child: CallbackShortcuts(
-              bindings: <ShortcutActivator, VoidCallback>{
-                const SingleActivator(LogicalKeyboardKey.arrowUp): () {
-                  _policy.previous(widgetsFocusNode);
-                },
-                const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-                  _policy.next(widgetsFocusNode);
-                },
-                const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-                  forYouFocusNode.requestFocus();
-                },
-              },
-              child: FocusTraversalGroup(
-                key: const ValueKey('Widgets-list'),
-                policy: _policy,
-                child: FocusScope(
-                  node: widgetsFocusNode,
-                  onFocusChange: (value) {
-                    if (value) {
-                      if (widgetsFocusNode.focusedChild == null) {
-                        final firstFocus =
-                            _policy.findFirstFocus(widgetsFocusNode);
-                        firstFocus?.requestFocus();
-                      }
-                    }
-                  },
-                  child: ListView.separated(
-                    controller: autoScrollController,
-                    clipBehavior: Clip.none,
-                    padding: const EdgeInsets.only(
-                      left: Dimens.hViewPadding,
-                      right: Dimens.hViewPadding,
-                      top: 100,
-                      bottom: 400,
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(width: Dimens.spacingXS),
-                    itemCount: 8,
-                    itemBuilder: (context, index) {
-                      return CallbackShortcuts(
-                        bindings: <ShortcutActivator, VoidCallback>{
-                          const SingleActivator(LogicalKeyboardKey.enter):
-                              () {},
-                          const SingleActivator(LogicalKeyboardKey.select):
-                              () {},
-                        },
-                        child: AutoScrollTag(
-                          key: ValueKey(index),
-                          controller: autoScrollController,
-                          index: index,
-                          child: WidgetFocusCard(
-                            index: index,
-                            onFocusChange: (p0) {
-                              if (p0) {
-                                autoScrollController.scrollToIndex(index,
-                                    preferPosition: AutoScrollPosition.begin);
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-          )
+          const UserWidgetsList(),
+          const SizedBox(width: Dimens.hPadding),
         ],
       ),
     );

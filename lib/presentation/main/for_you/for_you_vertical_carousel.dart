@@ -31,7 +31,7 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(
-    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 100, 0, 0),
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 50, 0, 0),
     axis: Axis.vertical,
   );
 
@@ -89,7 +89,7 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
             padding: const EdgeInsets.only(
               left: Dimens.hViewPadding,
               right: Dimens.hViewPadding,
-              top: 100,
+              top: 50,
               bottom: 400,
             ),
             separatorBuilder: (context, index) =>

@@ -74,6 +74,8 @@ class LearningObjectModel {
     this.link,
     this.fruitionFlag,
     this.tentativeId,
+    this.ecmRegistration,
+    this.ecmSpecialization,
   });
 
   factory LearningObjectModel.fromDto(LearningObjectDto dto) {
@@ -158,6 +160,8 @@ class LearningObjectModel {
       link: dto.link,
       fruitionFlag: dto.fruitionFlag,
       tentativeId: dto.tentativeId,
+      ecmRegistration: dto.ecmRegistration,
+      ecmSpecialization: dto.ecmSpecialization,
     );
   }
 
@@ -227,6 +231,8 @@ class LearningObjectModel {
   final String? link;
   final bool? fruitionFlag;
   final int? tentativeId;
+  final bool? ecmRegistration;
+  final bool? ecmSpecialization;
 
   static String? _timeFormat(String? value) {
     if (value == null) return null;

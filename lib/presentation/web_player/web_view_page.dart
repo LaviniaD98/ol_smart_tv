@@ -5,9 +5,9 @@ import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
-import 'common/fullscreen_web_view.dart';
 
 class WebViewPageArgs {
   final LearningObjectModel model;
@@ -68,6 +68,23 @@ class _WebViewPageState extends State<WebViewPage> {
               if (context.mounted) Navigator.pop(context, true);
               return null;
             },
+            success: (playerUrl) async {
+              final res = await launchUrl(
+                Uri.parse(playerUrl),
+                mode: widget.isYoutube
+                    ? LaunchMode.externalApplication
+                    : LaunchMode.inAppWebView,
+              );
+              print('RES: $res');
+
+              if (res) {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              }
+
+              return null;
+            },
           ),
           buildWhen: (previous, current) => current.maybeMap(
             success: (_) => true,
@@ -75,7 +92,9 @@ class _WebViewPageState extends State<WebViewPage> {
           ),
           builder: (context, state) => state.maybeWhen(
             loading: () => const Center(child: CircularProgressIndicator()),
-            success: (String playerUrl) => _content(context, playerUrl),
+            success: (String playerUrl) {
+              return const SizedBox.shrink();
+            },
             orElse: () => const SizedBox(),
           ),
         ),
@@ -83,46 +102,14 @@ class _WebViewPageState extends State<WebViewPage> {
     );
   }
 
-  Widget _content(BuildContext context, String playerUrl) {
-    String urlStr = playerUrl;
+  // Widget _content(BuildContext context, String playerUrl) {
+  //   String urlStr = playerUrl;
 
-    print('playerUrl: $playerUrl');
-
-    if (widget.isYoutube) {
-      if (_controller == null) {
-        final videoId = YoutubePlayer.convertUrlToId(playerUrl);
-
-        print('videoId: $videoId');
-
-        _controller = YoutubePlayerController(
-          initialVideoId: videoId ?? '',
-          flags: const YoutubePlayerFlags(
-            autoPlay: true,
-            mute: true,
-          ),
-        );
-      }
-
-      return const SizedBox.shrink();
-      return YoutubePlayer(
-        controller: _controller!,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-        progressColors: const ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
-        ),
-        onReady: () {
-          _controller!.addListener(() {});
-        },
-      );
-    } else {
-      return FullScreenWebView(
-        url: urlStr,
-        onClose: () {
-          Navigator.pop(context, true);
-        },
-      );
-    }
-  }
+  //   return FullScreenWebView(
+  //     url: urlStr,
+  //     onClose: () {
+  //       Navigator.pop(context, true);
+  //     },
+  //   );
+  // }
 }

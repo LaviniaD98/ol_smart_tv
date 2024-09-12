@@ -10,6 +10,7 @@ import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_screen.
 import 'package:open_learning_smart_tv/presentation/main/profile/profile_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/search/search_screen.dart';
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
+import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
@@ -97,11 +98,14 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                         ),
                       );
                     } else if (index == 1) {
-                      return IGTabNavigator(
-                        navigatorKey: forYouTabKey,
-                        tabRoute: 'routeKeyForYou',
-                        tabScreen: ForYouScreen(
-                          dynamicRoutes: widget.dynamicRoutes,
+                      return BlocProvider(
+                        create: (_) => getIt<ProfilePageCubit>()..init(),
+                        child: IGTabNavigator(
+                          navigatorKey: forYouTabKey,
+                          tabRoute: 'routeKeyForYou',
+                          tabScreen: ForYouScreen(
+                            dynamicRoutes: widget.dynamicRoutes,
+                          ),
                         ),
                       );
                     } else if (index == 2) {
@@ -127,8 +131,15 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                         tabScreen: const AgendaScreen(),
                       );
                     } else if (index == 5) {
-                      return BlocProvider(
-                        create: (_) => getIt<SettingsCubit>()..init(),
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => getIt<ProfilePageCubit>()..init(),
+                          ),
+                          BlocProvider(
+                            create: (_) => getIt<SettingsCubit>()..init(),
+                          ),
+                        ],
                         child: IGTabNavigator(
                           navigatorKey: profileTabKey,
                           tabRoute: 'routeKeyProfile',

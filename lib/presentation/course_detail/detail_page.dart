@@ -744,8 +744,6 @@ class _DetailPageState extends State<DetailPage> {
               } else if (widget.args.parentId != null) {
                 idToAE = int.parse(widget.args.parentId!);
               }
-              print(
-                  'loCharacterization.objLOAction: ${loCharacterization.objLOAction}');
 
               switch (loCharacterization.objLOAction) {
                 case ObjLOAction.none:

@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
@@ -9,11 +10,18 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/ecm_registration_page.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 
 import '../../../../theme/app_theme.dart';
 
@@ -55,6 +63,19 @@ class _ForYouCardState extends State<ForYouCard> {
 
   @override
   Widget build(BuildContext context) {
+    final c = CourseLogic().loCharacterizationNew(
+      status: widget.data.status ?? "",
+      learningObjectType: widget.data.learningObjectType,
+      learningObjectTypology: widget.data.learningObjectTypology,
+      percentageOfCompletion: widget.data.percentageOfCompletion ?? "0",
+      enrollType: widget.data.enrollType ?? EnrollType.autoEnroll,
+      ecmSpecialization: widget.data.ecmSpecialization ?? false,
+      ecmRegistration: widget.data.ecmRegistration ?? false,
+    );
+
+    print('widget.courseId: ${widget.data.courseId}');
+    print('widget.parentId: ${widget.data.parentId}');
+    print('widget.grandParentId: ${widget.data.grandParentId}');
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -62,7 +83,7 @@ class _ForYouCardState extends State<ForYouCard> {
         setState(() {});
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 0),
+        margin: const EdgeInsets.symmetric(vertical: 4),
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: widget.enable
@@ -101,7 +122,7 @@ class _ForYouCardState extends State<ForYouCard> {
                   padding: const EdgeInsets.only(
                     left: Dimens.hViewPadding,
                     right: Dimens.hViewPadding,
-                    bottom: 100,
+                    bottom: 60,
                     top: 80,
                   ),
                   child: Column(
@@ -120,7 +141,7 @@ class _ForYouCardState extends State<ForYouCard> {
                         ),
                       ),
                       if ((widget.data.topicTags ?? []).isNotEmpty) ...[
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 28),
                         TopicList(
                           widget.data.topicTags ?? [],
                           color: ColorManager()
@@ -128,10 +149,12 @@ class _ForYouCardState extends State<ForYouCard> {
                               .withOpacity(.6),
                         ),
                       ],
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 20),
                       // descrizione
                       Text(
-                        widget.data.shortDescription ?? '',
+                        'This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.The specific RenderFlex in question is: RenderFlex#70f97 OVERFLOWING', //widget.data.shortDescription ?? '',
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: ColorManager().getColorTextPrimary(),
                           fontSize: 24,
@@ -139,16 +162,17 @@ class _ForYouCardState extends State<ForYouCard> {
                         ),
                       ),
                       const SizedBox(height: 32),
-                      buildDurationTag(),
                       const Spacer(),
+                      buildDurationTag(),
+                      const SizedBox(height: 32),
                       Row(
                         children: [
                           FocusTraversalOrder(
                             order: const NumericFocusOrder(0),
                             child: OLButton(
                               debugLabel: 'START-BUTTON-0',
-                              title: 'Inizia',
-                              onPressed: () {},
+                              title: c.buttonTitle,
+                              onPressed: c.buttonEnabled ? openCourse : null,
                             ),
                           ),
                         ],
@@ -162,6 +186,79 @@ class _ForYouCardState extends State<ForYouCard> {
         ),
       ),
     );
+  }
+
+  Future<void> openCourse() async {
+    // TODO(UmbertoGrimaldi): Complete this logic
+    // int idToAE = widget.model.id!;
+    // if (widget.args.grandParentId != null) {
+    //   idToAE = int.parse(widget.args.grandParentId!);
+    // } else if (widget.args.parentId != null) {
+    //   idToAE = int.parse(widget.args.parentId!);
+    // }
+    // switch (c.objLOAction) {
+    //   case ObjLOAction.none:
+    //   case ObjLOAction.notApplicable:
+    //     break;
+    //   case ObjLOAction.startFruition:
+    //     String parentId = (widget.args.parentId == null ||
+    //             widget.args.parentId!.toLowerCase() == "null")
+    //         ? widget.model.id!.toString()
+    //         : widget.args.parentId!;
+    //     context
+    //         .read<DetailPageCubit>()
+    //         .getStartOrResumeModel(widget.model.id!, parentId, widget.model);
+    //     break;
+    //   case ObjLOAction.autoEnrollmentBottom:
+    //     context.read<DetailPageCubit>().executeAutoEnrollment(
+    //         widget.args, idToAE, "BOTTOM", widget.model, false);
+    //     break;
+    //   case ObjLOAction.autoEnrollmentAuto:
+    //     context.read<DetailPageCubit>().executeAutoEnrollment(
+    //         widget.args, idToAE, "AUTO", widget.model, true);
+    //     break;
+    //   case ObjLOAction.autoEnrollmentWithPatch:
+    //   case ObjLOAction.seeEditions:
+    //     context
+    //         .read<DetailPageCubit>()
+    //         .selectEditionsIfPresentIndex(widget.args, widget.model);
+    //     break;
+    //   case ObjLOAction.ecmNotRegistered:
+    //     final res = await context.pushNamed<bool?>(
+    //       EcmRegistrationPage.routeName,
+    //       extra: EcmRegistrationPageArgs(
+    //         enrollId: widget.model.enrollId,
+    //         loId: widget.model.id,
+    //         sponsors: widget.model.sponsors ?? [],
+    //       ),
+    //     );
+    //     if (res != null && res && context.mounted) {
+    //       context.read<DetailPageCubit>().init(widget.args);
+    //     }
+    //     break;
+    //   case ObjLOAction.showDetailMaterials:
+    //   case ObjLOAction.showDetailGoals:
+    //   case ObjLOAction.showDetailFinalBalance:
+    //     String parentId = (widget.args.parentId == null ||
+    //             widget.args.parentId!.toLowerCase() == "null")
+    //         ? widget.model.id!.toString()
+    //         : widget.args.parentId!;
+    //     context
+    //         .read<DetailPageCubit>()
+    //         .getStartOrResumeModel(widget.model.id!, parentId, widget.model);
+    //     break;
+    //   case ObjLOAction.showDetailMeeting:
+    //     OlAlertDialog.show(
+    //       context,
+    //       title: LabelsManager()
+    //           .getRemoteStringFromLabelKeys(RemoteLabelKeys.show_info),
+    //       message: LabelsManager()
+    //           .getRemoteStringFromLabelKeys(RemoteLabelKeys.from_meeting_info),
+    //       actionLabel:
+    //           LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
+    //     );
+    //     break;
+    // }
   }
 
   Color getBorderFocusColor() {

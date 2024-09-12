@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/progress/learner_goals.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geekyants_flutter_gauges/geekyants_flutter_gauges.dart';
 import 'package:intl/intl.dart';
+import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 
 import '../../../color_management/color_manager.dart';
 import '../../../data/models/responses/progress/progress_dto.dart';
@@ -24,116 +26,92 @@ class GoalsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Dimens.spacingL),
-      child: Container(
-        width: MediaQuery.of(context).size.width - (Dimens.spacingL * 2),
-        decoration: BoxDecoration(
-          gradient: AppTheme.greyGradient,
-          borderRadius: BorderRadius.circular(Dimens.radius),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.all(Dimens.spacingM),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        gradient: AppTheme.greyGradient,
+        borderRadius: BorderRadius.circular(Dimens.radius),
+      ),
+      child: Column(
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.your_goal),
+              style: AppTextTheme.dialogTitle(
+                color: ColorManager().getColorTextPrimary(),
+              ),
+            ),
+          ),
+          const SizedBox(height: Dimens.spacingM),
+          RichText(
+            text: TextSpan(
+                text: (data.goal?.plan ?? "").capitalize,
+                style: AppTextTheme.dialogTitle(
+                    size: 14, color: ColorManager().getColorAccentVariantB()),
+                children: [
+                  TextSpan(
+                    text:
+                        " - ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.hours_month)}"
+                            .replaceFirst(
+                                '{{count}}', '${data.goal?.hoursPerMonth}'),
+                    style: AppTextTheme.body(
+                        size: 14, color: ColorManager().getColorTextPrimary()),
+                  )
+                ]),
+          ),
+          const SizedBox(height: Dimens.spacingL),
+          _chart(
+            data.progress?.completedTime,
+            data.goal,
+            (data.progress?.summary == GoalSummary.goalNotAchieved),
+          ),
+          const SizedBox(height: 12),
+          _trendLabel(data.progress?.summary),
+          const SizedBox(height: 16),
+          GlowContainer(
+            shape: BoxShape.rectangle,
+            blurRadius: 8,
+            spreadRadius: 1,
+            glowColor: OLColors.accentVariantB.withOpacity(0.5),
+            color: ColorManager().getColorGradient01End(),
+            border: Border.all(
+              color: OLColors.accentVariantB,
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+            borderRadius: BorderRadius.circular(5),
+            child: Row(
               children: [
                 Text(
-                  LabelsManager()
-                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.your_goal),
+                  LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.time_progress),
                   style: AppTextTheme.dialogTitle(
-                      color: ColorManager().getColorTextPrimary()),
+                    size: 14,
+                    color: ColorManager().getColorTextPrimary(),
+                  ),
                 ),
-                const SizedBox(
-                  height: Dimens.spacingM,
-                ),
+                const Spacer(),
                 RichText(
                   text: TextSpan(
-                      text: (data.goal?.plan ?? "").capitalize,
-                      style: AppTextTheme.dialogTitle(
-                          size: 14,
-                          color: ColorManager().getColorAccentVariantB()),
-                      children: [
-                        TextSpan(
-                          text:
-                              " - ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.hours_month)}"
-                                  .replaceFirst('{{count}}',
-                                      '${data.goal?.hoursPerMonth}'),
-                          style: AppTextTheme.body(
-                              size: 14,
-                              color: ColorManager().getColorTextPrimary()),
-                        )
-                      ]),
-                ),
-                const SizedBox(
-                  height: Dimens.spacingL,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _chart(
-                        data.progress?.completedTime,
-                        data.goal,
-                        (data.progress?.summary ==
-                            GoalSummary.goalNotAchieved)),
-                    const SizedBox(
-                      width: Dimens.spacingM,
-                    ),
-                    Container(
-                      // border: Border.all(
-                      //     color:
-                      //         ColorManager().getColorBorderSecondaryComplete(),
-                      //     width: 1.0),
-                      color: Colors.transparent,
-                      //borderRadius: BorderRadius.circular(Dimens.radius),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            Dimens.spacingM,
-                            Dimens.spacingXS,
-                            Dimens.spacingM,
-                            Dimens.spacingXS),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              LabelsManager().getRemoteStringFromLabelKeys(
-                                  RemoteLabelKeys.time_progress),
-                              style: AppTextTheme.dialogTitle(
-                                  size: 14,
-                                  color: ColorManager().getColorTextPrimary()),
-                            ),
-                            const SizedBox(
-                              height: Dimens.spacingXS,
-                            ),
-                            RichText(
-                              text: TextSpan(
-                                  text: '${data.progress?.passedDays}',
-                                  style: AppTextTheme.dialogTitle(
-                                      size: 18,
-                                      color:
-                                          ColorManager().getColorTextPrimary()),
-                                  children: [
-                                    TextSpan(
-                                      text: ' / ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.day_other)}'
-                                          .replaceFirst('{{count}}',
-                                              '${data.goal?.durationInDays}'),
-                                      style: AppTextTheme.body(size: 12),
-                                    )
-                                  ]),
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: Dimens.spacingS,
-                ),
-                _trendLabel(data.progress?.summary),
+                    text: '${data.progress?.passedDays}',
+                    style: AppTextTheme.dialogTitle(
+                        size: 18, color: ColorManager().getColorTextPrimary()),
+                    children: [
+                      TextSpan(
+                        text:
+                            ' / ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.day_other)}'
+                                .replaceFirst('{{count}}',
+                                    '${data.goal?.durationInDays}'),
+                        style: AppTextTheme.body(size: 12),
+                      )
+                    ],
+                  ),
+                )
               ],
-            )),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -198,20 +176,26 @@ class GoalsCard extends StatelessWidget {
                         showLastLabel: false,
                       ))),
             ),
-            Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(
-                '$percentProgress%',
-                style: AppTextTheme.title(
-                    color: ColorManager().getColorTextPrimary()),
-              ),
-              const SizedBox(),
-              Text(
-                LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.completed_progress),
-                style: AppTextTheme.body(
-                    color: ColorManager().getColorTextPrimary()),
-              )
-            ])
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  '$percentProgress%',
+                  style: AppTextTheme.title(
+                    color: ColorManager().getColorTextPrimary(),
+                    size: 32,
+                  ).copyWith(height: 1),
+                ),
+                Text(
+                  LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.completed_progress),
+                  style: AppTextTheme.body(
+                    color: ColorManager().getColorTextPrimary(),
+                    size: 14,
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

@@ -48,7 +48,7 @@ class Dimens {
 
   /// Learning card ratio
   static const learningCardHeight = 150.0;
-  static const learningCardRatio = 290 / 150;
+  static const learningCardRatio = 290 / 170;
 
   static const learningCardTVHeight = 243.0;
   static const learningCardTVRatio = 438.0 / 243.0;

@@ -27,33 +27,34 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: Dimens.spacingL),
-      padding: const EdgeInsets.all(Dimens.spacingM),
-      width: MediaQuery.of(context).size.width - (Dimens.spacingL * 2),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         gradient: AppTheme.greyGradient,
         borderRadius: BorderRadius.circular(Dimens.radius),
       ),
-      child: LayoutBuilder(builder: (context, constraints) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.your_progress),
-                style: AppTextTheme.dialogTitle(
-                    color: ColorManager().getColorTextPrimary()),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.your_progress),
+                  style: AppTextTheme.dialogTitle(
+                    color: ColorManager().getColorTextPrimary(),
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: Dimens.spacingXXS),
-            Expanded(
-              child: Stack(
+              const SizedBox(height: Dimens.spacingXXS),
+              Stack(
                 alignment: Alignment.center,
                 children: [
                   /// suggestedByHR
-                  Padding(
+                  Container(
+                    height: 208,
+                    width: 208,
                     padding: const EdgeInsets.all(Dimens.spacingXS),
                     child: AspectRatio(
                       aspectRatio: 1,
@@ -65,8 +66,8 @@ class ProgressCard extends StatelessWidget {
                               startAngle: startAngleL - Dimens.spacingXS,
                               endAngle: endAngleL),
                           Positioned(
-                            left: constraints.maxWidth / 5 - iconSize,
-                            bottom: Dimens.spacingXS,
+                            left: 36,
+                            bottom: 18,
                             child: _icon(
                                 type: LearnerProgressType.suggestedByHR,
                                 data: data.suggestedByHR),
@@ -77,7 +78,9 @@ class ProgressCard extends StatelessWidget {
                   ),
 
                   /// suggestedByAI
-                  Padding(
+                  Container(
+                    height: 208,
+                    width: 208,
                     padding: const EdgeInsets.all(Dimens.spacingXS),
                     child: AspectRatio(
                       aspectRatio: 1,
@@ -89,8 +92,8 @@ class ProgressCard extends StatelessWidget {
                               startAngle: startAngleR + Dimens.spacingXS,
                               endAngle: endAngleR),
                           Positioned(
-                            right: constraints.maxWidth / 5 - iconSize,
-                            bottom: Dimens.spacingXS,
+                            right: 36,
+                            bottom: 18,
                             child: _icon(
                                 type: LearnerProgressType.suggestedByAI,
                                 data: data.suggestedByAI),
@@ -99,61 +102,59 @@ class ProgressCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(Dimens.spacingXXL),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        /// mandatory
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.spacingXS),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                _gauge(
-                                    data: data.mandatory,
-                                    startAngle: startAngleL - Dimens.spacingS,
-                                    endAngle: endAngleL),
-                                Positioned(
-                                  left: constraints.maxWidth / 5 - iconSize,
-                                  bottom: Dimens.spacingM,
-                                  child: _icon(
-                                      type: LearnerProgressType.mandatory,
-                                      data: data.mandatory),
-                                ),
-                              ],
-                            ),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      /// mandatory
+                      Container(
+                        height: 153,
+                        width: 153,
+                        padding: const EdgeInsets.all(10),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              _gauge(
+                                data: data.mandatory,
+                                startAngle: startAngleL - Dimens.spacingS,
+                                endAngle: endAngleL - 10,
+                              ),
+                              Positioned(
+                                left: 36,
+                                bottom: 2,
+                                child: _icon(
+                                    type: LearnerProgressType.mandatory,
+                                    data: data.mandatory),
+                              ),
+                            ],
                           ),
                         ),
+                      ),
 
-                        /// suggestedByManager
-                        Padding(
-                          padding: const EdgeInsets.all(Dimens.spacingXS),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                _gauge(
-                                    data: data.suggestedByManager,
-                                    startAngle: startAngleR + Dimens.spacingS,
-                                    endAngle: endAngleR),
-                                Positioned(
-                                  right: constraints.maxWidth / 5 - iconSize,
-                                  bottom: Dimens.spacingM,
-                                  child: _icon(
-                                      type: LearnerProgressType
-                                          .suggestedByManager,
-                                      data: data.suggestedByManager),
-                                ),
-                              ],
+                      /// suggestedByManager
+                      Container(
+                        height: 153,
+                        width: 153,
+                        padding: const EdgeInsets.all(10),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            _gauge(
+                                data: data.suggestedByManager,
+                                startAngle: startAngleR + Dimens.spacingS,
+                                endAngle: endAngleR + 10),
+                            Positioned(
+                              right: 38,
+                              bottom: 2,
+                              child: _icon(
+                                  type: LearnerProgressType.suggestedByManager,
+                                  data: data.suggestedByManager),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -162,25 +163,28 @@ class ProgressCard extends StatelessWidget {
                         '${data.total?.completedHours2Digits()}/${data.total?.hours2Digits()}',
                         textAlign: TextAlign.center,
                         style: AppTextTheme.subtitle(
-                            weight: FontWeight.bold,
-                            color: ColorManager().getColorTextPrimary()),
+                          weight: FontWeight.bold,
+                          size: 24,
+                          color: ColorManager().getColorTextPrimary(),
+                        ).copyWith(height: 1),
                       ),
-                      const SizedBox(height: Dimens.spacingXXS),
                       Text(
                         LabelsManager().getRemoteStringFromLabelKeys(
                             RemoteLabelKeys.completed_progress),
                         textAlign: TextAlign.center,
                         style: AppTextTheme.caption(
-                            color: ColorManager().getColorTextPrimary()),
+                          color: ColorManager().getColorTextPrimary(),
+                          size: 14,
+                        ),
                       )
                     ],
                   ),
                 ],
               ),
-            ),
-          ],
-        );
-      }),
+            ],
+          );
+        },
+      ),
     );
   }
 
@@ -194,32 +198,36 @@ class ProgressCard extends StatelessWidget {
 
     if (data != null && data.completedHours != null && data.hours != null) {
       if (data.hours! > 0 && data.completedHours! <= data.hours!) {
-        completedHours = data.completedHours!.toDouble();
-        hours = data.hours!.toDouble();
+        completedHours = data.completedHours ?? 0;
+        hours = data.hours ?? 0;
       }
     }
 
     return RadialGauge(
-        valueBar: [
-          RadialValueBar(
-            value: completedHours,
-            color: ColorManager().getColorSystemSecondary02(),
-          )
-        ],
-        track: RadialTrack(
-            start: 0.0,
-            end: hours,
-            startAngle: startAngle,
-            endAngle: endAngle,
-            hideLabels: true,
-            color: ColorManager().getColorBackgroundDisabled(),
-            trackStyle: const TrackStyle(
-              showPrimaryRulers: false,
-              showSecondaryRulers: false,
-              showFirstLabel: false,
-              showLabel: false,
-              showLastLabel: false,
-            )));
+      valueBar: [
+        RadialValueBar(
+          value: completedHours,
+          color: ColorManager().getColorSystemSecondary02(),
+        )
+      ],
+      track: RadialTrack(
+        start: 0.0,
+        end: hours,
+        trackLabelFormater: (p0) => '',
+        startAngle: startAngle,
+        endAngle: endAngle,
+        hideLabels: true,
+        thickness: 9,
+        color: ColorManager().getColorBackgroundDisabled(),
+        trackStyle: const TrackStyle(
+          showPrimaryRulers: false,
+          showSecondaryRulers: false,
+          showFirstLabel: false,
+          showLabel: false,
+          showLastLabel: false,
+        ),
+      ),
+    );
   }
 
   Widget _icon({
