@@ -75,7 +75,6 @@ class _WebViewPageState extends State<WebViewPage> {
                     ? LaunchMode.externalApplication
                     : LaunchMode.inAppWebView,
               );
-              print('RES: $res');
 
               if (res) {
                 if (context.mounted) {

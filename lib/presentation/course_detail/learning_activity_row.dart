@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -159,14 +159,16 @@ class _LearningActivityRowState extends State<LearningActivityRow> {
           behavior: HitTestBehavior.translucent,
           onTap: widget.enable
               ? () {
-                  context.pushNamed(
-                    WallStripContentSimplePage.routeName,
-                    extra: WallStripContentSimplePageArgs(
-                      title: widget.parentModel.title ?? '',
-                      parentModel: widget.parentModel,
-                      items: widget.items,
-                      parentId: widget.parentId,
-                      grandParentId: widget.grandParentId,
+                  Nav.push(
+                    context,
+                    screen: WallStripContentSimplePage(
+                      WallStripContentSimplePageArgs(
+                        title: widget.parentModel.title ?? '',
+                        parentModel: widget.parentModel,
+                        items: widget.items,
+                        parentId: widget.parentId,
+                        grandParentId: widget.grandParentId,
+                      ),
                     ),
                   );
                 }

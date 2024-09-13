@@ -1,23 +1,16 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/app_bar/styled_app_bar.dart';
-import 'package:open_learning_smart_tv/presentation/profile/download/download_strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/profile/widgets/progress_card.dart';
-import 'package:open_learning_smart_tv/presentation/settings/settings_page.dart';
 import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../domain/entities/progress/learner_goals.dart';
 import '../../domain/entities/progress/learner_progress.dart';
 import '../../domain/entities/progress/progress_goals_config_model.dart';
 import '../../domain/entities/session/user_model.dart';
-import '../../remote_theming/labels/labels_manager.dart';
-import '../../remote_theming/labels/remote_labels_keys.dart';
 import 'widgets/goals_card.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -30,25 +23,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: StyledAppBar(
-        title: LabelsManager()
-            .getRemoteStringFromLabelKeys(RemoteLabelKeys.profile),
-        actions: [
-          InkWell(
-            onTap: () {
-              context.pushNamed(SettingsPage.routeName);
-            },
-            child: SizedBox(
-              height: 24,
-              width: 24,
-              child: SvgPicture.asset("assets/icons/three_dots.svg",
-                  fit: BoxFit.none,
-                  colorFilter: ColorFilter.mode(
-                      ColorManager().getColorTextPrimary(), BlendMode.srcIn),),
-            ),
-          )
-        ],
-      ),
       body: Container(
         decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
         child: BlocBuilder<ProfilePageCubit, ProfilePageState>(
@@ -182,10 +156,6 @@ class ProfilePage extends StatelessWidget {
                 expansionFactor: 5),
           ),
         ),
-        const SizedBox(
-          height: Dimens.spacingM,
-        ),
-        const DownloadStripRow(),
       ],
     );
   }

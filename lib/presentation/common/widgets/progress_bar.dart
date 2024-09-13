@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 //import 'package:flutter_glow/flutter_glow.dart';
 
-
 class CustomProgressBar extends StatelessWidget {
   final double width;
   final double height;
@@ -22,7 +21,7 @@ class CustomProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var glowbarPos = width * clampDouble(progress, 0, 100) / 100;
-    return Container(
+    return SizedBox(
       width: width,
       height: height,
       child: Stack(

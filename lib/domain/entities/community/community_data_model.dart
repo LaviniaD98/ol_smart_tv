@@ -9,7 +9,7 @@ import 'community_user_model.dart';
 import 'los_model.dart';
 
 class CommunityDataModel extends Equatable {
-  CommunityDataModel({
+  const CommunityDataModel({
     required this.topic,
     required this.learningObjectTypology,
     this.commentCount,

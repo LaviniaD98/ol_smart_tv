@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../domain/entities/detail/detail_page_model.dart';
 import '../../theme/app_theme.dart';
-import '../common/widgets/app_bar/styled_app_bar.dart';
 import '../common/widgets/cards/wall/learning_card_wall.dart';
 
 class WallStripContentSimplePage extends StatelessWidget {
@@ -16,7 +15,6 @@ class WallStripContentSimplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: StyledAppBar(title: args.title),
       body: SafeArea(
         child: DecoratedBox(
           decoration: BoxDecoration(

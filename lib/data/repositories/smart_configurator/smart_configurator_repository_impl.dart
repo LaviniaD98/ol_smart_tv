@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:open_learning_smart_tv/domain/entities/color_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';

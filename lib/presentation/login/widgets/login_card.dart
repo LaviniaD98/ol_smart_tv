@@ -3,7 +3,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import '../../../theme/app_theme.dart';
 
@@ -73,7 +72,7 @@ class LoginCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: context.pop,
+              onTap: Navigator.of(context).pop,
               child: SvgPicture.asset("assets/icons/back_arrow.svg"),
             ),
             const SizedBox(width: 8.0),

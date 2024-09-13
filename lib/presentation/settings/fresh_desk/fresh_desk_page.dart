@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:open_learning_smart_tv/presentation/common/widgets/app_bar/styled_app_bar.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +15,6 @@ class FreshDeskPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StyledAppBar(title: ""),
       body: Container(
         decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
         child: SafeArea(

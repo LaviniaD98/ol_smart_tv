@@ -8,7 +8,6 @@ import '../../../data/models/failure.dart';
 import '../../../domain/entities/page/page_model.dart';
 import '../../../domain/entities/smart_configurator/smart_configurator_model.dart';
 import '../../../domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
-import '../../offline_state/offline_cubit.dart';
 
 part 'dynamic_content_state.dart';
 part 'dynamic_content_cubit.freezed.dart';
@@ -17,16 +16,13 @@ part 'dynamic_content_cubit.freezed.dart';
 class DynamicContentCubit extends Cubit<DynamicContentState> {
   final GetPageStructureUseCase _getPageStructureUseCase;
   final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
-  final OfflineCubit _offlineCubit;
 
   DynamicContentCubit(
     this._getPageStructureUseCase,
     this._getStoredSmartConfigurationUseCase,
-    this._offlineCubit,
   ) : super(const DynamicContentState.loading());
 
   void init(String path, [List<String>? filters]) async {
-    _offlineCubit.checkUserMissingAlerts();
     emit(const DynamicContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(

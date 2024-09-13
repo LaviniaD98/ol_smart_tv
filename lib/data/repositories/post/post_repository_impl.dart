@@ -1,5 +1,4 @@
 import 'package:open_learning_smart_tv/data/data_sources/post/post_data_source.dart';
-import 'package:open_learning_smart_tv/data/models/requests/post/post_request.dart';
 import 'package:open_learning_smart_tv/domain/repositories/post/post_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';

@@ -16,10 +16,7 @@ import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cu
 import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/widgets/user_widgets_list.dart';
-import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_set_old_page_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/pwd_reset/pwd_set_old_page.dart';
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/settings/fresh_desk/fresh_desk_page.dart';
 import 'package:open_learning_smart_tv/presentation/settings/privacy_policy/privacy_policy_page.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
@@ -388,22 +385,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _changePasswordOnTap(BuildContext context) {
-    Nav.push(
-      context,
-      screen: BlocProvider(
-        create: (_) => getIt<PwdSetOldPageCubit>()..init(),
-        child: const PwdSetOldPage(),
-      ),
-    );
-  }
+  // void _changePasswordOnTap(BuildContext context) {
+  //   Nav.push(
+  //     context,
+  //     screen: BlocProvider(
+  //       create: (_) => getIt<PwdSetOldPageCubit>()..init(),
+  //       child: const PwdSetOldPage(),
+  //     ),
+  //   );
+  // }
 
-  void _helpOnTap(BuildContext context) {
-    Nav.push(
-      context,
-      screen: FreshDeskPage(
-        context.read<SettingsCubit>().getFreshDeskHtmlPageUrl(),
-      ),
-    );
-  }
+  // void _helpOnTap(BuildContext context) {
+  //   Nav.push(
+  //     context,
+  //     screen: FreshDeskPage(
+  //       context.read<SettingsCubit>().getFreshDeskHtmlPageUrl(),
+  //     ),
+  //   );
+  // }
 }

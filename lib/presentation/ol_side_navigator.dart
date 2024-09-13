@@ -37,8 +37,16 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
     context.read<MainStateCubit>().policy = _policy;
 
     Future.delayed(const Duration(milliseconds: 100), () {
-      context.read<MainStateCubit>().state.children.toList()[1].requestFocus();
-      widget.pageController.jumpToPage(1);
+      if (context.mounted) {
+        // ignore: use_build_context_synchronously
+        context
+            .read<MainStateCubit>()
+            .state
+            .children
+            .toList()[1]
+            .requestFocus();
+        widget.pageController.jumpToPage(1);
+      }
     });
   }
 
@@ -96,8 +104,6 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                   width: focusNode.hasFocus ? 250 : 175,
                   child: Row(
                     children: [
-                      // TODO(UmbertoGrimaldi): add remote string
-
                       Expanded(
                         child: Column(
                           children: [

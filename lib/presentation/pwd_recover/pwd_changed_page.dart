@@ -1,4 +1,4 @@
-
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/login/login_page.dart';
 import 'package:open_learning_smart_tv/presentation/login/utils/login_form_group.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -6,7 +6,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/login_card.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 class PwdChangedPage extends StatelessWidget {
@@ -52,7 +51,7 @@ class PwdChangedPage extends StatelessWidget {
                       style: AppButtonStyle.red,
                       key: const Key('loginForm_continue_raisedButton'),
                       onPressed: () {
-                        context.goNamed(LoginPage.routeName);
+                        Nav.push(context, screen: const LoginPage());
                       },
                       child: Text(
                         LabelsManager().getRemoteStringFromLabelKeys(

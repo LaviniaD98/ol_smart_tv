@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
-import 'package:open_learning_smart_tv/theme/glow/theme/theme.dart';
 
 class GlowContainer extends StatelessWidget {
   const GlowContainer({
-    Key? key,
+    super.key,
     this.height,
     this.width,
     this.padding,
@@ -21,7 +20,7 @@ class GlowContainer extends StatelessWidget {
     this.animationDuration,
     this.animationCurve = Curves.linear,
     this.child,
-  }) : super(key: key);
+  });
 
   final double? height;
   final double? width;

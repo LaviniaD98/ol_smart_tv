@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -5,7 +6,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/domain/entities/self/self_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/forms/reactive_checkbox_field.dart';
@@ -67,18 +67,18 @@ class _PrivacyPageState extends State<PrivacyPage> {
               child: SingleChildScrollView(
                 child: BlocConsumer<PrivacyCubit, PrivacyState>(
                   listener: (context, state) => state.whenOrNull(
-                    showInitiatives: (session, selfModel, sessionId) {
-                      return context.pushNamed(
-                        InitiativesPage.routeName,
-                        extra: InitiativesPageArgs(
-                          session: session,
-                          selfModel: selfModel,
-                          sessionId: sessionId,
-                        ),
-                      );
-                    },
-                    error: () => context.goNamed(CorporateCodePage.routeName),
-                  ),
+                      showInitiatives: (session, selfModel, sessionId) {
+                    return Nav.push(context,
+                        screen: InitiativesPage(
+                          args: InitiativesPageArgs(
+                            session: session,
+                            selfModel: selfModel,
+                            sessionId: sessionId,
+                          ),
+                        ));
+                  }, error: () async {
+                    return Nav.push(context, screen: const CorporateCodePage());
+                  }),
                   buildWhen: (previous, current) => current.maybeMap(
                     error: (value) => false,
                     showInitiatives: (value) => false,

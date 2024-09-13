@@ -1,14 +1,11 @@
-import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/wall/continue_learning_card_wall.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/smart_learning_bottom_sheet/smart_learning_bottom_sheet.dart';
 import 'package:open_learning_smart_tv/presentation/wall/cubit/wall_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/wall/widgets/on_scroll_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +14,6 @@ import '../../core/dependency_injection/dependency_injection.dart';
 import '../../remote_theming/labels/labels_manager.dart';
 import '../../remote_theming/labels/remote_labels_keys.dart';
 import '../../theme/app_theme.dart';
-import '../common/widgets/app_bar/styled_app_bar.dart';
 import '../common/widgets/cards/wall/learning_card_wall.dart';
 import '../common/widgets/error/error_screen.dart';
 
@@ -35,37 +31,6 @@ class WallStripContentPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<WallCubit>()..initPagingController(args.strip),
       child: Scaffold(
-        appBar: StyledAppBar(
-          title: args.strip.label,
-          actions: args.strip.mapOrNull(
-            smartLearning: (strip) => [
-              GestureDetector(
-                onTap: () async {
-                  final res = await SmartLearningBottomSheet.edit<bool?>(
-                      context,
-                      id: strip.id,
-                      startTime: strip.startTime!,
-                      endTime: strip.endTime!,
-                      strip: strip);
-                  if (context.mounted && res != null && res) {
-                    context.pop(true);
-                  }
-                },
-                behavior: HitTestBehavior.opaque,
-                child: Transform.scale(
-                    scale: 0.9999,
-                    child: SvgPicture.asset(
-                      "assets/icons/edit.svg",
-                      width: 20,
-                      colorFilter: ColorFilter.mode(
-                        ColorManager().getColorTextPrimary(),
-                        BlendMode.srcIn,
-                      ),
-                    )),
-              ),
-            ],
-          ),
-        ),
         body: SafeArea(
           child: DecoratedBox(
             decoration: BoxDecoration(

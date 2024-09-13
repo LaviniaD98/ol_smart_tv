@@ -118,9 +118,9 @@ enum LocalNotificationType {
   learnrem('assets/icons/calendar.svg'),
   enroll('assets/icons/sound.svg'),
   suggest('assets/icons/sound.svg'),
-  livevent('assets/icons/sound.svg'), //TODO
-  decline('assets/icons/mandatory.svg'), //TODO
-  approvalrequest('assets/icons/mandatory.svg'), //TODO
+  livevent('assets/icons/sound.svg'),
+  decline('assets/icons/mandatory.svg'),
+  approvalrequest('assets/icons/mandatory.svg'),
   unknown('assets/icons/mandatory.svg');
 
   final String svgPath;

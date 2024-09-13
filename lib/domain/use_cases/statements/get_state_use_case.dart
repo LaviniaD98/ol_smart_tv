@@ -60,7 +60,7 @@ class GetStateUseCase {
     String registrationGUID = sessionId!; // uuid.v4();
 
     Actor actor = Actor(
-        mbox: "mailto:" + userInfoModel!.user!.email!,
+        mbox: "mailto:${userInfoModel!.user!.email!}",
         name: userInfoModel.user?.externalId ?? "",
         objectType: "Agent");
 

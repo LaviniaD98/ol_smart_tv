@@ -2,7 +2,6 @@ import '../../../data/models/responses/notification/notification_dto.dart';
 import '../../enums/types.dart';
 
 class NotificationModel {
-
   const NotificationModel({
     required this.userId,
     required this.eventSentId,
@@ -25,14 +24,14 @@ class NotificationModel {
 
   factory NotificationModel.fromDto(NotificationDto dto) {
     return NotificationModel(
-        userId: dto.userId,
-        eventSentId: dto.eventSentId,
-        createdDate: dto.createdDate,
-        isRead: dto.isRead == 'Y',
-        sendDate: dto.sendDate,
-        title: dto.title ?? '',
-        description: dto.description ?? '',
-      type: LocalNotificationType.reminder, //TODO
+      userId: dto.userId,
+      eventSentId: dto.eventSentId,
+      createdDate: dto.createdDate,
+      isRead: dto.isRead == 'Y',
+      sendDate: dto.sendDate,
+      title: dto.title ?? '',
+      description: dto.description ?? '',
+      type: LocalNotificationType.reminder,
     );
   }
 }

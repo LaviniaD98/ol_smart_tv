@@ -16,7 +16,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_down
 import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/edition/edition_register_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:bloc/bloc.dart';
@@ -32,14 +31,12 @@ import '../../../domain/entities/generic/edition_model.dart';
 import '../../../domain/entities/smart_configurator/smart_configurator_model.dart';
 import '../../../domain/use_cases/auto_enrollment/auto_enrollment_use_case.dart';
 import '../../../domain/use_cases/auto_enrollment/bottom_enrollment_use_case.dart';
-import '../../../domain/use_cases/community/get_shared_post_use_case.dart';
 import '../../../domain/use_cases/detail/get_shared_posts_use_case.dart';
 import '../../../domain/use_cases/post/delete_post_use_case.dart';
 import '../../../domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
 import '../../../domain/use_cases/start_resume_use_case/start_resume_use_case.dart';
 import '../../../remote_theming/config/config_manager.dart';
 import '../../../remote_theming/config/remote_config_keys.dart';
-import '../../dynamic_content/strip/community/detail/post_detail_page_connector.dart';
 import '../detail_page.dart';
 
 part 'detail_page_state.dart';
@@ -59,11 +56,10 @@ class DetailPageCubit extends Cubit<DetailPageState> {
   final BottomEnrollmentUseCase _bottomEnrollmentUseCase;
   final ContinueLearningStripCubit _continueLearningStripCubit;
   final DeletePostUseCase _deletePostUseCase;
-  final GetSharedPostUseCase _getSharedPostUseCase;
   final GetStoredDownloadContentInfoUseCase
       _getStoredDownloadContentInfoUseCase;
   final StoreDownloadContentInfoUseCase _storeDownloadContentInfoUseCase;
-  final DownloadStripCubit _downloadStripCubit;
+
   bool callingApi = false;
 
   final paginate = ConfigManager()
@@ -89,10 +85,8 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     this._bottomEnrollmentUseCase,
     this._continueLearningStripCubit,
     this._deletePostUseCase,
-    this._getSharedPostUseCase,
     this._getStoredDownloadContentInfoUseCase,
     this._storeDownloadContentInfoUseCase,
-    this._downloadStripCubit,
   ) : super(const DetailPageState.loading());
 
   final _pageSize =
@@ -194,7 +188,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
 
   void getStartOrResumeModel(
       int loId, String parentId, DetailPageModel detail) async {
-    print('kokokokokokokokokokokokook-----------------');
     if (kDebugMode) print("getStartOrResumeModel callingApi: $callingApi");
     if (callingApi) {
       return;
@@ -211,13 +204,11 @@ class DetailPageCubit extends Cubit<DetailPageState> {
       if ((detail.learningObjectTypology == LearningObjectTypology.path ||
               detail.learningObjectTypology == LearningObjectTypology.course) &&
           srResponseModel.isToj()) {
-        print('11111---------');
         emit(DetailPageState.openDetail(srResponseModel, detail));
         await Future.delayed(const Duration(milliseconds: 300));
         callingApi = false;
         if (kDebugMode) print("getStartOrResumeModel callingApi SET to false");
       } else {
-        print('22222---------');
         if (srResponseModel.learningObjectType == LearningObjectType.sync) {
           emit(DetailPageState.openDetail(srResponseModel, detail));
           await Future.delayed(const Duration(milliseconds: 300));
@@ -225,7 +216,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
           if (kDebugMode)
             print("getStartOrResumeModel callingApi SET to false");
         } else {
-          print('33333---------');
           emit(DetailPageState.readyToPlay(srResponseModel, detail));
           await Future.delayed(const Duration(milliseconds: 300));
           callingApi = false;
@@ -351,24 +341,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     }
   }
 
-  Future goToSharedPostDetails(String? postId, String? apiPath) async {
-    emit(const Loading());
-
-    final res = await _getSharedPostUseCase(int.parse(postId ?? ''), apiPath);
-
-    res.fold(
-      (l) => emit(const Error()),
-      (posts) {
-        var args = PostDetailPageArgs(
-          entityId: int.parse(postId ?? ''),
-          type: PostType.SHARED,
-          apiPath: apiPath,
-        );
-        emit(GoToSharedPostDetails(args));
-      },
-    );
-  }
-
   void refreshContinueLearningStrip() => _continueLearningStripCubit.refresh();
 
   void _checkLocalFile(DetailPageModel detailPageModel) async {
@@ -378,7 +350,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
       downloadedItem.iconStatus = detailPageModel.iconStatus;
       await _storeDownloadContentInfoUseCase.storeDownloadItem(
           downloadedItem, detailPageModel.id.toString());
-      _downloadStripCubit.fetch();
     }
   }
 }

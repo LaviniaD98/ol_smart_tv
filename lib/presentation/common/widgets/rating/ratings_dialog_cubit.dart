@@ -22,7 +22,7 @@ class RatingsDialogCubit extends Cubit<RatingsDialogState> {
       DetailPageModel detailPageModel, int rating) async {
     emit(const RatingsDialogState.loading());
     final rateRes = await _ratingUseCase(detailPageModel, rating);
-    await rateRes.fold((l) {
+    rateRes.fold((l) {
       emit(const RatingsDialogState.success());
     }, (r) {
       emit(const RatingsDialogState.success());

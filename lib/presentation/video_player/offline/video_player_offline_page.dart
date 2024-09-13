@@ -12,7 +12,6 @@ import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerOfflinePage extends StatefulWidget {
@@ -50,7 +49,7 @@ class _VideoPlayerOfflinePageState extends State<VideoPlayerOfflinePage> {
                             .handlePlayerEvent(PlayerEvent.onClose, controller,
                                 widget.args.downloadedItemExtended, true);
                         if (context.mounted) {
-                          context.pop(true);
+                          Navigator.of(context).pop(true);
                         }
                       }
                     : null,
@@ -111,7 +110,7 @@ class _VideoPlayerOfflinePageState extends State<VideoPlayerOfflinePage> {
                             widget.args.downloadedItemExtended,
                             true);
                     if (context.mounted) {
-                      context.pop(true);
+                      Navigator.of(context).pop(true);
                     }
                   },
                 ),

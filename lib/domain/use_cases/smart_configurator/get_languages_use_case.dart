@@ -11,7 +11,6 @@ class GetLanguagesUseCase {
   GetLanguagesUseCase(this._smartConfiguratorRepository);
 
   Future<Either<Failure, LanguagesInfoModel>> call(int? corporateId) async {
-    //TODO language - only for test
     // return Future.value(
     //   Right(
     //     LanguagesInfoModel(
@@ -27,7 +26,7 @@ class GetLanguagesUseCase {
     //   ),
     // );
 
-    if(corporateId != null) {
+    if (corporateId != null) {
       return await _smartConfiguratorRepository.getLanguages(corporateId);
     }
     return Future.value(const Left(Failure(error: 'Unknown Corporate')));

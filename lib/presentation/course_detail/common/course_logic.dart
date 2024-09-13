@@ -71,10 +71,10 @@ class CourseLogic {
     if (durationInMin != null && durationInMin > 0) {
       final duration = Duration(minutes: durationInMin);
       String sDuration = "";
-      bool hasDays = false;
-      bool hasHours = false;
+      // bool hasDays = false;
+      // bool hasHours = false;
       if (duration.inDays > 0) {
-        hasDays = true;
+       // hasDays = true;
         if (duration.inDays == 1) {
           sDuration =
               "${duration.inDays} ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.detail_count_day)} ";
@@ -84,7 +84,7 @@ class CourseLogic {
         }
       }
       if (duration.inHours.remainder(24) > 0) {
-        hasHours = true;
+       // hasHours = true;
         if (duration.inHours.remainder(24) == 1) {
           sDuration =
               "$sDuration${duration.inHours.remainder(24)} ${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.detail_count_hour)} ";

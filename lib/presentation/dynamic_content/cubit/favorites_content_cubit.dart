@@ -11,7 +11,6 @@ import 'package:injectable/injectable.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/strip/get_standard_strip_use_case.dart';
 
 import '../../../domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
-import '../../offline_state/offline_cubit.dart';
 
 part 'favorites_content_state.dart';
 part 'favorites_content_cubit.freezed.dart';
@@ -21,7 +20,6 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
   final GetPageStructureUseCase _getPageStructureUseCase;
   final GetStandardStripUseCase _getSuggestedStripUseCase;
   final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
-  final OfflineCubit _offlineCubit;
 
   DynamicLocalContent? dynamicContent;
 
@@ -29,11 +27,9 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
     this._getPageStructureUseCase,
     this._getStoredSmartConfigurationUseCase,
     this._getSuggestedStripUseCase,
-    this._offlineCubit,
   ) : super(const FavoritesContentState.loading());
 
   void init(String path, [List<String>? filters, bool debug = false]) async {
-    _offlineCubit.checkUserMissingAlerts();
     emit(const FavoritesContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
@@ -91,15 +87,9 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
       filters: dynamicContent?.filters,
     );
 
-    print('2---------------$res');
-
     res.fold((l) {
-      if (debug) {
-        print('Error: $l');
-      }
+      if (debug) {}
     }, (r) {
-      print('FINISHED: ${r.length}');
-
       if (r.isNotEmpty) {
         mappedList[strip] = List.from(r);
       }
@@ -109,7 +99,6 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
   }
 
   Future<void> refresh(String path) async {
-    print('REFRESHING------------------------------------');
     if (state is Success) {
       // final current = (state as Success);
       emit(const FavoritesContentState.loading());

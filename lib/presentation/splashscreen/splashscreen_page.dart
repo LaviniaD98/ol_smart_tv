@@ -1,6 +1,4 @@
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
-import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/profile/download/wall/download_wall_strip_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,25 +51,19 @@ class _SplashScreenPageState extends State<SplashScreenPage>
             height: size.width * aspectRatio,
           ),
           end: (enterOffline) {
-            if (enterOffline) {
-              context.read<OfflineCubit>().setOfflineMode(true);
-              Nav.pushReplacement(
-                context,
-                screen: const DownloadWallStripPage(),
-              );
-            } else {
-              Nav.pushAndRemoveUntil(
-                context,
-                screen: const CorporateCodePage(),
-              );
-            }
+            Nav.pushAndRemoveUntil(
+              context,
+              screen: const CorporateCodePage(),
+            );
             return;
           },
         ),
         builder: (context, state) => state.maybeWhen(
           initial: () {
             Future.delayed(const Duration(milliseconds: 2000), () {
-              context.read<SplashScreenCubit>().videoEnd();
+              if (context.mounted) {
+                context.read<SplashScreenCubit>().videoEnd();
+              }
             });
 
             return SvgPicture.asset(

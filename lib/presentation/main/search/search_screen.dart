@@ -178,15 +178,17 @@ class _SearchScreenState extends State<SearchScreen>
                                   Future.delayed(
                                     const Duration(milliseconds: 600),
                                     () {
-                                      context.read<SearchCubit>()
-                                        ..resetPagingController()
-                                        ..initPagingController(
-                                          control.trim(),
-                                        );
+                                      if (context.mounted) {
+                                        context.read<SearchCubit>()
+                                          ..resetPagingController()
+                                          ..initPagingController(
+                                            control.trim(),
+                                          );
 
-                                      context
-                                          .read<SuggestionsCubit>()
-                                          .setLocalSuggestions(text: control);
+                                        context
+                                            .read<SuggestionsCubit>()
+                                            .setLocalSuggestions(text: control);
+                                      }
                                     },
                                   );
                                 },

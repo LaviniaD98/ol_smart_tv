@@ -34,9 +34,4 @@ class SuggestionsCubit extends Cubit<List<String>> {
     _setLocalSuggestionsUseCase(text);
     localSuggestions();
   }
-
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }

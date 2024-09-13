@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -85,7 +84,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
             const SizedBox(width: Dimens.spacingM),
             GestureDetector(
-              onTap: context.pop,
+              onTap: () => Navigator.of(context).pop(),
               behavior: HitTestBehavior.opaque,
               child: Text(
                 LabelsManager()

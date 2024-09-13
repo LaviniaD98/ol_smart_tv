@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/core/shared_preferences_keys.dart';
 import 'package:open_learning_smart_tv/prod_firebase_options.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
-import 'package:open_learning_smart_tv/router/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -73,5 +72,5 @@ Future<void> bootstrap(Env env) async {
       );
 
   await getIt<RemoteLabels>().initialize();
-  AppRouter.I.setRouter();
+  //AppRouter.I.setRouter();
 }

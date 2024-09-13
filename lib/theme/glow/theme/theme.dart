@@ -9,7 +9,8 @@ class GlowThemeData {
     this.blurRadius,
   });
 
-  factory GlowThemeData.fromBoxShadow({required BoxShadow boxShadow}) => GlowThemeData(
+  factory GlowThemeData.fromBoxShadow({required BoxShadow boxShadow}) =>
+      GlowThemeData(
         glowColor: boxShadow.color,
         offset: boxShadow.offset,
         spreadRadius: boxShadow.spreadRadius,
@@ -56,7 +57,10 @@ class GlowThemeData {
 
   @override
   int get hashCode =>
-      glowColor.hashCode ^ offset.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
+      glowColor.hashCode ^
+      offset.hashCode ^
+      spreadRadius.hashCode ^
+      blurRadius.hashCode;
 
   @override
   String toString() {
@@ -64,7 +68,7 @@ class GlowThemeData {
   }
 }
 
-GlowThemeData kDefaultGlowTheme = GlowThemeData(
+GlowThemeData kDefaultGlowTheme = const GlowThemeData(
   glowColor: Color(0x1e000000),
   offset: Offset(0, 2),
   blurRadius: 6.0,

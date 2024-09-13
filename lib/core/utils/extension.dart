@@ -24,11 +24,7 @@ extension $List on List<int> {
 
   String? get convertToDateTimeString {
     if (length < 3) return null;
-    return this[2].toString() +
-        "/" +
-        this[1].toString() +
-        "/" +
-        this[0].toString();
+    return "${this[2]}/${this[1]}/${this[0]}";
   }
 }
 
@@ -163,6 +159,7 @@ extension $LearningObjectTypology on LearningObjectTypology {
 
 const kTvSize = Size(1920, 1080);
 
+// PlatformDispatcher.instance.views.first.physicalSize.width
 final width = WidgetsBinding.instance.window.physicalSize.width;
 final pixelRatio = WidgetsBinding.instance.window.devicePixelRatio;
 final isScaled = MyPlatform.isAndroidTV && kTvSize.width * pixelRatio != width;

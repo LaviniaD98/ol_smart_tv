@@ -1,24 +1,19 @@
 import 'dart:async';
 
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:reactive_date_time_picker/reactive_date_time_picker.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../../../remote_theming/labels/remote_labels_keys.dart';
-import '../../../../../../router/app_router.dart';
 import '../../../../../../theme/app_theme.dart';
 import '../error/error_screen.dart';
 import 'cubit/smart_learning_bottom_sheet_cubit.dart';
 import 'widgets/bottom_sheet_actions.dart';
-import 'widgets/reactive_date_picker_field.dart';
 import 'widgets/time_slot_dropdown.dart';
 
 class SmartLearningBottomSheet extends StatelessWidget {
@@ -47,7 +42,7 @@ class SmartLearningBottomSheet extends StatelessWidget {
     });
 
     return showModalBottomSheet(
-      context: AppRouter.I.root.currentContext ?? context,
+      context: context,
       clipBehavior: Clip.hardEdge,
       showDragHandle: true,
       isScrollControlled: true,
@@ -111,7 +106,7 @@ class SmartLearningBottomSheet extends StatelessWidget {
     });
 
     return showModalBottomSheet(
-      context: AppRouter.I.root.currentContext ?? context,
+      context: context,
       clipBehavior: Clip.hardEdge,
       showDragHandle: true,
       isScrollControlled: true,
@@ -204,7 +199,6 @@ class SmartLearningBottomSheet extends StatelessWidget {
                                 color: ColorManager().getColorTextPrimary()),
                           ),
                           const SizedBox(height: Dimens.spacingL),
-                          _datePicker(context),
                           const SizedBox(height: Dimens.spacingL),
                           TimeSlotDropdown(data),
                           const Spacer(),
@@ -222,59 +216,6 @@ class SmartLearningBottomSheet extends StatelessWidget {
       ),
     );
   }
-
-  Widget _datePicker(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 1,
-            child: Text(
-              LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.smart_learning_input_date_title),
-              style: AppTextTheme.caption(
-                  color: ColorManager().getColorTextPrimary()),
-            ),
-          ),
-          const SizedBox(width: Dimens.spacingXS),
-          Expanded(
-            flex: 6,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                  colorScheme: Theme.of(context).colorScheme.copyWith(
-                      onSurface:
-                          ColorManager().getColorTextPrimaryAlternative())),
-              child: ReactiveDatePickerField(
-                formControlName: 'date',
-                datePickerEntryMode: DatePickerEntryMode.calendarOnly,
-                selectableDayPredicate: (date) {
-                  if (args.type == SmartLearningActionType.edit &&
-                      date.isSameDate(args.date)) {
-                    return true;
-                  }
-                  return date.isAfter(
-                      DateTime.now().subtract(const Duration(days: 1)));
-                },
-                type: ReactiveDatePickerFieldType.date,
-                showErrors: (control) => false,
-                dateFormat: DateFormat('dd MMMM yyyy'),
-                onChanged: (date) {
-                  args.form.findControl('start')?.reset();
-                  args.form.findControl('end')?.reset();
-                  context.read<SmartLearningBottomSheetCubit>().fetch(
-                        date: date,
-                        startTime: args.start,
-                        endTime: args.end,
-                      );
-                },
-                confirmText: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.confirm),
-                cancelText: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.close),
-              ),
-            ),
-          ),
-        ],
-      );
 
   Widget _error(BuildContext context) {
     return Center(

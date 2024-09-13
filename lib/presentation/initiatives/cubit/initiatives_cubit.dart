@@ -4,7 +4,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/assets/get_app_resource_
 import 'package:open_learning_smart_tv/domain/use_cases/set_stored_user_self_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_colors_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_header/cubit/app_logo_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/cubit/community_wall_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -31,8 +30,6 @@ import '../../../domain/use_cases/session/get_stored_corporate_id_use_case.dart'
 import '../../../domain/use_cases/smart_configurator/get_smart_configuration_use_case.dart';
 import '../../../domain/use_cases/smart_configurator/set_stored_smart_configuration_use_case.dart';
 import '../../../remote_theming/labels/remote_labels.dart';
-import '../../../wrappers/notification/notification_manager.dart';
-import '../../notification/notification_page.dart';
 
 part 'initiatives_state.dart';
 part 'initiatives_cubit.freezed.dart';
@@ -47,12 +44,10 @@ class InitiativesCubit extends Cubit<InitiativesState> {
   final GetSmartConfigurationUseCase _getSmartConfigurationUseCase;
   final GetStoredCorporateIdUseCase _getStoredCorporateIdUseCase;
   final SetStoredSmartConfigurationUseCase _setStoredSmartConfigurationUseCase;
-  final NotificationManager _notificationManager;
   final CleanLocalDatabaseUseCase _cleanLocalDatabaseUseCase;
   final CheckSessionUseCase _checkSessionUseCase;
   final GetColorsUseCase _getColorsUseCase;
   final RemoteLabels _remoteLabels;
-  final CommunityWallCubit _communityWallCubit;
   final GetAppresourceUseCase _getAppresourceUseCase;
 
   InitiativesCubit(
@@ -64,12 +59,10 @@ class InitiativesCubit extends Cubit<InitiativesState> {
     this._getSmartConfigurationUseCase,
     this._getStoredCorporateIdUseCase,
     this._setStoredSmartConfigurationUseCase,
-    this._notificationManager,
     this._cleanLocalDatabaseUseCase,
     this._checkSessionUseCase,
     this._getColorsUseCase,
     this._remoteLabels,
-    this._communityWallCubit,
     this._getAppresourceUseCase,
   ) : super(const InitiativesState.loading());
 
@@ -157,7 +150,7 @@ class InitiativesCubit extends Cubit<InitiativesState> {
         if (relativePaths != null && funcCommunity != true) {
           relativePaths.removeWhere((route) => (route is VisCommunity));
         }
-        await _notificationManager.initPushNotification();
+
         await ColorManager().retrieveBaseColors(rootBundle);
         if (ConfigManager()
             .getRemoteBoolean(RemoteConfigKeys.remote_colors, false)) {
@@ -170,31 +163,14 @@ class InitiativesCubit extends Cubit<InitiativesState> {
         }
 
         if (relativePaths != null && relativePaths.isNotEmpty) {
-          String? initialRoute;
           final entryPoint = relativePaths
                   .firstWhereOrNull((element) => element.preSelected == true)
                   ?.id
                   .toString()
                   .path ??
               relativePaths.first.id.toString().path;
-          if (relativePaths
-                      .firstWhereOrNull((element) => element is VisForYou) !=
-                  null &&
-              await _notificationManager.hasMessage()) {
-            initialRoute = '$entryPoint/${NotificationPage.routeName}';
-          }
-          if (funcCommunity == true &&
-              relativePaths
-                      .firstWhereOrNull((route) => route is VisCommunity) !=
-                  null) {
-            await _communityWallCubit.init(relativePaths
-                .firstWhereOrNull((route) => route is VisCommunity)!
-                .apiPath);
-            await _communityWallCubit.refresh();
-          }
 
-          emit(InitiativesState.success(
-              relativePaths, initialRoute ?? entryPoint));
+          emit(InitiativesState.success(relativePaths, entryPoint));
         } else {
           emit(const InitiativesState.error('No routes found'));
         }

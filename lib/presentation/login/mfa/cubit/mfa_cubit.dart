@@ -37,8 +37,6 @@ class MfaCubit extends Cubit<MfaState> {
     res.fold(
       (l) {
         emit(const MfaState.initial());
-
-        print('LEFT-------${l}');
         return l.maybeWhen(
           cognitoUserCustomChallenge: () => emit(MfaState.tryAgain(tentative)),
           orElse: () => emit(const MfaState.error()),

@@ -18,7 +18,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../domain/use_cases/clear_secure_stored_use_case.dart';
-import '../../../router/app_router.dart';
 
 part 'app_state.dart';
 
@@ -43,10 +42,7 @@ class AppCubit extends Cubit<AppState> {
     required List<MenuRoute> dynamicRoutes,
   }) async {
     String? initial;
-    AppRouter.I.setRouter(
-      initial: initialRoute,
-      dynamicRoutes: dynamicRoutes,
-    );
+
     if (state is _Initial) {
       final current = state as _Initial;
       emit(current.copyWith(
@@ -92,11 +88,13 @@ class AppCubit extends Cubit<AppState> {
     _sharedPreferences.remove(SharedPreferencesKeys.onboardingFlag);
     _sharedPreferences.remove(SharedPreferencesKeys.tutorialFlag);
 
-    AppRouter.I.setRouter(
-      initial: CorporateCodePage.routeName.path,
-      dynamicRoutes: null,
-      showSessionPopup: showPopup,
-    );
+    // TODO(UmbertoGrimaldi): HANDLE LOGOUT
+
+    // AppRouter.I.setRouter(
+    //   initial: CorporateCodePage.routeName.path,
+    //   dynamicRoutes: null,
+    //   showSessionPopup: showPopup,
+    // );
     emit(AppState.initial(
         initialRoute: CorporateCodePage.routeName.path,
         date: DateTime.now(),

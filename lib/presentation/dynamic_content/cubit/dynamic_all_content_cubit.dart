@@ -11,7 +11,6 @@ import 'package:injectable/injectable.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/strip/get_standard_strip_use_case.dart';
 
 import '../../../domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
-import '../../offline_state/offline_cubit.dart';
 
 part 'dynamic_all_content_state.dart';
 part 'dynamic_all_content_cubit.freezed.dart';
@@ -21,7 +20,6 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   final GetPageStructureUseCase _getPageStructureUseCase;
   final GetStandardStripUseCase _getSuggestedStripUseCase;
   final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
-  final OfflineCubit _offlineCubit;
 
   DynamicLocalContent? dynamicContent;
 
@@ -29,11 +27,9 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     this._getPageStructureUseCase,
     this._getStoredSmartConfigurationUseCase,
     this._getSuggestedStripUseCase,
-    this._offlineCubit,
   ) : super(const DynamicAllContentState.loading());
 
   void init(String path, [List<String>? filters, bool debug = false]) async {
-    _offlineCubit.checkUserMissingAlerts();
     emit(const DynamicAllContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
@@ -91,15 +87,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
       filters: dynamicContent?.filters,
     );
 
-    print('2---------------$res');
-
-    res.fold((l) {
-      if (debug) {
-        print('Error: $l');
-      }
-    }, (r) {
-      print('FINISHED: ${r.length}');
-
+    res.fold((l) {}, (r) {
       if (r.isNotEmpty) {
         mappedList[strip] = List.from(r);
       }
@@ -109,7 +97,6 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   }
 
   Future<void> refresh(String path) async {
-    print('REFRESHING------------------------------------');
     if (state is Success) {
       // final current = (state as Success);
       emit(const DynamicAllContentState.loading());

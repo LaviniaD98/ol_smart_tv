@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../../theme/app_theme.dart';
@@ -34,14 +33,18 @@ class BottomSheetActions extends StatelessWidget {
               final start = formGroup.findControl('start')?.value as DateTime?;
               final end = formGroup.findControl('end')?.value as DateTime?;
               bool enabled = formGroup.valid;
-              if(args.type == SmartLearningActionType.edit && start != null && end != null) {
-                enabled = formGroup.valid && !(args.start!.isAtSameMomentAs(start) && args.end!.isAtSameMomentAs(end) && args.date.isAtSameMomentAs(date));
+              if (args.type == SmartLearningActionType.edit &&
+                  start != null &&
+                  end != null) {
+                enabled = formGroup.valid &&
+                    !(args.start!.isAtSameMomentAs(start) &&
+                        args.end!.isAtSameMomentAs(end) &&
+                        args.date.isAtSameMomentAs(date));
               }
               return ElevatedButton(
                 style: AppButtonStyle.red,
-                onPressed: enabled
-                    ? () => _onConfirm(context, start!, end!)
-                    : null,
+                onPressed:
+                    enabled ? () => _onConfirm(context, start!, end!) : null,
                 child: Text(
                   args.confirmActionLabel,
                   textAlign: TextAlign.center,
@@ -56,13 +59,19 @@ class BottomSheetActions extends StatelessWidget {
     );
   }
 
-  void _onCancel(BuildContext context) => switch(args.type) {
-    (SmartLearningActionType.create) => context.pop(),
-    (SmartLearningActionType.edit) => context.read<SmartLearningBottomSheetCubit>().delete(args.id)
-  };
+  void _onCancel(BuildContext context) => switch (args.type) {
+        (SmartLearningActionType.create) => Navigator.of(context).pop(),
+        (SmartLearningActionType.edit) =>
+          context.read<SmartLearningBottomSheetCubit>().delete(args.id)
+      };
 
-  void _onConfirm(BuildContext context, DateTime start, DateTime end) => switch(args.type) {
-    (SmartLearningActionType.create) => context.read<SmartLearningBottomSheetCubit>().create(start: start, end: end),
-    (SmartLearningActionType.edit) => context.read<SmartLearningBottomSheetCubit>().update(id: args.id, start: start, end: end)
-  };
+  void _onConfirm(BuildContext context, DateTime start, DateTime end) =>
+      switch (args.type) {
+        (SmartLearningActionType.create) => context
+            .read<SmartLearningBottomSheetCubit>()
+            .create(start: start, end: end),
+        (SmartLearningActionType.edit) => context
+            .read<SmartLearningBottomSheetCubit>()
+            .update(id: args.id, start: start, end: end)
+      };
 }

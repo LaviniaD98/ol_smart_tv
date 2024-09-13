@@ -7,7 +7,6 @@ import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 
 import '../../../data/models/failure.dart';
-import '../../../presentation/common/widgets/dialog/calendar/cubit/ol_calendar_dialog_cubit.dart';
 import '../../entities/strip/calendar/activity/calendar_activity.dart';
 import '../../entities/strip/calendar/smart_learning_slots_model.dart';
 

@@ -178,18 +178,12 @@ class _MfaValidationPageState extends State<MfaValidationPage> {
       child: LoginCard(
         title: LabelsManager()
             .getRemoteStringFromLabelKeys(RemoteLabelKeys.account_verify),
-        // TODO(UmbertoGrimaldi): add remote string
         description:
             'Abbiamo inviato un codice all’indirizzo ${widget.args.userId}.\nControlla la tua casella di posta e inseriscilo qui di seguito.',
-
-        // LabelsManager()
-        //     .getRemoteStringFromLabelKeys(RemoteLabelKeys.send_code_text)
-        //     .replaceFirst('{user}', widget.args.userId),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFieldInput(
-              // TODO(UmbertoGrimaldi): add remote string
               headerTitle: 'Inserisci il codice',
               form: form,
               controlName: 'code',
@@ -206,7 +200,6 @@ class _MfaValidationPageState extends State<MfaValidationPage> {
                 Transform.translate(
                   offset: const Offset(0, 6),
                   child: OLTextButton(
-                    // TODO(UmbertoGrimaldi): add remote string
                     title: 'Ricevi Codice',
                     onPressed: () {
                       context.read<MfaCubit>().resendMfaCodeToUser();
@@ -227,10 +220,8 @@ class _MfaValidationPageState extends State<MfaValidationPage> {
                           final code =
                               formGroup.findControl('code')?.value as String;
                           if (widget.args.recoverPassword) {
-                            print('cslkdnclksndlkcnlksd------');
                             context.read<MfaCubit>().sendMFAForRecoverPwd(code);
                           } else {
-                            print('cslkdnclksndlkcnlksd------2');
                             context.read<MfaCubit>().sendMFA(
                                   code,
                                   remember: widget.args.remember,

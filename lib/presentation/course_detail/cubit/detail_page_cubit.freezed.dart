@@ -31,7 +31,6 @@ mixin _$DetailPageState {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,7 +48,6 @@ mixin _$DetailPageState {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -67,7 +65,6 @@ mixin _$DetailPageState {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -82,8 +79,6 @@ mixin _$DetailPageState {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -97,7 +92,6 @@ mixin _$DetailPageState {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -111,7 +105,6 @@ mixin _$DetailPageState {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -186,7 +179,6 @@ class _$InitialImpl implements Initial {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return initial();
   }
@@ -207,7 +199,6 @@ class _$InitialImpl implements Initial {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return initial?.call();
   }
@@ -228,7 +219,6 @@ class _$InitialImpl implements Initial {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -249,8 +239,6 @@ class _$InitialImpl implements Initial {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return initial(this);
   }
@@ -267,7 +255,6 @@ class _$InitialImpl implements Initial {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return initial?.call(this);
   }
@@ -284,7 +271,6 @@ class _$InitialImpl implements Initial {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -375,7 +361,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return autoEnroll(data);
   }
@@ -396,7 +381,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return autoEnroll?.call(data);
   }
@@ -417,7 +401,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (autoEnroll != null) {
@@ -438,8 +421,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return autoEnroll(this);
   }
@@ -456,7 +437,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return autoEnroll?.call(this);
   }
@@ -473,7 +453,6 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (autoEnroll != null) {
@@ -570,7 +549,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return autoEnrollFail(eres);
   }
@@ -591,7 +569,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return autoEnrollFail?.call(eres);
   }
@@ -612,7 +589,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (autoEnrollFail != null) {
@@ -633,8 +609,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return autoEnrollFail(this);
   }
@@ -651,7 +625,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return autoEnrollFail?.call(this);
   }
@@ -668,7 +641,6 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (autoEnrollFail != null) {
@@ -787,7 +759,6 @@ class _$SuccessImpl implements Success {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return success(selectedIndex, data, smartConfig);
   }
@@ -808,7 +779,6 @@ class _$SuccessImpl implements Success {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return success?.call(selectedIndex, data, smartConfig);
   }
@@ -829,7 +799,6 @@ class _$SuccessImpl implements Success {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -850,8 +819,6 @@ class _$SuccessImpl implements Success {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return success(this);
   }
@@ -868,7 +835,6 @@ class _$SuccessImpl implements Success {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return success?.call(this);
   }
@@ -885,7 +851,6 @@ class _$SuccessImpl implements Success {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -992,7 +957,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return readyToPlay(model, data);
   }
@@ -1013,7 +977,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return readyToPlay?.call(model, data);
   }
@@ -1034,7 +997,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (readyToPlay != null) {
@@ -1055,8 +1017,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return readyToPlay(this);
   }
@@ -1073,7 +1033,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return readyToPlay?.call(this);
   }
@@ -1090,7 +1049,6 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (readyToPlay != null) {
@@ -1197,7 +1155,6 @@ class _$OpenDetailImpl implements OpenDetail {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return openDetail(model, data);
   }
@@ -1218,7 +1175,6 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return openDetail?.call(model, data);
   }
@@ -1239,7 +1195,6 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (openDetail != null) {
@@ -1260,8 +1215,6 @@ class _$OpenDetailImpl implements OpenDetail {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return openDetail(this);
   }
@@ -1278,7 +1231,6 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return openDetail?.call(this);
   }
@@ -1295,7 +1247,6 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (openDetail != null) {
@@ -1368,7 +1319,6 @@ class _$LoadingImpl implements Loading {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return loading();
   }
@@ -1389,7 +1339,6 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return loading?.call();
   }
@@ -1410,7 +1359,6 @@ class _$LoadingImpl implements Loading {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1431,8 +1379,6 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return loading(this);
   }
@@ -1449,7 +1395,6 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return loading?.call(this);
   }
@@ -1466,7 +1411,6 @@ class _$LoadingImpl implements Loading {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -1531,7 +1475,6 @@ class _$ErrorImpl implements Error {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return error();
   }
@@ -1552,7 +1495,6 @@ class _$ErrorImpl implements Error {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return error?.call();
   }
@@ -1573,7 +1515,6 @@ class _$ErrorImpl implements Error {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1594,8 +1535,6 @@ class _$ErrorImpl implements Error {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return error(this);
   }
@@ -1612,7 +1551,6 @@ class _$ErrorImpl implements Error {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return error?.call(this);
   }
@@ -1629,7 +1567,6 @@ class _$ErrorImpl implements Error {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -1721,7 +1658,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     required TResult Function() loading,
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
   }) {
     return errorWithDialog(message);
   }
@@ -1742,7 +1678,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult? Function()? loading,
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
   }) {
     return errorWithDialog?.call(message);
   }
@@ -1763,7 +1698,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult Function()? loading,
     TResult Function()? error,
     TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (errorWithDialog != null) {
@@ -1784,8 +1718,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
   }) {
     return errorWithDialog(this);
   }
@@ -1802,7 +1734,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
   }) {
     return errorWithDialog?.call(this);
   }
@@ -1819,7 +1750,6 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
     required TResult orElse(),
   }) {
     if (errorWithDialog != null) {
@@ -1836,201 +1766,4 @@ abstract class ErrorWithDialog implements DetailPageState {
   @JsonKey(ignore: true)
   _$$ErrorWithDialogImplCopyWith<_$ErrorWithDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$GoToSharedPostDetailsImplCopyWith<$Res> {
-  factory _$$GoToSharedPostDetailsImplCopyWith(
-          _$GoToSharedPostDetailsImpl value,
-          $Res Function(_$GoToSharedPostDetailsImpl) then) =
-      __$$GoToSharedPostDetailsImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({PostDetailPageArgs args});
-}
-
-/// @nodoc
-class __$$GoToSharedPostDetailsImplCopyWithImpl<$Res>
-    extends _$DetailPageStateCopyWithImpl<$Res, _$GoToSharedPostDetailsImpl>
-    implements _$$GoToSharedPostDetailsImplCopyWith<$Res> {
-  __$$GoToSharedPostDetailsImplCopyWithImpl(_$GoToSharedPostDetailsImpl _value,
-      $Res Function(_$GoToSharedPostDetailsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? args = null,
-  }) {
-    return _then(_$GoToSharedPostDetailsImpl(
-      null == args
-          ? _value.args
-          : args // ignore: cast_nullable_to_non_nullable
-              as PostDetailPageArgs,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$GoToSharedPostDetailsImpl implements GoToSharedPostDetails {
-  const _$GoToSharedPostDetailsImpl(this.args);
-
-  @override
-  final PostDetailPageArgs args;
-
-  @override
-  String toString() {
-    return 'DetailPageState.goToSharedPostDetails(args: $args)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GoToSharedPostDetailsImpl &&
-            (identical(other.args, args) || other.args == args));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, args);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GoToSharedPostDetailsImplCopyWith<_$GoToSharedPostDetailsImpl>
-      get copyWith => __$$GoToSharedPostDetailsImplCopyWithImpl<
-          _$GoToSharedPostDetailsImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(DetailPageModel data) autoEnroll,
-    required TResult Function(EnrollmentModel eres) autoEnrollFail,
-    required TResult Function(int selectedIndex, DetailPageModel data,
-            SmartConfiguratorModel? smartConfig)
-        success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
-        readyToPlay,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
-        openDetail,
-    required TResult Function() loading,
-    required TResult Function() error,
-    required TResult Function(String message) errorWithDialog,
-    required TResult Function(PostDetailPageArgs args) goToSharedPostDetails,
-  }) {
-    return goToSharedPostDetails(args);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function(DetailPageModel data)? autoEnroll,
-    TResult? Function(EnrollmentModel eres)? autoEnrollFail,
-    TResult? Function(int selectedIndex, DetailPageModel data,
-            SmartConfiguratorModel? smartConfig)?
-        success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
-        readyToPlay,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
-        openDetail,
-    TResult? Function()? loading,
-    TResult? Function()? error,
-    TResult? Function(String message)? errorWithDialog,
-    TResult? Function(PostDetailPageArgs args)? goToSharedPostDetails,
-  }) {
-    return goToSharedPostDetails?.call(args);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(DetailPageModel data)? autoEnroll,
-    TResult Function(EnrollmentModel eres)? autoEnrollFail,
-    TResult Function(int selectedIndex, DetailPageModel data,
-            SmartConfiguratorModel? smartConfig)?
-        success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
-        readyToPlay,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
-        openDetail,
-    TResult Function()? loading,
-    TResult Function()? error,
-    TResult Function(String message)? errorWithDialog,
-    TResult Function(PostDetailPageArgs args)? goToSharedPostDetails,
-    required TResult orElse(),
-  }) {
-    if (goToSharedPostDetails != null) {
-      return goToSharedPostDetails(args);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) initial,
-    required TResult Function(AutoEnroll value) autoEnroll,
-    required TResult Function(AutoEnrollFail value) autoEnrollFail,
-    required TResult Function(Success value) success,
-    required TResult Function(ReadyToPlay value) readyToPlay,
-    required TResult Function(OpenDetail value) openDetail,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
-    required TResult Function(ErrorWithDialog value) errorWithDialog,
-    required TResult Function(GoToSharedPostDetails value)
-        goToSharedPostDetails,
-  }) {
-    return goToSharedPostDetails(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(Initial value)? initial,
-    TResult? Function(AutoEnroll value)? autoEnroll,
-    TResult? Function(AutoEnrollFail value)? autoEnrollFail,
-    TResult? Function(Success value)? success,
-    TResult? Function(ReadyToPlay value)? readyToPlay,
-    TResult? Function(OpenDetail value)? openDetail,
-    TResult? Function(Loading value)? loading,
-    TResult? Function(Error value)? error,
-    TResult? Function(ErrorWithDialog value)? errorWithDialog,
-    TResult? Function(GoToSharedPostDetails value)? goToSharedPostDetails,
-  }) {
-    return goToSharedPostDetails?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? initial,
-    TResult Function(AutoEnroll value)? autoEnroll,
-    TResult Function(AutoEnrollFail value)? autoEnrollFail,
-    TResult Function(Success value)? success,
-    TResult Function(ReadyToPlay value)? readyToPlay,
-    TResult Function(OpenDetail value)? openDetail,
-    TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
-    TResult Function(ErrorWithDialog value)? errorWithDialog,
-    TResult Function(GoToSharedPostDetails value)? goToSharedPostDetails,
-    required TResult orElse(),
-  }) {
-    if (goToSharedPostDetails != null) {
-      return goToSharedPostDetails(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class GoToSharedPostDetails implements DetailPageState {
-  const factory GoToSharedPostDetails(final PostDetailPageArgs args) =
-      _$GoToSharedPostDetailsImpl;
-
-  PostDetailPageArgs get args;
-  @JsonKey(ignore: true)
-  _$$GoToSharedPostDetailsImplCopyWith<_$GoToSharedPostDetailsImpl>
-      get copyWith => throw _privateConstructorUsedError;
 }

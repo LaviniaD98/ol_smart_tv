@@ -10,6 +10,6 @@ class RemoveStoredDownloadContentInfoUseCase {
     try {
       if (kDebugMode) print('download_manager about to DELETE sharedcontent for $contentKey');
       await _sharedPreferences.remove(contentKey);
-    } catch (e) {}
+    } catch (_) {}
   }
 }

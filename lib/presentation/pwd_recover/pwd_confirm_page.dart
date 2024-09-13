@@ -1,4 +1,4 @@
-import 'package:open_learning_smart_tv/presentation/common/widgets/app_bar/styled_app_bar.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_confirm_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_recover/pwd_changed_page.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,6 @@ import 'package:open_learning_smart_tv/presentation/login/widgets/login_card.dar
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../remote_theming/labels/labels_manager.dart';
@@ -43,14 +42,13 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StyledAppBar(title: ''),
       body: Container(
         decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
         child: BlocConsumer<PwdConfirmCubit, PwdConfirmState>(
           listener: (context, state) => state.whenOrNull(
-            success: () => context.pushNamed(
-              PwdChangedPage.routeName,
-            ),
+            success: () {
+              return Nav.push(context, screen: const PwdChangedPage());
+            },
             error: () => OlAlertDialog.show(
               context,
               title: LabelsManager()
@@ -173,9 +171,10 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                             width: 8,
                           ),
                           Text(
-                              LabelsManager().getRemoteStringFromLabelKeys(
-                                  RemoteLabelKeys.pw_ch),
-                              style: TextStyle(fontSize: 12)),
+                            LabelsManager().getRemoteStringFromLabelKeys(
+                                RemoteLabelKeys.pw_ch),
+                            style: const TextStyle(fontSize: 12),
+                          ),
                         ]),
                         Row(children: [
                           SvgPicture.asset(
@@ -196,9 +195,10 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                             width: 8,
                           ),
                           Text(
-                              LabelsManager().getRemoteStringFromLabelKeys(
-                                  RemoteLabelKeys.pw_let),
-                              style: TextStyle(fontSize: 12)),
+                            LabelsManager().getRemoteStringFromLabelKeys(
+                                RemoteLabelKeys.pw_let),
+                            style: const TextStyle(fontSize: 12),
+                          ),
                         ]),
                         Row(
                           children: [
@@ -244,12 +244,14 @@ class _PwdConfirmPageState extends State<PwdConfirmPage> {
                           ),
                           const SizedBox(width: 8),
                           SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.25,
-                              child: Text(
-                                  LabelsManager().getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.pw_special_ch),
-                                  maxLines: 2,
-                                  style: TextStyle(fontSize: 12)))
+                            width: MediaQuery.sizeOf(context).width * 0.25,
+                            child: Text(
+                              LabelsManager().getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.pw_special_ch),
+                              maxLines: 2,
+                              style: const TextStyle(fontSize: 12),
+                            ),
+                          )
                         ])
                       ],
                     ),

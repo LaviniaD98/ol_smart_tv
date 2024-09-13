@@ -160,28 +160,24 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowRight): () {
           final focus = focusNode.focusInDirection(TraversalDirection.right);
-          print('KEYBOARD----------LogicalKeyboardKey.arrowRight - $focus');
           if (focus == false) {
             widget.onFocusOutside?.call(TraversalDirection.right);
           }
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
           final focus = focusNode.focusInDirection(TraversalDirection.left);
-          print('KEYBOARD----------LogicalKeyboardKey.arrowLeft - $focus');
           if (focus == false) {
             widget.onFocusOutside?.call(TraversalDirection.left);
           }
         },
         const SingleActivator(LogicalKeyboardKey.arrowUp): () {
           final focus = focusNode.focusInDirection(TraversalDirection.up);
-          print('KEYBOARD----------LogicalKeyboardKey.arrowUp - $focus');
           if (focus == false) {
             widget.onFocusOutside?.call(TraversalDirection.up);
           }
         },
         const SingleActivator(LogicalKeyboardKey.arrowDown): () {
           final focus = focusNode.focusInDirection(TraversalDirection.down);
-          print('KEYBOARD----------LogicalKeyboardKey.arrowDown - $focus');
           if (focus == false) {
             widget.onFocusOutside?.call(TraversalDirection.down);
           }
@@ -265,7 +261,7 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
                             buttonColor:
                                 widget.buttonColor ?? widget.buttonColor,
                             onPressed: () {
-                              text = text! + ' ';
+                              text = '${text!} ';
                               setState(() {});
                               widget.onChanged!(text);
                             },
@@ -281,57 +277,55 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
                 ],
               ),
             ),
-            Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Button(
-                    autofocus: false,
-                    focusColor: widget.focusColor ?? widget.focusColor,
-                    borderColor: widget.borderColor ?? widget.borderColor,
-                    buttonColor: widget.buttonColor ?? widget.buttonColor,
-                    onPressed: () {
-                      if (text!.isNotEmpty) {
-                        text = text!.substring(0, text!.length - 1);
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Button(
+                  autofocus: false,
+                  focusColor: widget.focusColor ?? widget.focusColor,
+                  borderColor: widget.borderColor ?? widget.borderColor,
+                  buttonColor: widget.buttonColor ?? widget.buttonColor,
+                  onPressed: () {
+                    if (text!.isNotEmpty) {
+                      text = text!.substring(0, text!.length - 1);
+                    }
+                    setState(() {});
+                    widget.onChanged!(text);
+                  },
+                  label: const Icon(
+                    Icons.backspace,
+                    size: 20,
+                  ),
+                ),
+                Button(
+                  autofocus: false,
+                  focusColor: widget.focusColor ?? widget.focusColor,
+                  borderColor: widget.borderColor ?? widget.borderColor,
+                  buttonColor: widget.buttonColor ?? widget.buttonColor,
+                  onPressed: () {
+                    specialCharacters();
+                  },
+                  label: BlocBuilder<KeyboardShiftBloc, KeyboardShiftState>(
+                    builder: (context, state) {
+                      if (state is KeyboardShiftSymbols) {
+                        return const Text(
+                          'ABC',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        );
+                      } else {
+                        return const Text(
+                          '&123',
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.bold),
+                        );
                       }
-                      setState(() {});
-                      widget.onChanged!(text);
                     },
-                    label: const Icon(
-                      Icons.backspace,
-                      size: 20,
-                    ),
                   ),
-                  Button(
-                    autofocus: false,
-                    focusColor: widget.focusColor ?? widget.focusColor,
-                    borderColor: widget.borderColor ?? widget.borderColor,
-                    buttonColor: widget.buttonColor ?? widget.buttonColor,
-                    onPressed: () {
-                      specialCharacters();
-                    },
-                    label: BlocBuilder<KeyboardShiftBloc, KeyboardShiftState>(
-                      builder: (context, state) {
-                        if (state is KeyboardShiftSymbols) {
-                          return const Text(
-                            'ABC',
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          );
-                        } else {
-                          return const Text(
-                            '&123',
-                            style: TextStyle(
-                                fontSize: 17, fontWeight: FontWeight.bold),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

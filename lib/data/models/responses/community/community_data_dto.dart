@@ -29,12 +29,13 @@ class CommunityDataDto {
     this.reply,
   });
 
-  factory CommunityDataDto.fromJson(Map<String, dynamic> json) => _$CommunityDataDtoFromJson(json);
+  factory CommunityDataDto.fromJson(Map<String, dynamic> json) =>
+      _$CommunityDataDtoFromJson(json);
 
   @JsonKey(name: "comment_count")
   final String? commentCount;
   @JsonKey(name: "attachments")
-  final dynamic attachments; //TODO: fix, backend currently returns either empty list or AttachmentsItemDto
+  final dynamic attachments;
   @JsonKey(name: "owner_id")
   final String? ownerId;
   @JsonKey(name: "comment_id")
@@ -65,7 +66,10 @@ class CommunityDataDto {
   final String? userId;
   @JsonKey(name: "lo_id")
   final String? loId;
-  @JsonKey(name: "lo_type", defaultValue: LearningObjectTypology.unknown, unknownEnumValue: LearningObjectTypology.unknown)
+  @JsonKey(
+      name: "lo_type",
+      defaultValue: LearningObjectTypology.unknown,
+      unknownEnumValue: LearningObjectTypology.unknown)
   final LearningObjectTypology learningObjectTypology;
   @JsonKey(name: "reply")
   final String? reply;

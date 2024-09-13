@@ -11,24 +11,18 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/li
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_editions.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_opinions_no_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/learning_activity_row.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart';
-import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
-import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/presentation/web_player/web_view_page.dart';
-import 'package:open_learning_smart_tv/router/app_router.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
-import 'package:open_learning_smart_tv/wrappers/tracking/tracking_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../color_management/color_manager.dart';
 import '../../domain/entities/generic/course_model.dart';
@@ -36,10 +30,8 @@ import '../../domain/entities/smart_configurator/smart_configurator_model.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
 import '../common/widgets/error/error_screen.dart';
 import '../common/widgets/rating/ratings_dialog.dart';
-import '../dynamic_content/strip/community/detail/post_detail_page_connector.dart';
 import '../video_player/video_player_page.dart';
 import 'course_detail_modules.dart';
-import 'course_detail_opinions.dart';
 import 'details_tab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -118,7 +110,9 @@ class _DetailPageState extends State<DetailPage> {
                 actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
                     RemoteLabelKeys.continue_button),
                 barrierDismissible: false);
-            if (context.mounted) context.pop(true);
+            if (context.mounted) {
+              Navigator.of(context).pop(true);
+            }
             return null;
           },
           errorWithDialog: (message) async {
@@ -135,29 +129,18 @@ class _DetailPageState extends State<DetailPage> {
           },
           readyToPlay: (model, detail) => startPlay(context, model, detail),
           openDetail: (model, detail) {
-            context.pushNamed(
-              DetailPage.routeName,
-              extra: DetailPageArgs(
-                id: model.id.toString(),
-                object: model,
-                parentId: widget.args.id,
-                typology: model.learningObjectTypology,
-                grandParentId: widget.args.parentId,
-                parent: detail,
-              ),
-            );
-            return null;
-          },
-          goToSharedPostDetails: (postArgs) async {
-            await context.pushNamed(
-              PostDetailPageConnector.routeName,
-              extra: postArgs,
-            );
-            if (context.mounted) {
-              context.read<DetailPageCubit>().init(widget.args);
-              getIt<TrackingManager>()
-                  .communityTrackingHandler(AppRouter.I.fullPath);
-            }
+            Nav.push(context,
+                screen: DetailPage(
+                  args: DetailPageArgs(
+                    id: model.id.toString(),
+                    object: model,
+                    parentId: widget.args.id,
+                    typology: model.learningObjectTypology,
+                    grandParentId: widget.args.parentId,
+                    parent: detail,
+                  ),
+                ));
+
             return null;
           },
         ),
@@ -179,7 +162,7 @@ class _DetailPageState extends State<DetailPage> {
                     .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
                 message: LabelsManager().getRemoteStringFromLabelKeys(
                     RemoteLabelKeys.error_occurred),
-                onReload: () => {context.pop()},
+                onReload: () => Navigator.of(context).pop(),
               ),
             ),
             orElse: () => const SizedBox(),
@@ -420,13 +403,9 @@ class _DetailPageState extends State<DetailPage> {
     LearningObjectModel lo,
     DetailPageModel detail,
   ) async {
-    print('WEAAAA-------1-------');
     if (lo.fruitionFlag == true) {
-      print('WEAAAA-------2-------');
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
-        print('WEAAAA-------3-------');
         if (lo.link != null && context.mounted) {
-          print('WEAAAA-------4-------${lo.learningObjectTypology}');
           WakelockPlus.enable();
 
           await Nav.push(
@@ -448,7 +427,6 @@ class _DetailPageState extends State<DetailPage> {
             context.read<DetailPageCubit>().init(widget.args);
           }
         } else {
-          print('WEAAAA-------5-------');
           OlAlertDialog.show(
             context,
             title: LabelsManager()
@@ -460,7 +438,6 @@ class _DetailPageState extends State<DetailPage> {
           );
         }
       } else {
-        print('WEAAAA-------6-------');
         WakelockPlus.enable();
 
         final args = VideoPlayerPageArgs(
@@ -513,8 +490,6 @@ class _DetailPageState extends State<DetailPage> {
             child: VideoPlayerPage(args: args),
           ),
         ) as bool?;
-
-        print('RESPONSE; ${res}');
 
         WakelockPlus.disable();
         if (res != null && res && context.mounted) {
@@ -776,15 +751,17 @@ class _DetailPageState extends State<DetailPage> {
                   String? id =
                       ll != null ? ll.id.toString() : cc?.id.toString();
                   if (id != null) {
-                    context.pushNamed(
-                      DetailPage.routeName,
-                      extra: DetailPageArgs(
-                        id: id,
-                        object: ll,
-                        parentId: model.id.toString(),
-                        typology: model.learningObjectTypology,
-                        grandParentId: widget.args.parentId,
-                        parent: model,
+                    Nav.push(
+                      context,
+                      screen: DetailPage(
+                        args: DetailPageArgs(
+                          id: id,
+                          object: ll,
+                          parentId: model.id.toString(),
+                          typology: model.learningObjectTypology,
+                          grandParentId: widget.args.parentId,
+                          parent: model,
+                        ),
                       ),
                     );
                   }
@@ -831,27 +808,6 @@ class _DetailPageState extends State<DetailPage> {
                 .getRemoteStringFromLabelKeys(RemoteLabelKeys.editions));
       } else {
         return CourseDetailEditions(model: model, args: widget.args);
-      }
-    }
-    return null;
-  }
-
-  Widget? getTabOpinions(DetailPageModel model, bool isTabHeader,
-      SmartConfiguratorModel? smartConfig) {
-    if (smartConfig?.funcCommunity == true &&
-        model.sharedPostsModel != null &&
-        model.sharedPostsModel?.data.isNotEmpty == true) {
-      if (isTabHeader) {
-        return Tab(
-            text: LabelsManager()
-                .getRemoteStringFromLabelKeys(RemoteLabelKeys.opinions));
-      } else {
-        if (ConfigManager()
-            .getRemoteBoolean(RemoteConfigKeys.paginate_opinions, false)) {
-          return CourseDetailOpinions(model: model, args: widget.args);
-        } else {
-          return CourseDetailOpinionsNoPage(model: model, args: widget.args);
-        }
       }
     }
     return null;
@@ -945,10 +901,6 @@ class _DetailPageState extends State<DetailPage> {
         if (tabRelated != null) {
           widgets.add(tabRelated);
         }
-        Widget? tabOpinions = getTabOpinions(model, isTabHeader, smartConfig);
-        if (tabOpinions != null) {
-          widgets.add(tabOpinions);
-        }
         break;
       case LearningObjectTypology.path:
         Widget tabModules = getTabModules(context, model, isTabHeader);
@@ -962,10 +914,7 @@ class _DetailPageState extends State<DetailPage> {
         if (tabRelated != null) {
           widgets.add(tabRelated);
         }
-        Widget? tabOpinions = getTabOpinions(model, isTabHeader, smartConfig);
-        if (tabOpinions != null) {
-          widgets.add(tabOpinions);
-        }
+
         break;
       default:
         widgets.add(getTabDetail(model, isTabHeader));
@@ -980,10 +929,6 @@ class _DetailPageState extends State<DetailPage> {
         Widget? tabRelated = getTabRelated(model, isTabHeader);
         if (tabRelated != null) {
           widgets.add(tabRelated);
-        }
-        Widget? tabOpinions = getTabOpinions(model, isTabHeader, smartConfig);
-        if (tabOpinions != null) {
-          widgets.add(tabOpinions);
         }
         break;
     }

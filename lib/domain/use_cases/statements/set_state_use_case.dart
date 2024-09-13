@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/data/models/requests/xapi_body_dto.dart';
 import 'package:open_learning_smart_tv/domain/repositories/statements/statements_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:uuid/uuid.dart';
 import '../../../core/env/env.dart';
 import '../../../data/models/failure.dart';
 import '../../../data/models/requests/statements_body_dto.dart';
@@ -68,7 +67,7 @@ class SetStateUseCase {
     String registrationGUID = sessionId!; // uuid.v4();
 
     Actor actor = Actor(
-        mbox: "mailto:" + userInfoModel!.user!.email!,
+        mbox: "mailto:${userInfoModel!.user!.email!}",
         name: userInfoModel.user?.externalId ?? "",
         objectType: "Agent");
 

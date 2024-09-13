@@ -11,7 +11,13 @@ include: package:flutter_lints/flutter.yaml
 
 analyzer:
   errors:
+    constant_identifier_names: ignore
     depend_on_referenced_packages: ignore
+    invalid_annotation_target: ignore
+    library_private_types_in_public_api: ignore
+    non_constant_identifier_names: ignore
+    overridden_fields: ignore
+    override_on_non_overriding_member: ignore
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"

@@ -5,13 +5,9 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../theme/app_theme.dart';
-import '../../../common/widgets/app_bar/styled_app_bar.dart';
-import '../../../common/widgets/dialog/ol_okcancel_dialog.dart';
-import '../../../common/widgets/styled_icon_button.dart';
 import 'cubit/ecm_registration_cubit.dart';
 
 class EcmRegistrationPage extends StatelessWidget {
@@ -25,26 +21,6 @@ class EcmRegistrationPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<EcmRegistrationCubit>(),
       child: Scaffold(
-        appBar: StyledAppBar(
-          automaticallyImplyLeading: false,
-          actions: [
-            StyledIconButton(
-              svgPath: 'assets/icons/cross.svg',
-              onTap: () => OlOkCancelDialog.show(
-                context,
-                title: LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.ecm_registration_exit_alert_title),
-                message: LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.ecm_registration_exit_alert_message),
-                okActionLabel: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit),
-                cancelActionLabel: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.undo),
-                okCallback: () => context.pop(),
-              ),
-            ),
-          ],
-        ),
         body: SafeArea(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -94,7 +70,7 @@ class EcmRegistrationPage extends StatelessWidget {
                           firstStep: _.firstStep,
                           enrollId: args.enrollId,
                           loId: args.loId,
-                          onDone: () => context.pop(true),
+                          onDone: () => Navigator.of(context).pop(true),
                         ),
                         previousStep: (EcmFirstStepArgs args) {
                           context

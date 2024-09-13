@@ -1,27 +1,20 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/ecm_registration_page.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 
 import '../../../../theme/app_theme.dart';
 
@@ -73,9 +66,9 @@ class _ForYouCardState extends State<ForYouCard> {
       ecmRegistration: widget.data.ecmRegistration ?? false,
     );
 
-    print('widget.courseId: ${widget.data.courseId}');
-    print('widget.parentId: ${widget.data.parentId}');
-    print('widget.grandParentId: ${widget.data.grandParentId}');
+    // print('widget.courseId: ${widget.data.courseId}');
+    // print('widget.parentId: ${widget.data.parentId}');
+    // print('widget.grandParentId: ${widget.data.grandParentId}');
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -88,8 +81,9 @@ class _ForYouCardState extends State<ForYouCard> {
           behavior: HitTestBehavior.translucent,
           onTap: widget.enable
               ? () async {
-                  await context.pushNamed(DetailPage.routeName,
-                      extra: DetailPageArgs(
+                  Nav.push(context,
+                      screen: DetailPage(
+                          args: DetailPageArgs(
                         object: widget.data,
                         id: widget.data.id.toString(),
                         typology: widget.data.learningObjectTypology,
@@ -100,7 +94,8 @@ class _ForYouCardState extends State<ForYouCard> {
                             ? widget.grandParentId
                             : widget.data.grandParentId?.toString(),
                         parent: widget.parentDetailPageModel,
-                      ));
+                      )));
+
                   if (context.mounted &&
                       widget.returnFromDetailCallback != null) {
                     widget.returnFromDetailCallback?.call();

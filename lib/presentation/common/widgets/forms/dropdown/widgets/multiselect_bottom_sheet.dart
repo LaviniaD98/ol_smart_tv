@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import '../../../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../../../remote_theming/labels/remote_labels_keys.dart';
-import '../../../../../../router/app_router.dart';
 import '../../../../../../theme/app_theme.dart';
 import '../../../../../wall/widgets/on_scroll_error.dart';
 import '../../../error/error_screen.dart';
@@ -37,7 +36,7 @@ class MultiselectBottomSheet<T> extends StatefulWidget {
     List<T>? selectedItems,
   }) {
     return showModalBottomSheet<T>(
-      context: AppRouter.I.root.currentContext ?? context,
+      context: context,
       clipBehavior: Clip.hardEdge,
       isScrollControlled: true,
       useSafeArea: true,

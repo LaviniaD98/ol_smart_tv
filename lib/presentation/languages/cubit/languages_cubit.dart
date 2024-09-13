@@ -2,8 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../../data/models/failure.dart';
 import '../../../domain/entities/language/language_model.dart';
 import '../../../remote_theming/labels/remote_labels.dart';
 import '../languages_page.dart';

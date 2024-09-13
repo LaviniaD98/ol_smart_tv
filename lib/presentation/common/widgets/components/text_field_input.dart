@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_input_screen.dart';
@@ -43,7 +44,6 @@ class _TextFieldInputState extends State<TextFieldInput>
     focusNode = widget.focusNode ?? FocusNode();
 
     if (widget.autofocus) {
-      print('${widget.controlName}....widget.autofocus');
       Future.delayed(const Duration(milliseconds: 300), () {
         focusNode.requestFocus();
       });
@@ -164,7 +164,6 @@ class MyAction extends Action<MyIntent> {
   final FocusNode focusNode;
   @override
   Object? invoke(MyIntent intent) {
-    print('My Intent invoked');
     focusNode.unfocus();
     return null;
   }
@@ -179,7 +178,10 @@ class BackAction extends Action<BackIntent> {
   final BuildContext context;
   @override
   Object? invoke(BackIntent intent) {
-    print('BackAction invoked');
+    if (kDebugMode) {
+      print('BackAction invoked');
+    }
+
     //Navigator.of(context).pop();
     return null;
   }

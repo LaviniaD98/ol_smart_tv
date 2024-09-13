@@ -7,7 +7,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_app_file/open_app_file.dart';
 
 import '../../../../domain/enums/types.dart';
@@ -117,7 +116,8 @@ class OlDownloadDialog extends StatelessWidget {
               ElevatedButton(
                 style: AppButtonStyle.red,
                 onPressed: () {
-                  context.pop(true);
+                  Navigator.of(context).pop(true);
+
                   okCallback?.call();
                 },
                 child: Text(

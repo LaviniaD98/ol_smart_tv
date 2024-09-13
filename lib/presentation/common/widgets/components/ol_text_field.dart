@@ -165,7 +165,7 @@ class _OlTextFieldState extends State<OlTextField> {
 
   void updateFocus() {
     if (context.mounted) {
-     // print('T FocusNode.hasFocus: ${focusNode.hasFocus}');
+      // print('T FocusNode.hasFocus: ${focusNode.hasFocus}');
       setState(() {});
     }
   }
@@ -280,9 +280,7 @@ class _OlTextFieldState extends State<OlTextField> {
       onChanged: widget.onChanged,
       undoController: widget.undoController,
       cursorOpacityAnimates: widget.cursorOpacityAnimates,
-      onTapOutside: (_) {
-        print('omTapOutside');
-      },
+      onTapOutside: (_) {},
       contentInsertionConfiguration: widget.contentInsertionConfiguration,
       canRequestFocus: widget.canRequestFocus,
       spellCheckConfiguration: widget.spellCheckConfiguration,

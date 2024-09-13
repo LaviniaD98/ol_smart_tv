@@ -1,8 +1,8 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../profile/profile_page.dart';
 
@@ -30,7 +30,7 @@ class UserLogo extends StatelessWidget {
             .toUpperCase();
 
     return InkWell(
-      onTap: navigation ? () => context.goNamed(ProfilePage.routeName) : null,
+      onTap: navigation ? () => Nav.push(context, screen: ProfilePage()) : null,
       child: SizedBox(
           height: size,
           width: size,

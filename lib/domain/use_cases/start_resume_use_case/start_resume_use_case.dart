@@ -3,7 +3,6 @@ import 'package:open_learning_smart_tv/domain/repositories/start_resume/start_re
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../../../data/models/failure.dart';
-import '../../entities/detail/detail_page_model.dart';
 import '../../entities/user/user_info_model.dart';
 import '../get_secure_stored_user_info_use_case.dart';
 import '../session/get_stored_corporate_id_use_case.dart';
@@ -33,8 +32,8 @@ class StartResumeUseCase {
         "/learning-catalogue/{corporateId}/{initiativeId}/learningObjects/{learningObjectId}/startOrResume?parentId={parentId}"
             .replaceFirst('{corporateId}', '${corporateId?.id}')
             .replaceFirst('{initiativeId}', '$initiativeId')
-            .replaceFirst('{learningObjectId}', '${loId}')
-            .replaceFirst('{parentId}', '${parentId}');
+            .replaceFirst('{learningObjectId}', '$loId')
+            .replaceFirst('{parentId}', parentId);
 
     return await _repository.startResume(path);
   }

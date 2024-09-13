@@ -1,14 +1,13 @@
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../theme/app_theme.dart';
-import '../../../../common/widgets/dialog/calendar/ol_calendar_dialog.dart';
 
 class LearningObjectActivity extends StatelessWidget {
   final LearningObjectModel model;
@@ -24,13 +23,15 @@ class LearningObjectActivity extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
-          context.pushNamed(DetailPage.routeName,
-              extra: DetailPageArgs(
-                id: model.id.toString(),
-                object: model,
-                typology: model.learningObjectTypology,
-                parentId: model.parentId?.toString(),
-                grandParentId: model.grandParentId?.toString(),
+          Nav.push(context,
+              screen: DetailPage(
+                args: DetailPageArgs(
+                  id: model.id.toString(),
+                  object: model,
+                  typology: model.learningObjectTypology,
+                  parentId: model.parentId?.toString(),
+                  grandParentId: model.grandParentId?.toString(),
+                ),
               ));
         },
         child: Container(
@@ -89,14 +90,14 @@ class LearningObjectActivity extends StatelessWidget {
                       color: Colors.transparent,
                       child: InkWell(
                         onTap: () {
-                          context.pushNamed(
-                            OlCalendarDialog.routeName,
-                            extra: OlCalendarDialogArgs(
-                              type: AgendaEventType.eventLearningObject,
-                              learningObjectModel: model,
-                              date: date,
-                            ),
-                          );
+                          // context.pushNamed(
+                          //   OlCalendarDialog.routeName,
+                          //   extra: OlCalendarDialogArgs(
+                          //     type: AgendaEventType.eventLearningObject,
+                          //     learningObjectModel: model,
+                          //     date: date,
+                          //   ),
+                          // );
                         },
                         child: SvgPicture.asset(
                           "assets/icons/download.svg",

@@ -2,7 +2,7 @@ import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 
 import '../../../../../domain/entities/strip/learning_object/learning_object_model.dart';
 import '../../../../../domain/enums/types.dart';
@@ -19,13 +19,15 @@ class ContinueLearningCardWall extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(
-          DetailPage.routeName,
-          extra: DetailPageArgs(
-            id: data.id.toString(),
-            typology: data.learningObjectTypology,
-            parentId: data.parentId?.toString(),
-            grandParentId: data.grandParentId?.toString(),
+        Nav.push(
+          context,
+          screen: DetailPage(
+            args: DetailPageArgs(
+              id: data.id.toString(),
+              typology: data.learningObjectTypology,
+              parentId: data.parentId?.toString(),
+              grandParentId: data.grandParentId?.toString(),
+            ),
           ),
         );
       },

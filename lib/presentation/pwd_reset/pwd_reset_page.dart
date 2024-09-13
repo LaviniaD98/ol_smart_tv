@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/pwd_reset/pwd_modified_page.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -8,13 +9,11 @@ import 'package:open_learning_smart_tv/presentation/login/widgets/login_card.dar
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../remote_theming/labels/labels_manager.dart';
 import '../../remote_theming/labels/remote_labels_keys.dart';
 import '../app_state/cubit/app_cubit.dart';
-import '../common/widgets/app_bar/styled_app_bar.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
 
 class PwdResetPageArgs {
@@ -67,7 +66,7 @@ class _PwdResetPageState extends State<PwdResetPage> {
                     return context.read<AppCubit>().logout();
                   }
                 } else {
-                  return context.goNamed(PwdModifiedPage.routeName);
+                  return Nav.push(context, screen: const PwdModifiedPage());
                 }
                 return;
               },
@@ -80,7 +79,9 @@ class _PwdResetPageState extends State<PwdResetPage> {
                     actionLabel: LabelsManager()
                         .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
                     barrierDismissible: false);
-                if (context.mounted) context.pop(true);
+                if (context.mounted) {
+                  Navigator.of(context).pop(true);
+                }
                 return null;
               },
             ),
@@ -103,277 +104,258 @@ class _PwdResetPageState extends State<PwdResetPage> {
 
   Widget _content(BuildContext context, FormGroup form) {
     return Scaffold(
-        appBar: const StyledAppBar(
-          title: "",
-        ),
         body: ReactiveForm(
-          formGroup: form,
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(
-              20.0,
-            ),
-            child: LoginCard(
-              gradient: AppTheme.greyGradient,
-              title: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.password_change),
-              description: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.safe_password_txt),
-              child: Column(
+      formGroup: form,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(
+          20.0,
+        ),
+        child: LoginCard(
+          gradient: AppTheme.greyGradient,
+          title: LabelsManager()
+              .getRemoteStringFromLabelKeys(RemoteLabelKeys.password_change),
+          description: LabelsManager()
+              .getRemoteStringFromLabelKeys(RemoteLabelKeys.safe_password_txt),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                LabelsManager()
+                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.new_password),
+                textAlign: TextAlign.start,
+                style: AppTextTheme.subtitle(
+                  color: ColorManager().getColorTextPrimary(),
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              ReactiveTextFieldInput(
+                formControlName: 'nuovapassword',
+                obscureText: true,
+                onChanged: (form) {
+                  final pwd1 =
+                      form.findControl('nuovapassword').value as String;
+                  setPwdState(pwd1);
+                },
+                style: AppTextTheme.subtitle(
+                  color: ColorManager().getColorTextPrimary(),
+                ),
+                showErrors: (_) => false,
+              ),
+              const SizedBox(height: 16.0),
+              Text(
+                LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.confirm_password),
+                textAlign: TextAlign.start,
+                style: AppTextTheme.subtitle(
+                  color: ColorManager().getColorTextPrimary(),
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              ReactiveTextFieldInput(
+                formControlName: 'confermapassword',
+                obscureText: true,
+                onChanged: (form) {
+                  final pwd2 =
+                      form.findControl('confermapassword').value as String;
+                  setPwdState(pwd2);
+                },
+                style: AppTextTheme.subtitle(
+                  color: ColorManager().getColorTextPrimary(),
+                ),
+                showErrors: (_) => false,
+              ),
+              const SizedBox(height: 24.0),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     LabelsManager().getRemoteStringFromLabelKeys(
-                        RemoteLabelKeys.new_password),
-                    textAlign: TextAlign.start,
-                    style: AppTextTheme.subtitle(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
+                        RemoteLabelKeys.pw_criteria_text),
                   ),
-                  const SizedBox(height: 8.0),
-                  ReactiveTextFieldInput(
-                    formControlName: 'nuovapassword',
-                    obscureText: true,
-                    onChanged: (form) {
-                      final pwd1 =
-                          form.findControl('nuovapassword').value as String;
-                      setPwdState(pwd1);
-                    },
-                    style: AppTextTheme.subtitle(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
-                    showErrors: (_) => false,
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    LabelsManager().getRemoteStringFromLabelKeys(
-                        RemoteLabelKeys.confirm_password),
-                    textAlign: TextAlign.start,
-                    style: AppTextTheme.subtitle(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  ReactiveTextFieldInput(
-                    formControlName: 'confermapassword',
-                    obscureText: true,
-                    onChanged: (form) {
-                      final pwd2 =
-                          form.findControl('confermapassword').value as String;
-                      setPwdState(pwd2);
-                    },
-                    style: AppTextTheme.subtitle(
-                      color: ColorManager().getColorTextPrimary(),
-                    ),
-                    showErrors: (_) => false,
-                  ),
-                  const SizedBox(height: 24.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.pw_criteria_text),
-                      ),
-                      Container(
-                        margin: EdgeInsets.zero,
-                        padding: EdgeInsets.zero,
-                        height: MediaQuery.of(context).size.width / 4.2,
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing:
-                              MediaQuery.of(context).size.width * 0.1,
-                          padding: EdgeInsets.zero,
-                          mainAxisSpacing: 4.0,
-                          childAspectRatio: 3 / 1,
-                          children: <Widget>[
-                            Row(children: [
-                              SvgPicture.asset(
-                                "assets/icons/border_check.svg",
-                                width: 24,
-                                height: 24,
-                                colorFilter: a8
-                                    ? ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemSecondary02(),
-                                        BlendMode.srcIn,
-                                      )
-                                    : ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemPrimary01(),
-                                        BlendMode.srcIn,
-                                      ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                  LabelsManager().getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.pw_ch),
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: ColorManager()
-                                          .getColorTextPrimary())),
-                            ]),
-                            Row(children: [
-                              SvgPicture.asset(
-                                "assets/icons/border_check.svg",
-                                width: 24,
-                                height: 24,
-                                colorFilter: aL
-                                    ? ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemSecondary02(),
-                                        BlendMode.srcIn,
-                                      )
-                                    : ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemPrimary01(),
-                                        BlendMode.srcIn,
-                                      ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                  LabelsManager().getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.pw_let),
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: ColorManager()
-                                          .getColorTextPrimary())),
-                            ]),
-                            Row(children: [
-                              SvgPicture.asset(
-                                "assets/icons/border_check.svg",
-                                width: 24,
-                                height: 24,
-                                colorFilter: aN
-                                    ? ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemSecondary02(),
-                                        BlendMode.srcIn,
-                                      )
-                                    : ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemPrimary01(),
-                                        BlendMode.srcIn,
-                                      ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                  LabelsManager().getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.pw_num),
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color:
-                                          ColorManager().getColorTextPrimary()))
-                            ]),
-                            Row(children: [
-                              SvgPicture.asset(
-                                "assets/icons/border_check.svg",
-                                width: 24,
-                                height: 24,
-                                colorFilter: aS
-                                    ? ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemSecondary02(),
-                                        BlendMode.srcIn,
-                                      )
-                                    : ColorFilter.mode(
-                                        ColorManager()
-                                            .getColorSystemPrimary01(),
-                                        BlendMode.srcIn,
-                                      ),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              SizedBox(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.25,
-                                  child: Text(
-                                      LabelsManager()
-                                          .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.pw_special_ch),
-                                      maxLines: 2,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: ColorManager()
-                                              .getColorTextPrimary())))
-                            ])
-                          ],
-                        ),
-                        // Repeat for each pair
-                        // ...
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16.0),
-                  ReactiveFormConsumer(
-                    builder: (context, formGroup, child) {
-                      return Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          style: AppButtonStyle.red,
-                          key: const Key('loginForm_continue_raisedButton'),
-                          onPressed: formGroup.valid
-                              ? () {
-                                  final pwd1 = formGroup
-                                      .findControl('nuovapassword')
-                                      ?.value as String;
-                                  final pwd2 = formGroup
-                                      .findControl('confermapassword')
-                                      ?.value as String;
-
-                                  if (pwd1 == pwd2 && isValidPassword(pwd1)) {
-                                    if (widget.args.firstTimeReset == true &&
-                                        widget.args.exception != null) {
-                                      context
-                                          .read<PwdResetCubit>()
-                                          .firstTimeResetPassword(
-                                            widget.args.oldpwd,
-                                            pwd1,
-                                            widget.args.exception!,
-                                          );
-                                    } else {
-                                      context
-                                          .read<PwdResetCubit>()
-                                          .changePassword(
-                                            widget.args.oldpwd,
-                                            pwd1,
-                                          );
-                                    }
-                                  } else {
-                                    OlAlertDialog.show(
-                                      context,
-                                      title: LabelsManager()
-                                          .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.error),
-                                      message: LabelsManager()
-                                          .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.pw_no_match),
-                                      actionLabel: LabelsManager()
-                                          .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.close),
-                                    );
-                                  }
-                                }
-                              : null,
-                          child: Text(
-                            LabelsManager().getRemoteStringFromLabelKeys(
-                                RemoteLabelKeys.confirm_password),
+                  Container(
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    height: MediaQuery.of(context).size.width / 4.2,
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: MediaQuery.of(context).size.width * 0.1,
+                      padding: EdgeInsets.zero,
+                      mainAxisSpacing: 4.0,
+                      childAspectRatio: 3 / 1,
+                      children: <Widget>[
+                        Row(children: [
+                          SvgPicture.asset(
+                            "assets/icons/border_check.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: a8
+                                ? ColorFilter.mode(
+                                    ColorManager().getColorSystemSecondary02(),
+                                    BlendMode.srcIn,
+                                  )
+                                : ColorFilter.mode(
+                                    ColorManager().getColorSystemPrimary01(),
+                                    BlendMode.srcIn,
+                                  ),
                           ),
-                        ),
-                      );
-                    },
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                              LabelsManager().getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.pw_ch),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: ColorManager().getColorTextPrimary())),
+                        ]),
+                        Row(children: [
+                          SvgPicture.asset(
+                            "assets/icons/border_check.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: aL
+                                ? ColorFilter.mode(
+                                    ColorManager().getColorSystemSecondary02(),
+                                    BlendMode.srcIn,
+                                  )
+                                : ColorFilter.mode(
+                                    ColorManager().getColorSystemPrimary01(),
+                                    BlendMode.srcIn,
+                                  ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                              LabelsManager().getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.pw_let),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: ColorManager().getColorTextPrimary())),
+                        ]),
+                        Row(children: [
+                          SvgPicture.asset(
+                            "assets/icons/border_check.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: aN
+                                ? ColorFilter.mode(
+                                    ColorManager().getColorSystemSecondary02(),
+                                    BlendMode.srcIn,
+                                  )
+                                : ColorFilter.mode(
+                                    ColorManager().getColorSystemPrimary01(),
+                                    BlendMode.srcIn,
+                                  ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                              LabelsManager().getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.pw_num),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: ColorManager().getColorTextPrimary()))
+                        ]),
+                        Row(children: [
+                          SvgPicture.asset(
+                            "assets/icons/border_check.svg",
+                            width: 24,
+                            height: 24,
+                            colorFilter: aS
+                                ? ColorFilter.mode(
+                                    ColorManager().getColorSystemSecondary02(),
+                                    BlendMode.srcIn,
+                                  )
+                                : ColorFilter.mode(
+                                    ColorManager().getColorSystemPrimary01(),
+                                    BlendMode.srcIn,
+                                  ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          SizedBox(
+                              width: MediaQuery.sizeOf(context).width * 0.25,
+                              child: Text(
+                                  LabelsManager().getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.pw_special_ch),
+                                  maxLines: 2,
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: ColorManager()
+                                          .getColorTextPrimary())))
+                        ])
+                      ],
+                    ),
+                    // Repeat for each pair
+                    // ...
                   ),
                 ],
               ),
-            ),
+              const SizedBox(height: 16.0),
+              ReactiveFormConsumer(
+                builder: (context, formGroup, child) {
+                  return Align(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      style: AppButtonStyle.red,
+                      key: const Key('loginForm_continue_raisedButton'),
+                      onPressed: formGroup.valid
+                          ? () {
+                              final pwd1 = formGroup
+                                  .findControl('nuovapassword')
+                                  ?.value as String;
+                              final pwd2 = formGroup
+                                  .findControl('confermapassword')
+                                  ?.value as String;
+
+                              if (pwd1 == pwd2 && isValidPassword(pwd1)) {
+                                if (widget.args.firstTimeReset == true &&
+                                    widget.args.exception != null) {
+                                  context
+                                      .read<PwdResetCubit>()
+                                      .firstTimeResetPassword(
+                                        widget.args.oldpwd,
+                                        pwd1,
+                                        widget.args.exception!,
+                                      );
+                                } else {
+                                  context.read<PwdResetCubit>().changePassword(
+                                        widget.args.oldpwd,
+                                        pwd1,
+                                      );
+                                }
+                              } else {
+                                OlAlertDialog.show(
+                                  context,
+                                  title: LabelsManager()
+                                      .getRemoteStringFromLabelKeys(
+                                          RemoteLabelKeys.error),
+                                  message: LabelsManager()
+                                      .getRemoteStringFromLabelKeys(
+                                          RemoteLabelKeys.pw_no_match),
+                                  actionLabel: LabelsManager()
+                                      .getRemoteStringFromLabelKeys(
+                                          RemoteLabelKeys.close),
+                                );
+                              }
+                            }
+                          : null,
+                      child: Text(
+                        LabelsManager().getRemoteStringFromLabelKeys(
+                            RemoteLabelKeys.confirm_password),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    ));
   }
 
   bool almeno8Caratteri(String pwd) {

@@ -26,14 +26,14 @@ class _ButtonState extends State<Button> {
 
   @override
   void initState() {
-    _node = new FocusNode();
+    _node = FocusNode();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(2),
+      margin: const EdgeInsets.all(2),
       child: RawMaterialButton(
         highlightElevation: 0,
         focusElevation: 0,
@@ -48,7 +48,7 @@ class _ButtonState extends State<Button> {
         onPressed: () {
           widget.onPressed!();
         },
-        child: new ButtonWidget(
+        child: ButtonWidget(
           label: widget.label,
         ),
       ),

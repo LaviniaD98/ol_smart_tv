@@ -10,22 +10,23 @@ import '../../entities/user/user_info_model.dart';
 import '../../repositories/web_view_player/web_view_player_repository.dart';
 import '../get_secure_stored_user_info_use_case.dart';
 import '../session/get_stored_corporate_id_use_case.dart';
-import '../smart_configurator/get_stored_smart_configuration_use_case.dart';
+//import '../smart_configurator/get_stored_smart_configuration_use_case.dart';
 
 @lazySingleton
 class WebViewPlayerLinkedinUseCase {
   final WebViewPlayerRepository _repository;
   final GetSecureStoredUserInfoUseCase _getSecureStoredUserInfoUseCase;
   final GetStoredCorporateIdUseCase _getStoredCorporateIdUseCase;
-  final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
+  //final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
   final Env env;
 
   WebViewPlayerLinkedinUseCase(
-      this._repository,
-      this._getSecureStoredUserInfoUseCase,
-      this._getStoredCorporateIdUseCase,
-      this._getStoredSmartConfigurationUseCase,
-      this.env);
+    this._repository,
+    this._getSecureStoredUserInfoUseCase,
+    this._getStoredCorporateIdUseCase,
+    //this._getStoredSmartConfigurationUseCase,
+    this.env,
+  );
 
   Future<Either<Failure, LinkedInResponseModel>> call(
       LearningObjectModel detailPageModel,
@@ -40,16 +41,16 @@ class WebViewPlayerLinkedinUseCase {
 
     String iframeSrc = detailPageModel.link ?? "";
     int activityId = detailPageModel.id;
-    int pathId = 0;
+    //int pathId = 0;
     String path = detailPageModel.learningObjectTypology ==
             LearningObjectTypology.linkedin
         ? "xapi/linkedIn/sessions"
         : "scorm-lib/input";
 
-    final SCORMTracker =
-        await _getStoredSmartConfigurationUseCase.getSCORMTracker();
-    final XAPITracker =
-        await _getStoredSmartConfigurationUseCase.getXAPITracker();
+    // final SCORMTracker =
+    //     await _getStoredSmartConfigurationUseCase.getSCORMTracker();
+    // final XAPITracker =
+    //     await _getStoredSmartConfigurationUseCase.getXAPITracker();
 
     String? sessionId = userInfoModel?.sessionId;
 

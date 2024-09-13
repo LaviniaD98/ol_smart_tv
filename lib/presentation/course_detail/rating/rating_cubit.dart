@@ -27,16 +27,16 @@ class RatingCubit extends Cubit<RatingState> {
   String getRatingIconButton(ObjectStatisticsDto? ostat, {int? maxStars = 5}) {
     double topRating = maxStars?.toDouble() ?? 5.0;
     if (ostat != null && ostat.averageRating != null) {
-      if (ostat!.averageRating! >= topRating) {
+      if (ostat.averageRating! >= topRating) {
         return "assets/icons/star100.svg";
-      } else if (ostat!.averageRating! >= (topRating * 0.25) &&
-          ostat!.averageRating! < (topRating * 0.5)) {
+      } else if (ostat.averageRating! >= (topRating * 0.25) &&
+          ostat.averageRating! < (topRating * 0.5)) {
         return "assets/icons/star25.svg";
-      } else if (ostat!.averageRating! >= (topRating * 0.5) &&
-          ostat!.averageRating! < (topRating * 0.75)) {
+      } else if (ostat.averageRating! >= (topRating * 0.5) &&
+          ostat.averageRating! < (topRating * 0.75)) {
         return "assets/icons/star50.svg";
-      } else if (ostat!.averageRating! >= (topRating * 0.75) &&
-          ostat!.averageRating! < topRating) {
+      } else if (ostat.averageRating! >= (topRating * 0.75) &&
+          ostat.averageRating! < topRating) {
         return "assets/icons/star75.svg";
       } else {
         return "assets/icons/detail/dettaglio_rating.svg";

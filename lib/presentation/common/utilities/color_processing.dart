@@ -1,9 +1,7 @@
-
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 
-Color calculateNeonEquivalent(Color baseColor, double neonFactor, double brightnessFactor) {
+Color calculateNeonEquivalent(
+    Color baseColor, double neonFactor, double brightnessFactor) {
   neonFactor = neonFactor.clamp(0.0, 1.0);
   HSLColor hsl = HSLColor.fromColor(baseColor);
 

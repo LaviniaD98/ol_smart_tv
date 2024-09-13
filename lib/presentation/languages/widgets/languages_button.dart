@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import '../../../color_management/color_manager.dart';
 import '../../../core/dependency_injection/dependency_injection.dart';
 import '../../../remote_theming/labels/remote_labels.dart';
-import '../../../router/app_router.dart';
 import '../../../theme/app_theme.dart';
 import '../languages_page.dart';
 
@@ -19,7 +17,7 @@ class LanguagesButton extends StatelessWidget {
             behavior: HitTestBehavior.translucent,
             onTap: () {
               final args = LanguagesPageArgs(onChanged: onChanged);
-              context.pushNamed(LanguagesPage.routeName, extra: args);
+              Nav.push(context, screen: LanguagesPage(args: args));
             },
             child: Row(
               children: [

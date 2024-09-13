@@ -92,12 +92,10 @@ class _ForYouScreenState extends State<ForYouScreen>
               },
               builder: (context, state) => state.map(
                 success: (value) {
-                  final smart = context
-                      .read<DynamicAllContentCubit>()
-                      .dynamicContent
-                      ?.smartConfig;
-
-                  print('smartConfig: ${smart?.visForyou}');
+                  // final smart = context
+                  //     .read<DynamicAllContentCubit>()
+                  //     .dynamicContent
+                  //     ?.smartConfig;
 
                   final source =
                       List<Map<StripRow, List<LearningObjectModel>>>.from(

@@ -38,13 +38,13 @@ class ColorManager {
     List<ColorResponse> colorList = List<ColorResponse>.from(
         json.decode(response).map((model) => ColorResponse.fromJson(model)));
 
-    RemoteColors().assignColorsFromMap(Map.fromIterable(colorList,
-        key: (element) => element.name, value: (element) => element.rgb));
+    RemoteColors().assignColorsFromMap(
+        {for (var element in colorList) element.name: element.rgb});
   }
 
   Future<void> setColors(List<ColorResponse> colorList) async {
-    RemoteColors().assignColorsFromMap(Map.fromIterable(colorList,
-        key: (element) => element.name, value: (element) => element.rgb));
+    RemoteColors().assignColorsFromMap(
+        {for (var element in colorList) element.name: element.rgb});
   }
 
   //COLOR GETTERS

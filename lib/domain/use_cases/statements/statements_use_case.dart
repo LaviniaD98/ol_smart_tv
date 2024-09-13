@@ -61,11 +61,11 @@ class StatementsUseCase {
         .replaceFirst("{corporateId}", '${corporateModel?.id}');
 
     Actor actor = Actor(
-        mbox: "mailto:" + userInfoModel!.user!.email!,
+        mbox: "mailto:${userInfoModel!.user!.email!}",
         name: userInfoModel.user?.externalId ?? "",
         objectType: "Agent"); // Solo e sempre Agent ???
 
-    var uuid = Uuid();
+    var uuid = const Uuid();
     String registrationGUID = userInfoModel.sessionId ?? uuid.v4();
     String statementGUID = uuid.v4();
 
@@ -95,7 +95,7 @@ class StatementsUseCase {
       objectType: loTypology,
     );
 
-    Result? result = null;
+    Result? result;
     Verb? verb;
 
     if (completed == false) {
@@ -119,31 +119,17 @@ class StatementsUseCase {
     StatementsDto sDto;
     final dateFormat = DateFormat("yyyy-MM-ddTHH:mm:ss.mss'Z'");
     String timestamp = dateFormat.format(DateTime.now().toUtc());
-    if (result != null) {
-      //timestamp: timestamp, stored: stored
-      sDto = StatementsDto(
-          actor: actor,
-          context: cntx,
-          id: statementGUID,
-          object: obj,
-          result: result,
-          verb: verb,
-          version: "1.0.0",
-          timestamp: timestamp,
-          stored: stored);
-    } else {
-      //timestamp: timestamp, stored: stored
-      sDto = StatementsDto(
-          actor: actor,
-          context: cntx,
-          id: statementGUID,
-          object: obj,
-          verb: verb,
-          version: "1.0.0",
-          timestamp: timestamp,
-          stored: stored);
-    }
-
+    //timestamp: timestamp, stored: stored
+    sDto = StatementsDto(
+        actor: actor,
+        context: cntx,
+        id: statementGUID,
+        object: obj,
+        verb: verb,
+        version: "1.0.0",
+        timestamp: timestamp,
+        stored: stored);
+  
     return await _repository.statements(path, sDto);
   }
 }

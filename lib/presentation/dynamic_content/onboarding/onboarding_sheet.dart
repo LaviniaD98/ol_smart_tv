@@ -1,7 +1,6 @@
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/tutorial_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../color_management/color_manager.dart';
@@ -76,7 +75,8 @@ class OnboardingSheet extends StatelessWidget {
                           context
                               .read<OnboardingSheetCubit>()
                               .setSkipOnboarding(skip ?? false);
-                          context.pop();
+                          Navigator.of(context).pop();
+
                           if (showTutorial) {
                             context
                                 .read<OnboardingSheetCubit>()

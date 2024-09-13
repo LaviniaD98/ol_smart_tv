@@ -9,12 +9,12 @@ export 'glow_theme_inherited.dart';
 
 class GlowTheme extends StatefulWidget {
   const GlowTheme({
-    Key? key,
+    super.key,
     required this.child,
     this.lightTheme,
     this.darkTheme,
     this.themeType,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final GlowThemeData? lightTheme;

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:open_learning_smart_tv/domain/use_cases/download/cancel_download_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/download/delete_download_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/download/query_download_manager_use_case.dart';
@@ -7,7 +5,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/download/remove_stored_d
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/database/app_database.dart';
@@ -50,7 +47,7 @@ class CleanLocalDatabaseUseCase {
     if (tasks?.isNotEmpty == true) {
       if (kDebugMode)
         print('download_manager about to remove all downloaded contents');
-      String? localPath = await _getSavedDir();
+      // String? localPath = await _getSavedDir();
       for (var task in tasks!) {
         String fileName = task.filename ?? "";
         final fileFormat = fileName.substring(fileName.lastIndexOf('.'));
@@ -60,22 +57,14 @@ class CleanLocalDatabaseUseCase {
         _removeStoredDownloadContentInfoUseCase("VIDEO_$id");
 
         //delete thumbnail
-        var thumbnailFilename = '$localPath/COVER_$id';
+        //  var thumbnailFilename = '$localPath/COVER_$id';
         // Save to filesystem
-        final thumbnailFile = File(thumbnailFilename);
-        var fileSystemEntity = await thumbnailFile.delete(recursive: false);
+        //final thumbnailFile = File(thumbnailFilename);
+        //var fileSystemEntity = await thumbnailFile.delete(recursive: false);
 
         await _cancelDownloadUseCase(taskId: task.taskId);
         await _deleteDownloadUseCase(taskId: task.taskId);
       }
     }
-  }
-
-  Future<String?> _getSavedDir() async {
-    String? externalStorageDirPath;
-    externalStorageDirPath =
-        (await getApplicationDocumentsDirectory()).absolute.path;
-
-    return externalStorageDirPath;
   }
 }

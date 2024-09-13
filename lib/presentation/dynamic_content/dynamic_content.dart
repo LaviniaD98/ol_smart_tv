@@ -68,7 +68,7 @@ class DynamicContent extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (context, index) {
           final row = value.page.strips[index];
-          print('row: ${row.labelMapping}');
+
           return row.maybeMap(
             visCarSuggested: (_) => (value.smartConfig?.visCarSuggested == true)
                 ? StandardStripRow(strip: row)

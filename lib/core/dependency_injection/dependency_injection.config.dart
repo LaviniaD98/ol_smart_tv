@@ -15,310 +15,302 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 import 'package:open_learning_smart_tv/core/database/app_database.dart' as _i31;
 import 'package:open_learning_smart_tv/core/database/tables/local_notifications/local_notifications_dao.dart'
-    as _i58;
+    as _i56;
 import 'package:open_learning_smart_tv/core/database/tables/offline_player_tracking/offline_statements_dao.dart'
-    as _i57;
+    as _i55;
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart'
-    as _i311;
+    as _i284;
 import 'package:open_learning_smart_tv/core/env/env.dart' as _i17;
 import 'package:open_learning_smart_tv/core/web_client_config/web_client_config.dart'
-    as _i104;
+    as _i101;
 import 'package:open_learning_smart_tv/data/data_sources/assets/app_resource_data_source.dart'
-    as _i118;
+    as _i115;
 import 'package:open_learning_smart_tv/data/data_sources/assets/app_resource_data_source_impl.dart'
-    as _i119;
+    as _i116;
 import 'package:open_learning_smart_tv/data/data_sources/auto_enrollment/auto_enrollment_data_source.dart'
-    as _i146;
+    as _i141;
 import 'package:open_learning_smart_tv/data/data_sources/auto_enrollment/auto_enrollment_data_source_impl.dart'
-    as _i147;
+    as _i142;
 import 'package:open_learning_smart_tv/data/data_sources/community/community_data_source.dart'
-    as _i126;
+    as _i123;
 import 'package:open_learning_smart_tv/data/data_sources/community/community_data_source_impl.dart'
-    as _i127;
+    as _i124;
 import 'package:open_learning_smart_tv/data/data_sources/corporate_code/corporate_code_data_source.dart'
-    as _i51;
+    as _i50;
 import 'package:open_learning_smart_tv/data/data_sources/corporate_code/corporate_code_data_source_impl.dart'
-    as _i52;
+    as _i51;
 import 'package:open_learning_smart_tv/data/data_sources/detail/detail_data_source.dart'
-    as _i155;
+    as _i150;
 import 'package:open_learning_smart_tv/data/data_sources/detail/detail_data_source_impl.dart'
-    as _i156;
+    as _i151;
 import 'package:open_learning_smart_tv/data/data_sources/download/download_data_source.dart'
     as _i43;
 import 'package:open_learning_smart_tv/data/data_sources/download/download_data_source_impl.dart'
     as _i44;
 import 'package:open_learning_smart_tv/data/data_sources/download_ics/download_ics_data_source.dart'
-    as _i136;
-import 'package:open_learning_smart_tv/data/data_sources/download_ics/download_ics_data_source_impl.dart'
-    as _i137;
-import 'package:open_learning_smart_tv/data/data_sources/ecm/ecm_data_source.dart'
-    as _i106;
-import 'package:open_learning_smart_tv/data/data_sources/ecm/ecm_data_source_impl.dart'
-    as _i107;
-import 'package:open_learning_smart_tv/data/data_sources/edition/edition_data_source.dart'
-    as _i108;
-import 'package:open_learning_smart_tv/data/data_sources/edition/edition_data_source_impl.dart'
-    as _i109;
-import 'package:open_learning_smart_tv/data/data_sources/language/language_data_source.dart'
-    as _i47;
-import 'package:open_learning_smart_tv/data/data_sources/language/language_data_source_impl.dart'
-    as _i48;
-import 'package:open_learning_smart_tv/data/data_sources/menu/menu_data_source.dart'
-    as _i142;
-import 'package:open_learning_smart_tv/data/data_sources/menu/menu_data_source_impl.dart'
-    as _i143;
-import 'package:open_learning_smart_tv/data/data_sources/notification/notification_data_source.dart'
-    as _i134;
-import 'package:open_learning_smart_tv/data/data_sources/notification/notification_data_source_impl.dart'
-    as _i135;
-import 'package:open_learning_smart_tv/data/data_sources/openid_config/openid_config_data_source.dart'
-    as _i64;
-import 'package:open_learning_smart_tv/data/data_sources/openid_config/openid_config_data_source_impl.dart'
-    as _i65;
-import 'package:open_learning_smart_tv/data/data_sources/page/page_data_source.dart'
-    as _i110;
-import 'package:open_learning_smart_tv/data/data_sources/page/page_data_source_impl.dart'
-    as _i111;
-import 'package:open_learning_smart_tv/data/data_sources/post/post_data_source.dart'
-    as _i150;
-import 'package:open_learning_smart_tv/data/data_sources/post/post_data_source_impl.dart'
-    as _i151;
-import 'package:open_learning_smart_tv/data/data_sources/progress/learner_progress_data_source.dart'
-    as _i132;
-import 'package:open_learning_smart_tv/data/data_sources/progress/learner_progress_data_source_impl.dart'
-    as _i133;
-import 'package:open_learning_smart_tv/data/data_sources/rating/rating_data_source.dart'
-    as _i140;
-import 'package:open_learning_smart_tv/data/data_sources/rating/rating_data_source_impl.dart'
-    as _i141;
-import 'package:open_learning_smart_tv/data/data_sources/search/search_data_source.dart'
-    as _i138;
-import 'package:open_learning_smart_tv/data/data_sources/search/search_data_source_impl.dart'
-    as _i139;
-import 'package:open_learning_smart_tv/data/data_sources/session/session_data_source.dart'
-    as _i49;
-import 'package:open_learning_smart_tv/data/data_sources/session/session_data_source_impl.dart'
-    as _i50;
-import 'package:open_learning_smart_tv/data/data_sources/smart_configurator/smart_configurator_data_source.dart'
-    as _i114;
-import 'package:open_learning_smart_tv/data/data_sources/smart_configurator/smart_configurator_data_source_impl.dart'
-    as _i115;
-import 'package:open_learning_smart_tv/data/data_sources/smart_learning/smart_learning_data_source.dart'
-    as _i124;
-import 'package:open_learning_smart_tv/data/data_sources/smart_learning/smart_learning_data_source_impl.dart'
-    as _i125;
-import 'package:open_learning_smart_tv/data/data_sources/start_resume/start_resume_data_source.dart'
-    as _i122;
-import 'package:open_learning_smart_tv/data/data_sources/start_resume/start_resume_data_source_impl.dart'
-    as _i123;
-import 'package:open_learning_smart_tv/data/data_sources/statements/statements_data_source.dart'
-    as _i128;
-import 'package:open_learning_smart_tv/data/data_sources/statements/statements_data_source_impl.dart'
-    as _i129;
-import 'package:open_learning_smart_tv/data/data_sources/strip/strip_data_source.dart'
-    as _i144;
-import 'package:open_learning_smart_tv/data/data_sources/strip/strip_data_source_impl.dart'
-    as _i145;
-import 'package:open_learning_smart_tv/data/data_sources/topic/topics_data_source.dart'
-    as _i112;
-import 'package:open_learning_smart_tv/data/data_sources/topic/topics_data_source_impl.dart'
-    as _i113;
-import 'package:open_learning_smart_tv/data/data_sources/user/auth_data_source.dart'
-    as _i54;
-import 'package:open_learning_smart_tv/data/data_sources/user/auth_data_source_impl.dart'
-    as _i55;
-import 'package:open_learning_smart_tv/data/data_sources/user/user_data_source.dart'
-    as _i66;
-import 'package:open_learning_smart_tv/data/data_sources/user/user_data_source_impl.dart'
-    as _i67;
-import 'package:open_learning_smart_tv/data/data_sources/user_image/user_image_data_source.dart'
-    as _i116;
-import 'package:open_learning_smart_tv/data/data_sources/user_image/user_image_data_source_impl.dart'
-    as _i117;
-import 'package:open_learning_smart_tv/data/data_sources/web_player/web_player_data_source.dart'
-    as _i130;
-import 'package:open_learning_smart_tv/data/data_sources/web_player/web_player_data_source_impl.dart'
     as _i131;
-import 'package:open_learning_smart_tv/data/repositories/assets/app_resource_repository_impl.dart'
-    as _i205;
-import 'package:open_learning_smart_tv/data/repositories/auto_enrollment/auto_enrollment_repository_impl.dart'
-    as _i172;
-import 'package:open_learning_smart_tv/data/repositories/community/community_repository_impl.dart'
-    as _i167;
-import 'package:open_learning_smart_tv/data/repositories/corporate_code/corporate_code_repository_impl.dart'
-    as _i60;
-import 'package:open_learning_smart_tv/data/repositories/detail/detail_repository_impl.dart'
-    as _i218;
-import 'package:open_learning_smart_tv/data/repositories/download/download_repository_impl.dart'
-    as _i72;
-import 'package:open_learning_smart_tv/data/repositories/download_ics/download_ics_repository_impl.dart'
-    as _i220;
-import 'package:open_learning_smart_tv/data/repositories/ecm/ecm_repository_impl.dart'
-    as _i169;
-import 'package:open_learning_smart_tv/data/repositories/edition/edition_repository_impl.dart'
+import 'package:open_learning_smart_tv/data/data_sources/download_ics/download_ics_data_source_impl.dart'
+    as _i132;
+import 'package:open_learning_smart_tv/data/data_sources/ecm/ecm_data_source.dart'
+    as _i103;
+import 'package:open_learning_smart_tv/data/data_sources/ecm/ecm_data_source_impl.dart'
+    as _i104;
+import 'package:open_learning_smart_tv/data/data_sources/edition/edition_data_source.dart'
+    as _i105;
+import 'package:open_learning_smart_tv/data/data_sources/edition/edition_data_source_impl.dart'
+    as _i106;
+import 'package:open_learning_smart_tv/data/data_sources/language/language_data_source.dart'
+    as _i46;
+import 'package:open_learning_smart_tv/data/data_sources/language/language_data_source_impl.dart'
+    as _i47;
+import 'package:open_learning_smart_tv/data/data_sources/menu/menu_data_source.dart'
+    as _i137;
+import 'package:open_learning_smart_tv/data/data_sources/menu/menu_data_source_impl.dart'
+    as _i138;
+import 'package:open_learning_smart_tv/data/data_sources/openid_config/openid_config_data_source.dart'
+    as _i62;
+import 'package:open_learning_smart_tv/data/data_sources/openid_config/openid_config_data_source_impl.dart'
+    as _i63;
+import 'package:open_learning_smart_tv/data/data_sources/page/page_data_source.dart'
+    as _i107;
+import 'package:open_learning_smart_tv/data/data_sources/page/page_data_source_impl.dart'
+    as _i108;
+import 'package:open_learning_smart_tv/data/data_sources/post/post_data_source.dart'
+    as _i145;
+import 'package:open_learning_smart_tv/data/data_sources/post/post_data_source_impl.dart'
+    as _i146;
+import 'package:open_learning_smart_tv/data/data_sources/progress/learner_progress_data_source.dart'
+    as _i129;
+import 'package:open_learning_smart_tv/data/data_sources/progress/learner_progress_data_source_impl.dart'
+    as _i130;
+import 'package:open_learning_smart_tv/data/data_sources/rating/rating_data_source.dart'
+    as _i135;
+import 'package:open_learning_smart_tv/data/data_sources/rating/rating_data_source_impl.dart'
+    as _i136;
+import 'package:open_learning_smart_tv/data/data_sources/search/search_data_source.dart'
+    as _i133;
+import 'package:open_learning_smart_tv/data/data_sources/search/search_data_source_impl.dart'
+    as _i134;
+import 'package:open_learning_smart_tv/data/data_sources/session/session_data_source.dart'
+    as _i48;
+import 'package:open_learning_smart_tv/data/data_sources/session/session_data_source_impl.dart'
+    as _i49;
+import 'package:open_learning_smart_tv/data/data_sources/smart_configurator/smart_configurator_data_source.dart'
+    as _i111;
+import 'package:open_learning_smart_tv/data/data_sources/smart_configurator/smart_configurator_data_source_impl.dart'
+    as _i112;
+import 'package:open_learning_smart_tv/data/data_sources/smart_learning/smart_learning_data_source.dart'
     as _i121;
-import 'package:open_learning_smart_tv/data/repositories/menu/menu_repository_impl.dart'
-    as _i160;
-import 'package:open_learning_smart_tv/data/repositories/notification/notification_repository_impl.dart'
-    as _i211;
-import 'package:open_learning_smart_tv/data/repositories/openid_config/openid_config_repository_impl.dart'
-    as _i82;
-import 'package:open_learning_smart_tv/data/repositories/page/page_repository_impl.dart'
-    as _i174;
-import 'package:open_learning_smart_tv/data/repositories/post/post_repository_impl.dart'
-    as _i222;
-import 'package:open_learning_smart_tv/data/repositories/progress/learner_progress_repository_impl.dart'
-    as _i154;
-import 'package:open_learning_smart_tv/data/repositories/rating/rating_repository_impl.dart'
-    as _i198;
-import 'package:open_learning_smart_tv/data/repositories/search/search_repository_impl.dart'
-    as _i225;
-import 'package:open_learning_smart_tv/data/repositories/session/session_repository_impl.dart'
-    as _i78;
-import 'package:open_learning_smart_tv/data/repositories/smart_configurator/smart_configurator_repository_impl.dart'
-    as _i179;
-import 'package:open_learning_smart_tv/data/repositories/smart_learning/smart_learning_repository_impl.dart'
-    as _i190;
-import 'package:open_learning_smart_tv/data/repositories/start_resume/start_resume_repository_impl.dart'
-    as _i158;
-import 'package:open_learning_smart_tv/data/repositories/statements/statements_repository_impl.dart'
-    as _i207;
-import 'package:open_learning_smart_tv/data/repositories/strip/strip_repository_impl.dart'
-    as _i164;
-import 'package:open_learning_smart_tv/data/repositories/topics/topics_repository_impl.dart'
-    as _i182;
-import 'package:open_learning_smart_tv/data/repositories/user/auth_repository_impl.dart'
-    as _i86;
-import 'package:open_learning_smart_tv/data/repositories/user/user_repository_impl.dart'
-    as _i80;
-import 'package:open_learning_smart_tv/data/repositories/user_image/user_image_repository_impl.dart'
-    as _i176;
-import 'package:open_learning_smart_tv/data/repositories/wall/wall_repository_impl.dart'
-    as _i162;
-import 'package:open_learning_smart_tv/data/repositories/web_player/web_player_repository_impl.dart'
-    as _i149;
-import 'package:open_learning_smart_tv/domain/repositories/assets/app_resource_repository.dart'
-    as _i204;
-import 'package:open_learning_smart_tv/domain/repositories/auto_enrollment/auto_enrollment_repository.dart'
-    as _i171;
-import 'package:open_learning_smart_tv/domain/repositories/community/community_repository.dart'
-    as _i166;
-import 'package:open_learning_smart_tv/domain/repositories/corporate_code/corporate_code_repository.dart'
-    as _i59;
-import 'package:open_learning_smart_tv/domain/repositories/detail/detail_repository.dart'
-    as _i217;
-import 'package:open_learning_smart_tv/domain/repositories/download/download_repository.dart'
-    as _i71;
-import 'package:open_learning_smart_tv/domain/repositories/download_ics/download_ics_repository.dart'
-    as _i219;
-import 'package:open_learning_smart_tv/domain/repositories/ecm/ecm_repository.dart'
-    as _i168;
-import 'package:open_learning_smart_tv/domain/repositories/edition/edition_repository.dart'
+import 'package:open_learning_smart_tv/data/data_sources/smart_learning/smart_learning_data_source_impl.dart'
+    as _i122;
+import 'package:open_learning_smart_tv/data/data_sources/start_resume/start_resume_data_source.dart'
+    as _i119;
+import 'package:open_learning_smart_tv/data/data_sources/start_resume/start_resume_data_source_impl.dart'
     as _i120;
-import 'package:open_learning_smart_tv/domain/repositories/menu/menu_repository.dart'
-    as _i159;
-import 'package:open_learning_smart_tv/domain/repositories/notification/notification_repository.dart'
+import 'package:open_learning_smart_tv/data/data_sources/statements/statements_data_source.dart'
+    as _i125;
+import 'package:open_learning_smart_tv/data/data_sources/statements/statements_data_source_impl.dart'
+    as _i126;
+import 'package:open_learning_smart_tv/data/data_sources/strip/strip_data_source.dart'
+    as _i139;
+import 'package:open_learning_smart_tv/data/data_sources/strip/strip_data_source_impl.dart'
+    as _i140;
+import 'package:open_learning_smart_tv/data/data_sources/topic/topics_data_source.dart'
+    as _i109;
+import 'package:open_learning_smart_tv/data/data_sources/topic/topics_data_source_impl.dart'
+    as _i110;
+import 'package:open_learning_smart_tv/data/data_sources/user/auth_data_source.dart'
+    as _i52;
+import 'package:open_learning_smart_tv/data/data_sources/user/auth_data_source_impl.dart'
+    as _i53;
+import 'package:open_learning_smart_tv/data/data_sources/user/user_data_source.dart'
+    as _i64;
+import 'package:open_learning_smart_tv/data/data_sources/user/user_data_source_impl.dart'
+    as _i65;
+import 'package:open_learning_smart_tv/data/data_sources/user_image/user_image_data_source.dart'
+    as _i113;
+import 'package:open_learning_smart_tv/data/data_sources/user_image/user_image_data_source_impl.dart'
+    as _i114;
+import 'package:open_learning_smart_tv/data/data_sources/web_player/web_player_data_source.dart'
+    as _i127;
+import 'package:open_learning_smart_tv/data/data_sources/web_player/web_player_data_source_impl.dart'
+    as _i128;
+import 'package:open_learning_smart_tv/data/repositories/assets/app_resource_repository_impl.dart'
+    as _i199;
+import 'package:open_learning_smart_tv/data/repositories/auto_enrollment/auto_enrollment_repository_impl.dart'
+    as _i167;
+import 'package:open_learning_smart_tv/data/repositories/community/community_repository_impl.dart'
+    as _i162;
+import 'package:open_learning_smart_tv/data/repositories/corporate_code/corporate_code_repository_impl.dart'
+    as _i58;
+import 'package:open_learning_smart_tv/data/repositories/detail/detail_repository_impl.dart'
     as _i210;
-import 'package:open_learning_smart_tv/domain/repositories/openid_config/openid_config_repository.dart'
-    as _i81;
-import 'package:open_learning_smart_tv/domain/repositories/page/page_repository.dart'
-    as _i173;
-import 'package:open_learning_smart_tv/domain/repositories/post/post_repository.dart'
-    as _i221;
-import 'package:open_learning_smart_tv/domain/repositories/progress/learner_progress_repository.dart'
-    as _i153;
-import 'package:open_learning_smart_tv/domain/repositories/rating/rating_repository.dart'
-    as _i197;
-import 'package:open_learning_smart_tv/domain/repositories/search/search_repository.dart'
-    as _i224;
-import 'package:open_learning_smart_tv/domain/repositories/session/session_repository.dart'
-    as _i77;
-import 'package:open_learning_smart_tv/domain/repositories/smart_configurator/smart_configurator_repository.dart'
-    as _i178;
-import 'package:open_learning_smart_tv/domain/repositories/smart_learning/smart_learning_repository.dart'
-    as _i189;
-import 'package:open_learning_smart_tv/domain/repositories/start_resume/start_resume_repository.dart'
-    as _i157;
-import 'package:open_learning_smart_tv/domain/repositories/statements/statements_repository.dart'
-    as _i206;
-import 'package:open_learning_smart_tv/domain/repositories/strip/strip_repository.dart'
-    as _i163;
-import 'package:open_learning_smart_tv/domain/repositories/topics/topics_repository.dart'
-    as _i181;
-import 'package:open_learning_smart_tv/domain/repositories/user/auth_repository.dart'
-    as _i85;
-import 'package:open_learning_smart_tv/domain/repositories/user/user_repository.dart'
-    as _i79;
-import 'package:open_learning_smart_tv/domain/repositories/user_image/user_image_repository.dart'
-    as _i175;
-import 'package:open_learning_smart_tv/domain/repositories/wall/wall_repository.dart'
-    as _i161;
-import 'package:open_learning_smart_tv/domain/repositories/web_view_player/web_view_player_repository.dart'
-    as _i148;
-import 'package:open_learning_smart_tv/domain/use_cases/assets/get_app_resource_use_case.dart'
-    as _i216;
-import 'package:open_learning_smart_tv/domain/use_cases/auto_enrollment/auto_enrollment_use_case.dart'
+import 'package:open_learning_smart_tv/data/repositories/download/download_repository_impl.dart'
+    as _i70;
+import 'package:open_learning_smart_tv/data/repositories/download_ics/download_ics_repository_impl.dart'
     as _i212;
-import 'package:open_learning_smart_tv/domain/use_cases/auto_enrollment/bottom_enrollment_use_case.dart'
+import 'package:open_learning_smart_tv/data/repositories/ecm/ecm_repository_impl.dart'
+    as _i164;
+import 'package:open_learning_smart_tv/data/repositories/edition/edition_repository_impl.dart'
+    as _i118;
+import 'package:open_learning_smart_tv/data/repositories/menu/menu_repository_impl.dart'
+    as _i155;
+import 'package:open_learning_smart_tv/data/repositories/openid_config/openid_config_repository_impl.dart'
+    as _i80;
+import 'package:open_learning_smart_tv/data/repositories/page/page_repository_impl.dart'
+    as _i169;
+import 'package:open_learning_smart_tv/data/repositories/post/post_repository_impl.dart'
+    as _i214;
+import 'package:open_learning_smart_tv/data/repositories/progress/learner_progress_repository_impl.dart'
+    as _i149;
+import 'package:open_learning_smart_tv/data/repositories/rating/rating_repository_impl.dart'
+    as _i191;
+import 'package:open_learning_smart_tv/data/repositories/search/search_repository_impl.dart'
+    as _i217;
+import 'package:open_learning_smart_tv/data/repositories/session/session_repository_impl.dart'
+    as _i76;
+import 'package:open_learning_smart_tv/data/repositories/smart_configurator/smart_configurator_repository_impl.dart'
+    as _i173;
+import 'package:open_learning_smart_tv/data/repositories/smart_learning/smart_learning_repository_impl.dart'
+    as _i184;
+import 'package:open_learning_smart_tv/data/repositories/start_resume/start_resume_repository_impl.dart'
+    as _i153;
+import 'package:open_learning_smart_tv/data/repositories/statements/statements_repository_impl.dart'
+    as _i201;
+import 'package:open_learning_smart_tv/data/repositories/strip/strip_repository_impl.dart'
+    as _i159;
+import 'package:open_learning_smart_tv/data/repositories/topics/topics_repository_impl.dart'
+    as _i176;
+import 'package:open_learning_smart_tv/data/repositories/user/auth_repository_impl.dart'
+    as _i84;
+import 'package:open_learning_smart_tv/data/repositories/user/user_repository_impl.dart'
+    as _i78;
+import 'package:open_learning_smart_tv/data/repositories/user_image/user_image_repository_impl.dart'
+    as _i171;
+import 'package:open_learning_smart_tv/data/repositories/wall/wall_repository_impl.dart'
+    as _i157;
+import 'package:open_learning_smart_tv/data/repositories/web_player/web_player_repository_impl.dart'
+    as _i144;
+import 'package:open_learning_smart_tv/domain/repositories/assets/app_resource_repository.dart'
+    as _i198;
+import 'package:open_learning_smart_tv/domain/repositories/auto_enrollment/auto_enrollment_repository.dart'
+    as _i166;
+import 'package:open_learning_smart_tv/domain/repositories/community/community_repository.dart'
+    as _i161;
+import 'package:open_learning_smart_tv/domain/repositories/corporate_code/corporate_code_repository.dart'
+    as _i57;
+import 'package:open_learning_smart_tv/domain/repositories/detail/detail_repository.dart'
+    as _i209;
+import 'package:open_learning_smart_tv/domain/repositories/download/download_repository.dart'
+    as _i69;
+import 'package:open_learning_smart_tv/domain/repositories/download_ics/download_ics_repository.dart'
+    as _i211;
+import 'package:open_learning_smart_tv/domain/repositories/ecm/ecm_repository.dart'
+    as _i163;
+import 'package:open_learning_smart_tv/domain/repositories/edition/edition_repository.dart'
+    as _i117;
+import 'package:open_learning_smart_tv/domain/repositories/menu/menu_repository.dart'
+    as _i154;
+import 'package:open_learning_smart_tv/domain/repositories/openid_config/openid_config_repository.dart'
+    as _i79;
+import 'package:open_learning_smart_tv/domain/repositories/page/page_repository.dart'
+    as _i168;
+import 'package:open_learning_smart_tv/domain/repositories/post/post_repository.dart'
     as _i213;
+import 'package:open_learning_smart_tv/domain/repositories/progress/learner_progress_repository.dart'
+    as _i148;
+import 'package:open_learning_smart_tv/domain/repositories/rating/rating_repository.dart'
+    as _i190;
+import 'package:open_learning_smart_tv/domain/repositories/search/search_repository.dart'
+    as _i216;
+import 'package:open_learning_smart_tv/domain/repositories/session/session_repository.dart'
+    as _i75;
+import 'package:open_learning_smart_tv/domain/repositories/smart_configurator/smart_configurator_repository.dart'
+    as _i172;
+import 'package:open_learning_smart_tv/domain/repositories/smart_learning/smart_learning_repository.dart'
+    as _i183;
+import 'package:open_learning_smart_tv/domain/repositories/start_resume/start_resume_repository.dart'
+    as _i152;
+import 'package:open_learning_smart_tv/domain/repositories/statements/statements_repository.dart'
+    as _i200;
+import 'package:open_learning_smart_tv/domain/repositories/strip/strip_repository.dart'
+    as _i158;
+import 'package:open_learning_smart_tv/domain/repositories/topics/topics_repository.dart'
+    as _i175;
+import 'package:open_learning_smart_tv/domain/repositories/user/auth_repository.dart'
+    as _i83;
+import 'package:open_learning_smart_tv/domain/repositories/user/user_repository.dart'
+    as _i77;
+import 'package:open_learning_smart_tv/domain/repositories/user_image/user_image_repository.dart'
+    as _i170;
+import 'package:open_learning_smart_tv/domain/repositories/wall/wall_repository.dart'
+    as _i156;
+import 'package:open_learning_smart_tv/domain/repositories/web_view_player/web_view_player_repository.dart'
+    as _i143;
+import 'package:open_learning_smart_tv/domain/use_cases/assets/get_app_resource_use_case.dart'
+    as _i208;
+import 'package:open_learning_smart_tv/domain/use_cases/auto_enrollment/auto_enrollment_use_case.dart'
+    as _i204;
+import 'package:open_learning_smart_tv/domain/use_cases/auto_enrollment/bottom_enrollment_use_case.dart'
+    as _i205;
 import 'package:open_learning_smart_tv/domain/use_cases/clean_local_datatbase_use_case.dart'
-    as _i89;
+    as _i87;
 import 'package:open_learning_smart_tv/domain/use_cases/clear_secure_stored_info_use_case.dart'
     as _i41;
 import 'package:open_learning_smart_tv/domain/use_cases/clear_secure_stored_use_case.dart'
     as _i34;
 import 'package:open_learning_smart_tv/domain/use_cases/community/add_answer_use_case.dart'
-    as _i231;
+    as _i223;
 import 'package:open_learning_smart_tv/domain/use_cases/community/add_comment_use_case.dart'
-    as _i237;
-import 'package:open_learning_smart_tv/domain/use_cases/community/delete_comment_use_case.dart'
-    as _i238;
-import 'package:open_learning_smart_tv/domain/use_cases/community/edit_comment_use_case.dart'
-    as _i233;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_answers_use_case.dart'
-    as _i191;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_comments_use_case.dart'
-    as _i232;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_post_likes_use_case.dart'
-    as _i236;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_post_use_case.dart'
-    as _i234;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_posts_use_case.dart'
     as _i229;
-import 'package:open_learning_smart_tv/domain/use_cases/community/get_shared_post_use_case.dart'
+import 'package:open_learning_smart_tv/domain/use_cases/community/delete_comment_use_case.dart'
     as _i230;
-import 'package:open_learning_smart_tv/domain/use_cases/community/like_post_use_case.dart'
+import 'package:open_learning_smart_tv/domain/use_cases/community/edit_comment_use_case.dart'
+    as _i225;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_answers_use_case.dart'
+    as _i185;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_comments_use_case.dart'
+    as _i224;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_post_likes_use_case.dart'
     as _i228;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_post_use_case.dart'
+    as _i226;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_community_posts_use_case.dart'
+    as _i221;
+import 'package:open_learning_smart_tv/domain/use_cases/community/get_shared_post_use_case.dart'
+    as _i222;
+import 'package:open_learning_smart_tv/domain/use_cases/community/like_post_use_case.dart'
+    as _i220;
 import 'package:open_learning_smart_tv/domain/use_cases/community/start_community_tracking_use_case.dart'
-    as _i215;
+    as _i207;
 import 'package:open_learning_smart_tv/domain/use_cases/community/stop_community_tracking_use_case.dart'
-    as _i214;
+    as _i206;
 import 'package:open_learning_smart_tv/domain/use_cases/community/unlike_post_use_case.dart'
-    as _i235;
+    as _i227;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/add_favourites_use_case.dart'
-    as _i266;
+    as _i251;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_detail_page_use_case.dart'
-    as _i271;
+    as _i256;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_editions_use_case.dart'
-    as _i270;
+    as _i255;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_rating_use_case.dart'
-    as _i275;
+    as _i260;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_related_activities_use_case.dart'
-    as _i267;
+    as _i252;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_shared_posts_use_case.dart'
-    as _i269;
+    as _i254;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_teacher_detail_use_case.dart'
-    as _i274;
+    as _i259;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_tool_url_use_case.dart'
-    as _i273;
+    as _i258;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_tools_use_case.dart'
-    as _i268;
+    as _i253;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/remove_favourite_use_case.dart'
-    as _i272;
+    as _i257;
 import 'package:open_learning_smart_tv/domain/use_cases/download/cancel_download_use_case.dart'
-    as _i74;
+    as _i72;
 import 'package:open_learning_smart_tv/domain/use_cases/download/delete_download_use_case.dart'
-    as _i76;
+    as _i74;
 import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_download_content_info_use_case.dart'
     as _i27;
 import 'package:open_learning_smart_tv/domain/use_cases/download/query_download_manager_use_case.dart'
@@ -326,27 +318,27 @@ import 'package:open_learning_smart_tv/domain/use_cases/download/query_download_
 import 'package:open_learning_smart_tv/domain/use_cases/download/remove_stored_download_content_info_use_case.dart'
     as _i26;
 import 'package:open_learning_smart_tv/domain/use_cases/download/retrieve_download_info_use_case.dart'
-    as _i75;
-import 'package:open_learning_smart_tv/domain/use_cases/download/schedule_download_use_case.dart'
     as _i73;
+import 'package:open_learning_smart_tv/domain/use_cases/download/schedule_download_use_case.dart'
+    as _i71;
 import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart'
     as _i28;
 import 'package:open_learning_smart_tv/domain/use_cases/download_ics/download_events_use_case.dart'
-    as _i227;
+    as _i219;
 import 'package:open_learning_smart_tv/domain/use_cases/download_ics/get_events_use_case.dart'
-    as _i226;
+    as _i218;
 import 'package:open_learning_smart_tv/domain/use_cases/ecm/ecm_register_use_case.dart'
-    as _i170;
-import 'package:open_learning_smart_tv/domain/use_cases/ecm/get_ecm_disciplines_use_case.dart'
-    as _i194;
-import 'package:open_learning_smart_tv/domain/use_cases/ecm/get_ecm_professions_use_case.dart'
-    as _i195;
-import 'package:open_learning_smart_tv/domain/use_cases/edition/edition_register_use_case.dart'
-    as _i152;
-import 'package:open_learning_smart_tv/domain/use_cases/get_corporate_id_use_case.dart'
-    as _i61;
-import 'package:open_learning_smart_tv/domain/use_cases/get_menu_structure_use_case.dart'
     as _i165;
+import 'package:open_learning_smart_tv/domain/use_cases/ecm/get_ecm_disciplines_use_case.dart'
+    as _i187;
+import 'package:open_learning_smart_tv/domain/use_cases/ecm/get_ecm_professions_use_case.dart'
+    as _i188;
+import 'package:open_learning_smart_tv/domain/use_cases/edition/edition_register_use_case.dart'
+    as _i147;
+import 'package:open_learning_smart_tv/domain/use_cases/get_corporate_id_use_case.dart'
+    as _i59;
+import 'package:open_learning_smart_tv/domain/use_cases/get_menu_structure_use_case.dart'
+    as _i160;
 import 'package:open_learning_smart_tv/domain/use_cases/get_page_size_strip_use_case.dart'
     as _i12;
 import 'package:open_learning_smart_tv/domain/use_cases/get_secure_stored_user_info_ss_use_case.dart'
@@ -362,67 +354,61 @@ import 'package:open_learning_smart_tv/domain/use_cases/get_stored_user_self_use
 import 'package:open_learning_smart_tv/domain/use_cases/get_stored_username_use_case.dart'
     as _i20;
 import 'package:open_learning_smart_tv/domain/use_cases/get_user_self.dart'
-    as _i84;
+    as _i82;
 import 'package:open_learning_smart_tv/domain/use_cases/handler_stored_username_use_case.dart'
     as _i30;
-import 'package:open_learning_smart_tv/domain/use_cases/notification/get_notifications_use_case.dart'
-    as _i259;
-import 'package:open_learning_smart_tv/domain/use_cases/notification/notification_use_case.dart'
-    as _i284;
-import 'package:open_learning_smart_tv/domain/use_cases/notification/set_notification_read_use_case.dart'
-    as _i260;
 import 'package:open_learning_smart_tv/domain/use_cases/oauth_token_use_case.dart'
-    as _i88;
+    as _i86;
 import 'package:open_learning_smart_tv/domain/use_cases/offline/delete_statement_use_case.dart'
-    as _i70;
-import 'package:open_learning_smart_tv/domain/use_cases/offline/get_statements_use_case.dart'
     as _i68;
+import 'package:open_learning_smart_tv/domain/use_cases/offline/get_statements_use_case.dart'
+    as _i66;
 import 'package:open_learning_smart_tv/domain/use_cases/offline/store_statement_use_case.dart'
-    as _i69;
+    as _i67;
 import 'package:open_learning_smart_tv/domain/use_cases/openid_config/get_openid_config_use_case.dart'
-    as _i87;
+    as _i85;
 import 'package:open_learning_smart_tv/domain/use_cases/openid_config/get_stored_openid_config_use_case.dart'
     as _i37;
 import 'package:open_learning_smart_tv/domain/use_cases/openid_config/set_stored_openid_config_use_case.dart'
     as _i36;
 import 'package:open_learning_smart_tv/domain/use_cases/page/get_page_structure_use_case.dart'
-    as _i252;
+    as _i242;
 import 'package:open_learning_smart_tv/domain/use_cases/post/create_post_use_case.dart'
-    as _i247;
+    as _i238;
 import 'package:open_learning_smart_tv/domain/use_cases/post/delete_post_use_case.dart'
-    as _i246;
+    as _i237;
 import 'package:open_learning_smart_tv/domain/use_cases/post/edit_post_use_case.dart'
-    as _i245;
+    as _i236;
 import 'package:open_learning_smart_tv/domain/use_cases/progress/get_learner_goals_use_case.dart'
-    as _i187;
+    as _i181;
 import 'package:open_learning_smart_tv/domain/use_cases/progress/get_learner_progress_use_case.dart'
-    as _i188;
+    as _i182;
 import 'package:open_learning_smart_tv/domain/use_cases/progress/get_progress_goals_config_use_case.dart'
-    as _i180;
+    as _i174;
 import 'package:open_learning_smart_tv/domain/use_cases/rating/rating_use_case.dart'
-    as _i254;
+    as _i245;
 import 'package:open_learning_smart_tv/domain/use_cases/search/clean_local_suggestions_use_case.dart'
     as _i23;
 import 'package:open_learning_smart_tv/domain/use_cases/search/get_local_suggestions_use_case.dart'
     as _i24;
 import 'package:open_learning_smart_tv/domain/use_cases/search/get_search_results_use_case.dart'
-    as _i257;
+    as _i247;
 import 'package:open_learning_smart_tv/domain/use_cases/search/get_suggestions_use_case.dart'
-    as _i281;
+    as _i265;
 import 'package:open_learning_smart_tv/domain/use_cases/search/set_local_suggestions_use_case.dart'
     as _i25;
 import 'package:open_learning_smart_tv/domain/use_cases/self/set_privacyconsent_use_case.dart'
-    as _i83;
+    as _i81;
 import 'package:open_learning_smart_tv/domain/use_cases/session/check_session_use_case.dart'
-    as _i92;
+    as _i89;
 import 'package:open_learning_smart_tv/domain/use_cases/session/create_session_use_case.dart'
-    as _i93;
+    as _i90;
 import 'package:open_learning_smart_tv/domain/use_cases/session/get_stored_corporate_id_ss_use_case.dart'
     as _i42;
 import 'package:open_learning_smart_tv/domain/use_cases/session/get_stored_corporate_id_use_case.dart'
     as _i15;
 import 'package:open_learning_smart_tv/domain/use_cases/session/set_initiative_use_case.dart'
-    as _i91;
+    as _i88;
 import 'package:open_learning_smart_tv/domain/use_cases/set_secure_stored_user_info_use_case.dart'
     as _i45;
 import 'package:open_learning_smart_tv/domain/use_cases/set_skip_onboarding_use_case.dart'
@@ -434,189 +420,149 @@ import 'package:open_learning_smart_tv/domain/use_cases/set_stored_corporate_id_
 import 'package:open_learning_smart_tv/domain/use_cases/set_stored_user_self_use_case.dart'
     as _i40;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_colors_use_case.dart'
-    as _i185;
+    as _i179;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_labels_use_case.dart'
-    as _i203;
+    as _i196;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_languages_use_case.dart'
-    as _i186;
+    as _i180;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_smart_configuration_use_case.dart'
-    as _i184;
+    as _i178;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart'
     as _i32;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_configurator/set_stored_smart_configuration_use_case.dart'
     as _i11;
 import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/create_smart_learning_slot_use_case.dart'
-    as _i199;
-import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/delete_smart_learning_slot_use_case.dart'
-    as _i200;
-import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/get_smart_learning_slots_use_case.dart'
-    as _i201;
-import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/update_smart_learning_slot_use_case.dart'
-    as _i202;
-import 'package:open_learning_smart_tv/domain/use_cases/start_resume_use_case/start_resume_use_case.dart'
-    as _i183;
-import 'package:open_learning_smart_tv/domain/use_cases/statements/get_state_use_case.dart'
-    as _i250;
-import 'package:open_learning_smart_tv/domain/use_cases/statements/set_state_use_case.dart'
-    as _i248;
-import 'package:open_learning_smart_tv/domain/use_cases/statements/statements_use_case.dart'
-    as _i249;
-import 'package:open_learning_smart_tv/domain/use_cases/strip/get_calendar_strip_use_case.dart'
-    as _i244;
-import 'package:open_learning_smart_tv/domain/use_cases/strip/get_continue_learning_strip_use_case.dart'
-    as _i243;
-import 'package:open_learning_smart_tv/domain/use_cases/strip/get_standard_strip_use_case.dart'
-    as _i242;
-import 'package:open_learning_smart_tv/domain/use_cases/strip/get_wall_strip_content_use_case.dart'
-    as _i196;
-import 'package:open_learning_smart_tv/domain/use_cases/topics/get_topics_use_case.dart'
-    as _i256;
-import 'package:open_learning_smart_tv/domain/use_cases/user_profile_image/get_user_image_use_case.dart'
-    as _i223;
-import 'package:open_learning_smart_tv/domain/use_cases/webview/web_view_player_linkedin_use_case.dart'
-    as _i193;
-import 'package:open_learning_smart_tv/domain/use_cases/webview/web_view_player_use_case.dart'
     as _i192;
-import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart'
-    as _i102;
-import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/cubit/local_card_cubit.dart'
-    as _i258;
-import 'package:open_learning_smart_tv/presentation/common/widgets/cards/download/download_card_status/cubit/local_card_status_cubit.dart'
-    as _i299;
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/calendar/cubit/ol_calendar_dialog_cubit.dart'
+import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/delete_smart_learning_slot_use_case.dart'
+    as _i193;
+import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/get_smart_learning_slots_use_case.dart'
+    as _i194;
+import 'package:open_learning_smart_tv/domain/use_cases/smart_learning/update_smart_learning_slot_use_case.dart'
+    as _i195;
+import 'package:open_learning_smart_tv/domain/use_cases/start_resume_use_case/start_resume_use_case.dart'
+    as _i177;
+import 'package:open_learning_smart_tv/domain/use_cases/statements/get_state_use_case.dart'
     as _i241;
+import 'package:open_learning_smart_tv/domain/use_cases/statements/set_state_use_case.dart'
+    as _i239;
+import 'package:open_learning_smart_tv/domain/use_cases/statements/statements_use_case.dart'
+    as _i240;
+import 'package:open_learning_smart_tv/domain/use_cases/strip/get_calendar_strip_use_case.dart'
+    as _i235;
+import 'package:open_learning_smart_tv/domain/use_cases/strip/get_continue_learning_strip_use_case.dart'
+    as _i234;
+import 'package:open_learning_smart_tv/domain/use_cases/strip/get_standard_strip_use_case.dart'
+    as _i233;
+import 'package:open_learning_smart_tv/domain/use_cases/strip/get_wall_strip_content_use_case.dart'
+    as _i189;
+import 'package:open_learning_smart_tv/domain/use_cases/topics/get_topics_use_case.dart'
+    as _i246;
+import 'package:open_learning_smart_tv/domain/use_cases/user_profile_image/get_user_image_use_case.dart'
+    as _i215;
+import 'package:open_learning_smart_tv/domain/use_cases/webview/web_view_player_linkedin_use_case.dart'
+    as _i197;
+import 'package:open_learning_smart_tv/domain/use_cases/webview/web_view_player_use_case.dart'
+    as _i186;
+import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart'
+    as _i99;
+import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/calendar/cubit/ol_calendar_dialog_cubit.dart'
+    as _i232;
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/cubit/ol_download_dialog_cubit.dart'
-    as _i276;
+    as _i262;
 import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_header/cubit/app_logo_cubit.dart'
     as _i6;
 import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_header/logo_header_cubit.dart'
-    as _i283;
+    as _i267;
 import 'package:open_learning_smart_tv/presentation/common/widgets/rating/ratings_dialog_cubit.dart'
-    as _i290;
+    as _i270;
 import 'package:open_learning_smart_tv/presentation/common/widgets/smart_learning_bottom_sheet/cubit/smart_learning_bottom_sheet_cubit.dart'
-    as _i278;
+    as _i264;
 import 'package:open_learning_smart_tv/presentation/common/widgets/topics_filter/cubit/topics_filter_cubit.dart'
-    as _i304;
+    as _i280;
 import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/cubit/user_avatar_cubit.dart'
-    as _i289;
-import 'package:open_learning_smart_tv/presentation/community_webview/cubit/community_web_view_page_cubit.dart'
-    as _i46;
+    as _i269;
 import 'package:open_learning_smart_tv/presentation/corporate_code/cubit/corporate_code_cubit.dart'
-    as _i105;
+    as _i102;
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart'
-    as _i303;
+    as _i261;
 import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/cubit/ecm_registration_cubit.dart'
     as _i8;
 import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/steps/first_step/cubit/ecm_first_step_cubit.dart'
-    as _i208;
+    as _i202;
 import 'package:open_learning_smart_tv/presentation/course_detail/ecm/registration/steps/second_step/cubit/ecm_second_step_cubit.dart'
-    as _i209;
+    as _i203;
 import 'package:open_learning_smart_tv/presentation/course_detail/editions/edition_cubit.dart'
-    as _i177;
-import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart'
-    as _i302;
-import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart'
-    as _i296;
-import 'package:open_learning_smart_tv/presentation/course_detail/widgets/download_button/cubit/download_item_cubit.dart'
-    as _i261;
-import 'package:open_learning_smart_tv/presentation/course_detail/widgets/teachers_sheet/cubit/teacher_detail_sheet_cubit.dart'
-    as _i293;
-import 'package:open_learning_smart_tv/presentation/course_detail/widgets/tools/tool_item/cubit/tool_item_cubit.dart'
-    as _i306;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart'
-    as _i286;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_content_cubit.dart'
-    as _i308;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart'
-    as _i287;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_manager_cubit.dart'
-    as _i62;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_sheet_cubit.dart'
-    as _i103;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/cubit/calendar_strip_cubit.dart'
-    as _i277;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/comments/cubit/comments_cubit.dart'
-    as _i240;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/comments/item/answers/cubit/answers_cubit.dart'
-    as _i255;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/cubit/community_wall_cubit.dart'
-    as _i265;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/detail/cubit/post_detail_cubit.dart'
-    as _i300;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/detail/widgets/add_comment_widget/cubit/add_comment_widget_cubit.dart'
-    as _i307;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/post/add_link/cubit/add_link_cubit.dart'
     as _i7;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/post/cubit/post_cubit.dart'
-    as _i291;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/widgets/cubit/community_card_cubit.dart'
+import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart'
     as _i279;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/community/widgets/cubit/like_post_cubit.dart'
-    as _i285;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart'
-    as _i262;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/favourites/cubit/favourites_strip_cubit.dart'
-    as _i264;
-import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/cubit/standard_strip_cubit.dart'
-    as _i282;
-import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart'
-    as _i310;
-import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart'
-    as _i305;
-import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart'
-    as _i295;
-import 'package:open_learning_smart_tv/presentation/login/mfa/cubit/mfa_cubit.dart'
+import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart'
+    as _i276;
+import 'package:open_learning_smart_tv/presentation/course_detail/widgets/teachers_sheet/cubit/teacher_detail_sheet_cubit.dart'
+    as _i273;
+import 'package:open_learning_smart_tv/presentation/course_detail/widgets/tools/tool_item/cubit/tool_item_cubit.dart'
+    as _i283;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart'
+    as _i271;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_content_cubit.dart'
+    as _i243;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart'
+    as _i272;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_manager_cubit.dart'
+    as _i60;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_sheet_cubit.dart'
     as _i100;
-import 'package:open_learning_smart_tv/presentation/login/sso/cubit/sso_cubit.dart'
-    as _i95;
-import 'package:open_learning_smart_tv/presentation/notification/cubit/notification_cubit.dart'
-    as _i292;
-import 'package:open_learning_smart_tv/presentation/offline_state/offline_cubit.dart'
-    as _i280;
-import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart'
-    as _i94;
-import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart'
-    as _i239;
-import 'package:open_learning_smart_tv/presentation/profile/download/cubit/download_strip_cubit.dart'
-    as _i53;
-import 'package:open_learning_smart_tv/presentation/profile/download/wall/cubit/download_wall_cubit.dart'
-    as _i309;
-import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_confirm_page_cubit.dart'
-    as _i98;
-import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_recover_page_cubit.dart'
-    as _i101;
-import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_page_cubit.dart'
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/cubit/calendar_strip_cubit.dart'
+    as _i263;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart'
+    as _i248;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/favourites/cubit/favourites_strip_cubit.dart'
+    as _i250;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/cubit/standard_strip_cubit.dart'
+    as _i266;
+import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart'
+    as _i281;
+import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart'
+    as _i282;
+import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart'
+    as _i275;
+import 'package:open_learning_smart_tv/presentation/login/mfa/cubit/mfa_cubit.dart'
     as _i97;
+import 'package:open_learning_smart_tv/presentation/login/sso/cubit/sso_cubit.dart'
+    as _i92;
+import 'package:open_learning_smart_tv/presentation/privacy/cubit/privacy_cubit.dart'
+    as _i91;
+import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart'
+    as _i231;
+import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_confirm_page_cubit.dart'
+    as _i95;
+import 'package:open_learning_smart_tv/presentation/pwd_recover/cubit/pwd_recover_page_cubit.dart'
+    as _i98;
+import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_page_cubit.dart'
+    as _i94;
 import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_set_old_page_cubit.dart'
     as _i5;
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart'
-    as _i288;
+    as _i268;
 import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart'
-    as _i63;
+    as _i61;
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart'
-    as _i99;
+    as _i96;
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart'
-    as _i56;
-import 'package:open_learning_smart_tv/presentation/video_player/community/cubit/video_player_thumbnail_cubit.dart'
-    as _i90;
+    as _i54;
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart'
-    as _i294;
+    as _i274;
 import 'package:open_learning_smart_tv/presentation/video_player/offline/cubit/video_player_offline_cubit.dart'
-    as _i298;
+    as _i277;
 import 'package:open_learning_smart_tv/presentation/wall/cubit/wall_cubit.dart'
-    as _i301;
+    as _i278;
 import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart'
-    as _i253;
+    as _i244;
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart'
-    as _i263;
-import 'package:open_learning_smart_tv/wrappers/cognito_auth.dart' as _i96;
-import 'package:open_learning_smart_tv/wrappers/notification/notification_manager.dart'
-    as _i297;
+    as _i249;
+import 'package:open_learning_smart_tv/wrappers/cognito_auth.dart' as _i93;
 import 'package:open_learning_smart_tv/wrappers/ol_cognito_storage.dart'
     as _i18;
 import 'package:open_learning_smart_tv/wrappers/ol_secure_storage.dart' as _i16;
-import 'package:open_learning_smart_tv/wrappers/tracking/tracking_manager.dart'
-    as _i251;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i10;
 import 'package:shared_preferences/shared_preferences.dart' as _i3;
 
@@ -642,7 +588,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i4.LazyDatabase>(() => externalModule.lazyDatabase);
     gh.factory<_i5.PwdSetOldPageCubit>(() => _i5.PwdSetOldPageCubit());
     gh.factory<_i6.AppLogoCubit>(() => _i6.AppLogoCubit());
-    gh.factory<_i7.AddLinkCubit>(() => _i7.AddLinkCubit());
+    gh.factory<_i7.EditionCubit>(() => _i7.EditionCubit());
     gh.factory<_i8.EcmRegistrationCubit>(() => _i8.EcmRegistrationCubit());
     gh.lazySingleton<_i9.FlutterSecureStorage>(
         () => externalModule.secureStorage);
@@ -742,178 +688,167 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i16.OlSecureStorage>(),
               gh<_i3.SharedPreferences>(),
             ));
-    gh.factory<_i46.CommunityWebViewPageCubit>(
-        () => _i46.CommunityWebViewPageCubit(
-              gh<_i14.GetSecureStoredUserInfoUseCase>(),
-              gh<_i32.GetStoredSmartConfigurationUseCase>(),
-            ));
     gh.lazySingleton<_i17.Env>(
       () => _i17.Prod(),
       registerFor: {_production},
     );
-    gh.lazySingleton<_i47.LanguageDataSource>(
-        () => _i48.LanguageSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i49.SessionDataSource>(() =>
-        _i50.SessionDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i51.CorporateCodeDataSource>(() =>
-        _i52.CorporateCodeDataSourceImpl(
+    gh.lazySingleton<_i46.LanguageDataSource>(
+        () => _i47.LanguageSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
+    gh.lazySingleton<_i48.SessionDataSource>(() =>
+        _i49.SessionDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
+    gh.lazySingleton<_i50.CorporateCodeDataSource>(() =>
+        _i51.CorporateCodeDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i53.DownloadStripCubit>(() => _i53.DownloadStripCubit(
-          gh<_i13.QueryDownloadManagerUseCase>(),
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-        ));
-    gh.lazySingleton<_i54.AuthDataSource>(() => _i55.AuthDataSourceImpl(
+    gh.lazySingleton<_i52.AuthDataSource>(() => _i53.AuthDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'cognitoAuthClient')));
-    gh.factory<_i56.SplashScreenCubit>(() =>
-        _i56.SplashScreenCubit(gh<_i35.GetSecureStoredUserInfoSsUseCase>()));
-    gh.lazySingleton<_i57.OfflineStatementsDao>(
-        () => _i57.OfflineStatementsDao(gh<_i31.AppDatabase>()));
-    gh.lazySingleton<_i58.LocalNotificationsDao>(
-        () => _i58.LocalNotificationsDao(gh<_i31.AppDatabase>()));
-    gh.lazySingleton<_i59.CorporateCodeRepository>(() =>
-        _i60.CorporateCodeRepositoryImpl(gh<_i51.CorporateCodeDataSource>()));
-    gh.lazySingleton<_i61.GetCorporateIdUseCase>(
-        () => _i61.GetCorporateIdUseCase(gh<_i59.CorporateCodeRepository>()));
-    gh.factory<_i62.OnboardingManagerCubit>(() => _i62.OnboardingManagerCubit(
+    gh.factory<_i54.SplashScreenCubit>(() =>
+        _i54.SplashScreenCubit(gh<_i35.GetSecureStoredUserInfoSsUseCase>()));
+    gh.lazySingleton<_i55.OfflineStatementsDao>(
+        () => _i55.OfflineStatementsDao(gh<_i31.AppDatabase>()));
+    gh.lazySingleton<_i56.LocalNotificationsDao>(
+        () => _i56.LocalNotificationsDao(gh<_i31.AppDatabase>()));
+    gh.lazySingleton<_i57.CorporateCodeRepository>(() =>
+        _i58.CorporateCodeRepositoryImpl(gh<_i50.CorporateCodeDataSource>()));
+    gh.lazySingleton<_i59.GetCorporateIdUseCase>(
+        () => _i59.GetCorporateIdUseCase(gh<_i57.CorporateCodeRepository>()));
+    gh.factory<_i60.OnboardingManagerCubit>(() => _i60.OnboardingManagerCubit(
           gh<_i38.GetStoredUserSelfUseCase>(),
           gh<_i29.GetSkipOnboardingUseCase>(),
         ));
-    gh.factory<_i63.SuggestionsCubit>(() => _i63.SuggestionsCubit(
+    gh.factory<_i61.SuggestionsCubit>(() => _i61.SuggestionsCubit(
           gh<_i24.GetLocalSuggestionsUseCase>(),
           gh<_i25.SetLocalSuggestionsUseCase>(),
           gh<_i23.CleanLocalSuggestionsUseCase>(),
         ));
-    gh.lazySingleton<_i64.OpenidConfigDataSource>(() =>
-        _i65.OpenidConfigDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i66.UserDataSource>(
-        () => _i67.UserDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i68.GetStatementsUseCase>(
-        () => _i68.GetStatementsUseCase(gh<_i57.OfflineStatementsDao>()));
-    gh.lazySingleton<_i69.StoreStatementUseCase>(
-        () => _i69.StoreStatementUseCase(gh<_i57.OfflineStatementsDao>()));
-    gh.lazySingleton<_i70.DeleteStatementsUseCase>(
-        () => _i70.DeleteStatementsUseCase(gh<_i57.OfflineStatementsDao>()));
-    gh.lazySingleton<_i71.DownloadlRepository>(
-        () => _i72.DownloadlRepositoryImpl(
+    gh.lazySingleton<_i62.OpenidConfigDataSource>(() =>
+        _i63.OpenidConfigDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
+    gh.lazySingleton<_i64.UserDataSource>(
+        () => _i65.UserDataSourceImpl(gh<_i33.Dio>(instanceName: 'default')));
+    gh.lazySingleton<_i66.GetStatementsUseCase>(
+        () => _i66.GetStatementsUseCase(gh<_i55.OfflineStatementsDao>()));
+    gh.lazySingleton<_i67.StoreStatementUseCase>(
+        () => _i67.StoreStatementUseCase(gh<_i55.OfflineStatementsDao>()));
+    gh.lazySingleton<_i68.DeleteStatementsUseCase>(
+        () => _i68.DeleteStatementsUseCase(gh<_i55.OfflineStatementsDao>()));
+    gh.lazySingleton<_i69.DownloadlRepository>(
+        () => _i70.DownloadlRepositoryImpl(
               gh<_i43.DownloadDataSource>(),
               gh<_i17.Env>(),
             ));
-    gh.lazySingleton<_i73.ScheduleDownloadUseCase>(
-        () => _i73.ScheduleDownloadUseCase(gh<_i71.DownloadlRepository>()));
-    gh.lazySingleton<_i74.CancelDownloadUseCase>(
-        () => _i74.CancelDownloadUseCase(gh<_i71.DownloadlRepository>()));
-    gh.lazySingleton<_i75.RetrieveDownloadInfoUseCase>(
-        () => _i75.RetrieveDownloadInfoUseCase(gh<_i71.DownloadlRepository>()));
-    gh.lazySingleton<_i76.DeleteDownloadUseCase>(
-        () => _i76.DeleteDownloadUseCase(gh<_i71.DownloadlRepository>()));
-    gh.lazySingleton<_i77.SessionRepository>(
-        () => _i78.SessionRepositoryImpl(gh<_i49.SessionDataSource>()));
-    gh.lazySingleton<_i79.UserRepository>(
-        () => _i80.UserRepositoryImpl(gh<_i66.UserDataSource>()));
-    gh.lazySingleton<_i81.OpenidConfigRepository>(() =>
-        _i82.OpenidConfigRepositoryImpl(gh<_i64.OpenidConfigDataSource>()));
-    gh.lazySingleton<_i83.SetPrivacyConsentUseCase>(
-        () => _i83.SetPrivacyConsentUseCase(gh<_i79.UserRepository>()));
-    gh.lazySingleton<_i84.GetUserSelfUseCase>(
-        () => _i84.GetUserSelfUseCase(gh<_i79.UserRepository>()));
-    gh.lazySingleton<_i85.AuthRepository>(() => _i86.AuthRepositoryImpl(
-          gh<_i54.AuthDataSource>(),
+    gh.lazySingleton<_i71.ScheduleDownloadUseCase>(
+        () => _i71.ScheduleDownloadUseCase(gh<_i69.DownloadlRepository>()));
+    gh.lazySingleton<_i72.CancelDownloadUseCase>(
+        () => _i72.CancelDownloadUseCase(gh<_i69.DownloadlRepository>()));
+    gh.lazySingleton<_i73.RetrieveDownloadInfoUseCase>(
+        () => _i73.RetrieveDownloadInfoUseCase(gh<_i69.DownloadlRepository>()));
+    gh.lazySingleton<_i74.DeleteDownloadUseCase>(
+        () => _i74.DeleteDownloadUseCase(gh<_i69.DownloadlRepository>()));
+    gh.lazySingleton<_i75.SessionRepository>(
+        () => _i76.SessionRepositoryImpl(gh<_i48.SessionDataSource>()));
+    gh.lazySingleton<_i77.UserRepository>(
+        () => _i78.UserRepositoryImpl(gh<_i64.UserDataSource>()));
+    gh.lazySingleton<_i79.OpenidConfigRepository>(() =>
+        _i80.OpenidConfigRepositoryImpl(gh<_i62.OpenidConfigDataSource>()));
+    gh.lazySingleton<_i81.SetPrivacyConsentUseCase>(
+        () => _i81.SetPrivacyConsentUseCase(gh<_i77.UserRepository>()));
+    gh.lazySingleton<_i82.GetUserSelfUseCase>(
+        () => _i82.GetUserSelfUseCase(gh<_i77.UserRepository>()));
+    gh.lazySingleton<_i83.AuthRepository>(() => _i84.AuthRepositoryImpl(
+          gh<_i52.AuthDataSource>(),
           gh<_i37.GetStoredOpenidConfigUseCase>(),
         ));
-    gh.lazySingleton<_i87.GetOpenidConfigUseCase>(
-        () => _i87.GetOpenidConfigUseCase(gh<_i81.OpenidConfigRepository>()));
-    gh.lazySingleton<_i88.OauthTokenUseCase>(
-        () => _i88.OauthTokenUseCase(gh<_i85.AuthRepository>()));
-    gh.lazySingleton<_i89.CleanLocalDatabaseUseCase>(
-        () => _i89.CleanLocalDatabaseUseCase(
+    gh.lazySingleton<_i85.GetOpenidConfigUseCase>(
+        () => _i85.GetOpenidConfigUseCase(gh<_i79.OpenidConfigRepository>()));
+    gh.lazySingleton<_i86.OauthTokenUseCase>(
+        () => _i86.OauthTokenUseCase(gh<_i83.AuthRepository>()));
+    gh.lazySingleton<_i87.CleanLocalDatabaseUseCase>(
+        () => _i87.CleanLocalDatabaseUseCase(
               gh<_i31.AppDatabase>(),
               gh<_i3.SharedPreferences>(),
               gh<_i13.QueryDownloadManagerUseCase>(),
               gh<_i26.RemoveStoredDownloadContentInfoUseCase>(),
-              gh<_i74.CancelDownloadUseCase>(),
-              gh<_i76.DeleteDownloadUseCase>(),
+              gh<_i72.CancelDownloadUseCase>(),
+              gh<_i74.DeleteDownloadUseCase>(),
             ));
-    gh.factory<_i90.VideoPlayerThumbnailCubit>(() =>
-        _i90.VideoPlayerThumbnailCubit(gh<_i75.RetrieveDownloadInfoUseCase>()));
-    gh.lazySingleton<_i91.SetInitiativeUseCase>(
-        () => _i91.SetInitiativeUseCase(gh<_i77.SessionRepository>()));
-    gh.lazySingleton<_i92.CheckSessionUseCase>(
-        () => _i92.CheckSessionUseCase(gh<_i77.SessionRepository>()));
-    gh.lazySingleton<_i93.CreateSessionUseCase>(
-        () => _i93.CreateSessionUseCase(gh<_i77.SessionRepository>()));
-    gh.factory<_i94.PrivacyCubit>(
-        () => _i94.PrivacyCubit(gh<_i83.SetPrivacyConsentUseCase>()));
-    gh.factory<_i95.SsoCubit>(() => _i95.SsoCubit(
+    gh.lazySingleton<_i88.SetInitiativeUseCase>(
+        () => _i88.SetInitiativeUseCase(gh<_i75.SessionRepository>()));
+    gh.lazySingleton<_i89.CheckSessionUseCase>(
+        () => _i89.CheckSessionUseCase(gh<_i75.SessionRepository>()));
+    gh.lazySingleton<_i90.CreateSessionUseCase>(
+        () => _i90.CreateSessionUseCase(gh<_i75.SessionRepository>()));
+    gh.factory<_i91.PrivacyCubit>(
+        () => _i91.PrivacyCubit(gh<_i81.SetPrivacyConsentUseCase>()));
+    gh.factory<_i92.SsoCubit>(() => _i92.SsoCubit(
           gh<_i18.OlCognitoStorage>(),
-          gh<_i88.OauthTokenUseCase>(),
-          gh<_i93.CreateSessionUseCase>(),
-          gh<_i84.GetUserSelfUseCase>(),
+          gh<_i86.OauthTokenUseCase>(),
+          gh<_i90.CreateSessionUseCase>(),
+          gh<_i82.GetUserSelfUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
           gh<_i37.GetStoredOpenidConfigUseCase>(),
           gh<_i3.SharedPreferences>(),
           gh<_i17.Env>(),
         ));
-    gh.lazySingleton<_i96.CognitoAuthManager>(() => _i96.CognitoAuthManager(
+    gh.lazySingleton<_i93.CognitoAuthManager>(() => _i93.CognitoAuthManager(
           gh<_i18.OlCognitoStorage>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i91.SetInitiativeUseCase>(),
+          gh<_i88.SetInitiativeUseCase>(),
           gh<_i45.SetSecureStoredUserInfoUseCase>(),
-          gh<_i93.CreateSessionUseCase>(),
-          gh<_i92.CheckSessionUseCase>(),
+          gh<_i90.CreateSessionUseCase>(),
+          gh<_i89.CheckSessionUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.factory<_i97.PwdResetCubit>(
-        () => _i97.PwdResetCubit(gh<_i96.CognitoAuthManager>()));
-    gh.factory<_i98.PwdConfirmCubit>(
-        () => _i98.PwdConfirmCubit(gh<_i96.CognitoAuthManager>()));
-    gh.factory<_i99.SettingsCubit>(() => _i99.SettingsCubit(
+    gh.factory<_i94.PwdResetCubit>(
+        () => _i94.PwdResetCubit(gh<_i93.CognitoAuthManager>()));
+    gh.factory<_i95.PwdConfirmCubit>(
+        () => _i95.PwdConfirmCubit(gh<_i93.CognitoAuthManager>()));
+    gh.factory<_i96.SettingsCubit>(() => _i96.SettingsCubit(
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
-          gh<_i96.CognitoAuthManager>(),
+          gh<_i93.CognitoAuthManager>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i41.ClearSecureStoredInitiativeUseCase>(),
-          gh<_i84.GetUserSelfUseCase>(),
+          gh<_i82.GetUserSelfUseCase>(),
           gh<_i3.SharedPreferences>(),
           gh<_i17.Env>(),
         ));
-    gh.factory<_i100.MfaCubit>(() => _i100.MfaCubit(
-          gh<_i96.CognitoAuthManager>(),
+    gh.factory<_i97.MfaCubit>(() => _i97.MfaCubit(
+          gh<_i93.CognitoAuthManager>(),
           gh<_i30.HandlerStoredUsernameUseCase>(),
-          gh<_i93.CreateSessionUseCase>(),
-          gh<_i84.GetUserSelfUseCase>(),
+          gh<_i90.CreateSessionUseCase>(),
+          gh<_i82.GetUserSelfUseCase>(),
         ));
-    gh.factory<_i101.PwdRecoverCubit>(() => _i101.PwdRecoverCubit(
-          gh<_i96.CognitoAuthManager>(),
+    gh.factory<_i98.PwdRecoverCubit>(() => _i98.PwdRecoverCubit(
+          gh<_i93.CognitoAuthManager>(),
           gh<_i20.GetStoredUsernameUseCase>(),
         ));
-    gh.singleton<_i102.AppCubit>(() => _i102.AppCubit(
-          gh<_i96.CognitoAuthManager>(),
+    gh.singleton<_i99.AppCubit>(() => _i99.AppCubit(
+          gh<_i93.CognitoAuthManager>(),
           gh<_i34.ClearSecureStoredUseCase>(),
           gh<_i3.SharedPreferences>(),
         ));
-    gh.factory<_i103.OnboardingSheetCubit>(() => _i103.OnboardingSheetCubit(
+    gh.factory<_i100.OnboardingSheetCubit>(() => _i100.OnboardingSheetCubit(
           gh<_i19.SetSkipOnboardingUseCase>(),
           gh<_i21.SetSkipTutorialUseCase>(),
-          gh<_i102.AppCubit>(),
+          gh<_i99.AppCubit>(),
         ));
-    gh.lazySingleton<_i104.AuthenticationInterceptor>(
-        () => _i104.AuthenticationInterceptor(
-              gh<_i96.CognitoAuthManager>(),
+    gh.lazySingleton<_i101.AuthenticationInterceptor>(
+        () => _i101.AuthenticationInterceptor(
+              gh<_i93.CognitoAuthManager>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
-              gh<_i102.AppCubit>(),
+              gh<_i99.AppCubit>(),
               gh<_i33.Dio>(instanceName: 'default'),
             ));
-    gh.factory<_i105.CorporateCodeCubit>(() => _i105.CorporateCodeCubit(
+    gh.factory<_i102.CorporateCodeCubit>(() => _i102.CorporateCodeCubit(
           gh<_i17.Env>(),
           gh<_i39.SetStoredCorporateIdUseCase>(),
-          gh<_i61.GetCorporateIdUseCase>(),
-          gh<_i96.CognitoAuthManager>(),
+          gh<_i59.GetCorporateIdUseCase>(),
+          gh<_i93.CognitoAuthManager>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i92.CheckSessionUseCase>(),
-          gh<_i102.AppCubit>(),
-          gh<_i84.GetUserSelfUseCase>(),
-          gh<_i93.CreateSessionUseCase>(),
+          gh<_i89.CheckSessionUseCase>(),
+          gh<_i99.AppCubit>(),
+          gh<_i82.GetUserSelfUseCase>(),
+          gh<_i90.CreateSessionUseCase>(),
           gh<_i45.SetSecureStoredUserInfoUseCase>(),
-          gh<_i87.GetOpenidConfigUseCase>(),
+          gh<_i85.GetOpenidConfigUseCase>(),
           gh<_i36.SetStoredOpenidConfigUseCase>(),
           gh<_i34.ClearSecureStoredUseCase>(),
           gh<_i42.GetStoredCorporateIdSsUseCase>(),
@@ -921,696 +856,574 @@ extension GetItInjectableX on _i1.GetIt {
         ));
     gh.factory<_i33.Dio>(
       () => externalModule.dioAuthenticated(
-        gh<_i104.AuthenticationInterceptor>(),
+        gh<_i101.AuthenticationInterceptor>(),
         gh<_i10.PrettyDioLogger>(),
         gh<_i17.Env>(),
       ),
       instanceName: 'authenticated',
     );
-    gh.lazySingleton<_i106.EcmDataSource>(() =>
-        _i107.EcmDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i108.EditionDataSource>(() => _i109.EditionDataSourceImpl(
+    gh.lazySingleton<_i103.EcmDataSource>(() =>
+        _i104.EcmDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
+    gh.lazySingleton<_i105.EditionDataSource>(() => _i106.EditionDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i110.PageDataSource>(() =>
-        _i111.PageDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i112.TopicsDataSource>(() => _i113.TopicsDataSourceImpl(
+    gh.lazySingleton<_i107.PageDataSource>(() =>
+        _i108.PageDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
+    gh.lazySingleton<_i109.TopicsDataSource>(() => _i110.TopicsDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i114.SmartConfiguratorDataSource>(() =>
-        _i115.SmartConfiguratorDataSourceImpl(
+    gh.lazySingleton<_i111.SmartConfiguratorDataSource>(() =>
+        _i112.SmartConfiguratorDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i116.UserImageDataSource>(() =>
-        _i117.UserImageDataSourceImpl(
+    gh.lazySingleton<_i113.UserImageDataSource>(() =>
+        _i114.UserImageDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i118.AppResourceDataSource>(() =>
-        _i119.AppResourceDataSourceImpl(
+    gh.lazySingleton<_i115.AppResourceDataSource>(() =>
+        _i116.AppResourceDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i120.EditionRepository>(
-        () => _i121.EditionRepositoryImpl(gh<_i108.EditionDataSource>()));
-    gh.lazySingleton<_i122.StartResumeDataSource>(() =>
-        _i123.StartResumeDataSourceImpl(
+    gh.lazySingleton<_i117.EditionRepository>(
+        () => _i118.EditionRepositoryImpl(gh<_i105.EditionDataSource>()));
+    gh.lazySingleton<_i119.StartResumeDataSource>(() =>
+        _i120.StartResumeDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i124.SmartLearningDataSource>(() =>
-        _i125.SmartLearningDataSourceImpl(
+    gh.lazySingleton<_i121.SmartLearningDataSource>(() =>
+        _i122.SmartLearningDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i126.CommunityDataSource>(() =>
-        _i127.CommunityDataSourceImpl(
+    gh.lazySingleton<_i123.CommunityDataSource>(() =>
+        _i124.CommunityDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i128.StatementsDataSource>(() =>
-        _i129.StatementsDataSourceImpl(
+    gh.lazySingleton<_i125.StatementsDataSource>(() =>
+        _i126.StatementsDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i130.WebPlayerDataSource>(() =>
-        _i131.WebPlayerDataSourceImpl(
+    gh.lazySingleton<_i127.WebPlayerDataSource>(() =>
+        _i128.WebPlayerDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i132.LearnerProgressDataSource>(() =>
-        _i133.LearnerProgressDataSourceImpl(
+    gh.lazySingleton<_i129.LearnerProgressDataSource>(() =>
+        _i130.LearnerProgressDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i134.NotificationDataSource>(() =>
-        _i135.NotificationDataSourceImpl(
+    gh.lazySingleton<_i131.DownloadIcsDataSource>(() =>
+        _i132.DownloadIcsDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i136.DownloadIcsDataSource>(() =>
-        _i137.DownloadIcsDataSourceImpl(
-            gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i138.SearchDataSource>(() => _i139.SearchDataSourceImpl(
+    gh.lazySingleton<_i133.SearchDataSource>(() => _i134.SearchDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i140.RatingDataSource>(() => _i141.RatingDataSourceImpl(
+    gh.lazySingleton<_i135.RatingDataSource>(() => _i136.RatingDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i142.MenuDataSource>(() =>
-        _i143.MenuDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i144.StripDataSource>(() =>
-        _i145.StripDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i146.AutoEnrollmentDataSource>(() =>
-        _i147.AutoEnrollmentDataSourceImpl(
+    gh.lazySingleton<_i137.MenuDataSource>(() =>
+        _i138.MenuDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
+    gh.lazySingleton<_i139.StripDataSource>(() =>
+        _i140.StripDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
+    gh.lazySingleton<_i141.AutoEnrollmentDataSource>(() =>
+        _i142.AutoEnrollmentDataSourceImpl(
             gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i148.WebViewPlayerRepository>(
-        () => _i149.WebPlayerRepositoryImpl(gh<_i130.WebPlayerDataSource>()));
-    gh.lazySingleton<_i150.PostDataSource>(() =>
-        _i151.PostDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i152.EditionRegisterUseCase>(
-        () => _i152.EditionRegisterUseCase(
-              gh<_i120.EditionRepository>(),
+    gh.lazySingleton<_i143.WebViewPlayerRepository>(
+        () => _i144.WebPlayerRepositoryImpl(gh<_i127.WebPlayerDataSource>()));
+    gh.lazySingleton<_i145.PostDataSource>(() =>
+        _i146.PostDataSourceImpl(gh<_i33.Dio>(instanceName: 'authenticated')));
+    gh.lazySingleton<_i147.EditionRegisterUseCase>(
+        () => _i147.EditionRegisterUseCase(
+              gh<_i117.EditionRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i153.LearnerProgressRepository>(() =>
-        _i154.LearnerProgressRepositoryImpl(
-            gh<_i132.LearnerProgressDataSource>()));
-    gh.lazySingleton<_i155.DetailDataSource>(() => _i156.DetailDataSourceImpl(
+    gh.lazySingleton<_i148.LearnerProgressRepository>(() =>
+        _i149.LearnerProgressRepositoryImpl(
+            gh<_i129.LearnerProgressDataSource>()));
+    gh.lazySingleton<_i150.DetailDataSource>(() => _i151.DetailDataSourceImpl(
         gh<_i33.Dio>(instanceName: 'authenticated')));
-    gh.lazySingleton<_i157.StartResumeRepository>(() =>
-        _i158.StartResumeRepositoryImpl(gh<_i122.StartResumeDataSource>()));
-    gh.lazySingleton<_i159.MenuRepository>(
-        () => _i160.MenuRepositoryImpl(gh<_i142.MenuDataSource>()));
-    gh.lazySingleton<_i161.WallRepository>(
-        () => _i162.WallRepositoryImpl(gh<_i144.StripDataSource>()));
-    gh.lazySingleton<_i163.StripRepository>(
-        () => _i164.StripRepositoryImpl(gh<_i144.StripDataSource>()));
-    gh.lazySingleton<_i165.GetMenuStructureUseCase>(
-        () => _i165.GetMenuStructureUseCase(gh<_i159.MenuRepository>()));
-    gh.lazySingleton<_i166.CommunityRepository>(
-        () => _i167.CommunityRepositoryImpl(gh<_i126.CommunityDataSource>()));
-    gh.lazySingleton<_i168.EcmRepository>(
-        () => _i169.EcmRepositoryImpl(gh<_i106.EcmDataSource>()));
-    gh.factory<_i170.EcmRegisterUseCase>(() => _i170.EcmRegisterUseCase(
-          gh<_i168.EcmRepository>(),
+    gh.lazySingleton<_i152.StartResumeRepository>(() =>
+        _i153.StartResumeRepositoryImpl(gh<_i119.StartResumeDataSource>()));
+    gh.lazySingleton<_i154.MenuRepository>(
+        () => _i155.MenuRepositoryImpl(gh<_i137.MenuDataSource>()));
+    gh.lazySingleton<_i156.WallRepository>(
+        () => _i157.WallRepositoryImpl(gh<_i139.StripDataSource>()));
+    gh.lazySingleton<_i158.StripRepository>(
+        () => _i159.StripRepositoryImpl(gh<_i139.StripDataSource>()));
+    gh.lazySingleton<_i160.GetMenuStructureUseCase>(
+        () => _i160.GetMenuStructureUseCase(gh<_i154.MenuRepository>()));
+    gh.lazySingleton<_i161.CommunityRepository>(
+        () => _i162.CommunityRepositoryImpl(gh<_i123.CommunityDataSource>()));
+    gh.lazySingleton<_i163.EcmRepository>(
+        () => _i164.EcmRepositoryImpl(gh<_i103.EcmDataSource>()));
+    gh.factory<_i165.EcmRegisterUseCase>(() => _i165.EcmRegisterUseCase(
+          gh<_i163.EcmRepository>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i171.AutoEnrollmentRepository>(() =>
-        _i172.AutoEnrollmentRepositoryImpl(
-            gh<_i146.AutoEnrollmentDataSource>()));
-    gh.lazySingleton<_i173.PageRepository>(
-        () => _i174.PageRepositoryImpl(gh<_i110.PageDataSource>()));
-    gh.lazySingleton<_i175.UserImageRepository>(
-        () => _i176.UserImageRepositoryImpl(gh<_i116.UserImageDataSource>()));
-    gh.factory<_i177.EditionCubit>(
-        () => _i177.EditionCubit(gh<_i152.EditionRegisterUseCase>()));
-    gh.lazySingleton<_i178.SmartConfiguratorRepository>(
-        () => _i179.SmartConfiguratorRepositoryImpl(
-              gh<_i114.SmartConfiguratorDataSource>(),
-              gh<_i47.LanguageDataSource>(),
+    gh.lazySingleton<_i166.AutoEnrollmentRepository>(() =>
+        _i167.AutoEnrollmentRepositoryImpl(
+            gh<_i141.AutoEnrollmentDataSource>()));
+    gh.lazySingleton<_i168.PageRepository>(
+        () => _i169.PageRepositoryImpl(gh<_i107.PageDataSource>()));
+    gh.lazySingleton<_i170.UserImageRepository>(
+        () => _i171.UserImageRepositoryImpl(gh<_i113.UserImageDataSource>()));
+    gh.lazySingleton<_i172.SmartConfiguratorRepository>(
+        () => _i173.SmartConfiguratorRepositoryImpl(
+              gh<_i111.SmartConfiguratorDataSource>(),
+              gh<_i46.LanguageDataSource>(),
             ));
-    gh.lazySingleton<_i180.GetProgressGoalsConfigUseCase>(
-        () => _i180.GetProgressGoalsConfigUseCase(
-              gh<_i153.LearnerProgressRepository>(),
+    gh.lazySingleton<_i174.GetProgressGoalsConfigUseCase>(
+        () => _i174.GetProgressGoalsConfigUseCase(
+              gh<_i148.LearnerProgressRepository>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i181.TopicsRepository>(
-        () => _i182.TopicsRepositoryImpl(gh<_i112.TopicsDataSource>()));
-    gh.lazySingleton<_i183.StartResumeUseCase>(() => _i183.StartResumeUseCase(
-          gh<_i157.StartResumeRepository>(),
+    gh.lazySingleton<_i175.TopicsRepository>(
+        () => _i176.TopicsRepositoryImpl(gh<_i109.TopicsDataSource>()));
+    gh.lazySingleton<_i177.StartResumeUseCase>(() => _i177.StartResumeUseCase(
+          gh<_i152.StartResumeRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i184.GetSmartConfigurationUseCase>(() =>
-        _i184.GetSmartConfigurationUseCase(
-            gh<_i178.SmartConfiguratorRepository>()));
-    gh.lazySingleton<_i185.GetColorsUseCase>(
-        () => _i185.GetColorsUseCase(gh<_i178.SmartConfiguratorRepository>()));
-    gh.lazySingleton<_i186.GetLanguagesUseCase>(() =>
-        _i186.GetLanguagesUseCase(gh<_i178.SmartConfiguratorRepository>()));
-    gh.lazySingleton<_i187.GetLearnerGoalsUseCase>(
-        () => _i187.GetLearnerGoalsUseCase(
-              gh<_i153.LearnerProgressRepository>(),
+    gh.lazySingleton<_i178.GetSmartConfigurationUseCase>(() =>
+        _i178.GetSmartConfigurationUseCase(
+            gh<_i172.SmartConfiguratorRepository>()));
+    gh.lazySingleton<_i179.GetColorsUseCase>(
+        () => _i179.GetColorsUseCase(gh<_i172.SmartConfiguratorRepository>()));
+    gh.lazySingleton<_i180.GetLanguagesUseCase>(() =>
+        _i180.GetLanguagesUseCase(gh<_i172.SmartConfiguratorRepository>()));
+    gh.lazySingleton<_i181.GetLearnerGoalsUseCase>(
+        () => _i181.GetLearnerGoalsUseCase(
+              gh<_i148.LearnerProgressRepository>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i188.GetLearnerProgressUseCase>(
-        () => _i188.GetLearnerProgressUseCase(
-              gh<_i153.LearnerProgressRepository>(),
+    gh.lazySingleton<_i182.GetLearnerProgressUseCase>(
+        () => _i182.GetLearnerProgressUseCase(
+              gh<_i148.LearnerProgressRepository>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i189.SmartLearningRepository>(() =>
-        _i190.SmartLearningRepositoryImpl(gh<_i124.SmartLearningDataSource>()));
-    gh.lazySingleton<_i191.GetAnswersUseCase>(
-        () => _i191.GetAnswersUseCase(gh<_i166.CommunityRepository>()));
-    gh.lazySingleton<_i192.WebViewPlayerUseCase>(
-        () => _i192.WebViewPlayerUseCase(
-              gh<_i148.WebViewPlayerRepository>(),
+    gh.lazySingleton<_i183.SmartLearningRepository>(() =>
+        _i184.SmartLearningRepositoryImpl(gh<_i121.SmartLearningDataSource>()));
+    gh.lazySingleton<_i185.GetAnswersUseCase>(
+        () => _i185.GetAnswersUseCase(gh<_i161.CommunityRepository>()));
+    gh.lazySingleton<_i186.WebViewPlayerUseCase>(
+        () => _i186.WebViewPlayerUseCase(
+              gh<_i143.WebViewPlayerRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i32.GetStoredSmartConfigurationUseCase>(),
               gh<_i17.Env>(),
             ));
-    gh.lazySingleton<_i193.WebViewPlayerLinkedinUseCase>(
-        () => _i193.WebViewPlayerLinkedinUseCase(
-              gh<_i148.WebViewPlayerRepository>(),
-              gh<_i14.GetSecureStoredUserInfoUseCase>(),
-              gh<_i15.GetStoredCorporateIdUseCase>(),
-              gh<_i32.GetStoredSmartConfigurationUseCase>(),
-              gh<_i17.Env>(),
-            ));
-    gh.factory<_i194.GetEcmDisciplinesUseCase>(
-        () => _i194.GetEcmDisciplinesUseCase(gh<_i168.EcmRepository>()));
-    gh.factory<_i195.GetEcmProfessionsUseCase>(
-        () => _i195.GetEcmProfessionsUseCase(gh<_i168.EcmRepository>()));
-    gh.lazySingleton<_i196.GetWallStripContentUseCase>(
-        () => _i196.GetWallStripContentUseCase(
-              gh<_i161.WallRepository>(),
+    gh.factory<_i187.GetEcmDisciplinesUseCase>(
+        () => _i187.GetEcmDisciplinesUseCase(gh<_i163.EcmRepository>()));
+    gh.factory<_i188.GetEcmProfessionsUseCase>(
+        () => _i188.GetEcmProfessionsUseCase(gh<_i163.EcmRepository>()));
+    gh.lazySingleton<_i189.GetWallStripContentUseCase>(
+        () => _i189.GetWallStripContentUseCase(
+              gh<_i156.WallRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i197.RatingRepository>(
-        () => _i198.RatingRepositoryImpl(gh<_i140.RatingDataSource>()));
-    gh.lazySingleton<_i199.CreateSmartLearningSlotUseCase>(() =>
-        _i199.CreateSmartLearningSlotUseCase(
-            gh<_i189.SmartLearningRepository>()));
-    gh.lazySingleton<_i200.DeleteSmartLearningSlotUseCase>(() =>
-        _i200.DeleteSmartLearningSlotUseCase(
-            gh<_i189.SmartLearningRepository>()));
-    gh.lazySingleton<_i201.GetSmartLearningSlotsUseCase>(() =>
-        _i201.GetSmartLearningSlotsUseCase(
-            gh<_i189.SmartLearningRepository>()));
-    gh.lazySingleton<_i202.UpdateSmartLearningSlotUseCase>(() =>
-        _i202.UpdateSmartLearningSlotUseCase(
-            gh<_i189.SmartLearningRepository>()));
-    gh.lazySingleton<_i203.GetLabelsUseCase>(() => _i203.GetLabelsUseCase(
-          gh<_i178.SmartConfiguratorRepository>(),
+    gh.lazySingleton<_i190.RatingRepository>(
+        () => _i191.RatingRepositoryImpl(gh<_i135.RatingDataSource>()));
+    gh.lazySingleton<_i192.CreateSmartLearningSlotUseCase>(() =>
+        _i192.CreateSmartLearningSlotUseCase(
+            gh<_i183.SmartLearningRepository>()));
+    gh.lazySingleton<_i193.DeleteSmartLearningSlotUseCase>(() =>
+        _i193.DeleteSmartLearningSlotUseCase(
+            gh<_i183.SmartLearningRepository>()));
+    gh.lazySingleton<_i194.GetSmartLearningSlotsUseCase>(() =>
+        _i194.GetSmartLearningSlotsUseCase(
+            gh<_i183.SmartLearningRepository>()));
+    gh.lazySingleton<_i195.UpdateSmartLearningSlotUseCase>(() =>
+        _i195.UpdateSmartLearningSlotUseCase(
+            gh<_i183.SmartLearningRepository>()));
+    gh.lazySingleton<_i196.GetLabelsUseCase>(() => _i196.GetLabelsUseCase(
+          gh<_i172.SmartConfiguratorRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i204.AppResourceRepository>(() =>
-        _i205.AppResourceRepositoryImpl(gh<_i118.AppResourceDataSource>()));
-    gh.lazySingleton<_i206.StatementsRepository>(
-        () => _i207.StatementsRepositoryImpl(gh<_i128.StatementsDataSource>()));
-    gh.factory<_i208.EcmFirstStepCubit>(() => _i208.EcmFirstStepCubit(
-          gh<_i195.GetEcmProfessionsUseCase>(),
-          gh<_i194.GetEcmDisciplinesUseCase>(),
+    gh.lazySingleton<_i197.WebViewPlayerLinkedinUseCase>(
+        () => _i197.WebViewPlayerLinkedinUseCase(
+              gh<_i143.WebViewPlayerRepository>(),
+              gh<_i14.GetSecureStoredUserInfoUseCase>(),
+              gh<_i15.GetStoredCorporateIdUseCase>(),
+              gh<_i17.Env>(),
+            ));
+    gh.lazySingleton<_i198.AppResourceRepository>(() =>
+        _i199.AppResourceRepositoryImpl(gh<_i115.AppResourceDataSource>()));
+    gh.lazySingleton<_i200.StatementsRepository>(
+        () => _i201.StatementsRepositoryImpl(gh<_i125.StatementsDataSource>()));
+    gh.factory<_i202.EcmFirstStepCubit>(() => _i202.EcmFirstStepCubit(
+          gh<_i188.GetEcmProfessionsUseCase>(),
+          gh<_i187.GetEcmDisciplinesUseCase>(),
         ));
-    gh.factory<_i209.EcmSecondStepCubit>(
-        () => _i209.EcmSecondStepCubit(gh<_i170.EcmRegisterUseCase>()));
-    gh.lazySingleton<_i210.NotificationRepository>(() =>
-        _i211.NotificationRepositoryImpl(gh<_i134.NotificationDataSource>()));
-    gh.lazySingleton<_i212.AutoEnrollmentUseCase>(
-        () => _i212.AutoEnrollmentUseCase(
-              gh<_i171.AutoEnrollmentRepository>(),
+    gh.factory<_i203.EcmSecondStepCubit>(
+        () => _i203.EcmSecondStepCubit(gh<_i165.EcmRegisterUseCase>()));
+    gh.lazySingleton<_i204.AutoEnrollmentUseCase>(
+        () => _i204.AutoEnrollmentUseCase(
+              gh<_i166.AutoEnrollmentRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i213.BottomEnrollmentUseCase>(
-        () => _i213.BottomEnrollmentUseCase(
-              gh<_i171.AutoEnrollmentRepository>(),
+    gh.lazySingleton<_i205.BottomEnrollmentUseCase>(
+        () => _i205.BottomEnrollmentUseCase(
+              gh<_i166.AutoEnrollmentRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i214.StopCommunityTrackingUseCase>(
-        () => _i214.StopCommunityTrackingUseCase(
+    gh.lazySingleton<_i206.StopCommunityTrackingUseCase>(
+        () => _i206.StopCommunityTrackingUseCase(
               gh<_i17.Env>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
-              gh<_i206.StatementsRepository>(),
+              gh<_i200.StatementsRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i215.StartCommunityTrackingUseCase>(
-        () => _i215.StartCommunityTrackingUseCase(
+    gh.lazySingleton<_i207.StartCommunityTrackingUseCase>(
+        () => _i207.StartCommunityTrackingUseCase(
               gh<_i17.Env>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
-              gh<_i206.StatementsRepository>(),
+              gh<_i200.StatementsRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i216.GetAppresourceUseCase>(
-        () => _i216.GetAppresourceUseCase(gh<_i204.AppResourceRepository>()));
-    gh.lazySingleton<_i217.DetailRepository>(
-        () => _i218.DetailRepositoryImpl(gh<_i155.DetailDataSource>()));
-    gh.lazySingleton<_i219.DownloadIcsRepository>(
-        () => _i220.DownloadIcsRepositoryImpl(
-              gh<_i136.DownloadIcsDataSource>(),
+    gh.lazySingleton<_i208.GetAppresourceUseCase>(
+        () => _i208.GetAppresourceUseCase(gh<_i198.AppResourceRepository>()));
+    gh.lazySingleton<_i209.DetailRepository>(
+        () => _i210.DetailRepositoryImpl(gh<_i150.DetailDataSource>()));
+    gh.lazySingleton<_i211.DownloadIcsRepository>(
+        () => _i212.DownloadIcsRepositoryImpl(
+              gh<_i131.DownloadIcsDataSource>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i221.PostRepository>(
-        () => _i222.PostRepositoryRepositoryImpl(gh<_i150.PostDataSource>()));
-    gh.lazySingleton<_i223.GetUserImageUseCase>(
-        () => _i223.GetUserImageUseCase(gh<_i175.UserImageRepository>()));
-    gh.lazySingleton<_i224.SearchRepository>(
-        () => _i225.SearchRepositoryImpl(gh<_i138.SearchDataSource>()));
-    gh.lazySingleton<_i226.GetEventsUseCase>(
-        () => _i226.GetEventsUseCase(gh<_i219.DownloadIcsRepository>()));
-    gh.lazySingleton<_i227.DownloadEventsUseCase>(
-        () => _i227.DownloadEventsUseCase(gh<_i219.DownloadIcsRepository>()));
-    gh.lazySingleton<_i228.LikePostUseCase>(() => _i228.LikePostUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i213.PostRepository>(
+        () => _i214.PostRepositoryRepositoryImpl(gh<_i145.PostDataSource>()));
+    gh.lazySingleton<_i215.GetUserImageUseCase>(
+        () => _i215.GetUserImageUseCase(gh<_i170.UserImageRepository>()));
+    gh.lazySingleton<_i216.SearchRepository>(
+        () => _i217.SearchRepositoryImpl(gh<_i133.SearchDataSource>()));
+    gh.lazySingleton<_i218.GetEventsUseCase>(
+        () => _i218.GetEventsUseCase(gh<_i211.DownloadIcsRepository>()));
+    gh.lazySingleton<_i219.DownloadEventsUseCase>(
+        () => _i219.DownloadEventsUseCase(gh<_i211.DownloadIcsRepository>()));
+    gh.lazySingleton<_i220.LikePostUseCase>(() => _i220.LikePostUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i229.GetCommunityPostsUseCase>(
-        () => _i229.GetCommunityPostsUseCase(
-              gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i221.GetCommunityPostsUseCase>(
+        () => _i221.GetCommunityPostsUseCase(
+              gh<_i161.CommunityRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i230.GetSharedPostUseCase>(
-        () => _i230.GetSharedPostUseCase(
-              gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i222.GetSharedPostUseCase>(
+        () => _i222.GetSharedPostUseCase(
+              gh<_i161.CommunityRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i231.AddAnswerUseCase>(() => _i231.AddAnswerUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i223.AddAnswerUseCase>(() => _i223.AddAnswerUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i232.GetCommentsUseCase>(() => _i232.GetCommentsUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i224.GetCommentsUseCase>(() => _i224.GetCommentsUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i233.EditCommentUseCase>(() => _i233.EditCommentUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i225.EditCommentUseCase>(() => _i225.EditCommentUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i234.GetCommunityPostUseCase>(
-        () => _i234.GetCommunityPostUseCase(
-              gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i226.GetCommunityPostUseCase>(
+        () => _i226.GetCommunityPostUseCase(
+              gh<_i161.CommunityRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i235.UnlikePostUseCase>(() => _i235.UnlikePostUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i227.UnlikePostUseCase>(() => _i227.UnlikePostUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i236.GetCommunityPostLikesUseCase>(
-        () => _i236.GetCommunityPostLikesUseCase(
-              gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i228.GetCommunityPostLikesUseCase>(
+        () => _i228.GetCommunityPostLikesUseCase(
+              gh<_i161.CommunityRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.lazySingleton<_i237.AddCommentUseCase>(() => _i237.AddCommentUseCase(
-          gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i229.AddCommentUseCase>(() => _i229.AddCommentUseCase(
+          gh<_i161.CommunityRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i238.DeleteCommentUseCase>(
-        () => _i238.DeleteCommentUseCase(
-              gh<_i166.CommunityRepository>(),
+    gh.lazySingleton<_i230.DeleteCommentUseCase>(
+        () => _i230.DeleteCommentUseCase(
+              gh<_i161.CommunityRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
             ));
-    gh.factory<_i239.ProfilePageCubit>(() => _i239.ProfilePageCubit(
-          gh<_i223.GetUserImageUseCase>(),
+    gh.factory<_i231.ProfilePageCubit>(() => _i231.ProfilePageCubit(
+          gh<_i215.GetUserImageUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i180.GetProgressGoalsConfigUseCase>(),
-          gh<_i187.GetLearnerGoalsUseCase>(),
-          gh<_i188.GetLearnerProgressUseCase>(),
+          gh<_i174.GetProgressGoalsConfigUseCase>(),
+          gh<_i181.GetLearnerGoalsUseCase>(),
+          gh<_i182.GetLearnerProgressUseCase>(),
         ));
-    gh.factory<_i240.CommentsCubit>(
-        () => _i240.CommentsCubit(gh<_i232.GetCommentsUseCase>()));
-    gh.factory<_i241.OlCalendarDialogCubit>(
-        () => _i241.OlCalendarDialogCubit(gh<_i226.GetEventsUseCase>()));
-    gh.lazySingleton<_i242.GetStandardStripUseCase>(
-        () => _i242.GetStandardStripUseCase(
-              gh<_i163.StripRepository>(),
+    gh.factory<_i232.OlCalendarDialogCubit>(
+        () => _i232.OlCalendarDialogCubit(gh<_i218.GetEventsUseCase>()));
+    gh.lazySingleton<_i233.GetStandardStripUseCase>(
+        () => _i233.GetStandardStripUseCase(
+              gh<_i158.StripRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i12.GetPageSizeStripUseCase>(),
             ));
-    gh.lazySingleton<_i243.GetContinueLearningStripUseCase>(
-        () => _i243.GetContinueLearningStripUseCase(
-              gh<_i163.StripRepository>(),
+    gh.lazySingleton<_i234.GetContinueLearningStripUseCase>(
+        () => _i234.GetContinueLearningStripUseCase(
+              gh<_i158.StripRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i12.GetPageSizeStripUseCase>(),
             ));
-    gh.lazySingleton<_i244.GetCalendarStripUseCase>(
-        () => _i244.GetCalendarStripUseCase(
-              gh<_i163.StripRepository>(),
+    gh.lazySingleton<_i235.GetCalendarStripUseCase>(
+        () => _i235.GetCalendarStripUseCase(
+              gh<_i158.StripRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
               gh<_i12.GetPageSizeStripUseCase>(),
             ));
-    gh.lazySingleton<_i245.EditPostUseCase>(() => _i245.EditPostUseCase(
-          gh<_i221.PostRepository>(),
+    gh.lazySingleton<_i236.EditPostUseCase>(() => _i236.EditPostUseCase(
+          gh<_i213.PostRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i246.DeletePostUseCase>(() => _i246.DeletePostUseCase(
-          gh<_i221.PostRepository>(),
+    gh.lazySingleton<_i237.DeletePostUseCase>(() => _i237.DeletePostUseCase(
+          gh<_i213.PostRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i247.CreatePostUseCase>(() => _i247.CreatePostUseCase(
-          gh<_i221.PostRepository>(),
+    gh.lazySingleton<_i238.CreatePostUseCase>(() => _i238.CreatePostUseCase(
+          gh<_i213.PostRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i248.SetStateUseCase>(() => _i248.SetStateUseCase(
+    gh.lazySingleton<_i239.SetStateUseCase>(() => _i239.SetStateUseCase(
           gh<_i17.Env>(),
-          gh<_i206.StatementsRepository>(),
+          gh<_i200.StatementsRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i249.StatementsUseCase>(() => _i249.StatementsUseCase(
+    gh.lazySingleton<_i240.StatementsUseCase>(() => _i240.StatementsUseCase(
           gh<_i17.Env>(),
-          gh<_i206.StatementsRepository>(),
+          gh<_i200.StatementsRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i250.GetStateUseCase>(() => _i250.GetStateUseCase(
+    gh.lazySingleton<_i241.GetStateUseCase>(() => _i241.GetStateUseCase(
           gh<_i17.Env>(),
-          gh<_i206.StatementsRepository>(),
+          gh<_i200.StatementsRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i251.TrackingManager>(() => _i251.TrackingManager(
-          gh<_i215.StartCommunityTrackingUseCase>(),
-          gh<_i214.StopCommunityTrackingUseCase>(),
-        ));
-    gh.lazySingleton<_i252.GetPageStructureUseCase>(
-        () => _i252.GetPageStructureUseCase(
-              gh<_i173.PageRepository>(),
+    gh.lazySingleton<_i242.GetPageStructureUseCase>(
+        () => _i242.GetPageStructureUseCase(
+              gh<_i168.PageRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.factory<_i253.WebViewPageCubit>(() => _i253.WebViewPageCubit(
+    gh.factory<_i243.DynamicContentCubit>(() => _i243.DynamicContentCubit(
+          gh<_i242.GetPageStructureUseCase>(),
+          gh<_i32.GetStoredSmartConfigurationUseCase>(),
+        ));
+    gh.factory<_i244.WebViewPageCubit>(() => _i244.WebViewPageCubit(
           gh<_i17.Env>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i96.CognitoAuthManager>(),
-          gh<_i192.WebViewPlayerUseCase>(),
-          gh<_i193.WebViewPlayerLinkedinUseCase>(),
+          gh<_i93.CognitoAuthManager>(),
+          gh<_i186.WebViewPlayerUseCase>(),
+          gh<_i197.WebViewPlayerLinkedinUseCase>(),
         ));
-    gh.lazySingleton<_i254.RatingUseCase>(() => _i254.RatingUseCase(
-          gh<_i197.RatingRepository>(),
+    gh.lazySingleton<_i245.RatingUseCase>(() => _i245.RatingUseCase(
+          gh<_i190.RatingRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.factory<_i255.AnswersCubit>(
-        () => _i255.AnswersCubit(gh<_i191.GetAnswersUseCase>()));
-    gh.lazySingleton<_i256.GetTopicsUseCase>(
-        () => _i256.GetTopicsUseCase(gh<_i181.TopicsRepository>()));
-    gh.lazySingleton<_i257.GetSearchResultsUseCase>(
-        () => _i257.GetSearchResultsUseCase(
-              gh<_i224.SearchRepository>(),
+    gh.lazySingleton<_i246.GetTopicsUseCase>(
+        () => _i246.GetTopicsUseCase(gh<_i175.TopicsRepository>()));
+    gh.lazySingleton<_i247.GetSearchResultsUseCase>(
+        () => _i247.GetSearchResultsUseCase(
+              gh<_i216.SearchRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.factory<_i258.LocalCardCubit>(() => _i258.LocalCardCubit(
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i28.StoreDownloadContentInfoUseCase>(),
-          gh<_i250.GetStateUseCase>(),
-        ));
-    gh.lazySingleton<_i259.GetNotificationsUseCase>(() =>
-        _i259.GetNotificationsUseCase(gh<_i210.NotificationRepository>()));
-    gh.lazySingleton<_i260.SetNotificationsUseCase>(() =>
-        _i260.SetNotificationsUseCase(gh<_i210.NotificationRepository>()));
-    gh.factory<_i261.DownloadItemCubit>(() => _i261.DownloadItemCubit(
-          gh<_i73.ScheduleDownloadUseCase>(),
-          gh<_i75.RetrieveDownloadInfoUseCase>(),
-          gh<_i28.StoreDownloadContentInfoUseCase>(),
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i74.CancelDownloadUseCase>(),
-          gh<_i26.RemoveStoredDownloadContentInfoUseCase>(),
-          gh<_i76.DeleteDownloadUseCase>(),
-          gh<_i13.QueryDownloadManagerUseCase>(),
-          gh<_i183.StartResumeUseCase>(),
-          gh<_i53.DownloadStripCubit>(),
-          gh<_i250.GetStateUseCase>(),
-        ));
-    gh.lazySingleton<_i262.ContinueLearningStripCubit>(() =>
-        _i262.ContinueLearningStripCubit(
-            gh<_i243.GetContinueLearningStripUseCase>()));
-    gh.lazySingleton<_i263.RemoteLabels>(() => _i263.RemoteLabels(
-          gh<_i186.GetLanguagesUseCase>(),
-          gh<_i203.GetLabelsUseCase>(),
+    gh.lazySingleton<_i248.ContinueLearningStripCubit>(() =>
+        _i248.ContinueLearningStripCubit(
+            gh<_i234.GetContinueLearningStripUseCase>()));
+    gh.lazySingleton<_i249.RemoteLabels>(() => _i249.RemoteLabels(
+          gh<_i180.GetLanguagesUseCase>(),
+          gh<_i196.GetLabelsUseCase>(),
           gh<_i3.SharedPreferences>(),
         ));
-    gh.lazySingleton<_i264.FavouritesStripCubit>(
-        () => _i264.FavouritesStripCubit(gh<_i242.GetStandardStripUseCase>()));
-    gh.lazySingleton<_i265.CommunityWallCubit>(() => _i265.CommunityWallCubit(
-          gh<_i229.GetCommunityPostsUseCase>(),
-          gh<_i14.GetSecureStoredUserInfoUseCase>(),
-        ));
-    gh.lazySingleton<_i266.AddFavouritesUseCase>(
-        () => _i266.AddFavouritesUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i250.FavouritesStripCubit>(
+        () => _i250.FavouritesStripCubit(gh<_i233.GetStandardStripUseCase>()));
+    gh.lazySingleton<_i251.AddFavouritesUseCase>(
+        () => _i251.AddFavouritesUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i267.GetRelatedActivitiesUseCase>(
-        () => _i267.GetRelatedActivitiesUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i252.GetRelatedActivitiesUseCase>(
+        () => _i252.GetRelatedActivitiesUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i268.GetToolsUseCase>(() => _i268.GetToolsUseCase(
-          gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i253.GetToolsUseCase>(() => _i253.GetToolsUseCase(
+          gh<_i209.DetailRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i269.GetSharedPostsUseCase>(
-        () => _i269.GetSharedPostsUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i254.GetSharedPostsUseCase>(
+        () => _i254.GetSharedPostsUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i270.GetEditionsUseCase>(() => _i270.GetEditionsUseCase(
-          gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i255.GetEditionsUseCase>(() => _i255.GetEditionsUseCase(
+          gh<_i209.DetailRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i271.GetDetailPageUseCase>(
-        () => _i271.GetDetailPageUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i256.GetDetailPageUseCase>(
+        () => _i256.GetDetailPageUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i272.RemoveFavouritesUseCase>(
-        () => _i272.RemoveFavouritesUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i257.RemoveFavouritesUseCase>(
+        () => _i257.RemoveFavouritesUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i273.GetToolUrlUseCase>(() => _i273.GetToolUrlUseCase(
-          gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i258.GetToolUrlUseCase>(() => _i258.GetToolUrlUseCase(
+          gh<_i209.DetailRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.lazySingleton<_i274.GetTeacherDetailUseCase>(
-        () => _i274.GetTeacherDetailUseCase(
-              gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i259.GetTeacherDetailUseCase>(
+        () => _i259.GetTeacherDetailUseCase(
+              gh<_i209.DetailRepository>(),
               gh<_i14.GetSecureStoredUserInfoUseCase>(),
               gh<_i15.GetStoredCorporateIdUseCase>(),
             ));
-    gh.lazySingleton<_i275.GetRatingUseCase>(() => _i275.GetRatingUseCase(
-          gh<_i217.DetailRepository>(),
+    gh.lazySingleton<_i260.GetRatingUseCase>(() => _i260.GetRatingUseCase(
+          gh<_i209.DetailRepository>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
         ));
-    gh.factory<_i276.OlDownloadDialogCubit>(
-        () => _i276.OlDownloadDialogCubit(gh<_i227.DownloadEventsUseCase>()));
-    gh.factory<_i277.CalendarStripCubit>(
-        () => _i277.CalendarStripCubit(gh<_i244.GetCalendarStripUseCase>()));
-    gh.factory<_i278.SmartLearningBottomSheetCubit>(
-        () => _i278.SmartLearningBottomSheetCubit(
-              gh<_i201.GetSmartLearningSlotsUseCase>(),
-              gh<_i199.CreateSmartLearningSlotUseCase>(),
-              gh<_i202.UpdateSmartLearningSlotUseCase>(),
-              gh<_i200.DeleteSmartLearningSlotUseCase>(),
-              gh<_i244.GetCalendarStripUseCase>(),
-            ));
-    gh.factory<_i279.CommunityCardCubit>(() => _i279.CommunityCardCubit(
-          gh<_i246.DeletePostUseCase>(),
-          gh<_i265.CommunityWallCubit>(),
-        ));
-    gh.lazySingleton<_i280.OfflineCubit>(() => _i280.OfflineCubit(
-          gh<_i68.GetStatementsUseCase>(),
-          gh<_i249.StatementsUseCase>(),
-          gh<_i248.SetStateUseCase>(),
-          gh<_i70.DeleteStatementsUseCase>(),
-          gh<_i38.GetStoredUserSelfUseCase>(),
-          gh<_i22.GetSkipTutorialUseCase>(),
-          gh<_i102.AppCubit>(),
-          gh<_i29.GetSkipOnboardingUseCase>(),
-          gh<_i262.ContinueLearningStripCubit>(),
+    gh.factory<_i261.DetailPageCubit>(() => _i261.DetailPageCubit(
+          gh<_i256.GetDetailPageUseCase>(),
+          gh<_i253.GetToolsUseCase>(),
+          gh<_i252.GetRelatedActivitiesUseCase>(),
+          gh<_i255.GetEditionsUseCase>(),
+          gh<_i254.GetSharedPostsUseCase>(),
+          gh<_i204.AutoEnrollmentUseCase>(),
+          gh<_i177.StartResumeUseCase>(),
+          gh<_i32.GetStoredSmartConfigurationUseCase>(),
+          gh<_i147.EditionRegisterUseCase>(),
+          gh<_i205.BottomEnrollmentUseCase>(),
+          gh<_i248.ContinueLearningStripCubit>(),
+          gh<_i237.DeletePostUseCase>(),
           gh<_i27.GetStoredDownloadContentInfoUseCase>(),
           gh<_i28.StoreDownloadContentInfoUseCase>(),
         ));
-    gh.lazySingleton<_i281.GetSuggestionsUseCase>(
-        () => _i281.GetSuggestionsUseCase(gh<_i224.SearchRepository>()));
-    gh.factory<_i282.StandardStripCubit>(
-        () => _i282.StandardStripCubit(gh<_i242.GetStandardStripUseCase>()));
-    gh.factory<_i283.LogoHeaderCubit>(() => _i283.LogoHeaderCubit(
-          gh<_i223.GetUserImageUseCase>(),
+    gh.factory<_i262.OlDownloadDialogCubit>(
+        () => _i262.OlDownloadDialogCubit(gh<_i219.DownloadEventsUseCase>()));
+    gh.factory<_i263.CalendarStripCubit>(
+        () => _i263.CalendarStripCubit(gh<_i235.GetCalendarStripUseCase>()));
+    gh.factory<_i264.SmartLearningBottomSheetCubit>(
+        () => _i264.SmartLearningBottomSheetCubit(
+              gh<_i194.GetSmartLearningSlotsUseCase>(),
+              gh<_i192.CreateSmartLearningSlotUseCase>(),
+              gh<_i195.UpdateSmartLearningSlotUseCase>(),
+              gh<_i193.DeleteSmartLearningSlotUseCase>(),
+              gh<_i235.GetCalendarStripUseCase>(),
+            ));
+    gh.lazySingleton<_i265.GetSuggestionsUseCase>(
+        () => _i265.GetSuggestionsUseCase(gh<_i216.SearchRepository>()));
+    gh.factory<_i266.StandardStripCubit>(
+        () => _i266.StandardStripCubit(gh<_i233.GetStandardStripUseCase>()));
+    gh.factory<_i267.LogoHeaderCubit>(() => _i267.LogoHeaderCubit(
+          gh<_i215.GetUserImageUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
         ));
-    gh.lazySingleton<_i284.NotificationUseCase>(() => _i284.NotificationUseCase(
-          gh<_i210.NotificationRepository>(),
-          gh<_i14.GetSecureStoredUserInfoUseCase>(),
+    gh.factory<_i268.SearchCubit>(() => _i268.SearchCubit(
+          gh<_i247.GetSearchResultsUseCase>(),
+          gh<_i265.GetSuggestionsUseCase>(),
         ));
-    gh.factory<_i285.LikePostCubit>(() => _i285.LikePostCubit(
-          gh<_i236.GetCommunityPostLikesUseCase>(),
-          gh<_i228.LikePostUseCase>(),
-          gh<_i235.UnlikePostUseCase>(),
-          gh<_i14.GetSecureStoredUserInfoUseCase>(),
-        ));
-    gh.factory<_i286.DynamicAllContentCubit>(() => _i286.DynamicAllContentCubit(
-          gh<_i252.GetPageStructureUseCase>(),
+    gh.factory<_i269.UserAvatarCubit>(
+        () => _i269.UserAvatarCubit(gh<_i215.GetUserImageUseCase>()));
+    gh.factory<_i270.RatingsDialogCubit>(
+        () => _i270.RatingsDialogCubit(gh<_i245.RatingUseCase>()));
+    gh.factory<_i271.DynamicAllContentCubit>(() => _i271.DynamicAllContentCubit(
+          gh<_i242.GetPageStructureUseCase>(),
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
-          gh<_i242.GetStandardStripUseCase>(),
-          gh<_i280.OfflineCubit>(),
+          gh<_i233.GetStandardStripUseCase>(),
         ));
-    gh.factory<_i287.FavoritesContentCubit>(() => _i287.FavoritesContentCubit(
-          gh<_i252.GetPageStructureUseCase>(),
+    gh.factory<_i272.FavoritesContentCubit>(() => _i272.FavoritesContentCubit(
+          gh<_i242.GetPageStructureUseCase>(),
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
-          gh<_i242.GetStandardStripUseCase>(),
-          gh<_i280.OfflineCubit>(),
+          gh<_i233.GetStandardStripUseCase>(),
         ));
-    gh.factory<_i288.SearchCubit>(() => _i288.SearchCubit(
-          gh<_i257.GetSearchResultsUseCase>(),
-          gh<_i281.GetSuggestionsUseCase>(),
-        ));
-    gh.factory<_i289.UserAvatarCubit>(
-        () => _i289.UserAvatarCubit(gh<_i223.GetUserImageUseCase>()));
-    gh.factory<_i290.RatingsDialogCubit>(
-        () => _i290.RatingsDialogCubit(gh<_i254.RatingUseCase>()));
-    gh.factory<_i291.PostCubit>(() => _i291.PostCubit(
-          gh<_i223.GetUserImageUseCase>(),
-          gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i247.CreatePostUseCase>(),
-          gh<_i245.EditPostUseCase>(),
-          gh<_i265.CommunityWallCubit>(),
-        ));
-    gh.singleton<_i292.NotificationCubit>(() => _i292.NotificationCubit(
-          gh<_i259.GetNotificationsUseCase>(),
-          gh<_i260.SetNotificationsUseCase>(),
-        ));
-    gh.factory<_i293.TeacherDetailSheetCubit>(() =>
-        _i293.TeacherDetailSheetCubit(gh<_i274.GetTeacherDetailUseCase>()));
-    gh.factory<_i294.VideoPlayerCubit>(() => _i294.VideoPlayerCubit(
-          gh<_i249.StatementsUseCase>(),
-          gh<_i248.SetStateUseCase>(),
-          gh<_i250.GetStateUseCase>(),
-          gh<_i75.RetrieveDownloadInfoUseCase>(),
-          gh<_i262.ContinueLearningStripCubit>(),
+    gh.factory<_i273.TeacherDetailSheetCubit>(() =>
+        _i273.TeacherDetailSheetCubit(gh<_i259.GetTeacherDetailUseCase>()));
+    gh.factory<_i274.VideoPlayerCubit>(() => _i274.VideoPlayerCubit(
+          gh<_i240.StatementsUseCase>(),
+          gh<_i239.SetStateUseCase>(),
+          gh<_i241.GetStateUseCase>(),
+          gh<_i73.RetrieveDownloadInfoUseCase>(),
+          gh<_i248.ContinueLearningStripCubit>(),
           gh<_i27.GetStoredDownloadContentInfoUseCase>(),
           gh<_i28.StoreDownloadContentInfoUseCase>(),
         ));
-    gh.factory<_i295.LoginCubit>(() => _i295.LoginCubit(
-          gh<_i96.CognitoAuthManager>(),
+    gh.factory<_i275.LoginCubit>(() => _i275.LoginCubit(
+          gh<_i93.CognitoAuthManager>(),
           gh<_i20.GetStoredUsernameUseCase>(),
           gh<_i30.HandlerStoredUsernameUseCase>(),
-          gh<_i93.CreateSessionUseCase>(),
-          gh<_i84.GetUserSelfUseCase>(),
+          gh<_i90.CreateSessionUseCase>(),
+          gh<_i82.GetUserSelfUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i92.CheckSessionUseCase>(),
+          gh<_i89.CheckSessionUseCase>(),
           gh<_i45.SetSecureStoredUserInfoUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
-          gh<_i102.AppCubit>(),
+          gh<_i99.AppCubit>(),
           gh<_i3.SharedPreferences>(),
-          gh<_i263.RemoteLabels>(),
+          gh<_i249.RemoteLabels>(),
         ));
-    gh.factory<_i296.RatingCubit>(() => _i296.RatingCubit(
-          gh<_i275.GetRatingUseCase>(),
+    gh.factory<_i276.RatingCubit>(() => _i276.RatingCubit(
+          gh<_i260.GetRatingUseCase>(),
           gh<_i32.GetStoredSmartConfigurationUseCase>(),
         ));
-    gh.singleton<_i297.NotificationManager>(() => _i297.NotificationManager(
-          gh<_i292.NotificationCubit>(),
-          gh<_i3.SharedPreferences>(),
-          gh<_i284.NotificationUseCase>(),
-        ));
-    gh.factory<_i298.VideoPlayerOfflineCubit>(
-        () => _i298.VideoPlayerOfflineCubit(
-              gh<_i69.StoreStatementUseCase>(),
-              gh<_i249.StatementsUseCase>(),
-              gh<_i248.SetStateUseCase>(),
-              gh<_i262.ContinueLearningStripCubit>(),
+    gh.factory<_i277.VideoPlayerOfflineCubit>(
+        () => _i277.VideoPlayerOfflineCubit(
+              gh<_i67.StoreStatementUseCase>(),
+              gh<_i240.StatementsUseCase>(),
+              gh<_i239.SetStateUseCase>(),
+              gh<_i248.ContinueLearningStripCubit>(),
               gh<_i27.GetStoredDownloadContentInfoUseCase>(),
               gh<_i28.StoreDownloadContentInfoUseCase>(),
             ));
-    gh.factory<_i299.LocalCardStatusCubit>(() => _i299.LocalCardStatusCubit(
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i271.GetDetailPageUseCase>(),
-          gh<_i28.StoreDownloadContentInfoUseCase>(),
-          gh<_i250.GetStateUseCase>(),
+    gh.factory<_i278.WallCubit>(() => _i278.WallCubit(
+          gh<_i189.GetWallStripContentUseCase>(),
+          gh<_i257.RemoveFavouritesUseCase>(),
+          gh<_i250.FavouritesStripCubit>(),
         ));
-    gh.factory<_i300.PostDetailCubit>(() => _i300.PostDetailCubit(
-          gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i230.GetSharedPostUseCase>(),
-          gh<_i223.GetUserImageUseCase>(),
-          gh<_i234.GetCommunityPostUseCase>(),
-          gh<_i246.DeletePostUseCase>(),
-          gh<_i265.CommunityWallCubit>(),
+    gh.factory<_i279.FavouriteCubit>(() => _i279.FavouriteCubit(
+          gh<_i251.AddFavouritesUseCase>(),
+          gh<_i257.RemoveFavouritesUseCase>(),
+          gh<_i250.FavouritesStripCubit>(),
         ));
-    gh.factory<_i301.WallCubit>(() => _i301.WallCubit(
-          gh<_i196.GetWallStripContentUseCase>(),
-          gh<_i272.RemoveFavouritesUseCase>(),
-          gh<_i264.FavouritesStripCubit>(),
-        ));
-    gh.factory<_i302.FavouriteCubit>(() => _i302.FavouriteCubit(
-          gh<_i266.AddFavouritesUseCase>(),
-          gh<_i272.RemoveFavouritesUseCase>(),
-          gh<_i264.FavouritesStripCubit>(),
-        ));
-    gh.factory<_i303.DetailPageCubit>(() => _i303.DetailPageCubit(
-          gh<_i271.GetDetailPageUseCase>(),
-          gh<_i268.GetToolsUseCase>(),
-          gh<_i267.GetRelatedActivitiesUseCase>(),
-          gh<_i270.GetEditionsUseCase>(),
-          gh<_i269.GetSharedPostsUseCase>(),
-          gh<_i212.AutoEnrollmentUseCase>(),
-          gh<_i183.StartResumeUseCase>(),
-          gh<_i32.GetStoredSmartConfigurationUseCase>(),
-          gh<_i152.EditionRegisterUseCase>(),
-          gh<_i213.BottomEnrollmentUseCase>(),
-          gh<_i262.ContinueLearningStripCubit>(),
-          gh<_i246.DeletePostUseCase>(),
-          gh<_i230.GetSharedPostUseCase>(),
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i28.StoreDownloadContentInfoUseCase>(),
-          gh<_i53.DownloadStripCubit>(),
-        ));
-    gh.factory<_i304.TopicsFilterCubit>(
-        () => _i304.TopicsFilterCubit(gh<_i256.GetTopicsUseCase>()));
-    gh.factory<_i305.LanguagesCubit>(
-        () => _i305.LanguagesCubit(gh<_i263.RemoteLabels>()));
-    gh.factory<_i306.ToolItemCubit>(
-        () => _i306.ToolItemCubit(gh<_i273.GetToolUrlUseCase>()));
-    gh.factory<_i307.AddCommentWidgetCubit>(() => _i307.AddCommentWidgetCubit(
-          gh<_i237.AddCommentUseCase>(),
-          gh<_i231.AddAnswerUseCase>(),
-          gh<_i233.EditCommentUseCase>(),
-          gh<_i238.DeleteCommentUseCase>(),
-          gh<_i265.CommunityWallCubit>(),
-        ));
-    gh.factory<_i308.DynamicContentCubit>(() => _i308.DynamicContentCubit(
-          gh<_i252.GetPageStructureUseCase>(),
-          gh<_i32.GetStoredSmartConfigurationUseCase>(),
-          gh<_i280.OfflineCubit>(),
-        ));
-    gh.factory<_i309.DownloadWallCubit>(() => _i309.DownloadWallCubit(
-          gh<_i13.QueryDownloadManagerUseCase>(),
-          gh<_i26.RemoveStoredDownloadContentInfoUseCase>(),
-          gh<_i74.CancelDownloadUseCase>(),
-          gh<_i76.DeleteDownloadUseCase>(),
-          gh<_i27.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i280.OfflineCubit>(),
-          gh<_i68.GetStatementsUseCase>(),
-        ));
-    gh.factory<_i310.InitiativesCubit>(() => _i310.InitiativesCubit(
-          gh<_i91.SetInitiativeUseCase>(),
+    gh.factory<_i280.TopicsFilterCubit>(
+        () => _i280.TopicsFilterCubit(gh<_i246.GetTopicsUseCase>()));
+    gh.factory<_i281.InitiativesCubit>(() => _i281.InitiativesCubit(
+          gh<_i88.SetInitiativeUseCase>(),
           gh<_i40.SetStoredUserSelfUseCase>(),
           gh<_i45.SetSecureStoredUserInfoUseCase>(),
-          gh<_i165.GetMenuStructureUseCase>(),
+          gh<_i160.GetMenuStructureUseCase>(),
           gh<_i14.GetSecureStoredUserInfoUseCase>(),
-          gh<_i184.GetSmartConfigurationUseCase>(),
+          gh<_i178.GetSmartConfigurationUseCase>(),
           gh<_i15.GetStoredCorporateIdUseCase>(),
           gh<_i11.SetStoredSmartConfigurationUseCase>(),
-          gh<_i297.NotificationManager>(),
-          gh<_i89.CleanLocalDatabaseUseCase>(),
-          gh<_i92.CheckSessionUseCase>(),
-          gh<_i185.GetColorsUseCase>(),
-          gh<_i263.RemoteLabels>(),
-          gh<_i265.CommunityWallCubit>(),
-          gh<_i216.GetAppresourceUseCase>(),
+          gh<_i87.CleanLocalDatabaseUseCase>(),
+          gh<_i89.CheckSessionUseCase>(),
+          gh<_i179.GetColorsUseCase>(),
+          gh<_i249.RemoteLabels>(),
+          gh<_i208.GetAppresourceUseCase>(),
         ));
+    gh.factory<_i282.LanguagesCubit>(
+        () => _i282.LanguagesCubit(gh<_i249.RemoteLabels>()));
+    gh.factory<_i283.ToolItemCubit>(
+        () => _i283.ToolItemCubit(gh<_i258.GetToolUrlUseCase>()));
     return this;
   }
 }
 
-class _$ExternalModule extends _i311.ExternalModule {}
+class _$ExternalModule extends _i284.ExternalModule {}

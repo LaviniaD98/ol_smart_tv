@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
@@ -532,15 +532,17 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                                           widget.args, widget.model);
                                   break;
                                 case ObjLOAction.ecmNotRegistered:
-                                  final res = await context.pushNamed<bool?>(
-                                    EcmRegistrationPage.routeName,
-                                    extra: EcmRegistrationPageArgs(
-                                      enrollId: widget.model.enrollId,
-                                      loId: widget.model.id,
-                                      sponsors: widget.model.sponsors ?? [],
-                                    ),
-                                  );
+                                  final res = await Nav.push(context,
+                                      screen: EcmRegistrationPage(
+                                        EcmRegistrationPageArgs(
+                                          enrollId: widget.model.enrollId,
+                                          loId: widget.model.id,
+                                          sponsors: widget.model.sponsors ?? [],
+                                        ),
+                                      ));
+
                                   if (res != null && res && context.mounted) {
+                                    // ignore: use_build_context_synchronously
                                     context
                                         .read<DetailPageCubit>()
                                         .init(widget.args);

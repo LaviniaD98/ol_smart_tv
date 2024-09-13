@@ -1,7 +1,6 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/dialog_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../theme/app_theme.dart';
 
@@ -20,7 +19,7 @@ class OlOkInfoDialog extends StatelessWidget {
     required this.okCallback,
   });
 
-  static Future<bool?> show(
+  static Future<dynamic> show(
     BuildContext context, {
     required String title,
     required String message,
@@ -29,9 +28,8 @@ class OlOkInfoDialog extends StatelessWidget {
     required VoidCallback okCallback,
     bool barrierDismissible = true,
   }) {
-    return context.pushNamed(
-      DialogPage.routeName,
-      extra: DialogPage(
+    return Navigator.of(context).push(
+      DialogPage(
         barrierDismissible: barrierDismissible,
         builder: (context) => OlOkInfoDialog._(
           title: title,
@@ -40,7 +38,7 @@ class OlOkInfoDialog extends StatelessWidget {
           cancelActionLabel: cancelActionLabel,
           okCallback: okCallback,
         ),
-      ),
+      ).createRoute(context),
     );
   }
 

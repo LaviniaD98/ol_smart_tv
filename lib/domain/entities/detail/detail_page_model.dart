@@ -16,6 +16,7 @@ import 'package:equatable/equatable.dart';
 import '../generic/agenda_model.dart';
 import '../strip/learning_object/meeting_details_model.dart';
 
+// ignore: must_be_immutable
 class DetailPageModel extends Equatable {
   DetailPageModel({
     this.id,

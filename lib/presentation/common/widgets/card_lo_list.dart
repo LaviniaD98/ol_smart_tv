@@ -3,6 +3,22 @@ import 'tag/duration_tag.dart';
 import 'tag/status_tag.dart';
 
 class CardListLO extends StatelessWidget {
+  const CardListLO({
+    required this.index,
+    required this.borderColor,
+    required this.iconData,
+    required this.size,
+    required this.onButtonPressed,
+    required this.livelloText,
+    required this.tipoText,
+    required this.descrizione,
+    required this.titolo,
+    required this.imageUrl,
+    this.durataText,
+    this.durataColor,
+    this.radius = 8.0,
+    super.key,
+  });
   final int index;
   final Color borderColor;
   final IconData? iconData;
@@ -16,21 +32,6 @@ class CardListLO extends StatelessWidget {
   final Color? durataColor;
   final String titolo;
   final String imageUrl;
-
-  CardListLO(
-      {required this.index,
-      required this.borderColor,
-      required this.iconData,
-      required this.size,
-      required this.onButtonPressed,
-      required this.livelloText,
-      required this.tipoText,
-      required this.descrizione,
-      this.durataText = null,
-      this.durataColor = null,
-      required this.titolo,
-      required this.imageUrl,
-      this.radius = 8.0});
 
   @override
   Widget build(BuildContext context) {

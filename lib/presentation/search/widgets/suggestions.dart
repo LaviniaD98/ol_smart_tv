@@ -1,6 +1,6 @@
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/search/suggestion_model.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../color_management/color_manager.dart';
 import '../../../theme/app_theme.dart';
@@ -21,13 +21,13 @@ class Suggestions extends StatelessWidget {
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-            context.pushNamed(
-              DetailPage.routeName,
-              extra: DetailPageArgs(
-                id: suggestions[index].id.toString(),
-                typology: suggestions[index].learningObjectTypology,
-              ),
-            );
+            Nav.push(context,
+                screen: DetailPage(
+                  args: DetailPageArgs(
+                    id: suggestions[index].id.toString(),
+                    typology: suggestions[index].learningObjectTypology,
+                  ),
+                ));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(

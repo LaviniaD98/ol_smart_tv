@@ -60,9 +60,7 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (didPop) {
-        print('DID POP: $didPop');
-
+      onPopInvokedWithResult: (didPop, _) {
         if (manager.currentTabNavKey?.currentState?.canPop() ?? false) {
           manager.currentTabNavKey?.currentState?.pop();
         }

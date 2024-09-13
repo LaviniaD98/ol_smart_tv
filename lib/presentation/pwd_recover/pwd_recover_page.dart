@@ -117,7 +117,6 @@ class _PwdRecoverStartPageState extends State<PwdRecoverStartPage> {
                 const SizedBox(width: 32),
                 Expanded(
                   child: Text(
-                    // TODO(UmbertoGrimaldi): add remote string
                     'Controlla la posta!\nTi abbiamo inviato una mail con la procedura per la reimpostazione della password',
                     textAlign: TextAlign.start,
                     style: AppTextTheme.subtitle(),
@@ -132,7 +131,6 @@ class _PwdRecoverStartPageState extends State<PwdRecoverStartPage> {
                 FocusTraversalOrder(
                   order: const NumericFocusOrder(2.0),
                   child: OLButton(
-                    // TODO(UmbertoGrimaldi): add remote string
                     title: 'Torna alla Login',
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -152,9 +150,7 @@ class _PwdRecoverStartPageState extends State<PwdRecoverStartPage> {
     return ReactiveForm(
       formGroup: form,
       child: LoginCard(
-        // TODO(UmbertoGrimaldi): add remote string
         title: 'Reimposta password',
-        // TODO(UmbertoGrimaldi): add remote string
         description: 'Segui le istruzioni e crea una password sicura',
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +173,6 @@ class _PwdRecoverStartPageState extends State<PwdRecoverStartPage> {
                       FocusTraversalOrder(
                         order: const NumericFocusOrder(1.0),
                         child: OLButton(
-                          // TODO(UmbertoGrimaldi): add remote string
                           title: 'Reset Password',
                           onPressed: (formGroup.findControl('username')?.value
                                           as String?)

@@ -1,8 +1,6 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/dialog_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../../../theme/app_theme.dart';
 
 class OlOkCancelDialog extends StatelessWidget {
@@ -22,7 +20,7 @@ class OlOkCancelDialog extends StatelessWidget {
     this.cancelCallback,
   });
 
-  static Future<bool?> show(
+  static Future<dynamic> show(
     BuildContext context, {
     required String title,
     required String message,
@@ -32,9 +30,8 @@ class OlOkCancelDialog extends StatelessWidget {
     VoidCallback? cancelCallback,
     bool barrierDismissible = true,
   }) {
-    return context.pushNamed(
-      DialogPage.routeName,
-      extra: DialogPage(
+    return Navigator.of(context).push(
+      DialogPage(
         barrierDismissible: barrierDismissible,
         builder: (context) => OlOkCancelDialog._(
           title: title,
@@ -44,7 +41,7 @@ class OlOkCancelDialog extends StatelessWidget {
           okCallback: okCallback,
           cancelCallback: cancelCallback,
         ),
-      ),
+      ).createRoute(context),
     );
   }
 
@@ -78,7 +75,7 @@ class OlOkCancelDialog extends StatelessWidget {
             OutlinedButton(
               style: AppButtonStyle.trasparent,
               onPressed: () {
-                context.pop(true);
+                Navigator.of(context).pop(false);
                 cancelCallback?.call();
               },
               child: Text(
@@ -92,7 +89,7 @@ class OlOkCancelDialog extends StatelessWidget {
             ElevatedButton(
               style: AppButtonStyle.red,
               onPressed: () {
-                context.pop(true);
+                Navigator.of(context).pop(true);
                 okCallback?.call();
               },
               child: Text(

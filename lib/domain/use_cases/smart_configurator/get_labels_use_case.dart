@@ -20,8 +20,6 @@ class GetLabelsUseCase {
   );
 
   Future<Either<Failure, Map<String, String>>> call(String langCode) async {
-    //TODO language - only for test
-    // if(langCode == 'en') return Future.value(Right(test(langCode)));
     /// Get initiativeId
     UserInfoModel? userInfoModel = await _getSecureStoredUserInfoUseCase();
     int? initiativeId = userInfoModel?.initiativeId;
@@ -37,7 +35,6 @@ class GetLabelsUseCase {
   }
 }
 
-//TODO language - only for test
 Map<String, String> test(String langCode) {
   return {
     "Public": langCode,

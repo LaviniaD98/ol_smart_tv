@@ -2,7 +2,8 @@ import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../domain/entities/detail/detail_page_model.dart';
@@ -40,14 +41,16 @@ class LearningCardWall extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        context.pushNamed(
-          DetailPage.routeName,
-          extra: DetailPageArgs(
-            id: data.id.toString(),
-            typology: data.learningObjectTypology,
-            parent: parentModel,
-            parentId: parentId ?? data.parentId?.toString(),
-            grandParentId: grandParentId ?? data.grandParentId?.toString(),
+        Nav.push(
+          context,
+          screen: DetailPage(
+            args: DetailPageArgs(
+              id: data.id.toString(),
+              typology: data.learningObjectTypology,
+              parent: parentModel,
+              parentId: parentId ?? data.parentId?.toString(),
+              grandParentId: grandParentId ?? data.grandParentId?.toString(),
+            ),
           ),
         );
       },

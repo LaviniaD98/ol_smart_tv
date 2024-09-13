@@ -1,16 +1,15 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../remote_theming/labels/remote_labels_keys.dart';
@@ -83,19 +82,22 @@ class _LearningCardState extends State<LearningCard> {
               behavior: HitTestBehavior.translucent,
               onTap: widget.enable
                   ? () async {
-                      await context.pushNamed(DetailPage.routeName,
-                          extra: DetailPageArgs(
-                            id: widget.data.id.toString(),
-                            typology: widget.data.learningObjectTypology,
-                            parentId: widget.parentId?.isNotEmpty == true
-                                ? widget.parentId
-                                : widget.data.parentId?.toString(),
-                            grandParentId:
-                                widget.grandParentId?.isNotEmpty == true
-                                    ? widget.grandParentId
-                                    : widget.data.grandParentId?.toString(),
-                            parent: widget.parentDetailPageModel,
+                      Nav.push(context,
+                          screen: DetailPage(
+                            args: DetailPageArgs(
+                              id: widget.data.id.toString(),
+                              typology: widget.data.learningObjectTypology,
+                              parentId: widget.parentId?.isNotEmpty == true
+                                  ? widget.parentId
+                                  : widget.data.parentId?.toString(),
+                              grandParentId:
+                                  widget.grandParentId?.isNotEmpty == true
+                                      ? widget.grandParentId
+                                      : widget.data.grandParentId?.toString(),
+                              parent: widget.parentDetailPageModel,
+                            ),
                           ));
+
                       if (context.mounted &&
                           widget.returnFromDetailCallback != null) {
                         widget.returnFromDetailCallback?.call();

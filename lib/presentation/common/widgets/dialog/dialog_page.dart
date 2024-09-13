@@ -36,7 +36,7 @@ class DialogPage<T> extends Page<T> {
         settings: this,
         builder: (context) => Dialog(
           insetPadding: insetPadding ?? const EdgeInsets.all(Dimens.spacingL),
-          child: Container(
+          child: SizedBox(
             width: 500,
             child: builder(context),
           ),

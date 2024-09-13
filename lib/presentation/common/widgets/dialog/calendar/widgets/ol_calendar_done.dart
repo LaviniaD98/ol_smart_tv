@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../../color_management/color_manager.dart';
 import '../../../../../../remote_theming/labels/labels_manager.dart';
@@ -17,7 +16,8 @@ class OlCalendarDone extends StatelessWidget {
         Expanded(
           child: Center(
             child: Text(
-              LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.add_calendar_done),
+              LabelsManager().getRemoteStringFromLabelKeys(
+                  RemoteLabelKeys.add_calendar_done),
               textAlign: TextAlign.center,
               style: AppTextTheme.dialogTitle(
                 color: ColorManager().getColorTextPrimary(),
@@ -28,7 +28,7 @@ class OlCalendarDone extends StatelessWidget {
         const SizedBox(height: Dimens.spacingXXL),
         ElevatedButton(
           style: AppButtonStyle.red,
-          onPressed: context.pop,
+          onPressed: () => Navigator.of(context).pop(),
           child: Text(
             LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
             textAlign: TextAlign.center,

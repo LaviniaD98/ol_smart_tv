@@ -1,11 +1,11 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/wall/wall_strip_content_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/dependency_injection/dependency_injection.dart';
@@ -70,21 +70,21 @@ class _FavouritesStripRowState extends State<FavouritesStripRow>
                               ),
                               const SizedBox(width: Dimens.spacingM),
                               GestureDetector(
-                                  onTap: () {
-                                    context.pushNamed(
-                                      WallStripContentPage.routeName,
-                                      extra: WallStripContentPageArgs(
-                                          widget.strip),
-                                    );
-                                  },
-                                  child: Transform.scale(
-                                      scale: 0.9999,
-                                      child: SvgPicture.asset(
-                                          "assets/icons/right_arrow.svg",
-                                          colorFilter: ColorFilter.mode(
-                                              ColorManager()
-                                                  .getColorTextPrimary(),
-                                              BlendMode.srcIn)))),
+                                onTap: () {
+                                  Nav.push(
+                                    context,
+                                    screen: WallStripContentPage(
+                                      WallStripContentPageArgs(widget.strip),
+                                    ),
+                                  );
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/icons/right_arrow.svg",
+                                  colorFilter: ColorFilter.mode(
+                                      ColorManager().getColorTextPrimary(),
+                                      BlendMode.srcIn),
+                                ),
+                              ),
                             ],
                           ),
                         ),

@@ -254,7 +254,7 @@ class _TutorialSheetState extends State<TutorialSheet> {
                     end: Alignment.topCenter,
                     colors: [
                       Colors.transparent,
-                      Color(0xFF38383D), //TODO: fix hardcoded color
+                      Color(0xFF38383D),
                     ],
                   ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                 },

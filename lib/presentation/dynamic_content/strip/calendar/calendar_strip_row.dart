@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -13,8 +12,6 @@ import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../domain/entities/strip/calendar/activity/calendar_activity.dart';
 import '../../../../domain/entities/strip/calendar/days_to_highlight_model.dart';
 import '../../../../domain/entities/strip/row/strip_row.dart';
-import '../../../../domain/enums/types.dart';
-import '../../../common/widgets/dialog/calendar/ol_calendar_dialog.dart';
 import '../../../common/widgets/smart_learning_bottom_sheet/smart_learning_bottom_sheet.dart';
 import 'cubit/calendar_strip_cubit.dart';
 import 'widgets/activities.dart';
@@ -146,13 +143,13 @@ class _CalendarStripContent extends StatelessWidget {
               InkWell(
                 onTap: () {
                   if (activities?.isNotEmpty == true) {
-                    context.pushNamed(
-                      OlCalendarDialog.routeName,
-                      extra: OlCalendarDialogArgs(
-                        type: AgendaEventType.events,
-                        activities: activities,
-                      ),
-                    );
+                    // context.pushNamed(
+                    //   OlCalendarDialog.routeName,
+                    //   extra: OlCalendarDialogArgs(
+                    //     type: AgendaEventType.events,
+                    //     activities: activities,
+                    //   ),
+                    // );
                   }
                 },
                 child: Container(

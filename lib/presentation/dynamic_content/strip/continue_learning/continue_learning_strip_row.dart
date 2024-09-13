@@ -3,7 +3,7 @@ import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/dependency_injection/dependency_injection.dart';
@@ -72,21 +72,20 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
                             ),
                             const SizedBox(width: Dimens.spacingM),
                             GestureDetector(
-                                onTap: () {
-                                  context.pushNamed(
-                                    WallStripContentPage.routeName,
-                                    extra:
-                                        WallStripContentPageArgs(widget.strip),
-                                  );
-                                },
-                                child: Transform.scale(
-                                    scale: 0.9999,
-                                    child: SvgPicture.asset(
-                                        "assets/icons/right_arrow.svg",
-                                        colorFilter: ColorFilter.mode(
-                                            ColorManager()
-                                                .getColorTextPrimary(),
-                                            BlendMode.srcIn)))),
+                              onTap: () {
+                                Nav.push(context,
+                                    screen: WallStripContentPage(
+                                      WallStripContentPageArgs(widget.strip),
+                                    ));
+                              },
+                              child: SvgPicture.asset(
+                                "assets/icons/right_arrow.svg",
+                                colorFilter: ColorFilter.mode(
+                                  ColorManager().getColorTextPrimary(),
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -103,18 +102,20 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
                               data: value.items[index],
                               index: index,
                               onButtonPressed: (index) {
-                                context.pushNamed(
-                                  DetailPage.routeName,
-                                  extra: DetailPageArgs(
-                                    id: value.items[index].id.toString(),
-                                    object: value.items[index],
-                                    parentId:
-                                        value.items[index].parentId?.toString(),
-                                    grandParentId: value
-                                        .items[index].grandParentId
-                                        ?.toString(),
-                                    typology: value
-                                        .items[index].learningObjectTypology,
+                                Nav.push(
+                                  context,
+                                  screen: DetailPage(
+                                    args: DetailPageArgs(
+                                      id: value.items[index].id.toString(),
+                                      object: value.items[index],
+                                      parentId: value.items[index].parentId
+                                          ?.toString(),
+                                      grandParentId: value
+                                          .items[index].grandParentId
+                                          ?.toString(),
+                                      typology: value
+                                          .items[index].learningObjectTypology,
+                                    ),
                                   ),
                                 );
                               },

@@ -11,5 +11,4 @@ class DetailPageState with _$DetailPageState {
   const factory DetailPageState.loading() = Loading;
   const factory DetailPageState.error() = Error;
   const factory DetailPageState.errorWithDialog(String message) = ErrorWithDialog;
-  const factory DetailPageState.goToSharedPostDetails(PostDetailPageArgs args) = GoToSharedPostDetails;
 }

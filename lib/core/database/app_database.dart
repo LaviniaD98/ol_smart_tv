@@ -26,7 +26,7 @@ class AppDatabase extends _$AppDatabase {
       for (final table in allTables) {
         try {
           await delete(table).go();
-        } catch (e) {}
+        } catch (_) {}
       }
     });
   }

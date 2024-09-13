@@ -3,7 +3,6 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/tag/duration_
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../color_management/color_manager.dart';
 import '../../remote_theming/labels/labels_manager.dart';
@@ -38,7 +37,7 @@ class ParentCourseCard extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                context.pop();
+                Navigator.of(context).pop();
               },
               child: Row(
                 mainAxisSize: MainAxisSize.max,

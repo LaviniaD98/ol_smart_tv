@@ -16,6 +16,7 @@ class GlowIcon extends Icon {
     this.blurRadius,
   }) : super(icon, key: key);
 
+  
   @override
   final IconData? icon;
 

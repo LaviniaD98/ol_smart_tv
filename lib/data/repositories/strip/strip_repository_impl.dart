@@ -1,5 +1,4 @@
 import 'package:open_learning_smart_tv/data/data_sources/strip/strip_data_source.dart';
-import 'package:open_learning_smart_tv/domain/entities/smart_learning/slot_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/calendar/not_available_slots_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:dartz/dartz.dart';

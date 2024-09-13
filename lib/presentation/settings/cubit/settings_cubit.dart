@@ -60,7 +60,6 @@ class SettingsCubit extends Cubit<SettingsState> {
     var sessionRes = await _cognitoAuthManager.checkSession();
     sessionRes.fold(
       (l) {
-        print('1-------csdcsdcs');
         emit(const SettingsState.error());
         bool? loggedInViaSSO =
             _sharedPreferences.getBool(SharedPreferencesKeys.loggedInViaSSO);
@@ -73,7 +72,6 @@ class SettingsCubit extends Cubit<SettingsState> {
         );
       },
       (session) async {
-        print('2-------csdcsdcs');
         UserInfoModel? userInfoModel =
             await _getSecureStoredUserInfoUseCase.call();
         String? sessionId = userInfoModel?.sessionId;

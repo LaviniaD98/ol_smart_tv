@@ -32,7 +32,7 @@ class AutoEnrollmentUseCase {
     String path = "enrollment/enrollments";
     LearningObjectBodyDto lo =
         LearningObjectBodyDto(corporateId?.id, idOggetto);
-    // TODO: Verificare i dati mancanti e il discorso parentId / grandparent se bisogna fare l'autoenrollment non direttamente di un nodo figlio
+
     EnrollmentDto ed = EnrollmentDto("0", initiativeId, getCurrentDateTime(),
         enrollType, lo, false, idUser!);
     return await _repository.autoEnrollment(path, [ed]);
