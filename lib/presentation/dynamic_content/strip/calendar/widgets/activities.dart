@@ -44,17 +44,17 @@ class _ActivitiesState extends State<Activities> {
       children: [
         Row(
           children: [
-            Expanded(
-              child: Text(
-                _getDayLabel,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextTheme.caption(
-                  color: ColorManager().getColorTextPrimary(),
-                ),
-              ),
-            ),
-            const SizedBox(width: Dimens.spacingM),
+            // Expanded(
+            //   child: Text(
+            //     _getDayLabel,
+            //     maxLines: 1,
+            //     overflow: TextOverflow.ellipsis,
+            //     style: AppTextTheme.caption(
+            //       color: ColorManager().getColorTextPrimary(),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(width: Dimens.spacingM),
             if (widget.items.length > 2)
               InkWell(
                 onTap: () {

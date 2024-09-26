@@ -1,11 +1,9 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/calendar_shimmer.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/dependency_injection/dependency_injection.dart';
@@ -102,27 +100,15 @@ class _CalendarStripContent extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Dimens.spacingM),
       margin: const EdgeInsets.all(Dimens.spacingL),
-      decoration: BoxDecoration(
-        gradient: AppTheme.greyGradient,
-        borderRadius: const BorderRadius.all(Radius.circular(Dimens.radius)),
-      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            DateFormat(DateFormat.YEAR_MONTH).format(date).capitalize,
-            style: AppTextTheme.subtitle(
-              color: ColorManager().getColorTextPrimary(),
-              weight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: Dimens.spacingM),
           WeekRow(
             highlighted: daysToHighlight ?? [],
             date: date,
             onTap: (date) {
-              if (!showShimmer)
-                context.read<CalendarStripCubit>().fetch(strip, date);
+              print('ONTAP: $date');
+              context.read<CalendarStripCubit>().fetch(strip, date);
             },
           ),
           const Divider(height: Dimens.spacingXXXL, color: AppColors.grey),
@@ -140,42 +126,7 @@ class _CalendarStripContent extends StatelessWidget {
           const SizedBox(height: Dimens.spacingM),
           Row(
             children: [
-              InkWell(
-                onTap: () {
-                  if (activities?.isNotEmpty == true) {
-                    // context.pushNamed(
-                    //   OlCalendarDialog.routeName,
-                    //   extra: OlCalendarDialogArgs(
-                    //     type: AgendaEventType.events,
-                    //     activities: activities,
-                    //   ),
-                    // );
-                  }
-                },
-                child: Container(
-                  height: Dimens.buttonHeight,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: Dimens.spacingXS,
-                    horizontal: Dimens.spacingM,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorManager().getColorBackgroundPrimaryLighter(),
-                    borderRadius: BorderRadius.circular(Dimens.radius),
-                    border: Border.all(
-                        width: 1, color: ColorManager().getColorBorderTag()),
-                  ),
-                  child: SvgPicture.asset(
-                    "assets/icons/download.svg",
-                    colorFilter: ColorFilter.mode(
-                        (activities?.isNotEmpty == true)
-                            ? ColorManager().getColorSystemSecondary04()
-                            : ColorManager().getColorSystemDisabled(),
-                        BlendMode.srcIn),
-                  ),
-                ),
-              ),
               if (smartLearningEnabled) ...[
-                const SizedBox(width: Dimens.spacingXS),
                 Expanded(
                   child: SmartLearningButton(
                     onTap: date.isAfter(

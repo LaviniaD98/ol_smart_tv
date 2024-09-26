@@ -1,6 +1,4 @@
 import 'package:open_learning_smart_tv/data/models/failure.dart';
-import 'package:open_learning_smart_tv/domain/entities/page/page_model.dart';
-import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/page/get_page_structure_use_case.dart';
@@ -9,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/strip/get_standard_strip_use_case.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 
 import '../../../domain/use_cases/smart_configurator/get_stored_smart_configuration_use_case.dart';
 
@@ -117,17 +116,4 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
   void setFilters([List<String>? filters]) async {
     // emit((state as Success).copyWith(filters: [...?filters]));
   }
-}
-
-class DynamicLocalContent {
-  DynamicLocalContent({
-    required this.path,
-    required this.page,
-    this.filters,
-    this.smartConfig,
-  });
-  String path;
-  SmartConfiguratorModel? smartConfig;
-  List<String>? filters;
-  PageModel page;
 }

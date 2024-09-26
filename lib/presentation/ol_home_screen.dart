@@ -58,6 +58,7 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //print('widget.dynamicRoutes: ${widget.dynamicRoutes}');
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -126,7 +127,9 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                       return IGTabNavigator(
                         navigatorKey: agendaTabKey,
                         tabRoute: 'routeKeyAgenda',
-                        tabScreen: const AgendaScreen(),
+                        tabScreen: AgendaScreen(
+                          dynamicRoutes: widget.dynamicRoutes,
+                        ),
                       );
                     } else if (index == 5) {
                       return MultiBlocProvider(

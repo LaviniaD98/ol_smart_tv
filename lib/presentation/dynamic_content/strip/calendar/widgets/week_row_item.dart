@@ -1,10 +1,11 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class WeekRowItem extends StatelessWidget {
+class WeekRowItem extends StatefulWidget {
   final bool selected;
   final DateTime date;
   final DayType type;
@@ -19,51 +20,94 @@ class WeekRowItem extends StatelessWidget {
   });
 
   @override
+  State<WeekRowItem> createState() => _WeekRowItemState();
+}
+
+class _WeekRowItemState extends State<WeekRowItem> {
+  late FocusNode focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+
+    focusNode = FocusNode(debugLabel: 'WeekRowItem - ${widget.date}');
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => onTap(date),
-      child: Column(
-        children: [
-          Text(
-            DateFormat(DateFormat.WEEKDAY).format(date)[0].toUpperCase(),
-            style: AppTextTheme.caption(
-              color: ColorManager().getColorTextMandatory(),
-              weight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: Dimens.spacingXS),
-          AnimatedContainer(
+    return Column(
+      children: [
+        InkWell(
+          focusNode: focusNode,
+          onFocusChange: (hasFocus) {
+            if (hasFocus) {
+              print('HAS FOCUS -- - - - - ${focusNode.debugLabel}');
+            }
+            setState(() {});
+          },
+          onTap: () {
+            widget.onTap(widget.date);
+          },
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          focusColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          child: AnimatedContainer(
             duration: const Duration(milliseconds: 160),
-            width: double.infinity,
+            height: 80,
+            width: 80,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(Dimens.spacingXXS),
             decoration: BoxDecoration(
-              color: _getBackgroundColor,
+              color: widget.selected
+                  ? const Color(0xFFFF6B00)
+                  : Colors.transparent,
+              border: Border.all(
+                color: focusNode.hasFocus
+                    ? OLColors.textPrimary
+                    : Colors.transparent,
+                width: 2.0,
+              ),
               shape: BoxShape.circle,
             ),
-            child: Text(
-              DateFormat(DateFormat.DAY).format(date),
-              textAlign: TextAlign.center,
-              style: AppTextTheme.caption(
-                color: _getTextColor,
-                weight: FontWeight.w700,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  DateFormat(DateFormat.DAY).format(widget.date),
+                  textAlign: TextAlign.center,
+                  style: AppTextTheme.caption(
+                    color: _getTextColor,
+                    weight: FontWeight.w700,
+                    size: 32,
+                  ).copyWith(height: 1.3),
+                ),
+                SizedBox(
+                  height: 8.0,
+                  width: 8.0,
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity: widget.type != DayType.empty ? 1 : 0,
+                    child: Icon(
+                      Icons.circle,
+                      color: _getTextColor,
+                      size: 8.0,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(height: Dimens.spacingXXS),
-          AnimatedOpacity(
-              duration: const Duration(milliseconds: 300),
-              opacity: type != DayType.empty ? 1 : 0,
-              child: Icon(Icons.circle,
-                  color: ColorManager().getColorTextPrimary(), size: 4.0)),
-        ],
-      ),
+        ),
+        const SizedBox(height: Dimens.spacingXXS),
+      ],
     );
   }
 
   Color get _getBackgroundColor {
-    if (selected) {
-      switch (type) {
+    if (widget.selected) {
+      switch (widget.type) {
         case DayType.mandatory:
           return ColorManager().getColorBackgroundWarning();
         case DayType.live:
@@ -78,11 +122,11 @@ class WeekRowItem extends StatelessWidget {
   }
 
   Color get _getTextColor {
-    if (date.isSameDate(DateTime.now()) && !selected) {
+    if (widget.date.isSameDate(DateTime.now()) && !widget.selected) {
       return ColorManager().getColorTextMandatory();
-    } else if (type == DayType.mandatory && !selected) {
+    } else if (widget.type == DayType.mandatory && !widget.selected) {
       return ColorManager().getColorTextWarning();
-    } else if (!selected) {
+    } else if (!widget.selected) {
       return ColorManager().getColorTextPrimary();
     }
     return ColorManager().getColorTextPrimaryAlternative();

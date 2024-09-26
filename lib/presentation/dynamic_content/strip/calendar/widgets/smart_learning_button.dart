@@ -24,7 +24,6 @@ class SmartLearningButton extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         onTap: onTap,
         child: Container(
-          height: Dimens.buttonHeight,
           padding: const EdgeInsets.symmetric(
             vertical: Dimens.spacingXS,
             horizontal: Dimens.spacingM,

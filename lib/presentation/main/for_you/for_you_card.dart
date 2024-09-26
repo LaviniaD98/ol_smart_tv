@@ -184,6 +184,20 @@ class _ForYouCardState extends State<ForYouCard> {
   }
 
   Future<void> openCourse() async {
+    Nav.push(
+      context,
+      screen: DetailPage(
+        args: DetailPageArgs(
+          id: widget.data.id.toString(),
+          typology: widget.data.learningObjectTypology,
+          parent: null,
+          parentId: widget.parentId ?? widget.data.parentId?.toString(),
+          grandParentId:
+              widget.grandParentId ?? widget.data.grandParentId?.toString(),
+        ),
+      ),
+    );
+
     // TODO(UmbertoGrimaldi): Complete this logic
     // int idToAE = widget.model.id!;
     // if (widget.args.grandParentId != null) {

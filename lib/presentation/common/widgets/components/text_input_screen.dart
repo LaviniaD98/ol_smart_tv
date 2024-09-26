@@ -18,7 +18,7 @@ class TextInputScreen extends StatefulWidget {
 class _TextInputScreenState extends State<TextInputScreen> {
   final textEditingController = TextEditingController();
 
-  final FocusNode focusNode = FocusNode();
+  final FocusNode confirmButtonFocusNode = FocusNode();
 
   ValueNotifier<String> textNotifier = ValueNotifier<String>('');
 
@@ -29,38 +29,13 @@ class _TextInputScreenState extends State<TextInputScreen> {
 
   @override
   void dispose() {
-    focusNode.dispose();
+    confirmButtonFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-        /*CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.goBack): () {
-          print('dclskndlcknslkdnclksndlkcsnlkdcns');
-          if (focusNode.hasFocus) {
-            focusNode.unfocus();
-          } else {
-            Navigator.of(context).pop();
-          }
-        },
-      },
-      child:*/
-        /*FocusableActionDetector(
-      focusNode: focusNode,
-      shortcuts: <LogicalKeySet, Intent>{
-        LogicalKeySet(LogicalKeyboardKey.goBack): const MyIntent(),
-      },
-      actions: <Type, Action<Intent>>{
-        MyIntent: MyAction(focusNode: focusNode),
-      },
-      onFocusChange: (value) {
-        print('TextInputScreen onFocusChange: $value');
-      },
-      child:*/
-        Scaffold(
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 60),
         child: Column(
@@ -118,6 +93,11 @@ class _TextInputScreenState extends State<TextInputScreen> {
                     width: 600,
                     child: OnscreenKeyboard(
                       initialCase: InitialCase.LOWER_CASE,
+                      onFocusOutside: (side) {
+                        if (side == TraversalDirection.down) {
+                          confirmButtonFocusNode.requestFocus();
+                        }
+                      },
                       value: '',
                       backgroundColor: Colors.white.withOpacity(0.1),
                       buttonColor: Colors.black,
@@ -135,6 +115,7 @@ class _TextInputScreenState extends State<TextInputScreen> {
                           valueListenable: textNotifier,
                           builder: (context, value, _) {
                             return OLButton(
+                              focusNode: confirmButtonFocusNode,
                               title:
                                   LabelsManager().getRemoteStringFromLabelKeys(
                                 RemoteLabelKeys.confirm,
@@ -150,14 +131,8 @@ class _TextInputScreenState extends State<TextInputScreen> {
                 ],
               ),
             ),
-            // OlTextField(
-            //   focusNode: focusNode,
-            //   onChanged: (value) {},
-            //   controller: textEditingController,
-            // ),
           ],
         ),
-        //),
       ),
     );
   }
