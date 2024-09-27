@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
@@ -59,14 +60,14 @@ class _InitiativesPageState extends State<InitiativesPage> {
       policy: _focusNodeOrder,
       child: PopScope(
         onPopInvoked: (bool didPop) async {
-          if (Platform.isAndroid) {
-            if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
-            if (widget.args.isFromSettings || popping) {
-              return;
-            }
-            popping = true;
-            getIt<AppCubit>().logout();
+          if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
+          if (widget.args.isFromSettings || popping) {
+            print('cslkdjnclksndlkcnslkdnclksd..........');
+            Navigator.of(context).pop();
+            return;
           }
+          popping = true;
+          getIt<AppCubit>().logout();
         },
         canPop: false,
         child: Focus(
