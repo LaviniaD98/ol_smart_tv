@@ -17,12 +17,16 @@ class WeekRow extends StatefulWidget {
   final List<DaysToHighlightModel> highlighted;
   final DateTime date;
   final OnDayTap onTap;
+  final ValueNotifier<DateTime> focusedDayNotifier;
+  final ValueNotifier<DateTime> selectedDayNotifier;
 
   const WeekRow({
     super.key,
     required this.date,
     required this.highlighted,
     required this.onTap,
+    required this.focusedDayNotifier,
+    required this.selectedDayNotifier,
   });
 
   @override
@@ -33,10 +37,6 @@ class _WeekRowState extends State<WeekRow> {
   final focusNode = FocusScopeNode(debugLabel: 'WeekRow');
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.now();
-
-  DateTime? _selectedDay;
-  late ValueNotifier<DateTime> focusedDayNotifier;
 
   PageController pageController = PageController();
 
@@ -60,140 +60,142 @@ class _WeekRowState extends State<WeekRow> {
             print('HAS FOCUS----------');
           }
         },
-        child: Stack(
-          children: [
-            TableCalendar(
-              firstDay: DateTime.now().subtract(const Duration(days: 365)),
-              lastDay: DateTime.now().add(const Duration(days: 365)),
-              focusedDay: _focusedDay,
-              calendarFormat: CalendarFormat.week,
-              availableCalendarFormats: const {
-                CalendarFormat.week: 'Week',
-              },
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                print('------onDaySelected');
-                if (!isSameDay(_selectedDay, selectedDay)) {
-                  // Call `setState()` when updating the selected day
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
-                  });
-                }
-              },
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  // Call `setState()` when updating calendar format
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
-              headerVisible: true,
-              rowHeight: 90,
-              headerStyle: HeaderStyle(
-                headerMargin: const EdgeInsets.only(bottom: 20),
-                titleCentered: false,
-                formatButtonVisible: false,
-                leftChevronVisible: false,
-                rightChevronVisible: false,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      width: 1,
-                      color: OLColors.divider,
-                    ),
-                  ),
-                ),
-                titleTextStyle: AppTextTheme.title(
-                  color: ColorManager().getColorTextPrimary(),
-                  weight: FontWeight.bold,
-                  size: 48,
-                ),
-              ),
-              calendarBuilders: CalendarBuilders(
-                selectedBuilder: (context, day, focusedDay) {
-                  return WeekRowItem(
-                    selected: isSameDay(day, widget.date),
-                    date: day,
-                    type: _activityType(
-                      widget.highlighted
-                          .firstWhereOrNull((el) => el.day == day.day),
-                    ),
-                    onTap: widget.onTap,
-                  );
-                },
-                defaultBuilder: (context, day, focusedDay) {
-                  return WeekRowItem(
-                    selected: isSameDay(day, widget.date),
-                    date: day,
-                    type: _activityType(
-                      widget.highlighted
-                          .firstWhereOrNull((el) => el.day == day.day),
-                    ),
-                    onTap: widget.onTap,
-                  );
-                },
-                dowBuilder: (context, day) {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 12),
-                      Text(
-                        DateFormat.E().format(day).capitalize,
-                        style: AppTextTheme.caption(
-                          color: OLColors.textPrimary,
-                          weight: FontWeight.w400,
-                          size: 24,
+        child: ValueListenableBuilder(
+            valueListenable: widget.focusedDayNotifier,
+            builder: (context, fDay, _) {
+              return Stack(
+                children: [
+                  TableCalendar(
+                    firstDay:
+                        DateTime.now().subtract(const Duration(days: 365)),
+                    lastDay: DateTime.now().add(const Duration(days: 365)),
+                    focusedDay: fDay,
+                    calendarFormat: CalendarFormat.week,
+                    availableCalendarFormats: const {
+                      CalendarFormat.week: 'Week',
+                    },
+                    selectedDayPredicate: (day) {
+                      final selectedDay = widget.selectedDayNotifier.value;
+                      return isSameDay(selectedDay, day);
+                    },
+                    onDaySelected: (selectedDay, focusedDay) {
+                      if (!isSameDay(
+                          widget.selectedDayNotifier.value, selectedDay)) {
+                        widget.focusedDayNotifier.value = focusedDay;
+                        widget.selectedDayNotifier.value = selectedDay;
+                      }
+
+                      print(
+                          ' widget.selectedDayNotifier.value: ${widget.selectedDayNotifier.value}');
+                    },
+                    onFormatChanged: (format) {
+                      if (_calendarFormat != format) {
+                        setState(() => _calendarFormat = format);
+                      }
+                    },
+                    headerVisible: true,
+                    rowHeight: 90,
+                    headerStyle: HeaderStyle(
+                      headerMargin: const EdgeInsets.only(bottom: 20),
+                      titleCentered: false,
+                      formatButtonVisible: false,
+                      leftChevronVisible: false,
+                      rightChevronVisible: false,
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            width: 1,
+                            color: OLColors.divider,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: Dimens.spacingXS),
+                      titleTextStyle: AppTextTheme.title(
+                        color: ColorManager().getColorTextPrimary(),
+                        weight: FontWeight.bold,
+                        size: 48,
+                      ),
+                    ),
+                    calendarBuilders: CalendarBuilders(
+                      selectedBuilder: (context, day, focusedDay) {
+                        return WeekRowItem(
+                          selected: isSameDay(day, widget.date),
+                          date: day,
+                          type: _activityType(
+                            widget.highlighted
+                                .firstWhereOrNull((el) => el.day == day.day),
+                          ),
+                          onTap: widget.onTap,
+                        );
+                      },
+                      defaultBuilder: (context, day, focusedDay) {
+                        return WeekRowItem(
+                          selected: isSameDay(day, widget.date),
+                          date: day,
+                          type: _activityType(
+                            widget.highlighted
+                                .firstWhereOrNull((el) => el.day == day.day),
+                          ),
+                          onTap: widget.onTap,
+                        );
+                      },
+                      dowBuilder: (context, day) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 12),
+                            Text(
+                              DateFormat.E().format(day).capitalize,
+                              style: AppTextTheme.caption(
+                                color: OLColors.textPrimary,
+                                weight: FontWeight.w400,
+                                size: 24,
+                              ),
+                            ),
+                            const SizedBox(height: Dimens.spacingXS),
+                          ],
+                        );
+                      },
+                    ),
+                    onCalendarCreated: (pageController) {
+                      this.pageController = pageController;
+                    },
+                    daysOfWeekHeight: 55,
+                    onPageChanged: (focusedDay) {
+                      widget.focusedDayNotifier.value = focusedDay;
+                    },
+                    calendarStyle: CalendarStyle(),
+                    startingDayOfWeek: StartingDayOfWeek.monday,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      OLIconButton(
+                        outline: true,
+                        image: 'assets/icons/arrow_left.svg',
+                        onPressed: () async {
+                          pageController.animateToPage(
+                            (pageController.page?.toInt() ?? 0) - 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 42),
+                      OLIconButton(
+                        outline: true,
+                        image: 'assets/icons/arrow_right.svg',
+                        onPressed: () {
+                          pageController.animateToPage(
+                            (pageController.page?.toInt() ?? 0) + 1,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
+                      ),
                     ],
-                  );
-                },
-              ),
-              onCalendarCreated: (pageController) {
-                this.pageController = pageController;
-              },
-              daysOfWeekHeight: 55,
-              onPageChanged: (focusedDay) {
-                // No need to call `setState()` here
-                _focusedDay = focusedDay;
-              },
-              calendarStyle: CalendarStyle(),
-              startingDayOfWeek: StartingDayOfWeek.monday,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OLIconButton(
-                  outline: true,
-                  image: 'assets/icons/arrow_left.svg',
-                  onPressed: () async {
-                    pageController.animateToPage(
-                      (pageController.page?.toInt() ?? 0) - 1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                ),
-                const SizedBox(width: 42),
-                OLIconButton(
-                  outline: true,
-                  image: 'assets/icons/arrow_right.svg',
-                  onPressed: () {
-                    pageController.animateToPage(
-                      (pageController.page?.toInt() ?? 0) + 1,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+                  ),
+                ],
+              );
+            }),
       ),
     );
   }

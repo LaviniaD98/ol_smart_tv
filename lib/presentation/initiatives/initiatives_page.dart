@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
@@ -59,10 +56,9 @@ class _InitiativesPageState extends State<InitiativesPage> {
     return FocusTraversalGroup(
       policy: _focusNodeOrder,
       child: PopScope(
-        onPopInvoked: (bool didPop) async {
+        onPopInvokedWithResult: (bool didPop, _) async {
           if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
           if (widget.args.isFromSettings || popping) {
-            print('cslkdjnclksndlkcnslkdnclksd..........');
             Navigator.of(context).pop();
             return;
           }

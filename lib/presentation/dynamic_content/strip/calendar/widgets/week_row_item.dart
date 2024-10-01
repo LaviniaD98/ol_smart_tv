@@ -10,6 +10,7 @@ class WeekRowItem extends StatefulWidget {
   final DateTime date;
   final DayType type;
   final OnDayTap onTap;
+  final bool isSmall;
 
   const WeekRowItem({
     super.key,
@@ -17,6 +18,7 @@ class WeekRowItem extends StatefulWidget {
     required this.date,
     required this.type,
     required this.onTap,
+    this.isSmall = false,
   });
 
   @override
@@ -55,18 +57,15 @@ class _WeekRowItemState extends State<WeekRowItem> {
           hoverColor: Colors.transparent,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 160),
-            height: 80,
-            width: 80,
+            height: widget.isSmall ? 46 : 80,
+            width: widget.isSmall ? 46 : 80,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(Dimens.spacingXXS),
             decoration: BoxDecoration(
-              color: widget.selected
-                  ? const Color(0xFFFF6B00)
-                  : Colors.transparent,
+              color:
+                  widget.selected ? _selectedAccentColor : Colors.transparent,
               border: Border.all(
-                color: focusNode.hasFocus
-                    ? OLColors.textPrimary
-                    : Colors.transparent,
+                color: focusNode.hasFocus ? OLColors.textPrimary : Colors.red,
                 width: 2.0,
               ),
               shape: BoxShape.circle,
@@ -77,22 +76,18 @@ class _WeekRowItemState extends State<WeekRowItem> {
                 Text(
                   DateFormat(DateFormat.DAY).format(widget.date),
                   textAlign: TextAlign.center,
-                  style: AppTextTheme.caption(
-                    color: _getTextColor,
-                    weight: FontWeight.w700,
-                    size: 32,
-                  ).copyWith(height: 1.3),
+                  style: _textStyle,
                 ),
                 SizedBox(
-                  height: 8.0,
-                  width: 8.0,
+                  height: _dotSize,
+                  width: _dotSize,
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 300),
                     opacity: widget.type != DayType.empty ? 1 : 0,
                     child: Icon(
                       Icons.circle,
                       color: _getTextColor,
-                      size: 8.0,
+                      size: _dotSize,
                     ),
                   ),
                 ),
@@ -100,9 +95,43 @@ class _WeekRowItemState extends State<WeekRowItem> {
             ),
           ),
         ),
-        const SizedBox(height: Dimens.spacingXXS),
+        if (widget.isSmall == false) ...[
+          const SizedBox(height: Dimens.spacingXXS),
+        ],
       ],
     );
+  }
+
+  double get _dotSize {
+    if (widget.isSmall) {
+      return 4.0;
+    } else {
+      return 8.0;
+    }
+  }
+
+  Color get _selectedAccentColor {
+    if (widget.isSmall) {
+      return OLColors.accentVariantA;
+    } else {
+      return const Color(0xFFFF6B00);
+    }
+  }
+
+  TextStyle get _textStyle {
+    if (widget.isSmall) {
+      return AppTextTheme.caption(
+        color: _getTextColor,
+        weight: FontWeight.w700,
+        size: 18,
+      ).copyWith(height: 1.3);
+    } else {
+      return AppTextTheme.caption(
+        color: _getTextColor,
+        weight: FontWeight.w700,
+        size: 32,
+      ).copyWith(height: 1.3);
+    }
   }
 
   Color get _getBackgroundColor {

@@ -16,7 +16,7 @@ class AgendaScreen extends StatefulWidget {
   final List<MenuRoute> dynamicRoutes;
 
   static const String apiRoute =
-      '/learning-catalogue/{corporateId}/{initiativeId}/learnerAgenda?selectedDate=2024-09-13&startDate=2024-09-09&endDate=2024-09-15&pageNumber=0&pageSize=9';
+      '/learning-catalogue/{corporateId}/{initiativeId}/learnerAgenda?selectedDate={selectedDate}&startDate={startDate}&endDate={endDate}&pageNumber={pageNumber}&pageSize={pageSize}';
 
   @override
   State<AgendaScreen> createState() => _AgendaScreenState();
@@ -25,8 +25,6 @@ class AgendaScreen extends StatefulWidget {
 class _AgendaScreenState extends State<AgendaScreen>
     with AutomaticKeepAliveClientMixin {
   MenuRoute? currentMenuRoute;
-
-  final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
 
   final focusNode = FocusScopeNode(debugLabel: 'Agenda');
 
@@ -72,92 +70,18 @@ class _AgendaScreenState extends State<AgendaScreen>
           },
           child: Builder(
             builder: (context) {
-              final strip = StripRow.widgetCalendar(
+              const strip = StripRow.widgetCalendar(
                 id: 30001,
                 apiPath: AgendaScreen.apiRoute,
               );
 
-              return CalendarStripRow(
+              return const CalendarStripRow(
                 strip,
                 smartLearningEnabled: true,
               );
             },
           ),
         ),
-
-        // BlocProvider(
-        //   create: (_) =>
-        //       getIt<AgendaContentCubit>()..init(AgendaScreen.apiRoute),
-        //   child: BlocConsumer<AgendaContentCubit, AgendaContentState>(
-        //     listener: (context, state) {
-        //       state.maybeWhen(
-        //         success: (_) {},
-        //         loading: () {},
-        //         error: (f) {},
-        //         orElse: () {},
-        //       );
-        //     },
-        //     listenWhen: (previous, current) {
-        //       return current.maybeWhen(
-        //         success: (_) => true,
-        //         orElse: () => false,
-        //       );
-        //     },
-        //     builder: (context, state) => state.map(
-        //       success: (value) {
-        //         final smart = context
-        //             .read<AgendaContentCubit>()
-        //             .dynamicContent
-        //             ?.smartConfig;
-
-        //         final source =
-        //             List<Map<StripRow, List<LearningObjectModel>>>.from(
-        //           value.rowItems ?? [],
-        //         );
-        //         source.removeWhere(
-        //           (element) => element.entries.firstOrNull == null,
-        //         );
-
-        //         print('source:$source');
-
-        //         final contentSource = source.firstWhereOrNull(
-        //           (element) =>
-        //               element.entries.firstOrNull?.key.labelMapping ==
-        //               'currentMenuRoute',
-        //         );
-
-        //         print('contentSource?.keys: ${contentSource?.keys}');
-
-        //         if (contentSource?.keys.firstOrNull == null) {
-        //           return const SizedBox();
-        //         }
-
-        //         final strip = StripRow.widgetCalendar(
-        //             id: 30001, apiPath: AgendaScreen.apiRoute);
-
-        //         return CalendarStripRow(
-        //           strip,
-        //           smartLearningEnabled: smart?.smartLearning == true,
-        //         );
-        //       },
-        //       loading: (value) => const Center(
-        //         child: CircularProgressIndicator(),
-        //       ),
-        //       error: (value) => ErrorScreen(
-        //         title: LabelsManager().getRemoteStringFromLabelKeys(
-        //           RemoteLabelKeys.error,
-        //         ),
-        //         message: value.failure.error ??
-        //             LabelsManager().getRemoteStringFromLabelKeys(
-        //               RemoteLabelKeys.error_occurred,
-        //             ),
-        //         onReload: () => context.read<DynamicAllContentCubit>().init(
-        //               currentMenuRoute?.apiPath ?? '',
-        //             ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
       ),
     );
   }
