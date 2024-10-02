@@ -19,6 +19,7 @@ class WeekRow extends StatefulWidget {
   final OnDayTap onTap;
   final ValueNotifier<DateTime> focusedDayNotifier;
   final ValueNotifier<DateTime> selectedDayNotifier;
+  final void Function(DateTime)? onWeekChanged;
 
   const WeekRow({
     super.key,
@@ -27,6 +28,7 @@ class WeekRow extends StatefulWidget {
     required this.onTap,
     required this.focusedDayNotifier,
     required this.selectedDayNotifier,
+    this.onWeekChanged,
   });
 
   @override
@@ -42,6 +44,8 @@ class _WeekRowState extends State<WeekRow> {
 
   @override
   Widget build(BuildContext context) {
+    print('DATE: ${widget.date}');
+    print('NOTIFIER ${widget.selectedDayNotifier.value}');
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
@@ -118,7 +122,20 @@ class _WeekRowState extends State<WeekRow> {
                     calendarBuilders: CalendarBuilders(
                       selectedBuilder: (context, day, focusedDay) {
                         return WeekRowItem(
-                          selected: isSameDay(day, widget.date),
+                          selected:
+                              isSameDay(day, widget.selectedDayNotifier.value),
+                          date: day,
+                          type: _activityType(
+                            widget.highlighted
+                                .firstWhereOrNull((el) => el.day == day.day),
+                          ),
+                          onTap: widget.onTap,
+                        );
+                      },
+                      outsideBuilder: (context, day, focusedDay) {
+                        return WeekRowItem(
+                          isOffMonth: true,
+                          selected: false,
                           date: day,
                           type: _activityType(
                             widget.highlighted
@@ -129,13 +146,26 @@ class _WeekRowState extends State<WeekRow> {
                       },
                       defaultBuilder: (context, day, focusedDay) {
                         return WeekRowItem(
-                          selected: isSameDay(day, widget.date),
+                          selected:
+                              isSameDay(day, widget.selectedDayNotifier.value),
                           date: day,
                           type: _activityType(
                             widget.highlighted
                                 .firstWhereOrNull((el) => el.day == day.day),
                           ),
                           onTap: widget.onTap,
+                        );
+                      },
+                      todayBuilder: (context, day, focusedDay) {
+                        return WeekRowItem(
+                          selected:
+                              isSameDay(day, widget.selectedDayNotifier.value),
+                          date: day,
+                          type: _activityType(
+                            widget.highlighted
+                                .firstWhereOrNull((el) => el.day == day.day),
+                          ),
+                          onTap: (_) {},
                         );
                       },
                       dowBuilder: (context, day) {
@@ -161,6 +191,7 @@ class _WeekRowState extends State<WeekRow> {
                     daysOfWeekHeight: 55,
                     onPageChanged: (focusedDay) {
                       widget.focusedDayNotifier.value = focusedDay;
+                      widget.onWeekChanged?.call(focusedDay);
                     },
                     calendarStyle: CalendarStyle(),
                     startingDayOfWeek: StartingDayOfWeek.monday,

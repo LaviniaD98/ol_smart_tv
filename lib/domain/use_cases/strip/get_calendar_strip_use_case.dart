@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/calendar/calendar_strip_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/calendar/not_available_slots_model.dart';
 import 'package:dartz/dartz.dart';
@@ -29,14 +30,24 @@ class GetCalendarStripUseCase {
   Future<Either<Failure, CalendarStripModel>> call({
     required StripRow strip,
     required DateTime date,
+    bool isMonth = false,
   }) async {
     /// Get initiativeId
     final page = await _getPageSizeStripUseCase();
     UserInfoModel? userInfoModel = await _getSecureStoredUserInfoUseCase();
     int? initiativeId = userInfoModel?.initiativeId;
 
-    final start = date.subtract(Duration(days: date.weekday - 1));
-    final end = start.add(const Duration(days: 6));
+    DateTime start;
+    DateTime end;
+
+    if (isMonth) {
+      final dayInMonth = DateUtils.getDaysInMonth(date.year, date.month);
+      start = DateTime(date.year, date.month, 1);
+      end = DateTime(date.year, date.month, dayInMonth);
+    } else {
+      start = date.subtract(Duration(days: date.weekday - 1));
+      end = start.add(const Duration(days: 6));
+    }
 
     /// Get corporateID
     final corporateId = await _getStoredCorporateIdUseCase();

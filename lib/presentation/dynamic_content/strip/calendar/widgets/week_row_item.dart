@@ -11,6 +11,7 @@ class WeekRowItem extends StatefulWidget {
   final DayType type;
   final OnDayTap onTap;
   final bool isSmall;
+  final bool isOffMonth;
 
   const WeekRowItem({
     super.key,
@@ -19,6 +20,7 @@ class WeekRowItem extends StatefulWidget {
     required this.type,
     required this.onTap,
     this.isSmall = false,
+    this.isOffMonth = false,
   });
 
   @override
@@ -31,80 +33,81 @@ class _WeekRowItemState extends State<WeekRowItem> {
   @override
   void initState() {
     super.initState();
-
     focusNode = FocusNode(debugLabel: 'WeekRowItem - ${widget.date}');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          focusNode: focusNode,
-          onFocusChange: (hasFocus) {
-            if (hasFocus) {
-              print('HAS FOCUS -- - - - - ${focusNode.debugLabel}');
-            }
-            setState(() {});
-          },
-          onTap: () {
-            widget.onTap(widget.date);
-          },
-          overlayColor: WidgetStateProperty.all(Colors.transparent),
-          focusColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 160),
-            height: widget.isSmall ? 46 : 80,
-            width: widget.isSmall ? 46 : 80,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(Dimens.spacingXXS),
-            decoration: BoxDecoration(
-              color:
-                  widget.selected ? _selectedAccentColor : Colors.transparent,
-              border: Border.all(
-                color: focusNode.hasFocus ? OLColors.textPrimary : Colors.red,
-                width: 2.0,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  DateFormat(DateFormat.DAY).format(widget.date),
-                  textAlign: TextAlign.center,
-                  style: _textStyle,
+    return ExcludeFocus(
+      excluding: widget.isSmall,
+      child: Column(
+        children: [
+          InkWell(
+            focusNode: focusNode,
+            onFocusChange: (hasFocus) {
+              setState(() {});
+            },
+            onTap: () {
+              widget.onTap(widget.date);
+            },
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
+            focusColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 160),
+              height: widget.isSmall ? 46 : 80,
+              width: widget.isSmall ? 46 : 80,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(Dimens.spacingXXS),
+              decoration: BoxDecoration(
+                color:
+                    widget.selected ? _selectedAccentColor : Colors.transparent,
+                border: Border.all(
+                  color: focusNode.hasFocus
+                      ? OLColors.textPrimary
+                      : Colors.transparent,
+                  width: 2.0,
                 ),
-                SizedBox(
-                  height: _dotSize,
-                  width: _dotSize,
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 300),
-                    opacity: widget.type != DayType.empty ? 1 : 0,
-                    child: Icon(
-                      Icons.circle,
-                      color: _getTextColor,
-                      size: _dotSize,
+                shape: BoxShape.circle,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    DateFormat(DateFormat.DAY).format(widget.date),
+                    textAlign: TextAlign.center,
+                    style: _textStyle,
+                  ),
+                  SizedBox(
+                    height: _dotSize,
+                    width: _dotSize,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity: widget.type != DayType.empty ? 1 : 0,
+                      child: Icon(
+                        Icons.circle,
+                        color: _getTextColor,
+                        size: _dotSize,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-        if (widget.isSmall == false) ...[
-          const SizedBox(height: Dimens.spacingXXS),
+          if (widget.isSmall == false) ...[
+            const SizedBox(height: Dimens.spacingXXS),
+          ],
         ],
-      ],
+      ),
     );
   }
 
   double get _dotSize {
     if (widget.isSmall) {
-      return 4.0;
+      return 8.0;
     } else {
       return 8.0;
     }
@@ -151,8 +154,15 @@ class _WeekRowItemState extends State<WeekRowItem> {
   }
 
   Color get _getTextColor {
+    if (widget.isOffMonth) {
+      return ColorManager().getColorTextPrimary().withOpacity(0.3);
+    }
     if (widget.date.isSameDate(DateTime.now()) && !widget.selected) {
-      return ColorManager().getColorTextMandatory();
+      if (widget.isSmall) {
+        return ColorManager().getColorTextMandatory();
+      } else {
+        return ColorManager().getColorTextWarning();
+      }
     } else if (widget.type == DayType.mandatory && !widget.selected) {
       return ColorManager().getColorTextWarning();
     } else if (!widget.selected) {
