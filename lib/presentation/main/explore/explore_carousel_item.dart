@@ -35,27 +35,11 @@ class _ExploreCarouselItemState extends State<ExploreCarouselItem> {
           Positioned.fill(
             child: OLImage(
               imageURL: widget.item.coverPublicURL,
-              cacheWidth: 100,
+              cacheWidth: 1000,
               height: 100,
               width: 100,
             ),
           ),
-          // CachedNetworkImage(
-          //   imageUrl: widget.item.coverPublicURL!,
-          //   imageBuilder: (context, imageProvider) => Container(
-          //     decoration: BoxDecoration(
-          //       image: DecorationImage(
-          //         image: imageProvider,
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ),
-          //   ),
-          //   errorWidget: (context, url, error) => DecoratedBox(
-          //     decoration: BoxDecoration(
-          //       color: AppColors.white.withOpacity(.05),
-          //     ),
-          //   ),
-          // ),
           Container(
             clipBehavior: Clip.hardEdge,
             padding: const EdgeInsets.symmetric(vertical: 110, horizontal: 96),

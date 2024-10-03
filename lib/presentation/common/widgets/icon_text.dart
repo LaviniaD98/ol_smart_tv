@@ -11,6 +11,7 @@ class IconText extends StatelessWidget {
     this.icon,
     this.image,
     this.iconSize = 16,
+    this.textStyle,
   });
   final Color bkColor;
   final String text;
@@ -18,6 +19,7 @@ class IconText extends StatelessWidget {
   final Color textColor;
   final IconData? icon;
   final double iconSize;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +42,12 @@ class IconText extends StatelessWidget {
         Text(
           text,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.normal,
-          ),
+          style: textStyle ??
+              TextStyle(
+                color: textColor,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+              ),
         ),
       ],
     );

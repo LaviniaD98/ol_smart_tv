@@ -17,9 +17,10 @@ class FadedBannerImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      fit: StackFit.expand,
       children: [
         Opacity(
-          opacity: 0.8,
+          opacity: 1,
           child: ShaderMask(
             shaderCallback: (rect) {
               return const LinearGradient(
@@ -41,10 +42,7 @@ class FadedBannerImage extends StatelessWidget {
             blendMode: BlendMode.dstIn,
             child: Builder(builder: (context) {
               if (urlVideo != null) {
-                return VideoPlayerTrailerWidget(
-                  urlVideo!,
-                  //key: ValueKey(widget.model.id),
-                );
+                return VideoPlayerTrailerWidget(urlVideo!);
               }
               return CachedNetworkImage(
                 imageUrl: urlImage ?? '',
@@ -68,7 +66,7 @@ class FadedBannerImage extends StatelessWidget {
         Align(
           alignment: Alignment.topCenter,
           child: Container(
-            height: 150,
+            height: 130,
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -85,7 +83,7 @@ class FadedBannerImage extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            height: 150,
+            height: 130,
             width: double.infinity,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -108,6 +106,7 @@ class FadedBannerImage extends StatelessWidget {
                   gradient: LinearGradient(
                     end: Alignment.centerRight,
                     begin: Alignment.centerLeft,
+                    stops: const [0.0, 0.5],
                     colors: <Color>[
                       OLColors.backgroundPrimary,
                       OLColors.backgroundPrimary.withOpacity(0.0),

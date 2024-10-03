@@ -448,7 +448,7 @@ class _CardModuloState extends State<CardModulo>
         children: [
           OLImage(
             imageURL: widget.imageUrl,
-            cacheWidth: 50,
+            cacheWidth: 450,
           ),
           if (widget.status == 'C')
             Positioned(

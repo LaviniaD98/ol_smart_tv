@@ -11,6 +11,7 @@ import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focu
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../common/widgets/cards/learning_card.dart';
 
@@ -33,12 +34,15 @@ class StripRowContent extends StatefulWidget {
 
 class StripRowContentState extends State<StripRowContent>
     with AutomaticKeepAliveClientMixin {
-  late OlFocusScopeNode focusNode;
-
   static const detailsHeight = 411.0;
-
+  late OlFocusScopeNode focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
+  final autoScrollController = AutoScrollController(
+    viewportBoundaryGetter: () =>
+        const Rect.fromLTRB(Dimens.hViewPadding, 0, 0, 0),
+    axis: Axis.horizontal,
+  );
   int currentFocusIndex = 0;
 
   @override
@@ -117,25 +121,32 @@ class StripRowContentState extends State<StripRowContent>
                   child: SizedBox(
                     height: Dimens.learningCardTVHeight,
                     child: ListView.separated(
+                      controller: autoScrollController,
                       scrollDirection: Axis.horizontal,
                       clipBehavior: Clip.none,
                       padding: const EdgeInsets.only(
                         left: Dimens.hViewPadding,
-                        right: Dimens.hViewPadding,
+                        right: Dimens.hPadding,
                       ),
                       separatorBuilder: (context, index) =>
                           const SizedBox(width: Dimens.spacingXS),
                       itemCount: strip.value.length,
                       itemBuilder: (context, index) {
                         final item = strip.value[index];
-                        final cell = LearningCard(
-                          data: item,
-                          onFocusChange: (hasFocus) {
-                            if (hasFocus) {
-                              currentFocusIndex = index;
-                              widget.focusedObjectNotifier?.value = item;
-                            }
-                          },
+                        final cell = AutoScrollTag(
+                          key: ValueKey(index),
+                          controller: autoScrollController,
+                          index: index,
+                          child: LearningCard(
+                            data: item,
+                            onFocusChange: (hasFocus) {
+                              if (hasFocus) {
+                                currentFocusIndex = index;
+                                widget.focusedObjectNotifier?.value = item;
+                                scrollToPosition(index);
+                              }
+                            },
+                          ),
                         );
 
                         return CallbackShortcuts(
@@ -156,6 +167,13 @@ class StripRowContentState extends State<StripRowContent>
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> scrollToPosition(int index) async {
+    await autoScrollController.scrollToIndex(
+      index,
+      preferPosition: AutoScrollPosition.begin,
     );
   }
 

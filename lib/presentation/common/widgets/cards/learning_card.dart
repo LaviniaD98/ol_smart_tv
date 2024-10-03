@@ -112,7 +112,7 @@ class _LearningCardState extends State<LearningCard> {
                   children: [
                     OLImage(
                       imageURL: widget.data.coverPublicURL,
-                      cacheWidth: 100,
+                      cacheWidth: 400,
                     ),
                     Container(
                       clipBehavior: Clip.hardEdge,

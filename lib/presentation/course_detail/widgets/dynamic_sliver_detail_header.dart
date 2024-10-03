@@ -110,12 +110,13 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          // Positioned(
-          //   left: 0,
-          //   right: 0,
-          //   child: Container(height: 500, child: _background),
-          // ),
-          _overlay,
+          Positioned(
+            left: 200,
+            right: 0,
+            top: 50,
+            bottom: 200,
+            child: _background,
+          ),
           _foreground()
         ],
       ),
@@ -124,21 +125,6 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
       return SliverToBoxAdapter(child: child);
     }
     return child;
-  }
-
-  Widget get _overlay {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            ColorManager().getColorGradient05Start(),
-            ColorManager().getColorBackgroundPrimaryLighter(),
-          ],
-        ),
-      ),
-    );
   }
 
   Widget _foreground() {

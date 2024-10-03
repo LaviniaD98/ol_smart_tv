@@ -209,6 +209,8 @@ class _FavoriteCardState extends State<FavoriteCard> {
                                     0.0;
 
                                 return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     RichText(
                                       text: TextSpan(
@@ -235,6 +237,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
                                         ],
                                       ),
                                     ),
+                                    const SizedBox(height: 8),
                                     GlowProgressBar(percentage: glowPercentage),
                                   ],
                                 );
@@ -268,7 +271,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
         children: [
           OLImage(
             imageURL: widget.data.coverPublicURL,
-            cacheHeight: 100,
+            cacheHeight: 350,
           ),
           Positioned(
             top: 8,
@@ -301,7 +304,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
       text: convertMinutesToHours(widget.data.duration ?? 0),
       textColor: ColorManager().getColorTextPrimary(),
       icon: Icons.watch_later_outlined,
-      iconSize: 16,
+      iconSize: 24,
     );
   }
 
