@@ -201,8 +201,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
   int getCurrentScreenIndex() {
     final f = context.read<MainStateCubit>().state;
     final i = f.children.toList().indexWhere((focus) {
-      return (focus as OlFocusable?)?.id ==
-          (f.focusedChild as OlFocusable?)?.id;
+      return focus.id == f.focusedChild?.id;
     });
     return i;
   }
@@ -243,7 +242,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
   FocusNode? getFocusOnIndex(String key) {
     final f = context.read<MainStateCubit>().state;
     return f.children.toList().firstWhereOrNull((focus) {
-      return (focus as OlFocusable?)?.id == key;
+      return focus.id == key;
     });
   }
 }

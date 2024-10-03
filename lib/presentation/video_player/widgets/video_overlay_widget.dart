@@ -76,8 +76,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             setTimer();
           }
 
-          if ((focusNode.focusedChild as OlFocusable?)?.id ==
-              'VIDEO-PROGRESS') {
+          if (focusNode.focusedChild?.id == 'VIDEO-PROGRESS') {
             widget.controller.seekTo(
                 widget.controller.value.position - const Duration(seconds: 10));
           }
@@ -87,15 +86,13 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             setTimer();
           }
 
-          if ((focusNode.focusedChild as OlFocusable?)?.id ==
-              'VIDEO-PROGRESS') {
+          if (focusNode.focusedChild?.id == 'VIDEO-PROGRESS') {
             widget.controller.seekTo(
                 widget.controller.value.position + const Duration(seconds: 10));
           }
         },
         const SingleActivator(LogicalKeyboardKey.select): () {
-          if ((focusNode.focusedChild as OlFocusable?)?.id ==
-              'VIDEO-CONTROLS') {
+          if (focusNode.focusedChild?.id == 'VIDEO-CONTROLS') {
             if (widget.controller.value.isPlaying) {
               widget.controller.pause();
             } else {
@@ -105,8 +102,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           setTimer();
         },
         const SingleActivator(LogicalKeyboardKey.enter): () {
-          if ((focusNode.focusedChild as OlFocusable?)?.id ==
-              'VIDEO-CONTROLS') {
+          if (focusNode.focusedChild?.id == 'VIDEO-CONTROLS') {
             if (widget.controller.value.isPlaying) {
               widget.controller.pause();
             } else {

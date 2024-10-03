@@ -318,7 +318,7 @@ class _CardModuloState extends State<CardModulo>
               Future.delayed(const Duration(milliseconds: 100), () {
                 final f = _focusNode.descendants.firstWhereOrNull(
                   (element) {
-                    return (element as OlFocusable?)?.id == 'BUTTON-0';
+                    return element.id == 'BUTTON-0';
                   },
                 );
                 f?.requestFocus();
@@ -335,7 +335,7 @@ class _CardModuloState extends State<CardModulo>
                       .read<DetailPageCubit>()
                       .detailsFocusNode
                       ?.requestFocus();
-                } else if ((f as OlFocusable?)?.id == 'BUTTON-0') {
+                } else if (f?.id == 'BUTTON-0') {
                   context.read<DetailPageCubit>().leftPanelNode?.requestFocus();
                 } else {
                   _policy.previous(_focusNode);
@@ -343,7 +343,7 @@ class _CardModuloState extends State<CardModulo>
               },
               const SingleActivator(LogicalKeyboardKey.arrowRight): () {
                 final f = FocusManager.instance.primaryFocus;
-                if ((f as OlFocusable?)?.id == 'BUTTON-1') {
+                if (f?.id == 'BUTTON-1') {
                   context
                       .read<DetailPageCubit>()
                       .subActivitiesFocusNode

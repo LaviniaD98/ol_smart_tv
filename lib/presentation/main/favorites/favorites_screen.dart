@@ -103,9 +103,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     () {
                       if (focusNode.focusedChild == null) {
                         final f = focusNode.descendants.firstWhereOrNull(
-                          (element) =>
-                              (element as OlFocusable?)?.id ==
-                              'BUTTONS FOCUS 0 ----- 1',
+                          (element) => element.id == 'BUTTONS FOCUS 0 ----- 1',
                         );
                         f?.requestFocus();
                       }

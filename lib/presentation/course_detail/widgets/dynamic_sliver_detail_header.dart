@@ -104,8 +104,6 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'model.ecmRegistration: ${widget.model.ecmRegistration} - ${widget.model.ecmSpecialization}');
     final child = SizedBox(
       height: height,
       width: 870,

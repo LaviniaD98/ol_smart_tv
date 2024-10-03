@@ -82,7 +82,7 @@ class _DetailPageState extends State<DetailPage> {
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       final focus = _focusNodeLeft.descendants.firstWhereOrNull((element) {
-        return (element as OlFocusable?)?.id == 'BUTTON DETAILS CONTINUE';
+        return element.id == 'BUTTON DETAILS CONTINUE';
       });
       focus?.requestFocus();
     });

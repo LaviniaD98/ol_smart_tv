@@ -16,7 +16,8 @@ class OlFocusNode extends FocusNode implements OlFocusable {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('id', id)); // Add the ID to the debug properties
+    properties
+        .add(StringProperty('id', id)); // Add the ID to the debug properties
   }
 }
 
@@ -30,6 +31,16 @@ class OlFocusScopeNode extends FocusScopeNode implements OlFocusable {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('id', id)); // Add the ID to the debug properties
+    properties
+        .add(StringProperty('id', id)); // Add the ID to the debug properties
+  }
+}
+
+extension FocusNodeExt on FocusNode {
+  String get id {
+    if (this is OlFocusable) {
+      return (this as OlFocusable).id;
+    }
+    return '';
   }
 }

@@ -32,7 +32,6 @@ class _ForYouScreenState extends State<ForYouScreen>
   MenuRoute? currentMenuRoute;
 
   final focusNode = OlFocusScopeNode(id: 'ForYou');
-
   final forYouFocusNode = OlFocusScopeNode(id: 'ForYou-Items-List');
 
   @override
@@ -165,8 +164,8 @@ class _ForYouScreenState extends State<ForYouScreen>
               child: CallbackShortcuts(
                 bindings: <ShortcutActivator, VoidCallback>{
                   const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-                    final focus = focusNode.descendants.firstWhereOrNull(
-                        (e) => (e as OlFocusable?)?.id == 'User-Widgets');
+                    final focus = focusNode.descendants
+                        .firstWhereOrNull((e) => e.id == 'User-Widgets');
 
                     focus?.requestFocus();
                   },
