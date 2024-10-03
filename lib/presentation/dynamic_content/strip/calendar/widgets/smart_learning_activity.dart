@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../domain/entities/strip/row/strip_row.dart';
@@ -13,34 +14,57 @@ import '../../../../../theme/app_theme.dart';
 import '../../../../wall/wall_strip_content_page.dart';
 import '../cubit/calendar_strip_cubit.dart';
 
-class SmartLearningActivity extends StatelessWidget {
+class SmartLearningActivity extends StatefulWidget {
   static const _iconSize = 20.0;
 
   final SmartLearningSlotsModel model;
   final DateTime date;
+  final int index;
+  final void Function(bool)? onFocusChanged;
 
   const SmartLearningActivity({
     super.key,
+    required this.index,
     required this.model,
     required this.date,
+    this.onFocusChanged,
   });
+
+  @override
+  State<SmartLearningActivity> createState() => _SmartLearningActivityState();
+}
+
+class _SmartLearningActivityState extends State<SmartLearningActivity> {
+  late OlFocusScopeNode _focusNode;
+  @override
+  initState() {
+    super.initState();
+    _focusNode = OlFocusScopeNode(
+      id: 'Activity - ${widget.index} - ${widget.model.id}',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      focusNode: _focusNode,
+      onFocusChange: (value) {
+        widget.onFocusChanged?.call(value);
+        setState(() {});
+      },
       onTap: () async {
         final res = await Nav.push(context,
             screen: WallStripContentPage(
               WallStripContentPageArgs(
                 StripRow.smartLearning(
-                  id: model.id,
+                  id: widget.model.id,
                   title: LabelsManager().getRemoteStringFromLabelKeys(
                       RemoteLabelKeys.smart_learning_wall_title),
                   apiPath:
                       '/learning-catalogue/{corporateId}/{initiativeId}/learnersSmartLearningObjects?startTime={startTime}&endTime={endTime}&pageNumber={pageNumber}&pageSize={pageSize}&topics=',
                   preSelected: false,
-                  startTime: model.startTime,
-                  endTime: model.endTime,
+                  startTime: widget.model.startTime,
+                  endTime: widget.model.endTime,
                 ),
               ),
             ));
@@ -51,10 +75,6 @@ class SmartLearningActivity extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.all(Dimens.spacingS),
-        constraints: const BoxConstraints(
-          minHeight: Dimens.calendarActivityItem,
-          maxHeight: Dimens.calendarActivityItem,
-        ),
         decoration: BoxDecoration(
           border: Border(
             left: BorderSide(
@@ -63,80 +83,66 @@ class SmartLearningActivity extends StatelessWidget {
             ),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Row(
-              children: [
-                SizedBox.square(
-                  dimension: _iconSize,
-                  child: SvgPicture.asset(
-                    'assets/icons/creative_writing.svg',
-                    width: _iconSize,
-                    height: _iconSize,
-                    colorFilter: ColorFilter.mode(
-                        ColorManager().getColorSystemSecondary04(),
-                        BlendMode.srcIn),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox.square(
+                        dimension: SmartLearningActivity._iconSize,
+                        child: SvgPicture.asset(
+                          'assets/icons/creative_writing.svg',
+                          width: SmartLearningActivity._iconSize,
+                          height: SmartLearningActivity._iconSize,
+                          colorFilter: ColorFilter.mode(
+                              ColorManager().getColorSystemSecondary04(),
+                              BlendMode.srcIn),
+                        ),
+                      ),
+                      const SizedBox(width: Dimens.spacingS),
+                      Expanded(
+                        child: Text(
+                          LabelsManager()
+                              .getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.smart_learning_item_title)
+                              .toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextTheme.caption(
+                            weight: FontWeight.w700,
+                            color: ColorManager().getColorSystemSecondary04(),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(width: Dimens.spacingS),
-                Expanded(
-                  child: Text(
-                    LabelsManager()
-                        .getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.smart_learning_item_title)
-                        .toUpperCase(),
+                  const SizedBox(height: Dimens.spacingXXS),
+                  Text(
+                    LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.smart_learning_item_subtitle),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: AppTextTheme.caption(
-                      weight: FontWeight.w700,
-                      color: ColorManager().getColorSystemSecondary04(),
+                      color: ColorManager().getColorTextPrimary(),
+                      weight: FontWeight.w500,
                     ),
                   ),
-                ),
-                if (model.startTime != null && model.endTime != null)
-                  SizedBox.square(
-                    dimension: _iconSize,
-                    child: InkWell(
-                      onTap: () async {
-                        // context.pushNamed(
-                        //   OlCalendarDialog.routeName,
-                        //   extra: OlCalendarDialogArgs(
-                        //     type: AgendaEventType.eventSmartLearning,
-                        //     smartLearningSlotsModel: model,
-                        //   ),
-                        // );
-                      },
-                      child: SvgPicture.asset(
-                        "assets/icons/download.svg",
-                        colorFilter: ColorFilter.mode(
-                            ColorManager().getColorSystemSecondary04(),
-                            BlendMode.srcIn),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            const SizedBox(height: Dimens.spacingXXS),
-            Text(
-              LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.smart_learning_item_subtitle),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextTheme.caption(
-                color: ColorManager().getColorTextPrimary(),
-                weight: FontWeight.w500,
+                ],
               ),
             ),
-            if (model.startTime != null && model.endTime != null) ...[
+            if (widget.model.startTime != null &&
+                widget.model.endTime != null) ...[
               const SizedBox(height: Dimens.spacingXXS),
               Text(
                 _getTime,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: AppTextTheme.caption(
+                style: AppTextTheme.subtitle(
                   color: ColorManager().getColorTextPrimary(),
-                  weight: FontWeight.w400,
+                  weight: FontWeight.w700,
                 ),
               ),
             ],
@@ -148,6 +154,6 @@ class SmartLearningActivity extends StatelessWidget {
 
   String get _getTime {
     final dateFormat = DateFormat(DateFormat.HOUR24_MINUTE);
-    return '${dateFormat.format(model.startTime!)}-${dateFormat.format(model.endTime!)}';
+    return '${dateFormat.format(widget.model.startTime!)}-${dateFormat.format(widget.model.endTime!)}';
   }
 }

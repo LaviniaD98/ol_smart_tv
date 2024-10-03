@@ -79,6 +79,10 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
   @override
   void didUpdateWidget(covariant OlMonthCalendar oldWidget) {
     super.didUpdateWidget(oldWidget);
+
+    if (widget.highlighted != oldWidget.highlighted) {
+      setState(() {});
+    }
   }
 
   @override

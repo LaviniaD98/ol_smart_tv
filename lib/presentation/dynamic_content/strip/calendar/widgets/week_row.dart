@@ -21,6 +21,8 @@ class WeekRow extends StatefulWidget {
   final ValueNotifier<DateTime> focusedDayNotifier;
   final ValueNotifier<DateTime> selectedDayNotifier;
   final void Function(DateTime)? onWeekChanged;
+  final void Function(TraversalDirection)? onFocusOutside;
+  final OlFocusScopeNode parentFocus;
 
   const WeekRow({
     super.key,
@@ -29,7 +31,9 @@ class WeekRow extends StatefulWidget {
     required this.onTap,
     required this.focusedDayNotifier,
     required this.selectedDayNotifier,
+    required this.parentFocus,
     this.onWeekChanged,
+    this.onFocusOutside,
   });
 
   @override
@@ -52,6 +56,12 @@ class _WeekRowState extends State<WeekRow> {
           if (res == false) {
             final focus = context.read<MainStateCubit>().state;
             focus.requestFocus();
+          }
+        },
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+          final res = focusNode.focusInDirection(TraversalDirection.down);
+          if (res == false) {
+            widget.parentFocus.focusInDirection(TraversalDirection.down);
           }
         },
       },

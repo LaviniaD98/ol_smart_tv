@@ -15,8 +15,7 @@ class ActivityItemAlert extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Dimens.spacingS),
-      margin: const EdgeInsets.only(bottom: Dimens.spacingM),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
       constraints: const BoxConstraints(
         minHeight: Dimens.calendarActivityItem,
         maxHeight: Dimens.calendarActivityItem,
@@ -33,9 +32,9 @@ class ActivityItemAlert extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(
         message,
-        style: AppTextTheme.caption(
+        style: AppTextTheme.subtitle(
           color: color,
-          weight: FontWeight.w500,
+          weight: FontWeight.w400,
         ),
       ),
     );

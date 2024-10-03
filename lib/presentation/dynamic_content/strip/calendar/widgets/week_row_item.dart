@@ -40,7 +40,7 @@ class _WeekRowItemState extends State<WeekRowItem> {
   @override
   Widget build(BuildContext context) {
     return ExcludeFocus(
-      excluding: widget.isSmall,
+      excluding: widget.isSmall || widget.isOffMonth,
       child: Column(
         children: [
           InkWell(

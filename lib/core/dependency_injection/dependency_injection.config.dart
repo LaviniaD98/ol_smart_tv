@@ -360,12 +360,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/handler_stored_username_
     as _i330;
 import 'package:open_learning_smart_tv/domain/use_cases/oauth_token_use_case.dart'
     as _i490;
-import 'package:open_learning_smart_tv/domain/use_cases/offline/delete_statement_use_case.dart'
-    as _i865;
-import 'package:open_learning_smart_tv/domain/use_cases/offline/get_statements_use_case.dart'
-    as _i705;
-import 'package:open_learning_smart_tv/domain/use_cases/offline/store_statement_use_case.dart'
-    as _i629;
 import 'package:open_learning_smart_tv/domain/use_cases/openid_config/get_openid_config_use_case.dart'
     as _i844;
 import 'package:open_learning_smart_tv/domain/use_cases/openid_config/get_stored_openid_config_use_case.dart'
@@ -554,8 +548,6 @@ import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_sc
     as _i138;
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart'
     as _i544;
-import 'package:open_learning_smart_tv/presentation/video_player/offline/cubit/video_player_offline_cubit.dart'
-    as _i402;
 import 'package:open_learning_smart_tv/presentation/wall/cubit/wall_cubit.dart'
     as _i531;
 import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart'
@@ -718,12 +710,6 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i361.Dio>(instanceName: 'default')));
     gh.lazySingleton<_i760.UserDataSource>(
         () => _i804.UserDataSourceImpl(gh<_i361.Dio>(instanceName: 'default')));
-    gh.lazySingleton<_i705.GetStatementsUseCase>(
-        () => _i705.GetStatementsUseCase(gh<_i539.OfflineStatementsDao>()));
-    gh.lazySingleton<_i629.StoreStatementUseCase>(
-        () => _i629.StoreStatementUseCase(gh<_i539.OfflineStatementsDao>()));
-    gh.lazySingleton<_i865.DeleteStatementsUseCase>(
-        () => _i865.DeleteStatementsUseCase(gh<_i539.OfflineStatementsDao>()));
     gh.lazySingleton<_i744.DownloadDataSource>(() =>
         _i477.DownloadDataSourceImpl(
             gh<_i361.Dio>(instanceName: 'dynamicUrlClient')));
@@ -1409,15 +1395,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i926.GetRatingUseCase>(),
           gh<_i306.GetStoredSmartConfigurationUseCase>(),
         ));
-    gh.factory<_i402.VideoPlayerOfflineCubit>(
-        () => _i402.VideoPlayerOfflineCubit(
-              gh<_i629.StoreStatementUseCase>(),
-              gh<_i615.StatementsUseCase>(),
-              gh<_i1003.SetStateUseCase>(),
-              gh<_i664.ContinueLearningStripCubit>(),
-              gh<_i25.GetStoredDownloadContentInfoUseCase>(),
-              gh<_i989.StoreDownloadContentInfoUseCase>(),
-            ));
     gh.factory<_i531.WallCubit>(() => _i531.WallCubit(
           gh<_i931.GetWallStripContentUseCase>(),
           gh<_i487.RemoveFavouritesUseCase>(),

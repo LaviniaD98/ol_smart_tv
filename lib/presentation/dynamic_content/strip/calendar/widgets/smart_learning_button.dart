@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/generic_container.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,50 +21,47 @@ class SmartLearningButton extends StatelessWidget {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 300),
       opacity: onTap != null ? 1 : .3,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: Dimens.spacingXS,
-            horizontal: Dimens.spacingM,
-          ),
-          decoration: BoxDecoration(
-            color: ColorManager().getColorBackgroundPrimaryLighter(),
-            borderRadius: BorderRadius.circular(Dimens.radius),
-            border:
-                Border.all(width: 1, color: ColorManager().getColorBorderTag()),
-          ),
-          child: Row(
-            children: [
-              SizedBox.square(
-                dimension: _iconSize,
-                child: SvgPicture.asset(
-                  'assets/icons/creative_writing.svg',
-                  width: _iconSize,
-                  height: _iconSize,
-                  colorFilter: ColorFilter.mode(
-                      ColorManager().getColorSystemSecondary04(),
-                      BlendMode.srcIn),
-                ),
+      child: GenericContainer(
+        decoration: BoxDecoration(
+          color: ColorManager().getColorBackgroundPrimaryLighter(),
+          borderRadius: BorderRadius.circular(Dimens.radius),
+          border:
+              Border.all(width: 1, color: ColorManager().getColorBorderTag()),
+        ),
+        padding: const EdgeInsets.symmetric(
+          vertical: Dimens.spacingXS,
+          horizontal: Dimens.spacingM,
+        ),
+        onPressed: onTap,
+        child: Row(
+          children: [
+            SizedBox.square(
+              dimension: _iconSize,
+              child: SvgPicture.asset(
+                'assets/icons/creative_writing.svg',
+                width: _iconSize,
+                height: _iconSize,
+                colorFilter: ColorFilter.mode(
+                    ColorManager().getColorSystemSecondary04(),
+                    BlendMode.srcIn),
               ),
-              VerticalDivider(
-                width: Dimens.spacingXXXL,
-                color: ColorManager().getColorBorderTag(),
+            ),
+            VerticalDivider(
+              width: Dimens.spacingXXXL,
+              color: ColorManager().getColorBorderTag(),
+            ),
+            Expanded(
+              child: Text(
+                LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.smart_learning_button),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppTextTheme.subtitle(
+                    weight: FontWeight.w700,
+                    color: ColorManager().getColorTextPrimary()),
               ),
-              Expanded(
-                child: Text(
-                  LabelsManager().getRemoteStringFromLabelKeys(
-                      RemoteLabelKeys.smart_learning_button),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextTheme.subtitle(
-                      weight: FontWeight.w700,
-                      color: ColorManager().getColorTextPrimary()),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

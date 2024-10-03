@@ -6,11 +6,15 @@ class GenericContainer extends StatefulWidget {
   const GenericContainer({
     required this.child,
     this.onPressed,
+    this.decoration,
+    this.padding,
     super.key,
   });
 
   final Widget child;
   final void Function()? onPressed;
+  final BoxDecoration? decoration;
+  final EdgeInsets? padding;
 
   @override
   State<GenericContainer> createState() => _GenericContainerState();
@@ -39,27 +43,33 @@ class _GenericContainerState extends State<GenericContainer> {
         setState(() {});
       },
       child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF19191F),
-              Color(0xFF3E3E43),
-            ],
-          ),
-          border: focusNode.hasFocus
-              ? Border.all(
-                  color: focusNode.hasFocus
-                      ? ColorManager().getColorBorderTag()
-                      : Colors.transparent,
-                  width: 3,
-                  strokeAlign: BorderSide.strokeAlignOutside,
-                )
-              : null,
-        ),
-        padding: const EdgeInsets.all(24),
+        decoration: widget.decoration?.copyWith(
+              border: Border.all(
+                color: focusNode.hasFocus
+                    ? ColorManager().getColorBorderTag()
+                    : Colors.transparent,
+                width: 3,
+                strokeAlign: BorderSide.strokeAlignOutside,
+              ),
+            ) ??
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              gradient: const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFF19191F), Color(0xFF3E3E43)],
+              ),
+              border: focusNode.hasFocus
+                  ? Border.all(
+                      color: focusNode.hasFocus
+                          ? ColorManager().getColorBorderTag()
+                          : Colors.transparent,
+                      width: 3,
+                      strokeAlign: BorderSide.strokeAlignOutside,
+                    )
+                  : null,
+            ),
+        padding: widget.padding ?? const EdgeInsets.all(24),
         child: widget.child,
       ),
     );

@@ -1,7 +1,11 @@
+import 'package:flutter/services.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/cubit/calendar_month_strip_cubit.dart'
     as month;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/ol_month_calendar.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/calendar_shimmer.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/grid_activities.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +17,6 @@ import '../../../../domain/entities/strip/calendar/days_to_highlight_model.dart'
 import '../../../../domain/entities/strip/row/strip_row.dart';
 import '../../../common/widgets/smart_learning_bottom_sheet/smart_learning_bottom_sheet.dart';
 import 'cubit/calendar_strip_cubit.dart';
-import 'widgets/activities.dart';
 import 'widgets/inner_calendar_shimmer.dart';
 import 'widgets/smart_learning_button.dart';
 import 'widgets/week_row.dart';
@@ -129,6 +132,8 @@ class _CalendarStripContent extends StatefulWidget {
 }
 
 class _CalendarStripContentState extends State<_CalendarStripContent> {
+  final focusNode = OlFocusScopeNode(id: 'CalendarStripContent');
+
   @override
   Widget build(BuildContext context) {
     if (widget.fullMonth) {
@@ -164,33 +169,60 @@ class _CalendarStripContentState extends State<_CalendarStripContent> {
       );
     }
 
-    return BlocConsumer<CalendarStripCubit, CalendarStripState>(
-      buildWhen: (previous, current) => previous is! ParentShimmer,
-      listenWhen: (previous, current) => current.maybeWhen(
-        orElse: () => false,
-      ),
-      builder: (context, state) => state.maybeMap(
-        success: (value) {
-          return _content(
-            context,
-            activities: value.activities,
-            daysToHighlight: value.daysToHighlight,
-            date: value.date,
-          );
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          final res = focusNode.focusInDirection(TraversalDirection.left);
+
+          if (res == false) {
+            final focus = context.read<MainStateCubit>().state;
+            focus.requestFocus();
+          }
         },
-        error: (value) => _content(
-          context,
-          hasError: true,
-          date: value.date,
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+          final res = focusNode.focusInDirection(TraversalDirection.down);
+          print('TraversalDirection.down - $res');
+          if (res == false) {
+            //widget.onFocusOutside?.call(TraversalDirection.down);
+          }
+        },
+      },
+      child: FocusScope(
+        node: focusNode,
+        onFocusChange: (value) {
+          if (value) {
+            print('HAS FOCUS----------');
+          }
+        },
+        child: BlocConsumer<CalendarStripCubit, CalendarStripState>(
+          buildWhen: (previous, current) => previous is! ParentShimmer,
+          listenWhen: (previous, current) => current.maybeWhen(
+            orElse: () => false,
+          ),
+          builder: (context, state) => state.maybeMap(
+            success: (value) {
+              return _content(
+                context,
+                activities: value.activities,
+                daysToHighlight: value.daysToHighlight,
+                date: value.date,
+              );
+            },
+            error: (value) => _content(
+              context,
+              hasError: true,
+              date: value.date,
+            ),
+            innerShimmer: (value) => _content(
+              context,
+              showShimmer: true,
+              date: value.date,
+            ),
+            orElse: () => const SizedBox.shrink(),
+          ),
+          listener: (BuildContext context, CalendarStripState state) {},
         ),
-        innerShimmer: (value) => _content(
-          context,
-          showShimmer: true,
-          date: value.date,
-        ),
-        orElse: () => const SizedBox.shrink(),
       ),
-      listener: (BuildContext context, CalendarStripState state) {},
     );
   }
 
@@ -211,6 +243,11 @@ class _CalendarStripContentState extends State<_CalendarStripContent> {
           focusedDayNotifier: widget.focusedDayNotifier,
           selectedDayNotifier: widget.selectedDayNotifier,
           highlighted: daysToHighlight ?? [],
+          onPageChanged: (p0) {
+            context
+                .read<month.CalendarMonthStripCubit>()
+                .fetch(widget.strip, p0);
+          },
         ),
       );
     } else {
@@ -232,51 +269,53 @@ class _CalendarStripContentState extends State<_CalendarStripContent> {
               },
               onTap: (date) {
                 widget.selectedDayNotifier.value = date;
-                print(
-                    'selectedDayNotifier.value: ${widget.selectedDayNotifier.value}');
                 context.read<CalendarStripCubit>().fetch(widget.strip, date);
               },
+              parentFocus: focusNode,
             ),
             const Divider(height: Dimens.spacingXXXL, color: AppColors.grey),
-            AnimatedSize(
-              alignment: Alignment.topCenter,
-              duration: const Duration(milliseconds: 160),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 600),
-                child: showShimmer
-                    ? _innerShimmerLoader
-                    : Activities(
-                        date: date,
-                        hasError: hasError,
-                        items: activities ?? [],
-                      ),
+            Flexible(
+              child: AnimatedSize(
+                alignment: Alignment.topCenter,
+                duration: const Duration(milliseconds: 160),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 600),
+                  child: showShimmer
+                      ? _innerShimmerLoader
+                      : GridActivities(
+                          items: activities ?? [],
+                          date: date,
+                          parentFocus: focusNode,
+                          hasError: hasError,
+                        ),
+                ),
               ),
             ),
-            const SizedBox(height: Dimens.spacingM),
-            Row(
-              children: [
-                if (widget.smartLearningEnabled) ...[
-                  Expanded(
-                    child: SmartLearningButton(
-                      onTap: date.isAfter(
-                              DateTime.now().subtract(const Duration(days: 1)))
-                          ? () async {
-                              final res =
-                                  await SmartLearningBottomSheet.create<bool>(
-                                context,
-                                date: date,
-                                strip: widget.strip,
-                              );
-                              if (context.mounted && res != null && res) {
-                                context.read<CalendarStripCubit>().refresh();
-                              }
-                            }
-                          : null,
-                    ),
-                  ),
-                ],
-              ],
-            )
+            //const SizedBox(height: Dimens.spacingM),
+            // Row(
+            //   children: [
+            //     if (widget.smartLearningEnabled) ...[
+            //       Expanded(
+            //         child: SmartLearningButton(
+            //           onTap: date.isAfter(
+            //                   DateTime.now().subtract(const Duration(days: 1)))
+            //               ? () async {
+            //                   final res =
+            //                       await SmartLearningBottomSheet.create<bool>(
+            //                     context,
+            //                     date: date,
+            //                     strip: widget.strip,
+            //                   );
+            //                   if (context.mounted && res != null && res) {
+            //                     context.read<CalendarStripCubit>().refresh();
+            //                   }
+            //                 }
+            //               : null,
+            //         ),
+            //       ),
+            //     ],
+            //   ],
+            // )
           ],
         ),
       );

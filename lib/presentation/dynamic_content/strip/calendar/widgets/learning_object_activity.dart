@@ -2,136 +2,154 @@ import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../theme/app_theme.dart';
 
-class LearningObjectActivity extends StatelessWidget {
+class LearningObjectActivity extends StatefulWidget {
   final LearningObjectModel model;
   final DateTime date;
+  final int index;
+  final void Function(bool)? onFocusChanged;
 
   const LearningObjectActivity({
     super.key,
+    required this.index,
     required this.model,
     required this.date,
+    this.onFocusChanged,
   });
 
   @override
+  State<LearningObjectActivity> createState() => _LearningObjectActivityState();
+}
+
+class _LearningObjectActivityState extends State<LearningObjectActivity> {
+  late OlFocusScopeNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = OlFocusScopeNode(
+      id: 'Activity - ${widget.index} - ${widget.model.id}',
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          Nav.push(context,
-              screen: DetailPage(
-                args: DetailPageArgs(
-                  id: model.id.toString(),
-                  object: model,
-                  typology: model.learningObjectTypology,
-                  parentId: model.parentId?.toString(),
-                  grandParentId: model.grandParentId?.toString(),
-                ),
-              ));
+    return InkWell(
+        focusNode: _focusNode,
+        onFocusChange: (value) {
+          widget.onFocusChanged?.call(value);
+          setState(() {});
         },
-        child: Container(
-          padding: const EdgeInsets.all(Dimens.spacingS),
-          constraints: const BoxConstraints(
-            minHeight: Dimens.calendarActivityItem,
-            maxHeight: Dimens.calendarActivityItem,
-          ),
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(
-                color: _getColor(model, date),
-                width: 2,
+        onTap: () {
+          Nav.push(
+            context,
+            screen: DetailPage(
+              args: DetailPageArgs(
+                id: widget.model.id.toString(),
+                object: widget.model,
+                typology: widget.model.learningObjectTypology,
+                parentId: widget.model.parentId?.toString(),
+                grandParentId: widget.model.grandParentId?.toString(),
               ),
             ),
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          decoration: BoxDecoration(
+            gradient: AppTheme.greyGradient,
+            border: Border.all(
+              width: 2,
+              color: _focusNode.hasFocus ? Colors.white : Colors.transparent,
+            ),
+            borderRadius: BorderRadius.circular(8),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: RichText(
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      text: TextSpan(
+          child: Container(
+            padding: const EdgeInsets.all(Dimens.spacingS),
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(
+                  color: _getColor(widget.model, widget.date),
+                  width: 2,
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
                         children: [
-                          TextSpan(
-                            text: model.learningObjectTypology
-                                .getTranslatedValue()
-                                .toUpperCase(),
-                            style: AppTextTheme.caption(
-                              weight: FontWeight.w700,
-                              color: _getColor(model, date),
+                          Expanded(
+                            child: RichText(
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: widget.model.learningObjectTypology
+                                        .getTranslatedValue()
+                                        .toUpperCase(),
+                                    style: AppTextTheme.caption(
+                                      weight: FontWeight.w700,
+                                      color:
+                                          _getColor(widget.model, widget.date),
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' | ',
+                                    style: AppTextTheme.caption(
+                                        weight: FontWeight.w700),
+                                  ),
+                                  TextSpan(
+                                    text: widget.model.learningObjectType
+                                        .getTranslatedValue()
+                                        .toUpperCase(),
+                                    style: AppTextTheme.caption(
+                                        weight: FontWeight.w700),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          TextSpan(
-                            text: ' | ',
-                            style:
-                                AppTextTheme.caption(weight: FontWeight.w700),
-                          ),
-                          TextSpan(
-                            text: model.learningObjectType
-                                .getTranslatedValue()
-                                .toUpperCase(),
-                            style:
-                                AppTextTheme.caption(weight: FontWeight.w700),
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                  SizedBox.square(
-                    dimension: 20,
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          // context.pushNamed(
-                          //   OlCalendarDialog.routeName,
-                          //   extra: OlCalendarDialogArgs(
-                          //     type: AgendaEventType.eventLearningObject,
-                          //     learningObjectModel: model,
-                          //     date: date,
-                          //   ),
-                          // );
-                        },
-                        child: SvgPicture.asset(
-                          "assets/icons/download.svg",
-                          colorFilter: ColorFilter.mode(
-                              _getColor(model, date), BlendMode.srcIn),
+                      const SizedBox(height: Dimens.spacingXXS),
+                      Text(
+                        widget.model.title ?? 'No Title',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextTheme.subtitle(
+                          color: ColorManager().getColorTextPrimary(),
+                          weight: FontWeight.w700,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+                if (widget.model.startTime != null &&
+                    widget.model.endTime != null) ...[
+                  const SizedBox(height: Dimens.spacingXXS),
+                  Text(
+                    '${widget.model.startTime!} - ${widget.model.endTime!}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextTheme.caption(
+                      color: ColorManager().getColorTextPrimary(),
+                      weight: FontWeight.w400,
                     ),
                   ),
                 ],
-              ),
-              const SizedBox(height: Dimens.spacingXXS),
-              Text(
-                model.title ?? 'No Title',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppTextTheme.caption(
-                  color: ColorManager().getColorTextPrimary(),
-                  weight: FontWeight.w500,
-                ),
-              ),
-              if (model.startTime != null && model.endTime != null) ...[
-                const SizedBox(height: Dimens.spacingXXS),
-                Text(
-                  '${model.startTime!} - ${model.endTime!}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: AppTextTheme.caption(
-                    color: ColorManager().getColorTextPrimary(),
-                    weight: FontWeight.w400,
-                  ),
-                ),
               ],
-            ],
+            ),
           ),
         ));
   }
