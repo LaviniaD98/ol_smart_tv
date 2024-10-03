@@ -114,6 +114,9 @@ class _$CorporateCodeStateCopyWithImpl<$Res, $Val extends CorporateCodeState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -133,6 +136,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -179,7 +184,9 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   @override
   int get hashCode => Object.hash(runtimeType, form);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -294,7 +301,10 @@ abstract class _Initial implements CorporateCodeState {
   const factory _Initial(final FormGroup form) = _$InitialImpl;
 
   FormGroup get form;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -313,6 +323,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -463,6 +476,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -613,6 +629,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -767,6 +786,8 @@ class __$$ShowInitiativesImplCopyWithImpl<$Res>
       _$ShowInitiativesImpl _value, $Res Function(_$ShowInitiativesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -835,7 +856,9 @@ class _$ShowInitiativesImpl
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowInitiativesImplCopyWith<_$ShowInitiativesImpl> get copyWith =>
@@ -956,7 +979,10 @@ abstract class _ShowInitiatives implements CorporateCodeState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowInitiativesImplCopyWith<_$ShowInitiativesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -979,6 +1005,8 @@ class __$$ShowPolicyPageImplCopyWithImpl<$Res>
       _$ShowPolicyPageImpl _value, $Res Function(_$ShowPolicyPageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1047,7 +1075,9 @@ class _$ShowPolicyPageImpl
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
@@ -1166,7 +1196,10 @@ abstract class _ShowPolicyPage implements CorporateCodeState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1185,6 +1218,9 @@ class __$$ShowSessionPopupImplCopyWithImpl<$Res>
   __$$ShowSessionPopupImplCopyWithImpl(_$ShowSessionPopupImpl _value,
       $Res Function(_$ShowSessionPopupImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CorporateCodeState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

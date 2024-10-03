@@ -66,6 +66,9 @@ class _$LogoutResponseCopyWithImpl<$Res, $Val extends LogoutResponse>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LogoutResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -82,6 +85,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LogoutResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

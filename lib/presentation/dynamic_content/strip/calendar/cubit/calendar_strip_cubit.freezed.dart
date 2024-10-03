@@ -90,6 +90,9 @@ class _$CalendarStripStateCopyWithImpl<$Res, $Val extends CalendarStripState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,9 @@ class __$$ParentShimmerImplCopyWithImpl<$Res>
   __$$ParentShimmerImplCopyWithImpl(
       _$ParentShimmerImpl _value, $Res Function(_$ParentShimmerImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -238,6 +244,8 @@ class __$$InnerShimmerImplCopyWithImpl<$Res>
       _$InnerShimmerImpl _value, $Res Function(_$InnerShimmerImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -284,7 +292,9 @@ class _$InnerShimmerImpl with DiagnosticableTreeMixin implements InnerShimmer {
   @override
   int get hashCode => Object.hash(runtimeType, date);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InnerShimmerImplCopyWith<_$InnerShimmerImpl> get copyWith =>
@@ -375,7 +385,10 @@ abstract class InnerShimmer implements CalendarStripState {
   const factory InnerShimmer(final DateTime date) = _$InnerShimmerImpl;
 
   DateTime get date;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InnerShimmerImplCopyWith<_$InnerShimmerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -403,6 +416,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -431,6 +446,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
     ));
   }
 
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $StripRowCopyWith<$Res> get strip {
@@ -506,7 +523,9 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
       const DeepCollectionEquality().hash(_daysToHighlight),
       strip);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -604,7 +623,10 @@ abstract class Success implements CalendarStripState {
   List<CalendarActivity> get activities;
   List<DaysToHighlightModel> get daysToHighlight;
   StripRow get strip;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -626,6 +648,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -672,7 +696,9 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   int get hashCode => Object.hash(runtimeType, date);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -763,7 +789,10 @@ abstract class Error implements CalendarStripState {
   const factory Error(final DateTime date) = _$ErrorImpl;
 
   DateTime get date;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CalendarStripState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

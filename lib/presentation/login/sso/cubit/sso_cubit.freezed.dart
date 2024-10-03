@@ -102,6 +102,9 @@ class _$SsoStateCopyWithImpl<$Res, $Val extends SsoState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -118,6 +121,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -254,6 +260,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -302,7 +310,9 @@ class _$InitialImpl implements _Initial {
   @override
   int get hashCode => Object.hash(runtimeType, ssoLoginUrl, ssoCodeRedirectUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -409,7 +419,10 @@ abstract class _Initial implements SsoState {
 
   String get ssoLoginUrl;
   String get ssoCodeRedirectUrl;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -432,6 +445,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -488,7 +503,9 @@ class _$SuccessImpl implements _Success {
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -595,7 +612,10 @@ abstract class _Success implements SsoState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -618,6 +638,8 @@ class __$$ShowPolicyPageImplCopyWithImpl<$Res>
       _$ShowPolicyPageImpl _value, $Res Function(_$ShowPolicyPageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -674,7 +696,9 @@ class _$ShowPolicyPageImpl implements _ShowPolicyPage {
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
@@ -782,7 +806,10 @@ abstract class _ShowPolicyPage implements SsoState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -801,6 +828,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SsoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

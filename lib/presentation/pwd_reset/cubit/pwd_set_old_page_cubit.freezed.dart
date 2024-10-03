@@ -66,6 +66,9 @@ class _$PwdSetOldStateCopyWithImpl<$Res, $Val extends PwdSetOldState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of PwdSetOldState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -81,6 +84,9 @@ class __$$initImplCopyWithImpl<$Res>
     implements _$$initImplCopyWith<$Res> {
   __$$initImplCopyWithImpl(_$initImpl _value, $Res Function(_$initImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PwdSetOldState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

@@ -85,6 +85,9 @@ class _$OlDownloadDialogStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -101,6 +104,9 @@ class __$$DownloadingImplCopyWithImpl<$Res>
   __$$DownloadingImplCopyWithImpl(
       _$DownloadingImpl _value, $Res Function(_$DownloadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -222,6 +228,9 @@ class __$$DownloadErrorImplCopyWithImpl<$Res>
   __$$DownloadErrorImplCopyWithImpl(
       _$DownloadErrorImpl _value, $Res Function(_$DownloadErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -345,6 +354,9 @@ class __$$PermissionErrorImplCopyWithImpl<$Res>
   __$$PermissionErrorImplCopyWithImpl(
       _$PermissionErrorImpl _value, $Res Function(_$PermissionErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -471,6 +483,8 @@ class __$$DownloadSuccessImplCopyWithImpl<$Res>
       _$DownloadSuccessImpl _value, $Res Function(_$DownloadSuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -521,7 +535,9 @@ class _$DownloadSuccessImpl
   @override
   int get hashCode => Object.hash(runtimeType, filePath);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DownloadSuccessImplCopyWith<_$DownloadSuccessImpl> get copyWith =>
@@ -607,7 +623,10 @@ abstract class DownloadSuccess implements OlDownloadDialogState {
   const factory DownloadSuccess(final String filePath) = _$DownloadSuccessImpl;
 
   String get filePath;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of OlDownloadDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DownloadSuccessImplCopyWith<_$DownloadSuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

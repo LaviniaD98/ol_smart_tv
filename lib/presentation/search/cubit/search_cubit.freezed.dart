@@ -99,6 +99,9 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -118,6 +121,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -164,7 +169,9 @@ class _$InitialImpl implements _Initial {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_latestResearch));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -264,7 +271,10 @@ abstract class _Initial implements SearchState {
   const factory _Initial(final List<String> latestResearch) = _$InitialImpl;
 
   List<String> get latestResearch;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -286,6 +296,8 @@ class __$$SuggestionsImplCopyWithImpl<$Res>
       _$SuggestionsImpl _value, $Res Function(_$SuggestionsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -341,7 +353,9 @@ class _$SuggestionsImpl implements _Suggestions {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_suggestions), search);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuggestionsImplCopyWith<_$SuggestionsImpl> get copyWith =>
@@ -444,7 +458,10 @@ abstract class _Suggestions implements SearchState {
 
   List<SuggestionModel> get suggestions;
   String get search;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuggestionsImplCopyWith<_$SuggestionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -463,6 +480,9 @@ class __$$SearchPaginatedImplCopyWithImpl<$Res>
   __$$SearchPaginatedImplCopyWithImpl(
       _$SearchPaginatedImpl _value, $Res Function(_$SearchPaginatedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -595,6 +615,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -633,7 +655,9 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -733,7 +757,10 @@ abstract class _Error implements SearchState {
   const factory _Error(final Failure failure) = _$ErrorImpl;
 
   Failure get failure;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -755,6 +782,8 @@ class __$$EmptyImplCopyWithImpl<$Res>
       _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -793,7 +822,9 @@ class _$EmptyImpl implements _Empty {
   @override
   int get hashCode => Object.hash(runtimeType, search);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EmptyImplCopyWith<_$EmptyImpl> get copyWith =>
@@ -893,7 +924,10 @@ abstract class _Empty implements SearchState {
   const factory _Empty([final String? search]) = _$EmptyImpl;
 
   String? get search;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EmptyImplCopyWith<_$EmptyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -912,6 +946,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SearchState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

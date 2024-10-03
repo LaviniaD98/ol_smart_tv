@@ -96,6 +96,9 @@ class _$EditionStateCopyWithImpl<$Res, $Val extends EditionState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -112,6 +115,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -244,6 +250,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -376,6 +385,9 @@ class __$$RegisterImplCopyWithImpl<$Res>
   __$$RegisterImplCopyWithImpl(
       _$RegisterImpl _value, $Res Function(_$RegisterImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -508,6 +520,9 @@ class __$$RegisteredImplCopyWithImpl<$Res>
   __$$RegisteredImplCopyWithImpl(
       _$RegisteredImpl _value, $Res Function(_$RegisteredImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -640,6 +655,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -772,6 +790,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EditionState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

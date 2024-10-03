@@ -73,6 +73,9 @@ class _$OnboardingManagerStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of OnboardingManagerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -92,6 +95,8 @@ class __$$ShownImplCopyWithImpl<$Res>
       _$ShownImpl _value, $Res Function(_$ShownImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OnboardingManagerState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -131,7 +136,9 @@ class _$ShownImpl implements _Shown {
   @override
   int get hashCode => Object.hash(runtimeType, formGroup);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OnboardingManagerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShownImplCopyWith<_$ShownImpl> get copyWith =>
@@ -204,7 +211,10 @@ abstract class _Shown implements OnboardingManagerState {
   const factory _Shown(final FormGroup formGroup) = _$ShownImpl;
 
   FormGroup get formGroup;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of OnboardingManagerState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShownImplCopyWith<_$ShownImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -223,6 +233,9 @@ class __$$HiddenImplCopyWithImpl<$Res>
   __$$HiddenImplCopyWithImpl(
       _$HiddenImpl _value, $Res Function(_$HiddenImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OnboardingManagerState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

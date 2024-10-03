@@ -73,6 +73,9 @@ class _$EcmRegistrationStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -92,6 +95,8 @@ class __$$EcmFirstStepImplCopyWithImpl<$Res>
       _$EcmFirstStepImpl _value, $Res Function(_$EcmFirstStepImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,7 +135,9 @@ class _$EcmFirstStepImpl implements _EcmFirstStep {
   @override
   int get hashCode => Object.hash(runtimeType, args);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EcmFirstStepImplCopyWith<_$EcmFirstStepImpl> get copyWith =>
@@ -204,7 +211,10 @@ abstract class _EcmFirstStep implements EcmRegistrationState {
       _$EcmFirstStepImpl;
 
   EcmFirstStepArgs? get args;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EcmFirstStepImplCopyWith<_$EcmFirstStepImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -226,6 +236,8 @@ class __$$EcmSecondStepImplCopyWithImpl<$Res>
       _$EcmSecondStepImpl _value, $Res Function(_$EcmSecondStepImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -265,7 +277,9 @@ class _$EcmSecondStepImpl implements _EcmSecondStep {
   @override
   int get hashCode => Object.hash(runtimeType, firstStep);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EcmSecondStepImplCopyWith<_$EcmSecondStepImpl> get copyWith =>
@@ -339,7 +353,10 @@ abstract class _EcmSecondStep implements EcmRegistrationState {
       _$EcmSecondStepImpl;
 
   EcmFirstStepArgs get firstStep;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EcmRegistrationState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EcmSecondStepImplCopyWith<_$EcmSecondStepImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -78,6 +78,9 @@ class _$AppLogoStateCopyWithImpl<$Res, $Val extends AppLogoState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -94,6 +97,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -205,6 +211,8 @@ class __$$LogoRetrievedImplCopyWithImpl<$Res>
       _$LogoRetrievedImpl _value, $Res Function(_$LogoRetrievedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -244,7 +252,9 @@ class _$LogoRetrievedImpl implements _LogoRetrieved {
   @override
   int get hashCode => Object.hash(runtimeType, fullImageName);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LogoRetrievedImplCopyWith<_$LogoRetrievedImpl> get copyWith =>
@@ -324,7 +334,10 @@ abstract class _LogoRetrieved implements AppLogoState {
       _$LogoRetrievedImpl;
 
   String get fullImageName;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LogoRetrievedImplCopyWith<_$LogoRetrievedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -343,6 +356,9 @@ class __$$UseAssetLogoImplCopyWithImpl<$Res>
   __$$UseAssetLogoImplCopyWithImpl(
       _$UseAssetLogoImpl _value, $Res Function(_$UseAssetLogoImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AppLogoState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

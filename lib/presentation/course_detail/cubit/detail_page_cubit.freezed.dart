@@ -126,6 +126,9 @@ class _$DetailPageStateCopyWithImpl<$Res, $Val extends DetailPageState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -142,6 +145,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -301,6 +307,8 @@ class __$$AutoEnrollImplCopyWithImpl<$Res>
       _$AutoEnrollImpl _value, $Res Function(_$AutoEnrollImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -339,7 +347,9 @@ class _$AutoEnrollImpl implements AutoEnroll {
   @override
   int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AutoEnrollImplCopyWith<_$AutoEnrollImpl> get copyWith =>
@@ -466,7 +476,10 @@ abstract class AutoEnroll implements DetailPageState {
   const factory AutoEnroll(final DetailPageModel data) = _$AutoEnrollImpl;
 
   DetailPageModel get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AutoEnrollImplCopyWith<_$AutoEnrollImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -488,6 +501,8 @@ class __$$AutoEnrollFailImplCopyWithImpl<$Res>
       _$AutoEnrollFailImpl _value, $Res Function(_$AutoEnrollFailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -526,7 +541,9 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
   @override
   int get hashCode => Object.hash(runtimeType, eres);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AutoEnrollFailImplCopyWith<_$AutoEnrollFailImpl> get copyWith =>
@@ -655,7 +672,10 @@ abstract class AutoEnrollFail implements DetailPageState {
       _$AutoEnrollFailImpl;
 
   EnrollmentModel get eres;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AutoEnrollFailImplCopyWith<_$AutoEnrollFailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -680,6 +700,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -737,7 +759,9 @@ class _$SuccessImpl implements Success {
   int get hashCode =>
       Object.hash(runtimeType, selectedIndex, data, smartConfig);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -867,7 +891,10 @@ abstract class Success implements DetailPageState {
   int get selectedIndex;
   DetailPageModel get data;
   SmartConfiguratorModel? get smartConfig;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -889,6 +916,8 @@ class __$$ReadyToPlayImplCopyWithImpl<$Res>
       _$ReadyToPlayImpl _value, $Res Function(_$ReadyToPlayImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -935,7 +964,9 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
   @override
   int get hashCode => Object.hash(runtimeType, model, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ReadyToPlayImplCopyWith<_$ReadyToPlayImpl> get copyWith =>
@@ -1065,7 +1096,10 @@ abstract class ReadyToPlay implements DetailPageState {
 
   LearningObjectModel get model;
   DetailPageModel get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ReadyToPlayImplCopyWith<_$ReadyToPlayImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1087,6 +1121,8 @@ class __$$OpenDetailImplCopyWithImpl<$Res>
       _$OpenDetailImpl _value, $Res Function(_$OpenDetailImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1133,7 +1169,9 @@ class _$OpenDetailImpl implements OpenDetail {
   @override
   int get hashCode => Object.hash(runtimeType, model, data);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$OpenDetailImplCopyWith<_$OpenDetailImpl> get copyWith =>
@@ -1263,7 +1301,10 @@ abstract class OpenDetail implements DetailPageState {
 
   LearningObjectModel get model;
   DetailPageModel get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OpenDetailImplCopyWith<_$OpenDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1282,6 +1323,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1438,6 +1482,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1597,6 +1644,8 @@ class __$$ErrorWithDialogImplCopyWithImpl<$Res>
       _$ErrorWithDialogImpl _value, $Res Function(_$ErrorWithDialogImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1635,7 +1684,9 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorWithDialogImplCopyWith<_$ErrorWithDialogImpl> get copyWith =>
@@ -1763,7 +1814,10 @@ abstract class ErrorWithDialog implements DetailPageState {
   const factory ErrorWithDialog(final String message) = _$ErrorWithDialogImpl;
 
   String get message;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of DetailPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorWithDialogImplCopyWith<_$ErrorWithDialogImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

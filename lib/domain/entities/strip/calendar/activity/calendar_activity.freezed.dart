@@ -67,7 +67,9 @@ mixin _$CalendarActivity {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $CalendarActivityCopyWith<CalendarActivity> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -91,6 +93,8 @@ class _$CalendarActivityCopyWithImpl<$Res, $Val extends CalendarActivity>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -126,6 +130,8 @@ class __$$ActivityLearningObjectImplCopyWithImpl<$Res>
       $Res Function(_$ActivityLearningObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,7 +187,9 @@ class _$ActivityLearningObjectImpl implements ActivityLearningObject {
   @override
   int get hashCode => Object.hash(runtimeType, date, endDate, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivityLearningObjectImplCopyWith<_$ActivityLearningObjectImpl>
@@ -272,8 +280,11 @@ abstract class ActivityLearningObject implements CalendarActivity {
   DateTime? get endDate;
   @override
   LearningObjectModel get model;
+
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivityLearningObjectImplCopyWith<_$ActivityLearningObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -300,6 +311,8 @@ class __$$ActivitySmartLearningObjectImplCopyWithImpl<$Res>
       $Res Function(_$ActivitySmartLearningObjectImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -346,7 +359,9 @@ class _$ActivitySmartLearningObjectImpl implements ActivitySmartLearningObject {
   @override
   int get hashCode => Object.hash(runtimeType, date, model);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ActivitySmartLearningObjectImplCopyWith<_$ActivitySmartLearningObjectImpl>
@@ -436,8 +451,11 @@ abstract class ActivitySmartLearningObject implements CalendarActivity {
   DateTime? get date;
   @override
   SmartLearningSlotsModel get model;
+
+  /// Create a copy of CalendarActivity
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ActivitySmartLearningObjectImplCopyWith<_$ActivitySmartLearningObjectImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

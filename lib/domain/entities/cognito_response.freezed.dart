@@ -130,6 +130,9 @@ class _$CognitoResponseCopyWithImpl<$Res, $Val extends CognitoResponse>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -152,6 +155,8 @@ class __$$CognitoUserNewPasswordRequiredImplCopyWithImpl<$Res>
       $Res Function(_$CognitoUserNewPasswordRequiredImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -191,7 +196,9 @@ class _$CognitoUserNewPasswordRequiredImpl
   @override
   int get hashCode => Object.hash(runtimeType, e);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CognitoUserNewPasswordRequiredImplCopyWith<
@@ -326,7 +333,10 @@ abstract class _CognitoUserNewPasswordRequired implements CognitoResponse {
       _$CognitoUserNewPasswordRequiredImpl;
 
   CognitoUserNewPasswordRequiredException get e;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CognitoUserNewPasswordRequiredImplCopyWith<
           _$CognitoUserNewPasswordRequiredImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -348,6 +358,9 @@ class __$$CognitoUserMfaRequiredImplCopyWithImpl<$Res>
       _$CognitoUserMfaRequiredImpl _value,
       $Res Function(_$CognitoUserMfaRequiredImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -511,6 +524,9 @@ class __$$CognitoUserSelectMfaTypeImplCopyWithImpl<$Res>
       _$CognitoUserSelectMfaTypeImpl _value,
       $Res Function(_$CognitoUserSelectMfaTypeImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -672,6 +688,9 @@ class __$$CognitoUserMfaSetupImplCopyWithImpl<$Res>
   __$$CognitoUserMfaSetupImplCopyWithImpl(_$CognitoUserMfaSetupImpl _value,
       $Res Function(_$CognitoUserMfaSetupImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -835,6 +854,9 @@ class __$$CognitoUserTotpRequiredImplCopyWithImpl<$Res>
       _$CognitoUserTotpRequiredImpl _value,
       $Res Function(_$CognitoUserTotpRequiredImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -999,6 +1021,9 @@ class __$$CognitoUserCustomChallengeImplCopyWithImpl<$Res>
       _$CognitoUserCustomChallengeImpl _value,
       $Res Function(_$CognitoUserCustomChallengeImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1164,6 +1189,9 @@ class __$$CognitoUserConfirmationNecessaryImplCopyWithImpl<$Res>
       _$CognitoUserConfirmationNecessaryImpl _value,
       $Res Function(_$CognitoUserConfirmationNecessaryImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1327,6 +1355,9 @@ class __$$CognitoAuthDeniedImplCopyWithImpl<$Res>
   __$$CognitoAuthDeniedImplCopyWithImpl(_$CognitoAuthDeniedImpl _value,
       $Res Function(_$CognitoAuthDeniedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -1490,6 +1521,8 @@ class __$$RecoverPasswordErrorImplCopyWithImpl<$Res>
       $Res Function(_$RecoverPasswordErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1529,7 +1562,9 @@ class _$RecoverPasswordErrorImpl implements _RecoverPasswordError {
   @override
   int get hashCode => Object.hash(runtimeType, errorMessage);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RecoverPasswordErrorImplCopyWith<_$RecoverPasswordErrorImpl>
@@ -1663,7 +1698,10 @@ abstract class _RecoverPasswordError implements CognitoResponse {
       _$RecoverPasswordErrorImpl;
 
   String get errorMessage;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of CognitoResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RecoverPasswordErrorImplCopyWith<_$RecoverPasswordErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

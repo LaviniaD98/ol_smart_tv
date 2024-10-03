@@ -90,6 +90,9 @@ class _$WebViewPageStateCopyWithImpl<$Res, $Val extends WebViewPageState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -106,6 +109,9 @@ class __$$loadingImplCopyWithImpl<$Res>
   __$$loadingImplCopyWithImpl(
       _$loadingImpl _value, $Res Function(_$loadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -225,6 +231,9 @@ class __$$initImplCopyWithImpl<$Res>
     implements _$$initImplCopyWith<$Res> {
   __$$initImplCopyWithImpl(_$initImpl _value, $Res Function(_$initImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -345,6 +354,9 @@ class __$$getTokenImplCopyWithImpl<$Res>
   __$$getTokenImplCopyWithImpl(
       _$getTokenImpl _value, $Res Function(_$getTokenImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -465,6 +477,9 @@ class __$$errorImplCopyWithImpl<$Res>
   __$$errorImplCopyWithImpl(
       _$errorImpl _value, $Res Function(_$errorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -588,6 +603,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -627,7 +644,9 @@ class _$SuccessImpl implements _Success {
   @override
   int get hashCode => Object.hash(runtimeType, playerUrl);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -718,7 +737,10 @@ abstract class _Success implements WebViewPageState {
   const factory _Success(final String playerUrl) = _$SuccessImpl;
 
   String get playerUrl;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of WebViewPageState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

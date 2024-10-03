@@ -97,7 +97,9 @@ mixin _$MenuRoute {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $MenuRouteCopyWith<MenuRoute> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -126,6 +128,8 @@ class _$MenuRouteCopyWithImpl<$Res, $Val extends MenuRoute>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -190,6 +194,8 @@ class __$$VisForYouImplCopyWithImpl<$Res>
       _$VisForYouImpl _value, $Res Function(_$VisForYouImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -279,7 +285,9 @@ class _$VisForYouImpl extends VisForYou {
   int get hashCode => Object.hash(
       runtimeType, id, apiPath, routeName, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisForYouImplCopyWith<_$VisForYouImpl> get copyWith =>
@@ -408,8 +416,11 @@ abstract class VisForYou extends MenuRoute {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisForYouImplCopyWith<_$VisForYouImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -439,6 +450,8 @@ class __$$VisSearchImplCopyWithImpl<$Res>
       _$VisSearchImpl _value, $Res Function(_$VisSearchImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -528,7 +541,9 @@ class _$VisSearchImpl extends VisSearch {
   int get hashCode => Object.hash(
       runtimeType, id, apiPath, routeName, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisSearchImplCopyWith<_$VisSearchImpl> get copyWith =>
@@ -657,8 +672,11 @@ abstract class VisSearch extends MenuRoute {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisSearchImplCopyWith<_$VisSearchImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -688,6 +706,8 @@ class __$$VisExploreImplCopyWithImpl<$Res>
       _$VisExploreImpl _value, $Res Function(_$VisExploreImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -777,7 +797,9 @@ class _$VisExploreImpl extends VisExplore {
   int get hashCode => Object.hash(
       runtimeType, id, apiPath, routeName, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisExploreImplCopyWith<_$VisExploreImpl> get copyWith =>
@@ -906,8 +928,11 @@ abstract class VisExplore extends MenuRoute {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisExploreImplCopyWith<_$VisExploreImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -937,6 +962,8 @@ class __$$VisCommunityImplCopyWithImpl<$Res>
       _$VisCommunityImpl _value, $Res Function(_$VisCommunityImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1026,7 +1053,9 @@ class _$VisCommunityImpl extends VisCommunity {
   int get hashCode => Object.hash(
       runtimeType, id, apiPath, routeName, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisCommunityImplCopyWith<_$VisCommunityImpl> get copyWith =>
@@ -1156,8 +1185,11 @@ abstract class VisCommunity extends MenuRoute {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of MenuRoute
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisCommunityImplCopyWith<_$VisCommunityImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

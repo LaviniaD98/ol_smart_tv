@@ -78,6 +78,9 @@ class _$EcmSecondStepStateCopyWithImpl<$Res, $Val extends EcmSecondStepState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -97,6 +100,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,7 +149,9 @@ class _$InitialImpl implements _Initial {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_selectedSponsor));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -223,7 +230,10 @@ abstract class _Initial implements EcmSecondStepState {
   const factory _Initial({final List<String> selectedSponsor}) = _$InitialImpl;
 
   List<String> get selectedSponsor;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -242,6 +252,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -353,6 +366,8 @@ class __$$ErrorImplCopyWithImpl<$Res>
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -391,7 +406,9 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
@@ -470,7 +487,10 @@ abstract class _Error implements EcmSecondStepState {
   const factory _Error(final Failure error) = _$ErrorImpl;
 
   Failure get error;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of EcmSecondStepState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

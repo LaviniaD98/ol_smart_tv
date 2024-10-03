@@ -122,6 +122,9 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -138,6 +141,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -293,6 +299,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -340,7 +348,9 @@ class _$InitialImpl implements _Initial {
   @override
   int get hashCode => Object.hash(runtimeType, form, loginType);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -465,7 +475,10 @@ abstract class _Initial implements LoginState {
 
   FormGroup get form;
   LoginType get loginType;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -484,6 +497,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -639,6 +655,8 @@ class __$$MfaValidationImplCopyWithImpl<$Res>
       _$MfaValidationImpl _value, $Res Function(_$MfaValidationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -686,7 +704,9 @@ class _$MfaValidationImpl implements _MfaValidation {
   @override
   int get hashCode => Object.hash(runtimeType, remember, userId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$MfaValidationImplCopyWith<_$MfaValidationImpl> get copyWith =>
@@ -811,7 +831,10 @@ abstract class _MfaValidation implements LoginState {
 
   bool get remember;
   String get userId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$MfaValidationImplCopyWith<_$MfaValidationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -834,6 +857,8 @@ class __$$ShowInitiativesImplCopyWithImpl<$Res>
       _$ShowInitiativesImpl _value, $Res Function(_$ShowInitiativesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -890,7 +915,9 @@ class _$ShowInitiativesImpl implements _ShowInitiatives {
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowInitiativesImplCopyWith<_$ShowInitiativesImpl> get copyWith =>
@@ -1019,7 +1046,10 @@ abstract class _ShowInitiatives implements LoginState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowInitiativesImplCopyWith<_$ShowInitiativesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1042,6 +1072,8 @@ class __$$ShowPolicyPageImplCopyWithImpl<$Res>
       _$ShowPolicyPageImpl _value, $Res Function(_$ShowPolicyPageImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1098,7 +1130,9 @@ class _$ShowPolicyPageImpl implements _ShowPolicyPage {
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
@@ -1225,7 +1259,10 @@ abstract class _ShowPolicyPage implements LoginState {
   CognitoUserSession get session;
   SelfModel get selfModel;
   String get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ShowPolicyPageImplCopyWith<_$ShowPolicyPageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1249,6 +1286,8 @@ class __$$FirstLoginPasswordChangeImplCopyWithImpl<$Res>
       $Res Function(_$FirstLoginPasswordChangeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1296,7 +1335,9 @@ class _$FirstLoginPasswordChangeImpl implements _FirstLoginPasswordChange {
   @override
   int get hashCode => Object.hash(runtimeType, oldPwd, exception);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FirstLoginPasswordChangeImplCopyWith<_$FirstLoginPasswordChangeImpl>
@@ -1423,7 +1464,10 @@ abstract class _FirstLoginPasswordChange implements LoginState {
 
   String get oldPwd;
   CognitoUserNewPasswordRequiredException get exception;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LoginState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FirstLoginPasswordChangeImplCopyWith<_$FirstLoginPasswordChangeImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

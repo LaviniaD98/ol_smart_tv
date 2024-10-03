@@ -84,6 +84,9 @@ class _$PwdConfirmStateCopyWithImpl<$Res, $Val extends PwdConfirmState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$loadingImplCopyWithImpl<$Res>
   __$$loadingImplCopyWithImpl(
       _$loadingImpl _value, $Res Function(_$loadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -216,6 +222,8 @@ class __$$initImplCopyWithImpl<$Res>
   __$$initImplCopyWithImpl(_$initImpl _value, $Res Function(_$initImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -254,7 +262,9 @@ class _$initImpl implements _init {
   @override
   int get hashCode => Object.hash(runtimeType, form);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$initImplCopyWith<_$initImpl> get copyWith =>
@@ -339,7 +349,10 @@ abstract class _init implements PwdConfirmState {
   const factory _init(final FormGroup form) = _$initImpl;
 
   FormGroup get form;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$initImplCopyWith<_$initImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -358,6 +371,9 @@ class __$$errorImplCopyWithImpl<$Res>
   __$$errorImplCopyWithImpl(
       _$errorImpl _value, $Res Function(_$errorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -472,6 +488,9 @@ class __$$SuccessImplCopyWithImpl<$Res>
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of PwdConfirmState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

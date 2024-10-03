@@ -95,6 +95,9 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -114,6 +117,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,7 +176,9 @@ class _$InitialImpl with DiagnosticableTreeMixin implements Initial {
   @override
   int get hashCode => Object.hash(runtimeType, smartConfig, loggedInViaSSO);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -270,7 +277,10 @@ abstract class Initial implements SettingsState {
 
   SmartConfiguratorModel? get smartConfig;
   bool? get loggedInViaSSO;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -289,6 +299,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -420,6 +433,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -555,6 +571,8 @@ class __$$GoToInitiativesImplCopyWithImpl<$Res>
       _$GoToInitiativesImpl _value, $Res Function(_$GoToInitiativesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -623,7 +641,9 @@ class _$GoToInitiativesImpl
   @override
   int get hashCode => Object.hash(runtimeType, session, selfModel, sessionId);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GoToInitiativesImplCopyWith<_$GoToInitiativesImpl> get copyWith =>
@@ -725,7 +745,10 @@ abstract class _GoToInitiatives implements SettingsState {
   CognitoUserSession? get session;
   SelfModel? get selfModel;
   String? get sessionId;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SettingsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GoToInitiativesImplCopyWith<_$GoToInitiativesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

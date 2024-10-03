@@ -59,7 +59,9 @@ mixin _$AppState {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $AppStateCopyWith<AppState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -86,6 +88,8 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -137,6 +141,8 @@ class __$$InitialImplCopyWithImpl<$Res>
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -216,7 +222,9 @@ class _$InitialImpl implements _Initial {
   int get hashCode => Object.hash(runtimeType, initialRoute,
       const DeepCollectionEquality().hash(_dynamicRoutes), date, showPopup);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
@@ -300,8 +308,11 @@ abstract class _Initial implements AppState {
   DateTime? get date;
   @override
   bool? get showPopup;
+
+  /// Create a copy of AppState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

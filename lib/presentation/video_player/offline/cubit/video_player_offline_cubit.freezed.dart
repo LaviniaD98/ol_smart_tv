@@ -79,6 +79,9 @@ class _$VideoPlayerOfflineStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -95,6 +98,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -210,6 +216,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -327,6 +336,8 @@ class __$$DoneImplCopyWithImpl<$Res>
   __$$DoneImplCopyWithImpl(_$DoneImpl _value, $Res Function(_$DoneImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -384,7 +395,9 @@ class _$DoneImpl with DiagnosticableTreeMixin implements _Done {
   @override
   int get hashCode => Object.hash(runtimeType, fileFullPath, bookmark);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$DoneImplCopyWith<_$DoneImpl> get copyWith =>
@@ -465,7 +478,10 @@ abstract class _Done implements VideoPlayerOfflineState {
 
   String get fileFullPath;
   Duration get bookmark;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of VideoPlayerOfflineState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DoneImplCopyWith<_$DoneImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

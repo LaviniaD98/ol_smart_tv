@@ -203,7 +203,9 @@ mixin _$StripRow {
   }) =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $StripRowCopyWith<StripRow> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -231,6 +233,8 @@ class _$StripRowCopyWithImpl<$Res, $Val extends StripRow>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -289,6 +293,8 @@ class __$$WidgetCalendarImplCopyWithImpl<$Res>
       _$WidgetCalendarImpl _value, $Res Function(_$WidgetCalendarImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -367,7 +373,9 @@ class _$WidgetCalendarImpl implements WidgetCalendar {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WidgetCalendarImplCopyWith<_$WidgetCalendarImpl> get copyWith =>
@@ -598,8 +606,11 @@ abstract class WidgetCalendar implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WidgetCalendarImplCopyWith<_$WidgetCalendarImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -630,6 +641,8 @@ class __$$WidgetContinueLearningImplCopyWithImpl<$Res>
       $Res Function(_$WidgetContinueLearningImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -708,7 +721,9 @@ class _$WidgetContinueLearningImpl implements WidgetContinueLearning {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$WidgetContinueLearningImplCopyWith<_$WidgetContinueLearningImpl>
@@ -942,8 +957,11 @@ abstract class WidgetContinueLearning implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WidgetContinueLearningImplCopyWith<_$WidgetContinueLearningImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -972,6 +990,8 @@ class __$$VisForYouImplCopyWithImpl<$Res>
       _$VisForYouImpl _value, $Res Function(_$VisForYouImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1050,7 +1070,9 @@ class _$VisForYouImpl implements VisForYou {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisForYouImplCopyWith<_$VisForYouImpl> get copyWith =>
@@ -1280,8 +1302,11 @@ abstract class VisForYou implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisForYouImplCopyWith<_$VisForYouImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1312,6 +1337,8 @@ class __$$SliderTopContentExploreImplCopyWithImpl<$Res>
       $Res Function(_$SliderTopContentExploreImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1390,7 +1417,9 @@ class _$SliderTopContentExploreImpl implements SliderTopContentExplore {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SliderTopContentExploreImplCopyWith<_$SliderTopContentExploreImpl>
@@ -1624,8 +1653,11 @@ abstract class SliderTopContentExplore implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SliderTopContentExploreImplCopyWith<_$SliderTopContentExploreImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -1654,6 +1686,8 @@ class __$$TrainingMandatoryImplCopyWithImpl<$Res>
       $Res Function(_$TrainingMandatoryImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -1732,7 +1766,9 @@ class _$TrainingMandatoryImpl implements TrainingMandatory {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TrainingMandatoryImplCopyWith<_$TrainingMandatoryImpl> get copyWith =>
@@ -1964,8 +2000,11 @@ abstract class TrainingMandatory implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$TrainingMandatoryImplCopyWith<_$TrainingMandatoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -1994,6 +2033,8 @@ class __$$VisCarSuggestedImplCopyWithImpl<$Res>
       _$VisCarSuggestedImpl _value, $Res Function(_$VisCarSuggestedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2072,7 +2113,9 @@ class _$VisCarSuggestedImpl implements VisCarSuggested {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisCarSuggestedImplCopyWith<_$VisCarSuggestedImpl> get copyWith =>
@@ -2303,8 +2346,11 @@ abstract class VisCarSuggested implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisCarSuggestedImplCopyWith<_$VisCarSuggestedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -2335,6 +2381,8 @@ class __$$VisCarTrainingTransversalImplCopyWithImpl<$Res>
       $Res Function(_$VisCarTrainingTransversalImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2413,7 +2461,9 @@ class _$VisCarTrainingTransversalImpl implements VisCarTrainingTransversal {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisCarTrainingTransversalImplCopyWith<_$VisCarTrainingTransversalImpl>
@@ -2647,8 +2697,11 @@ abstract class VisCarTrainingTransversal implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisCarTrainingTransversalImplCopyWith<_$VisCarTrainingTransversalImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -2677,6 +2730,8 @@ class __$$VisCarBestRatingImplCopyWithImpl<$Res>
       $Res Function(_$VisCarBestRatingImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -2755,7 +2810,9 @@ class _$VisCarBestRatingImpl implements VisCarBestRating {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisCarBestRatingImplCopyWith<_$VisCarBestRatingImpl> get copyWith =>
@@ -2987,8 +3044,11 @@ abstract class VisCarBestRating implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisCarBestRatingImplCopyWith<_$VisCarBestRatingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3017,6 +3077,8 @@ class __$$LatestLearningImplCopyWithImpl<$Res>
       _$LatestLearningImpl _value, $Res Function(_$LatestLearningImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3095,7 +3157,9 @@ class _$LatestLearningImpl implements LatestLearning {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LatestLearningImplCopyWith<_$LatestLearningImpl> get copyWith =>
@@ -3326,8 +3390,11 @@ abstract class LatestLearning implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LatestLearningImplCopyWith<_$LatestLearningImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3356,6 +3423,8 @@ class __$$FavouritesImplCopyWithImpl<$Res>
       _$FavouritesImpl _value, $Res Function(_$FavouritesImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3434,7 +3503,9 @@ class _$FavouritesImpl implements Favourites {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FavouritesImplCopyWith<_$FavouritesImpl> get copyWith =>
@@ -3664,8 +3735,11 @@ abstract class Favourites implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FavouritesImplCopyWith<_$FavouritesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -3694,6 +3768,8 @@ class __$$VisCarCategoryImplCopyWithImpl<$Res>
       _$VisCarCategoryImpl _value, $Res Function(_$VisCarCategoryImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -3772,7 +3848,9 @@ class _$VisCarCategoryImpl implements VisCarCategory {
   int get hashCode =>
       Object.hash(runtimeType, id, apiPath, title, preSelected, labelMapping);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$VisCarCategoryImplCopyWith<_$VisCarCategoryImpl> get copyWith =>
@@ -4003,8 +4081,11 @@ abstract class VisCarCategory implements StripRow {
   bool? get preSelected;
   @override
   String? get labelMapping;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VisCarCategoryImplCopyWith<_$VisCarCategoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -4035,6 +4116,8 @@ class __$$SmartLearningImplCopyWithImpl<$Res>
       _$SmartLearningImpl _value, $Res Function(_$SmartLearningImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -4132,7 +4215,9 @@ class _$SmartLearningImpl implements SmartLearning {
   int get hashCode => Object.hash(runtimeType, id, apiPath, title, preSelected,
       labelMapping, startTime, endTime);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SmartLearningImplCopyWith<_$SmartLearningImpl> get copyWith =>
@@ -4369,8 +4454,11 @@ abstract class SmartLearning implements StripRow {
   String? get labelMapping;
   DateTime? get startTime;
   DateTime? get endTime;
+
+  /// Create a copy of StripRow
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SmartLearningImplCopyWith<_$SmartLearningImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

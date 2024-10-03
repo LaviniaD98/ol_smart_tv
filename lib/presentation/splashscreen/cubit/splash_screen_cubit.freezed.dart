@@ -84,6 +84,9 @@ class _$SplashScreenStateCopyWithImpl<$Res, $Val extends SplashScreenState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -100,6 +103,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -220,6 +226,9 @@ class __$$ProgressImplCopyWithImpl<$Res>
   __$$ProgressImplCopyWithImpl(
       _$ProgressImpl _value, $Res Function(_$ProgressImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -341,6 +350,8 @@ class __$$EndImplCopyWithImpl<$Res>
   __$$EndImplCopyWithImpl(_$EndImpl _value, $Res Function(_$EndImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -388,7 +399,9 @@ class _$EndImpl with DiagnosticableTreeMixin implements _End {
   @override
   int get hashCode => Object.hash(runtimeType, enterOffline);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$EndImplCopyWith<_$EndImpl> get copyWith =>
@@ -473,7 +486,10 @@ abstract class _End implements SplashScreenState {
   const factory _End(final bool enterOffline) = _$EndImpl;
 
   bool get enterOffline;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$EndImplCopyWith<_$EndImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -492,6 +508,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of SplashScreenState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

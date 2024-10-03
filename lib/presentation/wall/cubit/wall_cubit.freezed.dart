@@ -71,6 +71,9 @@ class _$WallStateCopyWithImpl<$Res, $Val extends WallState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of WallState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -87,6 +90,9 @@ class __$$InitializedImplCopyWithImpl<$Res>
   __$$InitializedImplCopyWithImpl(
       _$InitializedImpl _value, $Res Function(_$InitializedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WallState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -188,6 +194,9 @@ class __$$IdleImplCopyWithImpl<$Res>
     implements _$$IdleImplCopyWith<$Res> {
   __$$IdleImplCopyWithImpl(_$IdleImpl _value, $Res Function(_$IdleImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of WallState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc

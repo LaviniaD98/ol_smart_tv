@@ -98,6 +98,9 @@ class _$OlCalendarDialogStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -114,6 +117,9 @@ class __$$LoadingImplCopyWithImpl<$Res>
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -251,6 +257,8 @@ class __$$CalendarsImplCopyWithImpl<$Res>
       _$CalendarsImpl _value, $Res Function(_$CalendarsImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -314,7 +322,9 @@ class _$CalendarsImpl with DiagnosticableTreeMixin implements _Calendars {
   int get hashCode => Object.hash(
       runtimeType, value, const DeepCollectionEquality().hash(_calendars));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$CalendarsImplCopyWith<_$CalendarsImpl> get copyWith =>
@@ -414,7 +424,10 @@ abstract class _Calendars implements OlCalendarDialogState {
 
   ICalendar get value;
   List<Calendar> get calendars;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$CalendarsImplCopyWith<_$CalendarsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -433,6 +446,9 @@ class __$$PermissionErrorImplCopyWithImpl<$Res>
   __$$PermissionErrorImplCopyWithImpl(
       _$PermissionErrorImpl _value, $Res Function(_$PermissionErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -569,6 +585,9 @@ class __$$CalendarErrorImplCopyWithImpl<$Res>
   __$$CalendarErrorImplCopyWithImpl(
       _$CalendarErrorImpl _value, $Res Function(_$CalendarErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -705,6 +724,9 @@ class __$$ErrorImplCopyWithImpl<$Res>
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -837,6 +859,9 @@ class __$$DoneImplCopyWithImpl<$Res>
     implements _$$DoneImplCopyWith<$Res> {
   __$$DoneImplCopyWithImpl(_$DoneImpl _value, $Res Function(_$DoneImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of OlCalendarDialogState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
