@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../color_management/color_manager.dart';
@@ -38,9 +39,7 @@ class VideoProgressWidget extends StatefulWidget {
 class _VideoProgressWidgetState extends State<VideoProgressWidget> {
   static const dotSize = 24.0;
 
-  final FocusNode focusNode = FocusNode(
-    debugLabel: 'VIDEO-PROGRESS',
-  );
+  final focusNode = OlFocusNode(id: 'VIDEO-PROGRESS');
 
   _VideoProgressWidgetState() {
     listener = () {

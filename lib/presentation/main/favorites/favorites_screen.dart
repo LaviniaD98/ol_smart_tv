@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/dependency_injection/dependency_inje
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
@@ -31,7 +32,7 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   MenuRoute? currentMenuRoute;
 
-  final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'ForYou');
+  final focusNode = OlFocusScopeNode(id: 'ForYou');
 
   @override
   void initState() {
@@ -103,7 +104,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       if (focusNode.focusedChild == null) {
                         final f = focusNode.descendants.firstWhereOrNull(
                           (element) =>
-                              element.debugLabel == 'BUTTONS FOCUS 0 ----- 1',
+                              (element as OlFocusable?)?.id ==
+                              'BUTTONS FOCUS 0 ----- 1',
                         );
                         f?.requestFocus();
                       }

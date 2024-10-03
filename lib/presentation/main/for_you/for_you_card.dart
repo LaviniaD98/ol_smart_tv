@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
@@ -45,13 +46,12 @@ class ForYouCard extends StatefulWidget {
 }
 
 class _ForYouCardState extends State<ForYouCard> {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
 
   @override
   void initState() {
     super.initState();
-
-    focusNode = FocusScopeNode(debugLabel: '${widget.grandParentId} ----- 1');
+    focusNode = OlFocusScopeNode(id: '${widget.grandParentId} ----- 1');
   }
 
   @override
@@ -165,7 +165,7 @@ class _ForYouCardState extends State<ForYouCard> {
                           FocusTraversalOrder(
                             order: const NumericFocusOrder(0),
                             child: OLButton(
-                              debugLabel: 'START-BUTTON-0',
+                              id: 'START-BUTTON-0',
                               title: c.buttonTitle,
                               onPressed: c.buttonEnabled ? openCourse : null,
                             ),

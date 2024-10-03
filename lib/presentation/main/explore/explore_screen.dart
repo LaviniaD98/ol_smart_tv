@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/dependency_injection/dependency_inje
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/topics_filter/topics_filter_list.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
@@ -30,7 +31,7 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen>
     with AutomaticKeepAliveClientMixin {
-  final _focusNode = FocusScopeNode(debugLabel: 'Explore');
+  final _focusNode = OlFocusScopeNode(id: 'Explore');
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(

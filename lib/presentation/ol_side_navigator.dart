@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_side_item.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 
@@ -22,12 +23,12 @@ class OLSideNavigator extends StatefulWidget {
 class _OLSideNavigatorState extends State<OLSideNavigator> {
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
-  static const String searchDebugLabel = 'searchSideItem';
-  static const String forYouDebugLabel = 'forYouSideItem';
-  static const String exploreDebugLabel = 'exploreSideItem';
-  static const String favoritesDebugLabel = 'favoritesSideItem';
-  static const String agendaDebugLabel = 'agendaSideItem';
-  static const String profileDebugLabel = 'profileSideItem';
+  static const String searchFocusId = 'searchSideItem';
+  static const String forYouFocusId = 'forYouSideItem';
+  static const String exploreFocusId = 'exploreSideItem';
+  static const String favoritesFocusId = 'favoritesSideItem';
+  static const String agendaFocusId = 'agendaSideItem';
+  static const String profileFocusId = 'profileSideItem';
 
   int selectedIndex = 1;
 
@@ -52,7 +53,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainStateCubit, FocusScopeNode>(
+    return BlocBuilder<MainStateCubit, OlFocusScopeNode>(
         builder: (context, focusNode) {
       return PopScope(
         canPop: !focusNode.hasFocus,
@@ -115,7 +116,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/search.svg',
                               title: 'Cerca',
-                              debugLabel: searchDebugLabel,
+                              id: searchFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 0,
                             ),
@@ -123,7 +124,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/for_you.svg',
                               title: 'Per te',
-                              debugLabel: forYouDebugLabel,
+                              id: forYouFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 1,
                             ),
@@ -131,7 +132,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/explore.svg',
                               title: 'Esplora',
-                              debugLabel: exploreDebugLabel,
+                              id: exploreFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 2,
                             ),
@@ -139,7 +140,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/favorites_icon.svg',
                               title: 'Preferiti',
-                              debugLabel: favoritesDebugLabel,
+                              id: favoritesFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 3,
                             ),
@@ -147,7 +148,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/agenda_icon.svg',
                               title: 'Agenda',
-                              debugLabel: agendaDebugLabel,
+                              id: agendaFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 4,
                             ),
@@ -156,7 +157,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                             OLSideItem(
                               icon: 'assets/icons/agenda_icon.svg',
                               title: 'Profile',
-                              debugLabel: profileDebugLabel,
+                              id: profileFocusId,
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 5,
                             ),
@@ -200,7 +201,8 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
   int getCurrentScreenIndex() {
     final f = context.read<MainStateCubit>().state;
     final i = f.children.toList().indexWhere((focus) {
-      return focus.debugLabel == f.focusedChild?.debugLabel;
+      return (focus as OlFocusable?)?.id ==
+          (f.focusedChild as OlFocusable?)?.id;
     });
     return i;
   }
@@ -223,17 +225,17 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
   String getKeyForSelectedIndex(int index) {
     if (index == 0) {
-      return searchDebugLabel;
+      return searchFocusId;
     } else if (index == 1) {
-      return forYouDebugLabel;
+      return forYouFocusId;
     } else if (index == 2) {
-      return exploreDebugLabel;
+      return exploreFocusId;
     } else if (index == 3) {
-      return favoritesDebugLabel;
+      return favoritesFocusId;
     } else if (index == 4) {
-      return agendaDebugLabel;
+      return agendaFocusId;
     } else if (index == 5) {
-      return profileDebugLabel;
+      return profileFocusId;
     }
     return '';
   }
@@ -241,7 +243,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
   FocusNode? getFocusOnIndex(String key) {
     final f = context.read<MainStateCubit>().state;
     return f.children.toList().firstWhereOrNull((focus) {
-      return focus.debugLabel == key;
+      return (focus as OlFocusable?)?.id == key;
     });
   }
 }

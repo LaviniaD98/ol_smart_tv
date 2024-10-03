@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 
 class OLIconButton extends StatefulWidget {
   const OLIconButton({
@@ -12,7 +13,7 @@ class OLIconButton extends StatefulWidget {
     this.textOnly = false,
     this.outline = false,
     this.isFlexible = false,
-    this.debugLabel,
+    this.id,
     this.onFocusChanded,
     super.key,
   });
@@ -24,7 +25,7 @@ class OLIconButton extends StatefulWidget {
   final bool textOnly;
   final bool outline;
   final bool isFlexible;
-  final String? debugLabel;
+  final String? id;
   final void Function(bool)? onFocusChanded;
 
   @override
@@ -34,14 +35,14 @@ class OLIconButton extends StatefulWidget {
 class _OLIconButtonState extends State<OLIconButton> {
   final _statesController = WidgetStatesController();
 
-  late FocusNode _focusNode;
+  late OlFocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
 
-    _focusNode = FocusNode(
-      debugLabel: widget.debugLabel ?? 'OLIconButton - ${widget.image}',
+    _focusNode = OlFocusNode(
+      id: widget.id ?? 'OLIconButton - ${widget.image}',
     );
     _statesController.addListener(updateStates);
   }

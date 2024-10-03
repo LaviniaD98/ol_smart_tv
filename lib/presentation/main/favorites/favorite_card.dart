@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
@@ -44,14 +45,14 @@ class FavoriteCard extends StatefulWidget {
 }
 
 class _FavoriteCardState extends State<FavoriteCard> {
-  late FocusScopeNode buttonsFocusNode;
+  late OlFocusScopeNode buttonsFocusNode;
 
   @override
   void initState() {
     super.initState();
 
     buttonsFocusNode =
-        FocusScopeNode(debugLabel: 'FAVORITE BUTTONS FOCUS ${widget.index}:1');
+        OlFocusScopeNode(id: 'FAVORITE BUTTONS FOCUS ${widget.index}:1');
   }
 
   @override

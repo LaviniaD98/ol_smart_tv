@@ -65,7 +65,7 @@ class FavoriteButton extends StatelessWidget {
   }) {
     return OLIconButton(
       outline: true,
-      debugLabel: 'FAVORITE-BUTTON-LABEL',
+      id: 'FAVORITE-BUTTON-LABEL',
       image: object.isFavourite == true
           ? "assets/icons/detail/favourite.svg"
           : "assets/icons/detail/dettaglio_add.svg",

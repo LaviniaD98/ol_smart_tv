@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart'
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -67,7 +68,7 @@ class _StandardStripContent extends StatefulWidget {
 
 class _StandardStripContentState extends State<_StandardStripContent>
     with AutomaticKeepAliveClientMixin {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
 
   Timer? _timer;
 
@@ -77,8 +78,8 @@ class _StandardStripContentState extends State<_StandardStripContent>
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(
-      debugLabel: 'Explore-----${widget.strip.labelMapping}',
+    focusNode = OlFocusScopeNode(
+      id: 'Explore-----${widget.strip.labelMapping}',
     );
   }
 

@@ -7,6 +7,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
@@ -32,7 +33,7 @@ class StripRowContent extends StatefulWidget {
 
 class StripRowContentState extends State<StripRowContent>
     with AutomaticKeepAliveClientMixin {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
 
   static const detailsHeight = 411.0;
 
@@ -44,8 +45,8 @@ class StripRowContentState extends State<StripRowContent>
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(
-      debugLabel: 'Explore-----${widget.strip.keys.firstOrNull?.labelMapping}',
+    focusNode = OlFocusScopeNode(
+      id: 'Explore-----${widget.strip.keys.firstOrNull?.labelMapping}',
     );
   }
 

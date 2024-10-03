@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_carousel_item.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
@@ -27,8 +28,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
   late CarouselSliderController carouselController;
   late PageController pageController;
 
-  final FocusScopeNode focusNode =
-      FocusScopeNode(debugLabel: 'EXPLORE_CAROUSEL');
+  final focusNode = OlFocusScopeNode(id: 'EXPLORE_CAROUSEL');
 
   @override
   void initState() {

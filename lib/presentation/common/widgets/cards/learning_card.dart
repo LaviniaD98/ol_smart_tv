@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
@@ -44,12 +45,12 @@ class LearningCard extends StatefulWidget {
 }
 
 class _LearningCardState extends State<LearningCard> {
-  late FocusNode focusNode;
+  late OlFocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
-    focusNode = FocusNode(debugLabel: '${widget.grandParentId} ----- 1');
+    focusNode = OlFocusNode(id: '${widget.grandParentId} ----- 1');
   }
 
   @override

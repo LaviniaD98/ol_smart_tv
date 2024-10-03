@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorite_card.dart';
@@ -28,7 +29,7 @@ class FavoritesVerticalCarousel extends StatefulWidget {
 
 class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
     with AutomaticKeepAliveClientMixin {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(
@@ -42,9 +43,8 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(
-      debugLabel:
-          'FAVORITES-----${widget.strip.keys.firstOrNull?.labelMapping}',
+    focusNode = OlFocusScopeNode(
+      id: 'FAVORITES-----${widget.strip.keys.firstOrNull?.labelMapping}',
     );
   }
 
@@ -78,14 +78,6 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
           node: focusNode,
           onFocusChange: (value) {
             widget.onFocusChange?.call(value);
-
-            // if (value) {
-            //   if (focusNode.focusedChild == null) {
-            //     final focus = focusNode.descendants.firstWhereOrNull(
-            //         (e) => e.debugLabel == 'FAVORITE BUTTONS FOCUS 0:1');
-            //     focus?.requestFocus();
-            //   }
-            // }
           },
           child: ListView.separated(
             clipBehavior: Clip.none,

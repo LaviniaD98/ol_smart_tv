@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -45,7 +46,7 @@ class _LearningActivityRowState extends State<LearningActivityRow> {
     axis: Axis.vertical,
   );
 
-  final _focusNode = FocusScopeNode(debugLabel: 'LearningActivityRow');
+  final _focusNode = OlFocusScopeNode(id: 'LearningActivityRow');
 
   late List<LearningObjectModel> items;
 

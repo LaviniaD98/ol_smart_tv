@@ -1,6 +1,7 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../domain/entities/topics/topic_model.dart';
@@ -216,12 +217,12 @@ class _TopicsFilterNavigation extends StatefulWidget {
 }
 
 class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
 
   @override
   void initState() {
     super.initState();
-    focusNode = FocusScopeNode(debugLabel: '_TopicsFilterNavigation');
+    focusNode = OlFocusScopeNode(id: '_TopicsFilterNavigation');
   }
 
   @override

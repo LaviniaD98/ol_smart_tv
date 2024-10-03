@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/calendar_strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 
@@ -26,7 +27,7 @@ class _AgendaScreenState extends State<AgendaScreen>
     with AutomaticKeepAliveClientMixin {
   MenuRoute? currentMenuRoute;
 
-  final focusNode = FocusScopeNode(debugLabel: 'Agenda');
+  final focusNode = OlFocusScopeNode(id: 'Agenda');
 
   @override
   void initState() {
@@ -63,11 +64,7 @@ class _AgendaScreenState extends State<AgendaScreen>
         backgroundColor: OLColors.backgroundPrimary,
         body: FocusScope(
           node: focusNode,
-          onFocusChange: (value) {
-            if (value) {
-              print('focusNode: ${focusNode.debugLabel}');
-            }
-          },
+          onFocusChange: (value) {},
           child: Builder(
             builder: (context) {
               const strip = StripRow.widgetCalendar(

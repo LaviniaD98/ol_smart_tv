@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/domain/entities/progress/learner_goals.da
 import 'package:open_learning_smart_tv/domain/entities/progress/learner_progress.dart';
 import 'package:open_learning_smart_tv/domain/entities/progress/progress_goals_config_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/session/user_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/widget_focus_card.dart';
 import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/profile/widgets/goals_card.dart';
@@ -20,8 +21,7 @@ class UserWidgetsList extends StatefulWidget {
 }
 
 class _UserWidgetsListState extends State<UserWidgetsList> {
-  final FocusScopeNode widgetsFocusNode =
-      FocusScopeNode(debugLabel: 'User-Widgets');
+  final widgetsFocusNode = OlFocusScopeNode(id: 'User-Widgets');
 
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 

@@ -1,6 +1,7 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -28,12 +29,12 @@ class WeekRowItem extends StatefulWidget {
 }
 
 class _WeekRowItemState extends State<WeekRowItem> {
-  late FocusNode focusNode;
+  late OlFocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
-    focusNode = FocusNode(debugLabel: 'WeekRowItem - ${widget.date}');
+    focusNode = OlFocusNode(id: 'WeekRowItem - ${widget.date}');
   }
 
   @override

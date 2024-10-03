@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/calendar/days_to_highlight_model.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_icon_button.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
@@ -36,16 +37,13 @@ class WeekRow extends StatefulWidget {
 }
 
 class _WeekRowState extends State<WeekRow> {
-  final focusNode = FocusScopeNode(debugLabel: 'WeekRow');
+  final focusNode = OlFocusScopeNode(id: 'WeekRow');
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
-
   PageController pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
-    print('DATE: ${widget.date}');
-    print('NOTIFIER ${widget.selectedDayNotifier.value}');
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {

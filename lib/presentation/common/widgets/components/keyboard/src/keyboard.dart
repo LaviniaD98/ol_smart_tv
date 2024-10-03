@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/bloc/keyboard_shift/keyboard_shift_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/data/loading.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/src/button.dart';
@@ -78,7 +79,7 @@ class OnscreenKeyboardWidget extends StatefulWidget {
 class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
   String? text = '';
 
-  FocusScopeNode focusNode = FocusScopeNode(debugLabel: '-KEYBOARD-');
+  final focusNode = OlFocusScopeNode(id: '-KEYBOARD-');
   @override
   void initState() {
     super.initState();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 
 class WidgetFocusCard extends StatefulWidget {
   final void Function(bool)? onFocusChange;
@@ -27,7 +28,7 @@ class _WidgetFocusCardState extends State<WidgetFocusCard> {
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(debugLabel: 'WidgetFocusCard:${widget.index}:2');
+    focusNode = OlFocusScopeNode(id: 'WidgetFocusCard:${widget.index}:2');
   }
 
   @override

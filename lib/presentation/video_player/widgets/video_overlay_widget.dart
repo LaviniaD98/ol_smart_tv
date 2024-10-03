@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_icon_button.dart';
 import 'package:video_player/video_player.dart';
 
@@ -75,7 +76,8 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             setTimer();
           }
 
-          if (focusNode.focusedChild?.debugLabel == 'VIDEO-PROGRESS') {
+          if ((focusNode.focusedChild as OlFocusable?)?.id ==
+              'VIDEO-PROGRESS') {
             widget.controller.seekTo(
                 widget.controller.value.position - const Duration(seconds: 10));
           }
@@ -85,13 +87,15 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             setTimer();
           }
 
-          if (focusNode.focusedChild?.debugLabel == 'VIDEO-PROGRESS') {
+          if ((focusNode.focusedChild as OlFocusable?)?.id ==
+              'VIDEO-PROGRESS') {
             widget.controller.seekTo(
                 widget.controller.value.position + const Duration(seconds: 10));
           }
         },
         const SingleActivator(LogicalKeyboardKey.select): () {
-          if (focusNode.focusedChild?.debugLabel == 'VIDEO-CONTROLS') {
+          if ((focusNode.focusedChild as OlFocusable?)?.id ==
+              'VIDEO-CONTROLS') {
             if (widget.controller.value.isPlaying) {
               widget.controller.pause();
             } else {
@@ -101,7 +105,8 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           setTimer();
         },
         const SingleActivator(LogicalKeyboardKey.enter): () {
-          if (focusNode.focusedChild?.debugLabel == 'VIDEO-CONTROLS') {
+          if ((focusNode.focusedChild as OlFocusable?)?.id ==
+              'VIDEO-CONTROLS') {
             if (widget.controller.value.isPlaying) {
               widget.controller.pause();
             } else {
@@ -287,7 +292,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   Widget get controls {
     final isPlaying = widget.controller.value.isPlaying;
     return OLIconButton(
-      debugLabel: 'VIDEO-CONTROLS',
+      id: 'VIDEO-CONTROLS',
       image: isPlaying ? 'assets/icons/pause.svg' : 'assets/icons/play.svg',
       onPressed: isPlaying ? widget.controller.pause : widget.controller.play,
       outline: true,

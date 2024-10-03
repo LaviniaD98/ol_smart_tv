@@ -7,6 +7,7 @@ import 'package:open_learning_smart_tv/data/models/responses/generic/object_stat
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
@@ -53,10 +54,9 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  final _focusNode = FocusScopeNode(debugLabel: 'DetailPage');
-  final _focusNodeLeft = FocusScopeNode(debugLabel: 'DetailPage - Left Panel');
-  final _focusNodeRight =
-      FocusScopeNode(debugLabel: 'DetailPage - Right Panel');
+  final _focusNode = OlFocusScopeNode(id: 'DetailPage');
+  final _focusNodeLeft = OlFocusScopeNode(id: 'DetailPage - Left Panel');
+  final _focusNodeRight = OlFocusScopeNode(id: 'DetailPage - Right Panel');
 
   final ValueNotifier<bool> _expanded = ValueNotifier(false);
   final ValueNotifier<RightPanelState> _rightPanelState = ValueNotifier(
@@ -82,7 +82,7 @@ class _DetailPageState extends State<DetailPage> {
 
     Future.delayed(const Duration(milliseconds: 1000), () {
       final focus = _focusNodeLeft.descendants.firstWhereOrNull((element) {
-        return element.debugLabel == 'BUTTON DETAILS CONTINUE';
+        return (element as OlFocusable?)?.id == 'BUTTON DETAILS CONTINUE';
       });
       focus?.requestFocus();
     });

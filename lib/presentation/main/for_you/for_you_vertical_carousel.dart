@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_card.dart';
@@ -27,7 +28,7 @@ class ForYouVerticalCarousel extends StatefulWidget {
 
 class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
     with AutomaticKeepAliveClientMixin {
-  late FocusScopeNode focusNode;
+  late OlFocusScopeNode focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(
@@ -41,8 +42,8 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
   void initState() {
     super.initState();
 
-    focusNode = FocusScopeNode(
-      debugLabel: 'FOR YOU-----${widget.strip.keys.firstOrNull?.labelMapping}',
+    focusNode = OlFocusScopeNode(
+      id: 'FOR YOU-----${widget.strip.keys.firstOrNull?.labelMapping}',
     );
 
     //context.read<MainStateCubit>().forYouFocusNode = focusNode;

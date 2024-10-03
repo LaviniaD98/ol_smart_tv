@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/learning_card.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
@@ -33,7 +34,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
     with AutomaticKeepAliveClientMixin {
   final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
-  final focusNode = FocusScopeNode(debugLabel: 'Search');
+  final focusNode = OlFocusScopeNode(id: 'Search');
   final textEditingController = TextEditingController();
   ValueNotifier<String> textNotifier = ValueNotifier<String>('');
 

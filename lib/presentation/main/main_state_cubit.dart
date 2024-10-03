@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 
-class MainStateCubit extends Cubit<FocusScopeNode> {
-  MainStateCubit() : super(FocusScopeNode());
+class MainStateCubit extends Cubit<OlFocusScopeNode> {
+  MainStateCubit() : super(OlFocusScopeNode(id: 'mainFocusNode'));
 
-  FocusScopeNode? searchFocusNode;
-  FocusScopeNode? forYouFocusNode;
-  FocusScopeNode? exploreFocusNode;
-  FocusScopeNode? favoritesFocusNode;
-  FocusScopeNode? agendaFocusNode;
-  FocusScopeNode? profileFocusNode;
+  OlFocusScopeNode? searchFocusNode;
+  OlFocusScopeNode? forYouFocusNode;
+  OlFocusScopeNode? exploreFocusNode;
+  OlFocusScopeNode? favoritesFocusNode;
+  OlFocusScopeNode? agendaFocusNode;
+  OlFocusScopeNode? profileFocusNode;
 
   FavoritesContentCubit? favoriteContentCubit;
 
   OrderedTraversalPolicy? policy;
 
-  void setFocusNode(FocusScopeNode focusNode) {
+  void setFocusNode(OlFocusScopeNode focusNode) {
     emit(focusNode);
   }
 

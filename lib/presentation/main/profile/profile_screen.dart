@@ -8,6 +8,7 @@ import 'package:open_learning_smart_tv/core/user_info_manager.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/generic_container.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_okcancel_dialog.dart';
@@ -33,7 +34,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
 
-  final FocusScopeNode focusNode = FocusScopeNode(debugLabel: 'Profile');
+  final focusNode = OlFocusScopeNode(id: 'Profile');
 
   @override
   void initState() {

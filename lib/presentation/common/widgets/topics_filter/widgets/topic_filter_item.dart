@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_glow/flutter_glow.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 import '../../../../../color_management/color_manager.dart';
 import '../../../../../theme/app_theme.dart';
 
 class TopicFilterItem extends StatefulWidget {
- // static const _iconSize = 24.0;
+  // static const _iconSize = 24.0;
 
   final String? label;
   final String? path;
@@ -30,12 +31,12 @@ class TopicFilterItem extends StatefulWidget {
 }
 
 class _TopicFilterItemState extends State<TopicFilterItem> {
-  late FocusNode focusNode;
+  late OlFocusNode focusNode;
 
   @override
   void initState() {
     super.initState();
-    focusNode = FocusNode(debugLabel: '${widget.label} - FILTER ----1');
+    focusNode = OlFocusNode(id: '${widget.label} - FILTER ----1');
   }
 
   @override

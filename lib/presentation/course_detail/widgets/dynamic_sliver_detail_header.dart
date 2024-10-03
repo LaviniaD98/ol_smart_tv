@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
@@ -55,9 +56,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
   final GlobalKey _childKey = GlobalKey();
   double? height;
 
-  final FocusScopeNode focusNode = FocusScopeNode(
-    debugLabel: 'DetailHeaderActionButtons',
-  );
+  final focusNode = OlFocusScopeNode(id: 'DetailHeaderActionButtons');
 
   objLOCharacterization get _loCharacterization =>
       CourseLogic().loCharacterizationNew(
@@ -467,7 +466,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                           widget.rightPanelState.value = RightPanelState.start;
                         }
                       },
-                      debugLabel: 'BUTTON DETAILS CONTINUE',
+                      id: 'BUTTON DETAILS CONTINUE',
                       title: CourseLogic()
                           .loCharacterizationNew(
                             status: widget.model.status ?? "",

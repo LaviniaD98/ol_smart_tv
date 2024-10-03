@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
@@ -60,7 +61,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
     viewportBoundaryGetter: () => const Rect.fromLTRB(0, 440, 0, 0),
     axis: Axis.vertical,
   );
-  late FocusScopeNode _focusNode;
+  late OlFocusScopeNode _focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   List<CommonObject> commonObjects = [];
@@ -70,8 +71,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
   void initState() {
     super.initState();
 
-    _focusNode =
-        FocusScopeNode(debugLabel: 'CourseDetailModules${widget.model.id}');
+    _focusNode = OlFocusScopeNode(id: 'CourseDetailModules${widget.model.id}');
 
     if (widget.autoFocus) {
       Future.delayed(const Duration(milliseconds: 300), () {

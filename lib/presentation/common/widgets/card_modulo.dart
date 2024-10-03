@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
+import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
@@ -77,7 +78,7 @@ class CardModulo extends StatefulWidget {
 
 class _CardModuloState extends State<CardModulo>
     with AutomaticKeepAliveClientMixin {
-  late FocusScopeNode _focusNode;
+  late OlFocusScopeNode _focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   bool isActivityButtonLastFocused = false;
@@ -85,8 +86,8 @@ class _CardModuloState extends State<CardModulo>
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusScopeNode(
-      debugLabel: 'CardModulo - ${widget.index} - ${widget.type}',
+    _focusNode = OlFocusScopeNode(
+      id: 'CardModulo - ${widget.index} - ${widget.type}',
     );
   }
 
@@ -316,7 +317,9 @@ class _CardModuloState extends State<CardModulo>
             if (_focusNode.focusedChild == null) {
               Future.delayed(const Duration(milliseconds: 100), () {
                 final f = _focusNode.descendants.firstWhereOrNull(
-                  (element) => element.debugLabel == 'BUTTON-0',
+                  (element) {
+                    return (element as OlFocusable?)?.id == 'BUTTON-0';
+                  },
                 );
                 f?.requestFocus();
               });
@@ -332,7 +335,7 @@ class _CardModuloState extends State<CardModulo>
                       .read<DetailPageCubit>()
                       .detailsFocusNode
                       ?.requestFocus();
-                } else if (f?.debugLabel == 'BUTTON-0') {
+                } else if ((f as OlFocusable?)?.id == 'BUTTON-0') {
                   context.read<DetailPageCubit>().leftPanelNode?.requestFocus();
                 } else {
                   _policy.previous(_focusNode);
@@ -340,7 +343,7 @@ class _CardModuloState extends State<CardModulo>
               },
               const SingleActivator(LogicalKeyboardKey.arrowRight): () {
                 final f = FocusManager.instance.primaryFocus;
-                if (f?.debugLabel == 'BUTTON-1') {
+                if ((f as OlFocusable?)?.id == 'BUTTON-1') {
                   context
                       .read<DetailPageCubit>()
                       .subActivitiesFocusNode
@@ -356,7 +359,7 @@ class _CardModuloState extends State<CardModulo>
                   child: FocusTraversalOrder(
                     order: const NumericFocusOrder(0),
                     child: OLButton(
-                      debugLabel: 'BUTTON-0',
+                      id: 'BUTTON-0',
                       title: widget.buttonTitle,
                       onFocusChanded: (p0) {
                         if (widget.isSubActivities) {
@@ -383,7 +386,7 @@ class _CardModuloState extends State<CardModulo>
                     child: FocusTraversalOrder(
                       order: const NumericFocusOrder(1),
                       child: OLButton(
-                        debugLabel: 'BUTTON-1',
+                        id: 'BUTTON-1',
                         title: 'Attività Didattiche',
                         outline: true,
                         onFocusChanded: (p0) {
