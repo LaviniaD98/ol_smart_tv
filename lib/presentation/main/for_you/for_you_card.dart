@@ -1,7 +1,10 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/core/utils/utility.dart';
@@ -13,6 +16,7 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_l
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
@@ -66,7 +70,7 @@ class _ForYouCardState extends State<ForYouCard> {
       ecmRegistration: widget.data.ecmRegistration ?? false,
     );
 
-    // print('widget.courseId: ${widget.data.courseId}');
+    print('widget.courseId: ${widget.data.courseId}');
     // print('widget.parentId: ${widget.data.parentId}');
     // print('widget.grandParentId: ${widget.data.grandParentId}');
     return FocusScope(
@@ -167,7 +171,9 @@ class _ForYouCardState extends State<ForYouCard> {
                             child: OLButton(
                               id: 'START-BUTTON-0',
                               title: c.buttonTitle,
-                              onPressed: c.buttonEnabled ? openCourse : null,
+                              onPressed: c.buttonEnabled
+                                  ? () => pushDetails(item: widget.data)
+                                  : null,
                             ),
                           ),
                         ],
@@ -183,18 +189,20 @@ class _ForYouCardState extends State<ForYouCard> {
     );
   }
 
-  Future<void> openCourse() async {
-    Nav.push(
-      context,
-      screen: DetailPage(
-        args: DetailPageArgs(
-          id: widget.data.id.toString(),
-          typology: widget.data.learningObjectTypology,
-          parent: null,
-          parentId: widget.parentId ?? widget.data.parentId?.toString(),
-          grandParentId:
-              widget.grandParentId ?? widget.data.grandParentId?.toString(),
-        ),
+  void pushDetails({required LearningObjectModel item}) async {
+    print('jojojojojojojojojo');
+    final args = DetailPageArgs(
+      id: item.id.toString(),
+      object: item,
+      parentId: item.parentId?.toString(),
+      grandParentId: item.grandParentId?.toString(),
+      typology: item.learningObjectTypology,
+    );
+
+    manager.pushOnStack(
+      screen: BlocProvider(
+        create: (_) => getIt<DetailPageCubit>()..init(args),
+        child: DetailPage(args: args),
       ),
     );
 

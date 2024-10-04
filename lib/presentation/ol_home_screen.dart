@@ -28,9 +28,11 @@ class OLHomeScreen extends StatefulWidget {
 }
 
 class _OLHomeScreenState extends State<OLHomeScreen> {
+  final int initialPage = 1;
+
   final focusNode = FocusScopeNode(debugLabel: 'Home');
   final pagesFocusNode = FocusScopeNode(debugLabel: 'Home - Pages');
-  final PageController pageController = PageController(initialPage: 1);
+  late PageController pageController;
 
   GlobalKey<NavigatorState> searchTabKey = GlobalKey<NavigatorState>();
   GlobalKey<NavigatorState> forYouTabKey = GlobalKey<NavigatorState>();
@@ -44,6 +46,9 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
   @override
   void initState() {
     super.initState();
+
+    pageController = PageController(initialPage: initialPage);
+
     tabKeys = [
       searchTabKey,
       forYouTabKey,
@@ -53,7 +58,7 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
       profileTabKey,
     ];
 
-    manager.currentTabNavKey = tabKeys.first;
+    manager.currentTabNavKey = tabKeys[initialPage];
   }
 
   @override

@@ -1,14 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:open_learning_smart_tv/app_manager.dart';
-import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorite_card.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import '../../../../theme/app_theme.dart';
@@ -102,23 +97,6 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
             },
           ),
         ),
-      ),
-    );
-  }
-
-  void pushDetails({required LearningObjectModel item}) async {
-    final args = DetailPageArgs(
-      id: item.id.toString(),
-      object: item,
-      parentId: item.parentId?.toString(),
-      grandParentId: item.grandParentId?.toString(),
-      typology: item.learningObjectTypology,
-    );
-
-    manager.pushOnStack(
-      screen: BlocProvider(
-        create: (_) => getIt<DetailPageCubit>()..init(args),
-        child: DetailPage(args: args),
       ),
     );
   }

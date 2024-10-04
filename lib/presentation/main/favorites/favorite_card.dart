@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
@@ -9,12 +10,16 @@ import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
@@ -58,11 +63,19 @@ class _FavoriteCardState extends State<FavoriteCard> {
   @override
   Widget build(BuildContext context) {
     const double vPadding = 16;
+    final c = CourseLogic().loCharacterizationNew(
+      status: widget.data.status ?? "",
+      learningObjectType: widget.data.learningObjectType,
+      learningObjectTypology: widget.data.learningObjectTypology,
+      percentageOfCompletion: widget.data.percentageOfCompletion ?? "0",
+      enrollType: widget.data.enrollType ?? EnrollType.autoEnroll,
+      ecmSpecialization: widget.data.ecmSpecialization ?? false,
+      ecmRegistration: widget.data.ecmRegistration ?? false,
+    );
 
     return Column(
       children: [
         Container(
-          // color: ColorManager().getColorBackgroundPrimaryLighter(),
           height: 320,
           padding: const EdgeInsets.only(top: 25, bottom: 25),
           child: Row(
@@ -160,10 +173,14 @@ class _FavoriteCardState extends State<FavoriteCard> {
                               bindings: <ShortcutActivator, VoidCallback>{
                                 const SingleActivator(
                                     LogicalKeyboardKey.arrowLeft): () {
-                                  context
-                                      .read<MainStateCubit>()
-                                      .state
-                                      .requestFocus();
+                                  final res = buttonsFocusNode.focusInDirection(
+                                      TraversalDirection.left);
+                                  if (res == false) {
+                                    context
+                                        .read<MainStateCubit>()
+                                        .state
+                                        .requestFocus();
+                                  }
                                 },
                               },
                               child: FocusScope(
@@ -184,6 +201,18 @@ class _FavoriteCardState extends State<FavoriteCard> {
                                 },
                                 child: Row(
                                   children: [
+                                    FocusTraversalOrder(
+                                      order: const NumericFocusOrder(0),
+                                      child: OLButton(
+                                        id: 'START-BUTTON-0',
+                                        title: c.buttonTitle,
+                                        onPressed: c.buttonEnabled
+                                            ? () =>
+                                                pushDetails(item: widget.data)
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 32),
                                     BlocProvider(
                                       create: (_) => getIt<FavouriteCubit>()
                                         ..init(widget.data),
@@ -260,6 +289,23 @@ class _FavoriteCardState extends State<FavoriteCard> {
           color: ColorManager().getColorBorder(),
         ),
       ],
+    );
+  }
+
+  void pushDetails({required LearningObjectModel item}) async {
+    final args = DetailPageArgs(
+      id: item.id.toString(),
+      object: item,
+      parentId: item.parentId?.toString(),
+      grandParentId: item.grandParentId?.toString(),
+      typology: item.learningObjectTypology,
+    );
+
+    manager.pushOnStack(
+      screen: BlocProvider(
+        create: (_) => getIt<DetailPageCubit>()..init(args),
+        child: DetailPage(args: args),
+      ),
     );
   }
 

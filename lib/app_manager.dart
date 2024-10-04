@@ -8,6 +8,8 @@ class AppManager {
   GlobalKey<NavigatorState>? currentTabNavKey;
 
   Future<void> pushOnStack({required Widget screen}) async {
+    print(
+        'manager.currentTabNavKey?.currentState: ${manager.currentTabNavKey?.currentState}');
     await manager.currentTabNavKey?.currentState?.push(
       MaterialPageRoute<dynamic>(
         builder: (context) => screen,

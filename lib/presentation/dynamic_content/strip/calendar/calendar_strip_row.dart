@@ -15,10 +15,8 @@ import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../domain/entities/strip/calendar/activity/calendar_activity.dart';
 import '../../../../domain/entities/strip/calendar/days_to_highlight_model.dart';
 import '../../../../domain/entities/strip/row/strip_row.dart';
-import '../../../common/widgets/smart_learning_bottom_sheet/smart_learning_bottom_sheet.dart';
 import 'cubit/calendar_strip_cubit.dart';
 import 'widgets/inner_calendar_shimmer.dart';
-import 'widgets/smart_learning_button.dart';
 import 'widgets/week_row.dart';
 
 class CalendarStripRow extends StatefulWidget {

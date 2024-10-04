@@ -95,7 +95,7 @@ class StatementsUseCase {
       objectType: loTypology,
     );
 
-    Result? result;
+    //Result? result;
     Verb? verb;
 
     if (completed == false) {
