@@ -16,12 +16,33 @@ import '../../../../theme/app_theme.dart';
 class ForYouVerticalCarousel extends StatefulWidget {
   final Map<StripRow, List<LearningObjectModel>> strip;
   final void Function(bool)? onFocusChange;
+  final bool isLoading;
 
   const ForYouVerticalCarousel({
     super.key,
     required this.strip,
     this.onFocusChange,
+    this.isLoading = false,
   });
+
+  static Widget buildShimmerList() {
+    return ListView.separated(
+      clipBehavior: Clip.none,
+      padding: const EdgeInsets.only(
+        left: Dimens.hViewPadding,
+        right: Dimens.hViewPadding,
+        top: 50,
+        bottom: 400,
+      ),
+      separatorBuilder: (context, index) =>
+          const SizedBox(width: Dimens.spacingXS),
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return const LearningCardShimmer();
+      },
+    );
+  }
+
   @override
   State<ForYouVerticalCarousel> createState() => ForYouVerticalCarouselState();
 }
@@ -50,8 +71,20 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
   }
 
   @override
+  void didUpdateWidget(covariant ForYouVerticalCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isLoading != oldWidget.isLoading) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    if (widget.isLoading) {
+      return buildShimmerList();
+    }
 
     final strip = widget.strip.entries.firstOrNull;
 
@@ -153,75 +186,23 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
     );
   }
 
-  // Widget get _shimmerLoader {
-  //   return FocusScope(
-  //     node: focusNode,
-  //     onFocusChange: (value) {
-  //       widget.onFocusChange?.call(value);
-  //     },
-  //     child: FocusTraversalGroup(
-  //       key: ValueKey(widget.strip.labelMapping),
-  //       child: Shimmer.fromColors(
-  //         baseColor: AppColors.white.withOpacity(.09),
-  //         highlightColor: AppColors.primaryFaded,
-  //         period: const Duration(seconds: 2),
-  //         enabled: false,
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             const SizedBox(height: 8),
-  //             Container(
-  //               margin: const EdgeInsets.only(
-  //                 left: Dimens.hViewPadding,
-  //                 right: Dimens.hViewPadding,
-  //               ),
-  //               width: (MediaQuery.of(context).size.width /
-  //                       Dimens.learningCardRatio) *
-  //                   .7,
-  //               clipBehavior: Clip.none,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.white.withOpacity(.3),
-  //                 borderRadius: BorderRadius.circular(8.0),
-  //               ),
-  //               child: Text(
-  //                 strip.labelMapping ?? '', //'A',
-  //                 style: AppTextTheme.subtitle(
-  //                   weight: FontWeight.w700,
-  //                   size: 32,
-  //                   color: Colors.black,
-  //                 ),
-  //               ),
-  //             ),
-  //             Padding(
-  //               padding: const EdgeInsets.only(
-  //                 top: 38,
-  //                 bottom: 44,
-  //               ),
-  //               child: SizedBox(
-  //                 height: Dimens.learningCardTVHeight,
-  //                 child: ListView.separated(
-  //                   clipBehavior: Clip.none,
-  //                   scrollDirection: Axis.horizontal,
-  //                   padding: const EdgeInsets.only(
-  //                     left: Dimens.hViewPadding,
-  //                     right: Dimens.hViewPadding,
-  //                   ),
-  //                   physics: const NeverScrollableScrollPhysics(),
-  //                   separatorBuilder: (context, index) =>
-  //                       const SizedBox(width: Dimens.spacingXS),
-  //                   itemCount: 4,
-  //                   itemBuilder: (context, index) {
-  //                     return const LearningCardShimmer();
-  //                   },
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget buildShimmerList() {
+    return ListView.separated(
+      clipBehavior: Clip.none,
+      padding: const EdgeInsets.only(
+        left: Dimens.hViewPadding,
+        right: Dimens.hViewPadding,
+        top: 50,
+        bottom: 400,
+      ),
+      separatorBuilder: (context, index) =>
+          const SizedBox(width: Dimens.spacingXS),
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return const LearningCardShimmer();
+      },
+    );
+  }
 
   @override
   bool get wantKeepAlive => true;

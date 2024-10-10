@@ -7,12 +7,16 @@ class TopicList extends StatelessWidget {
   final List<String> topics;
   final EdgeInsets? padding;
   final Color? color;
+  final Color? textColor;
+  final int? topicsLimit;
 
   const TopicList(
     this.topics, {
     super.key,
     this.padding,
     this.color,
+    this.textColor,
+    this.topicsLimit,
   });
 
   @override
@@ -21,14 +25,18 @@ class TopicList extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final topicsFinal =
+        topicsLimit != null ? topics.take(topicsLimit!) : topics;
+
     return Wrap(
       runSpacing: 8,
       spacing: 8,
       children: [
-        ...topics.map(
+        ...topicsFinal.map(
           (e) => TopicTag(
             label: e,
             color: color,
+            textColor: textColor,
             margin: const EdgeInsets.only(right: Dimens.spacingXXS),
           ),
         ),

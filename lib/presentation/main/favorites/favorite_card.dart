@@ -12,7 +12,7 @@ import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_prograss_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -23,8 +23,6 @@ import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.da
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import '../../../../theme/app_theme.dart';
 
 class FavoriteCard extends StatefulWidget {
@@ -227,51 +225,19 @@ class _FavoriteCardState extends State<FavoriteCard> {
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 357,
-                            child: Builder(
-                              builder: (context) {
-                                double glowPercentage = double.tryParse(
-                                        (widget.data.percentageOfCompletion ??
-                                                "0.0")
-                                            .replaceAll("%", "")) ??
-                                    0.0;
+                          Builder(
+                            builder: (context) {
+                              double glowPercentage = double.tryParse(
+                                      (widget.data.percentageOfCompletion ??
+                                              "0.0")
+                                          .replaceAll("%", "")) ??
+                                  0.0;
 
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                '${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.percentageOfCompletion)}:',
-                                            style: AppTextTheme.body(
-                                              weight: FontWeight.w500,
-                                              size: 14,
-                                              color: ColorManager()
-                                                  .getColorTextPrimary(),
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: ' $glowPercentage%',
-                                            style: AppTextTheme.body(
-                                              color: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              weight: FontWeight.bold,
-                                              size: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    GlowProgressBar(percentage: glowPercentage),
-                                  ],
-                                );
-                              },
-                            ),
+                              return OlProgressBar(
+                                percentage: glowPercentage,
+                                width: 357,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -314,19 +280,23 @@ class _FavoriteCardState extends State<FavoriteCard> {
       width: 162,
       height: 330,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           OLImage(
             imageURL: widget.data.coverPublicURL,
             cacheHeight: 350,
           ),
-          Positioned(
-            top: 8,
-            left: 10,
-            child: StatusTag.svg(
-              backgroundColor: ColorManager().getColorSystemSecondary02(),
-              svgPath: IconStatus.completed.svgPath ?? '',
+          if (widget.data.iconStatus != IconStatus.idle) ...[
+            Positioned(
+              top: 8,
+              left: -10,
+              child: StatusTag.svg(
+                backgroundColor: widget.data.iconStatus.color,
+                svgPath: widget.data.iconStatus.svgPath!,
+                width: 40,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

@@ -7,7 +7,7 @@ class StatusTag extends StatelessWidget {
   final Widget child;
   final double radius;
   final double elevation;
-  final double width;
+  final double? width;
   final double height;
 
   const StatusTag({
@@ -16,7 +16,7 @@ class StatusTag extends StatelessWidget {
     required this.child,
     this.radius = 4.0,
     this.elevation = 0.0,
-    this.width = 24.0,
+    this.width,
     this.height = 24.0,
   });
 
@@ -26,7 +26,7 @@ class StatusTag extends StatelessWidget {
     required String svgPath,
     Color? svgColor,
     double height = 24.0,
-    double width = 24.0,
+    double? width,
   }) {
     return StatusTag(
       key: key,
@@ -46,11 +46,12 @@ class StatusTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: width + 4.0,
+      width: width,
       // height: height + 4.0,
       constraints: const BoxConstraints(maxHeight: 40),
       margin: EdgeInsets.zero,
-      padding: const EdgeInsets.symmetric(horizontal: 23),
+      padding:
+          width != null ? null : const EdgeInsets.symmetric(horizontal: 23),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.only(

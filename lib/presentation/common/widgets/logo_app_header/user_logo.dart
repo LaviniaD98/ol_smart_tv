@@ -1,4 +1,5 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -12,6 +13,10 @@ class UserLogo extends StatelessWidget {
   final String? surname;
   final double size;
   final bool navigation;
+  final double radius;
+  final bool isSelected;
+  final bool hasFocus;
+  final Color? bgColor;
 
   const UserLogo({
     super.key,
@@ -20,6 +25,10 @@ class UserLogo extends StatelessWidget {
     this.surname = '',
     this.navigation = false,
     this.size = 32,
+    this.radius = 16,
+    this.isSelected = false,
+    this.hasFocus = false,
+    this.bgColor,
   });
 
   @override
@@ -31,30 +40,70 @@ class UserLogo extends StatelessWidget {
 
     return InkWell(
       onTap: navigation ? () => Nav.push(context, screen: ProfilePage()) : null,
-      child: SizedBox(
-          height: size,
-          width: size,
-          child: ClipOval(
-            child: userImageUrl != null && userImageUrl!.isNotEmpty
-                ? CachedNetworkImage(
-                    imageUrl: userImageUrl!,
-                    fit: BoxFit.cover,
-                    errorWidget: (context, object, stackTrace) {
-                      return _placeholder(formattedUsername);
-                    },
-                  )
-                : _placeholder(formattedUsername),
-          )),
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          color: bgColor ?? Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(40),
+          border: Border.all(
+            color: isSelected || hasFocus
+                ? OLColors.accentVariantA
+                : Colors.transparent,
+            width: 3,
+            strokeAlign: BorderSide.strokeAlignOutside,
+          ),
+        ),
+        child: userImageUrl != null && userImageUrl!.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: userImageUrl!,
+                fit: BoxFit.cover,
+                errorWidget: (context, object, stackTrace) {
+                  return _placeholder(formattedUsername);
+                },
+              )
+            : _placeholder(formattedUsername),
+      ),
+      // SizedBox(
+      //   height: size,
+      //   width: size,
+      //   child: ClipRRect(
+      //     borderRadius: BorderRadius.circular(radius),
+      //     child: userImageUrl != null && userImageUrl!.isNotEmpty
+      //         ? CachedNetworkImage(
+      //             imageUrl: userImageUrl!,
+      //             fit: BoxFit.cover,
+      //             errorWidget: (context, object, stackTrace) {
+      //               return _placeholder(formattedUsername);
+      //             },
+      //           )
+      //         : _placeholder(formattedUsername),
+      //   ),
+      // ),
     );
   }
 
   Widget _placeholder(String label) {
-    return CircleAvatar(
-        backgroundColor: ColorManager().getColorTextPrimary(),
-        child: Text(
-          label,
-          style: AppTextTheme.caption(
-              color: ColorManager().getColorTextPrimaryAlternative()),
-        ));
+    return Container(
+      decoration: BoxDecoration(
+        color: bgColor ?? ColorManager().getColorTextPrimary(),
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      child: Builder(
+        builder: (context) {
+          if (label.isEmpty) {
+            return const Icon(
+              Icons.person,
+              color: Colors.black,
+            );
+          }
+          return Text(
+            label,
+            style: AppTextTheme.caption(
+                color: ColorManager().getColorTextPrimaryAlternative()),
+          );
+        },
+      ),
+    );
   }
 }

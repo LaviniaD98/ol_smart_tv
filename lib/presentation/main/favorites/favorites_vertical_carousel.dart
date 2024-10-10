@@ -28,7 +28,7 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   final autoScrollController = AutoScrollController(
-    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 100, 0, 0),
+    viewportBoundaryGetter: () => const Rect.fromLTRB(0, 70, 0, 0),
     axis: Axis.vertical,
   );
 
@@ -75,29 +75,44 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
             widget.onFocusChange?.call(value);
           },
           child: ListView.separated(
+            controller: autoScrollController,
             clipBehavior: Clip.none,
             padding: const EdgeInsets.only(
               left: Dimens.hViewPadding,
               right: Dimens.hViewPadding,
+              bottom: 100,
             ),
             separatorBuilder: (context, index) =>
                 const SizedBox(width: Dimens.spacingXS),
             itemCount: strip.value.length,
             itemBuilder: (context, index) {
               final item = strip.value[index];
-              return FavoriteCard(
-                data: item,
+              return AutoScrollTag(
+                key: ValueKey(index),
+                controller: autoScrollController,
                 index: index,
-                onFocusChange: (hasFocus) {
-                  if (hasFocus) {
-                    currentFocusIndex = index;
-                  }
-                },
+                child: FavoriteCard(
+                  data: item,
+                  index: index,
+                  onFocusChange: (hasFocus) {
+                    if (hasFocus) {
+                      currentFocusIndex = index;
+                      scrollToPosition(index);
+                    }
+                  },
+                ),
               );
             },
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> scrollToPosition(int index) async {
+    await autoScrollController.scrollToIndex(
+      index,
+      preferPosition: AutoScrollPosition.begin,
     );
   }
 

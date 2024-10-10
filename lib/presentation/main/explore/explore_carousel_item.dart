@@ -5,7 +5,9 @@ import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/lea
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/topic_list.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_prograss_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/duration_tag.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
 class ExploreCarouselItem extends StatefulWidget {
@@ -89,6 +91,21 @@ class _ExploreCarouselItemState extends State<ExploreCarouselItem> {
                 ],
                 _durationTag(),
                 const SizedBox(height: 8),
+                const Spacer(),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Builder(builder: (_) {
+                    final percentage =
+                        CourseLogic().getCompletionPercentageFromString(
+                      widget.item.percentageOfCompletion,
+                    );
+                    return OlProgressBar(
+                      percentage: percentage,
+                      width: 530,
+                    );
+                  }),
+                ),
+                const SizedBox(height: 30),
               ],
             ),
           ),

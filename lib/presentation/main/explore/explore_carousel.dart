@@ -1,11 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_carousel_item.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -52,11 +58,22 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowRight): () {
-          carouselController.nextPage();
+          if (strip.value.length > 1) {
+            carouselController.nextPage();
+          }
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-          carouselController.previousPage();
+          if (pageController.page == 0) {
+            final focus = context.read<MainStateCubit>().state;
+            focus.requestFocus();
+          } else {
+            carouselController.previousPage();
+          }
         },
+        const SingleActivator(LogicalKeyboardKey.enter): () =>
+            pushDetails(items: strip.value),
+        const SingleActivator(LogicalKeyboardKey.select): () =>
+            pushDetails(items: strip.value),
       },
       child: FocusTraversalGroup(
         key: ValueKey(strip.key.labelMapping),
@@ -108,7 +125,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
                     carouselController: carouselController,
                     options: CarouselOptions(
                       height: 600,
-                      autoPlay: true,
+                      autoPlay: strip.value.length > 1 ? true : false,
                       autoPlayInterval: const Duration(seconds: 8),
                       aspectRatio: 16 / 9,
                       viewportFraction: 1,
@@ -128,7 +145,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
                   right: 44,
                   child: SmoothPageIndicator(
                     controller: pageController,
-                    count: 3,
+                    count: strip.value.length,
                     effect: ExpandingDotsEffect(
                       dotHeight: 12,
                       dotWidth: 12,
@@ -144,6 +161,27 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  void pushDetails({required List<LearningObjectModel> items}) async {
+    final index = pageController.page?.toInt() ?? 0;
+
+    final item = items[index];
+
+    final args = DetailPageArgs(
+      id: item.id.toString(),
+      object: item,
+      parentId: item.parentId?.toString(),
+      grandParentId: item.grandParentId?.toString(),
+      typology: item.learningObjectTypology,
+    );
+
+    manager.pushOnStack(
+      screen: BlocProvider(
+        create: (_) => getIt<DetailPageCubit>()..init(args),
+        child: DetailPage(args: args),
       ),
     );
   }

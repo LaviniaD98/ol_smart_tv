@@ -221,6 +221,7 @@ class _LearningCardState extends State<LearningCard> {
                             const SizedBox(height: 8),
                             TopicList(
                               widget.data.topicTags ?? [],
+                              topicsLimit: 2,
                               color: ColorManager()
                                   .getColorSystemSecondary05()
                                   .withOpacity(.6),

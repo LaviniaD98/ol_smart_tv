@@ -20,6 +20,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_p
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../theme/app_theme.dart';
 
@@ -106,52 +107,57 @@ class _ForYouCardState extends State<ForYouCard> {
                   }
                 }
               : null,
-          child: AspectRatio(
-            aspectRatio: Dimens.learningCardRatio,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 140),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                top: 0,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 70),
                   child: FadedBannerImage(
                     urlImage: widget.data.coverPublicURL,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.only(
-                    left: Dimens.hViewPadding,
-                    right: Dimens.hViewPadding,
-                    bottom: 60,
-                    top: 80,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      iconByCardStatus(),
-                      const SizedBox(height: 6),
-                      Text(
-                        (widget.data.title ?? 'No title').toUpperCase(),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextTheme.body(
-                          color: ColorManager().getColorTextPrimary(),
-                          weight: FontWeight.bold,
-                          size: 56,
-                        ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(
+                  left: Dimens.hViewPadding,
+                  right: Dimens.hViewPadding,
+                  bottom: 60,
+                  top: 80,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    iconByCardStatus(),
+                    const SizedBox(height: 6),
+                    Text(
+                      (widget.data.title ?? 'No title'),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextTheme.body(
+                        color: ColorManager().getColorTextPrimary(),
+                        weight: FontWeight.bold,
+                        size: 56,
                       ),
-                      if ((widget.data.topicTags ?? []).isNotEmpty) ...[
-                        const SizedBox(height: 28),
-                        TopicList(
-                          widget.data.topicTags ?? [],
-                          color: ColorManager()
-                              .getColorSystemSecondary05()
-                              .withOpacity(.6),
-                        ),
-                      ],
-                      const SizedBox(height: 20),
-                      // descrizione
-                      Text(
-                        'This is considered an error condition because it indicates that there is content that cannot be seen. If the content is legitimately bigger than the available space, consider clipping it with a ClipRect widget before putting it in the flex, or using a scrollable container rather than a Flex, like a ListView.The specific RenderFlex in question is: RenderFlex#70f97 OVERFLOWING', //widget.data.shortDescription ?? '',
+                    ),
+                    if ((widget.data.topicTags ?? []).isNotEmpty) ...[
+                      const SizedBox(height: 28),
+                      TopicList(
+                        widget.data.topicTags ?? [],
+                        color: ColorManager()
+                            .getColorSystemSecondary05()
+                            .withOpacity(.6),
+                      ),
+                    ],
+                    const SizedBox(height: 20),
+                    // descrizione
+                    Container(
+                      constraints: const BoxConstraints(minHeight: 100),
+                      child: Text(
+                        widget.data.shortDescription ?? '',
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -160,29 +166,29 @@ class _ForYouCardState extends State<ForYouCard> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                      const SizedBox(height: 32),
-                      const Spacer(),
-                      buildDurationTag(),
-                      const SizedBox(height: 32),
-                      Row(
-                        children: [
-                          FocusTraversalOrder(
-                            order: const NumericFocusOrder(0),
-                            child: OLButton(
-                              id: 'START-BUTTON-0',
-                              title: c.buttonTitle,
-                              onPressed: c.buttonEnabled
-                                  ? () => pushDetails(item: widget.data)
-                                  : null,
-                            ),
+                    ),
+                    const SizedBox(height: 32),
+
+                    buildDurationTag(),
+                    const SizedBox(height: 32),
+                    Row(
+                      children: [
+                        FocusTraversalOrder(
+                          order: const NumericFocusOrder(0),
+                          child: OLButton(
+                            id: 'START-BUTTON-0',
+                            title: c.buttonTitle,
+                            onPressed: c.buttonEnabled
+                                ? () => pushDetails(item: widget.data)
+                                : null,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -190,7 +196,6 @@ class _ForYouCardState extends State<ForYouCard> {
   }
 
   void pushDetails({required LearningObjectModel item}) async {
-    print('jojojojojojojojojo');
     final args = DetailPageArgs(
       id: item.id.toString(),
       object: item,
@@ -205,77 +210,6 @@ class _ForYouCardState extends State<ForYouCard> {
         child: DetailPage(args: args),
       ),
     );
-
-    // TODO(UmbertoGrimaldi): Complete this logic
-    // int idToAE = widget.model.id!;
-    // if (widget.args.grandParentId != null) {
-    //   idToAE = int.parse(widget.args.grandParentId!);
-    // } else if (widget.args.parentId != null) {
-    //   idToAE = int.parse(widget.args.parentId!);
-    // }
-    // switch (c.objLOAction) {
-    //   case ObjLOAction.none:
-    //   case ObjLOAction.notApplicable:
-    //     break;
-    //   case ObjLOAction.startFruition:
-    //     String parentId = (widget.args.parentId == null ||
-    //             widget.args.parentId!.toLowerCase() == "null")
-    //         ? widget.model.id!.toString()
-    //         : widget.args.parentId!;
-    //     context
-    //         .read<DetailPageCubit>()
-    //         .getStartOrResumeModel(widget.model.id!, parentId, widget.model);
-    //     break;
-    //   case ObjLOAction.autoEnrollmentBottom:
-    //     context.read<DetailPageCubit>().executeAutoEnrollment(
-    //         widget.args, idToAE, "BOTTOM", widget.model, false);
-    //     break;
-    //   case ObjLOAction.autoEnrollmentAuto:
-    //     context.read<DetailPageCubit>().executeAutoEnrollment(
-    //         widget.args, idToAE, "AUTO", widget.model, true);
-    //     break;
-    //   case ObjLOAction.autoEnrollmentWithPatch:
-    //   case ObjLOAction.seeEditions:
-    //     context
-    //         .read<DetailPageCubit>()
-    //         .selectEditionsIfPresentIndex(widget.args, widget.model);
-    //     break;
-    //   case ObjLOAction.ecmNotRegistered:
-    //     final res = await context.pushNamed<bool?>(
-    //       EcmRegistrationPage.routeName,
-    //       extra: EcmRegistrationPageArgs(
-    //         enrollId: widget.model.enrollId,
-    //         loId: widget.model.id,
-    //         sponsors: widget.model.sponsors ?? [],
-    //       ),
-    //     );
-    //     if (res != null && res && context.mounted) {
-    //       context.read<DetailPageCubit>().init(widget.args);
-    //     }
-    //     break;
-    //   case ObjLOAction.showDetailMaterials:
-    //   case ObjLOAction.showDetailGoals:
-    //   case ObjLOAction.showDetailFinalBalance:
-    //     String parentId = (widget.args.parentId == null ||
-    //             widget.args.parentId!.toLowerCase() == "null")
-    //         ? widget.model.id!.toString()
-    //         : widget.args.parentId!;
-    //     context
-    //         .read<DetailPageCubit>()
-    //         .getStartOrResumeModel(widget.model.id!, parentId, widget.model);
-    //     break;
-    //   case ObjLOAction.showDetailMeeting:
-    //     OlAlertDialog.show(
-    //       context,
-    //       title: LabelsManager()
-    //           .getRemoteStringFromLabelKeys(RemoteLabelKeys.show_info),
-    //       message: LabelsManager()
-    //           .getRemoteStringFromLabelKeys(RemoteLabelKeys.from_meeting_info),
-    //       actionLabel:
-    //           LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
-    //     );
-    //     break;
-    // }
   }
 
   Color getBorderFocusColor() {
@@ -403,57 +337,130 @@ class LearningCardShimmer extends StatelessWidget {
     return AspectRatio(
       aspectRatio: Dimens.learningCardRatio,
       child: Container(
-        clipBehavior: Clip.none,
-        margin: const EdgeInsets.only(bottom: 10, right: 24, left: 5),
-        padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 16.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white.withOpacity(.2),
-          border: Border.all(
-            color: OLColors.border,
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
+        padding: const EdgeInsets.only(
+          left: Dimens.hViewPadding,
+          right: Dimens.hViewPadding,
+          bottom: 60,
+          top: 80,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: (MediaQuery.of(context).size.width /
-                        Dimens.learningCardRatio) *
-                    .4,
-                height: 28,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(.5),
-                  borderRadius: BorderRadius.circular(8.0),
+        child: Shimmer.fromColors(
+          enabled: true,
+          baseColor: AppColors.white.withOpacity(.09),
+          highlightColor: AppColors.primaryFaded,
+          period: const Duration(seconds: 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 40,
+                  width: 160,
+                  decoration: BoxDecoration(
+                    color: ColorManager()
+                        .getColorSystemSecondary05()
+                        .withOpacity(.6),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            Container(
-              width: (MediaQuery.of(context).size.width /
-                      Dimens.learningCardRatio) *
-                  .5,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
-                borderRadius: BorderRadius.circular(8.0),
+              const SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  color: ColorManager()
+                      .getColorSystemSecondary05()
+                      .withOpacity(.6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'Aknlcknlvdfvòòòlmvdfmpovvdf',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextTheme.body(
+                    color: Colors.transparent,
+                    weight: FontWeight.bold,
+                    size: 56,
+                  ).copyWith(height: 1),
+                ),
               ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 4),
-              width: (MediaQuery.of(context).size.width /
-                      Dimens.learningCardRatio) *
-                  .6,
-              height: 20,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
-                borderRadius: BorderRadius.circular(8.0),
+
+              const SizedBox(height: 28),
+              TopicList(
+                ['Testingcdcfd', 'Testing csdc ce'],
+                textColor: Colors.transparent,
+                color:
+                    ColorManager().getColorSystemSecondary05().withOpacity(.6),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+              // descrizione
+
+              Container(
+                height: 20,
+                decoration: BoxDecoration(
+                  color: ColorManager()
+                      .getColorSystemSecondary05()
+                      .withOpacity(.6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Container(
+                height: 20,
+                decoration: BoxDecoration(
+                  color: ColorManager()
+                      .getColorSystemSecondary05()
+                      .withOpacity(.6),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 20,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: ColorManager()
+                        .getColorSystemSecondary05()
+                        .withOpacity(.6),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 2),
+              const Spacer(),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Container(
+                  height: 20,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: ColorManager()
+                        .getColorSystemSecondary05()
+                        .withOpacity(.6),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32),
+              const Row(
+                children: [
+                  ExcludeFocus(
+                    excluding: true,
+                    child: FocusTraversalOrder(
+                      order: NumericFocusOrder(0),
+                      child: OLButton(
+                        id: 'START-BUTTON-0',
+                        title: 'Button',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

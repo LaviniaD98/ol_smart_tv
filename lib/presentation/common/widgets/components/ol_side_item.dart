@@ -12,6 +12,7 @@ class OLSideItem extends StatefulWidget {
     required this.icon,
     required this.id,
     this.isSelected = false,
+    this.child,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class OLSideItem extends StatefulWidget {
   final String icon;
   final String id;
   final bool isSelected;
+  final Widget Function(bool hasFocus)? child;
 
   @override
   State<OLSideItem> createState() => _OLSideItemState();
@@ -47,55 +49,64 @@ class _OLSideItemState extends State<OLSideItem> {
       onFocusChange: (value) {
         setState(() {});
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SimpleShadow(
-            color: focusNode.hasFocus || widget.isSelected
-                ? OLColors.accentVariantA
-                : OLColors.textPrimary,
-            offset: Offset.zero,
-            sigma: focusNode.hasFocus ? 10 : 0,
-            opacity: 1,
-            child: SvgPicture.asset(
-              widget.icon,
-              height: 24,
-              width: 24,
-              colorFilter: ColorFilter.mode(
-                focusNode.hasFocus || widget.isSelected
+      child: Builder(
+        builder: (context) {
+          if (widget.child != null) {
+            return widget.child?.call(focusNode.hasFocus) ??
+                const SizedBox.shrink();
+          }
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SimpleShadow(
+                color: focusNode.hasFocus || widget.isSelected
                     ? OLColors.accentVariantA
                     : OLColors.textPrimary,
-                BlendMode.srcIn,
+                offset: Offset.zero,
+                sigma: focusNode.hasFocus ? 10 : 0,
+                opacity: 1,
+                child: SvgPicture.asset(
+                  widget.icon,
+                  height: 24,
+                  width: 24,
+                  colorFilter: ColorFilter.mode(
+                    focusNode.hasFocus || widget.isSelected
+                        ? OLColors.accentVariantA
+                        : OLColors.textPrimary,
+                    BlendMode.srcIn,
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            widget.title,
-            style: AppTextTheme.body(
-              size: 16,
-              weight: FontWeight.w600,
-              color: focusNode.hasFocus || widget.isSelected
-                  ? OLColors.accentVariantA
-                  : OLColors.textPrimary,
-            ),
-          ),
-          const SizedBox(height: 16),
-          GlowContainer(
-            width: 75,
-            height: 2.5,
-            blurRadius: 8,
-            spreadRadius: 1,
-            glowColor: focusNode.hasFocus || widget.isSelected
-                ? OLColors.accentVariantA.withOpacity(0.5)
-                : Colors.transparent,
-            color: focusNode.hasFocus || widget.isSelected
-                ? OLColors.accentVariantA
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(5),
-          )
-        ],
+              const SizedBox(height: 4),
+              Text(
+                widget.title,
+                style: AppTextTheme.body(
+                  size: 16,
+                  weight: FontWeight.w600,
+                  color: focusNode.hasFocus || widget.isSelected
+                      ? OLColors.accentVariantA
+                      : OLColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 16),
+              GlowContainer(
+                width: 75,
+                height: 2.5,
+                blurRadius: 8,
+                spreadRadius: 1,
+                glowColor: focusNode.hasFocus || widget.isSelected
+                    ? OLColors.accentVariantA.withOpacity(0.5)
+                    : Colors.transparent,
+                color: focusNode.hasFocus || widget.isSelected
+                    ? OLColors.accentVariantA
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(5),
+              )
+            ],
+          );
+        },
       ),
     );
   }

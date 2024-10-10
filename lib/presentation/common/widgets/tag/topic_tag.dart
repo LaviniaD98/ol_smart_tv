@@ -10,6 +10,7 @@ class TopicTag extends StatelessWidget {
   final Color? color;
   final BoxConstraints? constraints;
   final bool isBig;
+  final Color? textColor;
 
   const TopicTag({
     super.key,
@@ -19,6 +20,7 @@ class TopicTag extends StatelessWidget {
     this.constraints,
     this.color,
     this.isBig = false,
+    this.textColor,
   });
 
   @override
@@ -50,7 +52,7 @@ class TopicTag extends StatelessWidget {
         label.toUpperCase(),
         style: AppTextTheme.caption(
           weight: FontWeight.w700,
-          color: ColorManager().getColorTextPrimary(),
+          color: textColor ?? ColorManager().getColorTextPrimary(),
           size: isBig ? 20 : null,
         ),
       ),

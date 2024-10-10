@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
@@ -12,6 +13,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_p
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../common/widgets/cards/learning_card.dart';
 
@@ -37,6 +39,7 @@ class StripRowContentState extends State<StripRowContent>
   static const detailsHeight = 411.0;
   late OlFocusScopeNode focusNode;
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
+  late PageController pageController;
 
   final autoScrollController = AutoScrollController(
     viewportBoundaryGetter: () =>
@@ -48,6 +51,7 @@ class StripRowContentState extends State<StripRowContent>
   @override
   void initState() {
     super.initState();
+    pageController = PageController();
 
     focusNode = OlFocusScopeNode(
       id: 'Explore-----${widget.strip.keys.firstOrNull?.labelMapping}',
@@ -91,7 +95,7 @@ class StripRowContentState extends State<StripRowContent>
               widget.onFocusChange?.call(value);
             },
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 8),
                 Padding(
@@ -113,55 +117,98 @@ class StripRowContentState extends State<StripRowContent>
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 38,
-                    bottom: 44,
-                  ),
-                  child: SizedBox(
-                    height: Dimens.learningCardTVHeight,
-                    child: ListView.separated(
-                      controller: autoScrollController,
-                      scrollDirection: Axis.horizontal,
-                      clipBehavior: Clip.none,
-                      padding: const EdgeInsets.only(
-                        left: Dimens.hViewPadding,
-                        right: Dimens.hPadding,
-                      ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(width: Dimens.spacingXS),
-                      itemCount: strip.value.length,
-                      itemBuilder: (context, index) {
-                        final item = strip.value[index];
-                        final cell = AutoScrollTag(
-                          key: ValueKey(index),
-                          controller: autoScrollController,
-                          index: index,
-                          child: LearningCard(
-                            data: item,
-                            onFocusChange: (hasFocus) {
-                              if (hasFocus) {
-                                currentFocusIndex = index;
-                                widget.focusedObjectNotifier?.value = item;
-                                scrollToPosition(index);
-                              }
-                            },
-                          ),
-                        );
-
-                        return CallbackShortcuts(
-                          bindings: <ShortcutActivator, VoidCallback>{
-                            const SingleActivator(LogicalKeyboardKey.enter):
-                                () => pushDetails(item: item),
-                            const SingleActivator(LogicalKeyboardKey.select):
-                                () => pushDetails(item: item),
+                Stack(
+                  children: [
+                    Opacity(
+                      opacity: 0,
+                      child: SizedBox(
+                        height: 0,
+                        child: PageView.builder(
+                          itemCount: strip.value.length,
+                          controller: pageController,
+                          itemBuilder: (context, index) {
+                            return const SizedBox.shrink();
                           },
-                          child: cell,
-                        );
-                      },
+                        ),
+                      ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 38,
+                        bottom: 20,
+                      ),
+                      child: SizedBox(
+                        height: Dimens.learningCardTVHeight,
+                        child: ListView.separated(
+                          controller: autoScrollController,
+                          scrollDirection: Axis.horizontal,
+                          clipBehavior: Clip.none,
+                          padding: const EdgeInsets.only(
+                            left: Dimens.hViewPadding,
+                            right: Dimens.hPadding,
+                          ),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(width: Dimens.spacingXS),
+                          itemCount: strip.value.length,
+                          itemBuilder: (context, index) {
+                            final item = strip.value[index];
+                            final cell = AutoScrollTag(
+                              key: ValueKey(index),
+                              controller: autoScrollController,
+                              index: index,
+                              child: LearningCard(
+                                data: item,
+                                onFocusChange: (hasFocus) {
+                                  if (hasFocus) {
+                                    pageController.animateToPage(
+                                      index,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      curve: Curves.easeInOut,
+                                    );
+                                    currentFocusIndex = index;
+                                    widget.focusedObjectNotifier?.value = item;
+                                    scrollToPosition(index);
+                                  }
+                                },
+                              ),
+                            );
+
+                            return CallbackShortcuts(
+                              bindings: <ShortcutActivator, VoidCallback>{
+                                const SingleActivator(LogicalKeyboardKey.enter):
+                                    () => pushDetails(item: item),
+                                const SingleActivator(
+                                        LogicalKeyboardKey.select):
+                                    () => pushDetails(item: item),
+                              },
+                              child: cell,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Align(
+                  child: SmoothPageIndicator(
+                    controller: pageController,
+                    count: strip.value.length,
+                    effect: ScrollingDotsEffect(
+                      dotHeight: 12,
+                      dotWidth: 12,
+                      activeDotScale: 1.3,
+                      spacing: 16,
+                      maxVisibleDots: 9,
+                      activeStrokeWidth: 3,
+                      //fixedCenter: true,
+                      activeDotColor: OLColors.textPrimary,
+                      dotColor: OLColors.textPrimary.withOpacity(0.4),
+                    ),
+                    onDotClicked: (index) {},
                   ),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

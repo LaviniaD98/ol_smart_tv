@@ -10,8 +10,10 @@ import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/generic_container.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_okcancel_dialog.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/user_avatar.dart';
 import 'package:open_learning_smart_tv/presentation/initiatives/initiatives_page.dart';
 import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
@@ -293,6 +295,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildYourDateSection() {
     final user = UserInfoManager().getUserInfoModel()?.user;
+
     return ExcludeFocus(
       child: GenericContainer(
         child: Column(
@@ -310,20 +313,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 160,
-                  height: 160,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.black,
-                      size: 32,
-                    ),
-                  ),
+                const UserAvatar(
+                  size: 160,
+                  radius: 8,
                 ),
                 const SizedBox(width: 32),
                 Expanded(
@@ -377,6 +369,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget avatarPlaceholder({String? imageUrl}) {
+    return Container(
+      width: 160,
+      height: 160,
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Builder(builder: (context) {
+        if (imageUrl != null) {
+          return OLImage(
+            imageURL: imageUrl,
+            cacheWidth: 400,
+          );
+        }
+        return const Center(
+          child: Icon(
+            Icons.person,
+            color: Colors.black,
+            size: 32,
+          ),
+        );
+      }),
     );
   }
 

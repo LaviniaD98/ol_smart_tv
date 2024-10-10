@@ -6,13 +6,11 @@ import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/glow_progress_bar/glow_progress_bar.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_prograss_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/duration_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
 class ObjectDetailsView extends StatelessWidget {
@@ -34,7 +32,12 @@ class ObjectDetailsView extends StatelessWidget {
                     Expanded(child: Container()),
                     SizedBox(
                       width: 1200,
-                      child: FadedBannerImage(urlImage: value!.coverPublicURL!),
+                      child: FadedBannerImage(
+                        key: ValueKey(
+                            value?.videoPublicURL ?? value?.coverPublicURL),
+                        urlImage: value?.coverPublicURL,
+                        urlVideo: value?.videoPublicURL,
+                      ),
                     ),
                   ],
                 ),
@@ -65,8 +68,7 @@ class ObjectDetailsView extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Throwing away cached asset graph because the build phases have changed. This most commonly would happen as a result of adding a new dependency or updating your dependencies.Throwing away cached asset graph because the build phases have changed. This most commonly would happen as a result of adding a new dependency or updating your dependencies.',
-                          //value!.shortDescription ?? '',
+                          value!.shortDescription ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: AppTextTheme.body(
@@ -75,19 +77,8 @@ class ObjectDetailsView extends StatelessWidget {
                             color: ColorManager().getColorTextPrimary(),
                           ),
                         ),
-                        // if ((value!.topicTags ?? []).isNotEmpty) ...[
-                        //   const SizedBox(height: 40),
-                        //   TopicList(
-                        //     value!.topicTags ?? [],
-                        //     color: ColorManager()
-                        //         .getColorSystemSecondary05()
-                        //         .withOpacity(.6),
-                        //   ),
-                        // ],
-
                         const SizedBox(height: 18),
                         const Spacer(),
-
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Builder(
@@ -96,42 +87,9 @@ class ObjectDetailsView extends StatelessWidget {
                                   .getCompletionPercentageFromString(
                                 value?.percentageOfCompletion,
                               );
-                              return SizedBox(
+                              return OlProgressBar(
+                                percentage: percentage,
                                 width: 530,
-                                child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text:
-                                                '${LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.percentageOfCompletion)}:',
-                                            style: AppTextTheme.body(
-                                              weight: FontWeight.w500,
-                                              size: 14,
-                                              color: ColorManager()
-                                                  .getColorTextPrimary(),
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                ' ${percentage.toStringAsFixed(2)}%',
-                                            style: AppTextTheme.body(
-                                              color: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              weight: FontWeight.bold,
-                                              size: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    GlowProgressBar(percentage: percentage),
-                                    const SizedBox(height: 4),
-                                  ],
-                                ),
                               );
                             },
                           ),

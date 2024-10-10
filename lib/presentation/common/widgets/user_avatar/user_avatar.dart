@@ -16,12 +16,20 @@ class UserAvatar extends StatelessWidget {
     this.name,
     this.surname,
     this.size = _size,
+    this.radius = _size / 2,
+    this.isSelected = false,
+    this.hasFocus = false,
+    this.bgColor,
   });
 
   final int? id;
   final String? name;
   final String? surname;
   final double size;
+  final double radius;
+  final bool isSelected;
+  final bool hasFocus;
+  final Color? bgColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,28 +40,37 @@ class UserAvatar extends StatelessWidget {
           duration: const Duration(milliseconds: 120),
           child: state.map(
             loading: (_) => Shimmer.fromColors(
-                baseColor: AppColors.white.withOpacity(.09),
-                highlightColor: AppColors.primaryFaded,
-                period: const Duration(seconds: 2),
-                child: Container(
-                  width: _size,
-                  height: _size,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    color: AppColors.white.withOpacity(.2),
-                    shape: BoxShape.circle,
-                  ),
-                )),
+              baseColor: AppColors.white.withOpacity(.09),
+              highlightColor: AppColors.primaryFaded,
+              period: const Duration(seconds: 2),
+              child: Container(
+                width: size,
+                height: size,
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  color: AppColors.white.withOpacity(.2),
+                  borderRadius: BorderRadius.circular(radius),
+                ),
+              ),
+            ),
             image: (value) => UserLogo(
-              size: _size,
+              size: size,
               userImageUrl: value.url,
               name: name ?? '',
               surname: surname ?? '',
+              radius: radius,
+              hasFocus: hasFocus,
+              isSelected: isSelected,
+              bgColor: bgColor,
             ),
             error: (value) => UserLogo(
-              size: _size,
+              size: size,
               name: name ?? '',
               surname: surname ?? '',
+              radius: radius,
+              hasFocus: hasFocus,
+              isSelected: isSelected,
+              bgColor: bgColor,
             ),
           ),
         ),

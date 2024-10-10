@@ -6,7 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_side_item.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/user_avatar.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 
 class OLSideNavigator extends StatefulWidget {
   const OLSideNavigator({
@@ -158,9 +160,41 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                               icon: 'assets/icons/agenda_icon.svg',
                               title: 'Profile',
                               id: profileFocusId,
+                              child: (hasFocus) {
+                                final isSelected =
+                                    !focusNode.hasFocus && selectedIndex == 5;
+
+                                return Column(
+                                  children: [
+                                    UserAvatar(
+                                      size: 60,
+                                      radius: 40,
+                                      hasFocus: hasFocus,
+                                      bgColor: Colors.white.withOpacity(0.2),
+                                      isSelected: isSelected,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    GlowContainer(
+                                      width: 75,
+                                      height: 2.5,
+                                      blurRadius: 8,
+                                      spreadRadius: 1,
+                                      glowColor: hasFocus || isSelected
+                                          ? OLColors.accentVariantA
+                                              .withOpacity(0.5)
+                                          : Colors.transparent,
+                                      color: hasFocus || isSelected
+                                          ? OLColors.accentVariantA
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(5),
+                                    )
+                                  ],
+                                );
+                              },
                               isSelected:
                                   !focusNode.hasFocus && selectedIndex == 5,
                             ),
+                            const SizedBox(height: 50),
                           ],
                         ),
                       ),

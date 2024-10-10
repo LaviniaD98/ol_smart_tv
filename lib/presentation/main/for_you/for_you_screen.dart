@@ -112,9 +112,7 @@ class _ForYouScreenState extends State<ForYouScreen>
 
                   return content(contentSource);
                 },
-                loading: (value) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                loading: (value) => content(null, isLoading: true),
                 error: (value) => ErrorScreen(
                   title: LabelsManager().getRemoteStringFromLabelKeys(
                     RemoteLabelKeys.error,
@@ -135,10 +133,10 @@ class _ForYouScreenState extends State<ForYouScreen>
     );
   }
 
-  Widget content(Map<StripRow, List<LearningObjectModel>>? contentSource) {
-    if (contentSource == null) {
-      return const SizedBox.shrink();
-    }
+  Widget content(
+    Map<StripRow, List<LearningObjectModel>>? contentSource, {
+    bool isLoading = false,
+  }) {
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -170,9 +168,23 @@ class _ForYouScreenState extends State<ForYouScreen>
                     focus?.requestFocus();
                   },
                 },
-                child: ForYouVerticalCarousel(
-                  strip: contentSource,
-                ),
+                child: Builder(builder: (context) {
+                  if (isLoading) {
+                    return ForYouVerticalCarousel.buildShimmerList();
+                  }
+                  if (contentSource == null) {
+                    return const SizedBox.shrink();
+                  }
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ForYouVerticalCarousel(
+                          strip: contentSource,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
               ),
             ),
           ),
