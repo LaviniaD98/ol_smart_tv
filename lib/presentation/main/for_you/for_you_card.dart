@@ -71,9 +71,10 @@ class _ForYouCardState extends State<ForYouCard> {
       ecmRegistration: widget.data.ecmRegistration ?? false,
     );
 
-    print('widget.courseId: ${widget.data.courseId}');
+    // print('widget.courseId: ${widget.data.courseId}');
     // print('widget.parentId: ${widget.data.parentId}');
     // print('widget.grandParentId: ${widget.data.grandParentId}');
+
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -295,7 +296,9 @@ class _ForYouCardState extends State<ForYouCard> {
             children: [
               /// Type Label
               TextSpan(
-                text: 'Digitale'.toUpperCase(),
+                text: widget.data.learningObjectType
+                    .getTranslatedValue()
+                    .toUpperCase(),
                 style: AppTextTheme.body(
                   color: ColorManager().getColorTextMandatory(),
                   weight: FontWeight.bold,
@@ -311,7 +314,7 @@ class _ForYouCardState extends State<ForYouCard> {
                 ),
               ),
               TextSpan(
-                text: widget.data.learningObjectType
+                text: widget.data.learningObjectTypology
                     .getTranslatedValue()
                     .toUpperCase(),
                 style: AppTextTheme.body(

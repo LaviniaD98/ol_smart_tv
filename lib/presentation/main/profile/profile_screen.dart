@@ -10,10 +10,11 @@ import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/generic_container.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_okcancel_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/user_avatar.dart';
+import 'package:open_learning_smart_tv/presentation/corporate_code/corporate_code_page.dart';
 import 'package:open_learning_smart_tv/presentation/initiatives/initiatives_page.dart';
 import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
@@ -213,20 +214,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   icon: "assets/icons/logout.svg",
                   onTap: () {
-                    OlOkCancelDialog.show(
+                    OlAlertDialog.show(
                       context,
                       title: LabelsManager().getRemoteStringFromLabelKeys(
                         RemoteLabelKeys.exit,
                       ),
                       message: LabelsManager().getRemoteStringFromLabelKeys(
                           RemoteLabelKeys.exit_text),
-                      okActionLabel: LabelsManager()
-                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit),
-                      cancelActionLabel: LabelsManager()
-                          .getRemoteStringFromLabelKeys(RemoteLabelKeys.cancel),
-                      okCallback: () {
-                        context.read<AppCubit>().logout();
-                      },
+                      actionLabel: '',
+                      actions: [
+                        OLButton(
+                          title: LabelsManager().getRemoteStringFromLabelKeys(
+                              RemoteLabelKeys.cancel),
+                          outline: true,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        OLButton(
+                          title: LabelsManager().getRemoteStringFromLabelKeys(
+                              RemoteLabelKeys.exit),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            context.read<AppCubit>().logout();
+                            Nav.pushAndRemoveUntil(
+                              context,
+                              screen: const CorporateCodePage(),
+                            );
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),

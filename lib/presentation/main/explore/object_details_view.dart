@@ -205,7 +205,9 @@ class ObjectDetailsView extends StatelessWidget {
             children: [
               /// Type Label
               TextSpan(
-                text: 'Digitale'.toUpperCase(),
+                text: value?.learningObjectType
+                    .getTranslatedValue()
+                    .toUpperCase(),
                 style: AppTextTheme.body(
                   color: value?.iconStatus.color,
                   weight: FontWeight.bold,
@@ -221,7 +223,7 @@ class ObjectDetailsView extends StatelessWidget {
                 ),
               ),
               TextSpan(
-                text: value?.learningObjectType
+                text: value?.learningObjectTypology
                     .getTranslatedValue()
                     .toUpperCase(),
                 style: AppTextTheme.body(

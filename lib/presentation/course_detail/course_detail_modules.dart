@@ -217,7 +217,9 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                         type: widget.model.learningObjectTypology,
                         parentFocus: _focusNode,
                         imageUrl: cc.coverPublicURL ?? "",
-                        tipoText: cc.learningObjectTypology.value.toString(),
+                        tipoText: cc.learningObjectType
+                            .getTranslatedValue()
+                            .toString(),
                         progressPercentage: CourseLogic()
                             .getCompletionPercentageFromString(
                                 cc.percentageOfCompletion),
@@ -278,7 +280,9 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                         type: widget.model.learningObjectTypology,
                         parentFocus: _focusNode,
                         imageUrl: ll.coverPublicURL ?? "",
-                        tipoText: ll.learningObjectTypology.value.toString(),
+                        tipoText: ll.learningObjectType
+                            .getTranslatedValue()
+                            .toString(),
                         progressPercentage: CourseLogic()
                             .getCompletionPercentageFromString(
                                 ll.percentageOfCompletion),

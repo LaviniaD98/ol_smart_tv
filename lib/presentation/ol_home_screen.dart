@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
@@ -12,7 +14,6 @@ import 'package:open_learning_smart_tv/presentation/main/search/search_screen.da
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
 import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
 
 class OLHomeScreen extends StatefulWidget {
@@ -89,9 +90,6 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                       return MultiBlocProvider(
                         providers: [
                           BlocProvider(
-                            create: (_) => getIt<SuggestionsCubit>(),
-                          ),
-                          BlocProvider(
                             create: (_) => getIt<SearchCubit>(),
                           ),
                         ],
@@ -113,11 +111,19 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                         ),
                       );
                     } else if (index == 2) {
-                      return IGTabNavigator(
-                        navigatorKey: exploreTabKey,
-                        tabRoute: 'routeKeyExplore',
-                        tabScreen: ExploreScreen(
-                          dynamicRoutes: widget.dynamicRoutes,
+                      final currentMenuRoute =
+                          widget.dynamicRoutes.firstWhereOrNull(
+                        (element) => element.routeName == 'visExplore',
+                      );
+                      return BlocProvider(
+                        create: (_) => getIt<DynamicAllContentCubit>()
+                          ..init(currentMenuRoute?.apiPath ?? ''),
+                        child: IGTabNavigator(
+                          navigatorKey: exploreTabKey,
+                          tabRoute: 'routeKeyExplore',
+                          tabScreen: ExploreScreen(
+                            dynamicRoutes: widget.dynamicRoutes,
+                          ),
                         ),
                       );
                     } else if (index == 3) {

@@ -3,6 +3,7 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
+
 import 'package:open_learning_smart_tv/presentation/splashscreen/splashscreen_page.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
 import 'package:flutter/material.dart';

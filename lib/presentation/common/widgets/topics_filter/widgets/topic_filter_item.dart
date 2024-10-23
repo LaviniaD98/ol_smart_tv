@@ -47,51 +47,51 @@ class _TopicFilterItemState extends State<TopicFilterItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
+    return InkWell(
       focusNode: focusNode,
       autofocus: false,
       onFocusChange: (value) => setState(() {}),
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: IntrinsicWidth(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SimpleShadow(
+      onTap: () {
+        widget.onTap();
+      },
+      child: IntrinsicWidth(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SimpleShadow(
+              color: focusNode.hasFocus || widget.isSelected
+                  ? OLColors.accentVariantA
+                  : OLColors.textPrimary,
+              offset: Offset.zero,
+              sigma: focusNode.hasFocus ? 10 : 0,
+              opacity: 1,
+              child: SvgPicture.network(
+                widget.path!,
+                height: 45,
+                width: 45,
+                colorFilter: ColorFilter.mode(
+                  focusNode.hasFocus || widget.isSelected
+                      ? OLColors.accentVariantA
+                      : OLColors.textPrimary,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+            const SizedBox(height: Dimens.spacingXS),
+            Text(
+              widget.label ?? 'Unknown',
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              style: AppTextTheme.body(
+                size: 22,
+                weight: FontWeight.w600,
                 color: focusNode.hasFocus || widget.isSelected
                     ? OLColors.accentVariantA
                     : OLColors.textPrimary,
-                offset: Offset.zero,
-                sigma: focusNode.hasFocus ? 10 : 0,
-                opacity: 1,
-                child: SvgPicture.network(
-                  widget.path!,
-                  height: 45,
-                  width: 45,
-                  colorFilter: ColorFilter.mode(
-                    focusNode.hasFocus || widget.isSelected
-                        ? OLColors.accentVariantA
-                        : OLColors.textPrimary,
-                    BlendMode.srcIn,
-                  ),
-                ),
               ),
-              const SizedBox(height: Dimens.spacingXS),
-              Text(
-                widget.label ?? 'Unknown',
-                maxLines: 1,
-                textAlign: TextAlign.center,
-                style: AppTextTheme.body(
-                  size: 22,
-                  weight: FontWeight.w600,
-                  color: focusNode.hasFocus || widget.isSelected
-                      ? OLColors.accentVariantA
-                      : OLColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

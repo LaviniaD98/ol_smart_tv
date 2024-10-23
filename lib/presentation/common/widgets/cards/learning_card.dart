@@ -11,6 +11,7 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../remote_theming/labels/remote_labels_keys.dart';
@@ -27,6 +28,7 @@ class LearningCard extends StatefulWidget {
   final bool isGridViewItem;
   final VoidCallback? returnFromDetailCallback;
   final void Function(bool)? onFocusChange;
+  final void Function()? onTap;
 
   const LearningCard({
     super.key,
@@ -38,6 +40,7 @@ class LearningCard extends StatefulWidget {
     this.isGridViewItem = false,
     this.returnFromDetailCallback,
     this.onFocusChange,
+    this.onTap,
   });
 
   @override
@@ -55,7 +58,8 @@ class _LearningCardState extends State<LearningCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Focus(
+    return InkWell(
+      onTap: widget.onTap,
       focusNode: focusNode,
       onFocusChange: (value) {
         widget.onFocusChange?.call(value);
@@ -105,9 +109,8 @@ class _LearningCardState extends State<LearningCard> {
                       }
                     }
                   : null,
-              child: AspectRatio(
-                aspectRatio: Dimens.learningCardRatio,
-                child: Stack(
+              child: Builder(builder: (context) {
+                final w = Stack(
                   fit: StackFit.expand,
                   children: [
                     OLImage(
@@ -221,7 +224,6 @@ class _LearningCardState extends State<LearningCard> {
                             const SizedBox(height: 8),
                             TopicList(
                               widget.data.topicTags ?? [],
-                              topicsLimit: 2,
                               color: ColorManager()
                                   .getColorSystemSecondary05()
                                   .withOpacity(.6),
@@ -236,8 +238,15 @@ class _LearningCardState extends State<LearningCard> {
                       child: _durationTag(),
                     )
                   ],
-                ),
-              ),
+                );
+                if (widget.isGridViewItem) {
+                  return w;
+                }
+                return AspectRatio(
+                  aspectRatio: Dimens.learningCardRatio,
+                  child: w,
+                );
+              }),
             ),
           ),
           if (widget.data.iconStatus != IconStatus.idle) ...[
@@ -313,24 +322,29 @@ class _LearningCardState extends State<LearningCard> {
 }
 
 class LearningCardShimmer extends StatelessWidget {
-  const LearningCardShimmer({super.key});
+  const LearningCardShimmer({
+    this.isGridViewItem = false,
+    super.key,
+  });
+
+  final bool isGridViewItem;
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: Dimens.learningCardRatio,
+    final w = Shimmer.fromColors(
+      baseColor: AppColors.white.withOpacity(.06),
+      highlightColor: AppColors.primaryFaded.withOpacity(0.5),
+      enabled: true,
+      period: const Duration(milliseconds: 1500),
       child: Container(
         clipBehavior: Clip.none,
-        margin: const EdgeInsets.only(bottom: 10, right: 24, left: 5),
+        margin: isGridViewItem
+            ? EdgeInsets.zero
+            : const EdgeInsets.only(bottom: 10, right: 24, left: 5),
         padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
           color: Colors.white.withOpacity(.2),
-          border: Border.all(
-            color: OLColors.border,
-            width: 1,
-            strokeAlign: BorderSide.strokeAlignOutside,
-          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -373,6 +387,14 @@ class LearningCardShimmer extends StatelessWidget {
           ],
         ),
       ),
+    );
+
+    if (isGridViewItem) {
+      return w;
+    }
+    return AspectRatio(
+      aspectRatio: Dimens.learningCardRatio,
+      child: w,
     );
   }
 }

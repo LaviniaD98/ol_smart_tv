@@ -144,7 +144,7 @@ class _CardModuloState extends State<CardModulo>
                                 children: [
                                   /// Type Label
                                   TextSpan(
-                                    text: 'Digitale'.toUpperCase(),
+                                    text: widget.tipoText.toUpperCase(),
                                     style: AppTextTheme.body(
                                       color: ColorManager()
                                           .getColorTextMandatory(),
@@ -160,7 +160,9 @@ class _CardModuloState extends State<CardModulo>
                                     ),
                                   ),
                                   TextSpan(
-                                    text: widget.tipoText.toUpperCase(),
+                                    text: widget.type
+                                        .getTranslatedValue()
+                                        .toUpperCase(),
                                     style: AppTextTheme.body(
                                       color:
                                           ColorManager().getColorTextPrimary(),

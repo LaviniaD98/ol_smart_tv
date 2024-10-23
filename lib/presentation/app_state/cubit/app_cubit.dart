@@ -88,17 +88,13 @@ class AppCubit extends Cubit<AppState> {
     _sharedPreferences.remove(SharedPreferencesKeys.onboardingFlag);
     _sharedPreferences.remove(SharedPreferencesKeys.tutorialFlag);
 
-    // TODO(UmbertoGrimaldi): HANDLE LOGOUT
-
-    // AppRouter.I.setRouter(
-    //   initial: CorporateCodePage.routeName.path,
-    //   dynamicRoutes: null,
-    //   showSessionPopup: showPopup,
-    // );
-    emit(AppState.initial(
+    emit(
+      AppState.initial(
         initialRoute: CorporateCodePage.routeName.path,
         date: DateTime.now(),
-        showPopup: showPopup));
+        showPopup: showPopup,
+      ),
+    );
   }
 
   bool isTutorialShown() {

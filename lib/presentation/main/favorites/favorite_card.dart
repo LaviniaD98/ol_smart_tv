@@ -110,7 +110,9 @@ class _FavoriteCardState extends State<FavoriteCard> {
                                 children: [
                                   /// Type Label
                                   TextSpan(
-                                    text: 'Digitale'.toUpperCase(),
+                                    text: widget.data.learningObjectType
+                                        .getTranslatedValue()
+                                        .toUpperCase(),
                                     style: AppTextTheme.body(
                                       color: ColorManager()
                                           .getColorTextMandatory(),
@@ -126,7 +128,8 @@ class _FavoriteCardState extends State<FavoriteCard> {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: widget.data.learningObjectType.name
+                                    text: widget.data.learningObjectTypology
+                                        .getTranslatedValue()
                                         .toUpperCase(),
                                     style: AppTextTheme.body(
                                       color:

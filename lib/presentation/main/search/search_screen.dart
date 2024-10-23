@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/learning_card.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/keyboard/onscreen_keyboard.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/search/cubit/best_rating_strip_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/search/cubit/search_history_manager.dart';
 import 'package:open_learning_smart_tv/presentation/search/widgets/local_suggestions.dart';
 import 'package:open_learning_smart_tv/presentation/search/widgets/suggestions.dart';
 import 'package:open_learning_smart_tv/presentation/wall/widgets/on_scroll_error.dart';
@@ -27,6 +33,10 @@ import 'package:scroll_to_index/scroll_to_index.dart';
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
+  static const placeholderApiPath =
+      "/learning-catalogue/{corporateId}/{initiativeId}/topRatedLearningObjects?pageNumber=0&pageSize=20";
+  // "/learning-catalogue/{corporateId}/{initiativeId}/topRatedLearningObjects?pageNumber={pageNumber}&pageSize={pageSize}&topics={topics}";
+
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
@@ -37,6 +47,7 @@ class _SearchScreenState extends State<SearchScreen>
   final focusNode = OlFocusScopeNode(id: 'Search');
   final textEditingController = TextEditingController();
   ValueNotifier<String> textNotifier = ValueNotifier<String>('');
+  ValueNotifier<String> searchTextNotifier = ValueNotifier<String>('');
 
   final autoScrollController = AutoScrollController(
     viewportBoundaryGetter: () => const Rect.fromLTRB(0, 340, 0, 0),
@@ -56,6 +67,8 @@ class _SearchScreenState extends State<SearchScreen>
   void initState() {
     super.initState();
     context.read<MainStateCubit>().searchFocusNode = focusNode;
+
+    print('search screen init: ${searchManager.suggestionsNotifier.value}');
   }
 
   @override
@@ -67,8 +80,19 @@ class _SearchScreenState extends State<SearchScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return BlocProvider(
-      create: (_) => getIt<SuggestionsCubit>()..localSuggestions(),
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BestRatingStripCubit>(
+          create: (_) => getIt<BestRatingStripCubit>()
+            ..fetch(
+              stripRow: const StripRow.visCarBestRating(
+                id: 10000001,
+                apiPath: SearchScreen.placeholderApiPath,
+              ),
+            ),
+        ),
+      ],
       child: ReactiveForm(
         formGroup: form,
         child: FocusTraversalGroup(
@@ -94,7 +118,7 @@ class _SearchScreenState extends State<SearchScreen>
                                 valueListenable: textNotifier,
                                 builder: (context, value, _) {
                                   return Text(
-                                    value.isEmpty ? 'Start Searching' : value,
+                                    value.isEmpty ? 'Inizia a cercare' : value,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppTextTheme.body(
@@ -122,9 +146,7 @@ class _SearchScreenState extends State<SearchScreen>
                                       form.reset();
                                       form.findControl('search')?.value = '';
                                       textNotifier.value = '';
-                                      context
-                                          .read<SuggestionsCubit>()
-                                          .localSuggestions();
+                                      context.read<SearchCubit>().onChanged('');
                                     },
                                   ),
                                 ],
@@ -161,18 +183,19 @@ class _SearchScreenState extends State<SearchScreen>
                         ),
                         const SizedBox(height: 40),
                         Expanded(
-                          child: BlocBuilder<SuggestionsCubit, List<String>>(
-                            builder: (context, state) {
+                          child: ValueListenableBuilder(
+                            valueListenable: searchManager.suggestionsNotifier,
+                            builder: (context, value, _) {
                               return LocalSuggestions(
-                                state,
-                                onDelete: () => context
-                                    .read<SuggestionsCubit>()
-                                    .localSuggestions(true),
+                                value,
+                                onDelete: () =>
+                                    searchManager.cleanHistorySearch(),
                                 onTap: (control) {
                                   form.findControl('search')?.value =
                                       control.trim();
-
                                   textNotifier.value = control.trim();
+                                  searchManager
+                                      .setSearchHistory(control.trim());
 
                                   context.read<SearchCubit>().onChanged('');
 
@@ -180,15 +203,7 @@ class _SearchScreenState extends State<SearchScreen>
                                     const Duration(milliseconds: 600),
                                     () {
                                       if (context.mounted) {
-                                        context.read<SearchCubit>()
-                                          ..resetPagingController()
-                                          ..initPagingController(
-                                            control.trim(),
-                                          );
-
-                                        context
-                                            .read<SuggestionsCubit>()
-                                            .setLocalSuggestions(text: control);
+                                        search();
                                       }
                                     },
                                   );
@@ -202,30 +217,71 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                   const SizedBox(width: Dimens.hViewPadding),
                   Expanded(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: AppTheme.backgroundGradient,
-                      ),
-                      child: BlocBuilder<SearchCubit, SearchState>(
-                        builder: (context, state) => state.maybeWhen(
-                          initial: (suggestions) {
-                            return const SizedBox.shrink();
-                          },
-                          suggestions: (items, search) {
-                            return Suggestions(items, search: search);
-                          },
-                          searchPaginated: () {
-                            return _searchPaginated(context);
-                          },
-                          error: _error,
-                          loading: () {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                          empty: _empty,
-                          orElse: () => const SizedBox.shrink(),
-                        ),
+                    child: BlocBuilder<SearchCubit, SearchState>(
+                      builder: (context, state) => state.maybeWhen(
+                        initial: (suggestions) {
+                          return BlocBuilder<BestRatingStripCubit,
+                              BestRatingStripState>(
+                            builder: (context, state) => state.map(
+                              success: (value) {
+                                return GridView.builder(
+                                  padding: const EdgeInsets.only(
+                                    left: Dimens.hViewPadding,
+                                    right: Dimens.hViewPadding - 24,
+                                    top: Dimens.spacingM,
+                                    bottom: 200,
+                                  ),
+                                  gridDelegate: getGridDelegate(),
+                                  itemCount: value.items.length,
+                                  itemBuilder: (context, index) {
+                                    final item = value.items[index];
+                                    return AutoScrollTag(
+                                      key: ValueKey(index),
+                                      controller: autoScrollController,
+                                      index: index,
+                                      child: CallbackShortcuts(
+                                        bindings: <ShortcutActivator,
+                                            VoidCallback>{
+                                          const SingleActivator(
+                                                  LogicalKeyboardKey.enter):
+                                              () => pushDetails(item: item),
+                                          const SingleActivator(
+                                                  LogicalKeyboardKey.select):
+                                              () => pushDetails(item: item),
+                                        },
+                                        child: LearningCard(
+                                          enable: item.isEnable ?? true,
+                                          data: item,
+                                          parentId: item.parentId.toString(),
+                                          grandParentId:
+                                              item.grandParentId.toString(),
+                                          isGridViewItem: true,
+                                          onFocusChange: (p0) {
+                                            if (p0) {
+                                              scrollToPosition(index);
+                                            }
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              loading: (value) => gridShimmer(),
+                              error: (_) => const SizedBox.shrink(),
+                            ),
+                          );
+                        },
+                        suggestions: (items, search) {
+                          return Suggestions(items, search: search);
+                        },
+                        searchPaginated: () {
+                          return _searchPaginated(context);
+                        },
+                        error: _error,
+                        loading: () => gridShimmer(),
+                        empty: _empty,
+                        orElse: () => const SizedBox.shrink(),
                       ),
                     ),
                   ),
@@ -236,6 +292,62 @@ class _SearchScreenState extends State<SearchScreen>
         ),
       ),
     );
+  }
+
+  void pushDetails({required LearningObjectModel item}) async {
+    final args = DetailPageArgs(
+      id: item.id.toString(),
+      object: item,
+      parentId: item.parentId?.toString(),
+      grandParentId: item.grandParentId?.toString(),
+      typology: item.learningObjectTypology,
+    );
+
+    manager.pushOnStack(
+      screen: BlocProvider(
+        create: (_) => getIt<DetailPageCubit>()..init(args),
+        child: DetailPage(args: args),
+      ),
+    );
+  }
+
+  Widget gridShimmer() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 140.0),
+      child: GridView.builder(
+        padding: const EdgeInsets.only(
+          left: Dimens.hViewPadding,
+          right: Dimens.hViewPadding - 24,
+          top: Dimens.spacingM,
+          bottom: 200,
+        ),
+        gridDelegate: getGridDelegate(),
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return const LearningCardShimmer(
+            isGridViewItem: true,
+          );
+        },
+      ),
+    );
+  }
+
+  void search() {
+    final text = (form.findControl('search')?.value as String?) ?? '';
+
+    if (text.isEmpty) {
+      return;
+    }
+    searchTextNotifier.value = text;
+    context.read<SearchCubit>().search(text);
+
+    searchManager.setSearchHistory(text);
+  }
+
+  void clearSearch() {
+    searchTextNotifier.value = '';
+    textNotifier.value = '';
+    context.read<SearchCubit>().onChanged('');
   }
 
   Widget buildKeyboard() {
@@ -252,6 +364,8 @@ class _SearchScreenState extends State<SearchScreen>
                 if (side == TraversalDirection.left) {
                   final focus = context.read<MainStateCubit>().state;
                   focus.requestFocus();
+                } else {
+                  focusNode.focusInDirection(side);
                 }
               },
               value: value,
@@ -261,7 +375,7 @@ class _SearchScreenState extends State<SearchScreen>
                 final text = (txt ?? '').trim();
                 textNotifier.value = text;
                 form.findControl('search')?.value = text;
-                context.read<SearchCubit>().onChanged(text);
+                //search(text);
               },
             );
           },
@@ -283,17 +397,7 @@ class _SearchScreenState extends State<SearchScreen>
             foregroundColor: OLColors.backgroundPrimary,
             width: 120,
             outline: true,
-            onPressed: form.valid
-                ? () {
-                    final text =
-                        (form.findControl('search')?.value as String?) ?? '';
-
-                    context.read<SearchCubit>().initPagingController(text);
-                    context
-                        .read<SuggestionsCubit>()
-                        .setLocalSuggestions(text: text);
-                  }
-                : null,
+            onPressed: form.valid ? () => search() : null,
           );
         },
       ),
@@ -315,12 +419,7 @@ class _SearchScreenState extends State<SearchScreen>
               top: Dimens.spacingM,
               bottom: 200,
             ),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 2,
-              mainAxisSpacing: 24,
-              crossAxisSpacing: 12,
-            ),
+            gridDelegate: getGridDelegate(),
             builderDelegate: PagedChildBuilderDelegate<LearningObjectModel>(
               itemBuilder: (context, item, index) {
                 return AutoScrollTag(
@@ -361,9 +460,15 @@ class _SearchScreenState extends State<SearchScreen>
             pagingController: cubit.controller!,
           ),
         ),
-        ListHeaderTitle(
-          title: 'Risultati per',
-          searchTitle: form.findControl('search')?.value,
+        ValueListenableBuilder(
+          valueListenable: searchTextNotifier,
+          builder: (context, value, _) {
+            return ListHeaderTitle(
+              title: 'Risultati per',
+              searchTitle: value,
+              showGradient: false,
+            );
+          },
         ),
       ],
     );
@@ -376,6 +481,15 @@ class _SearchScreenState extends State<SearchScreen>
     await autoScrollController.scrollToIndex(
       index,
       preferPosition: AutoScrollPosition.begin,
+    );
+  }
+
+  SliverGridDelegate getGridDelegate() {
+    return const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      childAspectRatio: 1.8,
+      mainAxisSpacing: 32,
+      crossAxisSpacing: 24,
     );
   }
 

@@ -382,16 +382,10 @@ import 'package:open_learning_smart_tv/domain/use_cases/progress/get_progress_go
     as _i485;
 import 'package:open_learning_smart_tv/domain/use_cases/rating/rating_use_case.dart'
     as _i26;
-import 'package:open_learning_smart_tv/domain/use_cases/search/clean_local_suggestions_use_case.dart'
-    as _i741;
-import 'package:open_learning_smart_tv/domain/use_cases/search/get_local_suggestions_use_case.dart'
-    as _i606;
 import 'package:open_learning_smart_tv/domain/use_cases/search/get_search_results_use_case.dart'
     as _i664;
 import 'package:open_learning_smart_tv/domain/use_cases/search/get_suggestions_use_case.dart'
     as _i1003;
-import 'package:open_learning_smart_tv/domain/use_cases/search/set_local_suggestions_use_case.dart'
-    as _i0;
 import 'package:open_learning_smart_tv/domain/use_cases/self/set_privacyconsent_use_case.dart'
     as _i596;
 import 'package:open_learning_smart_tv/domain/use_cases/session/check_session_use_case.dart'
@@ -538,10 +532,10 @@ import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_reset_pa
     as _i1023;
 import 'package:open_learning_smart_tv/presentation/pwd_reset/cubit/pwd_set_old_page_cubit.dart'
     as _i114;
+import 'package:open_learning_smart_tv/presentation/search/cubit/best_rating_strip_cubit.dart'
+    as _i409;
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart'
     as _i131;
-import 'package:open_learning_smart_tv/presentation/search/cubit/suggestions_cubit.dart'
-    as _i544;
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart'
     as _i810;
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart'
@@ -619,12 +613,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i623.SetSkipTutorialUseCase(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i959.GetSkipTutorialUseCase>(
         () => _i959.GetSkipTutorialUseCase(gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i741.CleanLocalSuggestionsUseCase>(() =>
-        _i741.CleanLocalSuggestionsUseCase(gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i606.GetLocalSuggestionsUseCase>(
-        () => _i606.GetLocalSuggestionsUseCase(gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i0.SetLocalSuggestionsUseCase>(
-        () => _i0.SetLocalSuggestionsUseCase(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i256.RemoveStoredDownloadContentInfoUseCase>(() =>
         _i256.RemoveStoredDownloadContentInfoUseCase(
             gh<_i460.SharedPreferences>()));
@@ -699,11 +687,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i2.OnboardingManagerCubit>(() => _i2.OnboardingManagerCubit(
           gh<_i492.GetStoredUserSelfUseCase>(),
           gh<_i838.GetSkipOnboardingUseCase>(),
-        ));
-    gh.factory<_i544.SuggestionsCubit>(() => _i544.SuggestionsCubit(
-          gh<_i606.GetLocalSuggestionsUseCase>(),
-          gh<_i0.SetLocalSuggestionsUseCase>(),
-          gh<_i741.CleanLocalSuggestionsUseCase>(),
         ));
     gh.lazySingleton<_i1064.OpenidConfigDataSource>(() =>
         _i260.OpenidConfigDataSourceImpl(
@@ -1254,6 +1237,8 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i427.GetContinueLearningStripUseCase>()));
     gh.lazySingleton<_i976.FavouritesStripCubit>(
         () => _i976.FavouritesStripCubit(gh<_i783.GetStandardStripUseCase>()));
+    gh.lazySingleton<_i409.BestRatingStripCubit>(
+        () => _i409.BestRatingStripCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.lazySingleton<_i934.AddFavouritesUseCase>(
         () => _i934.AddFavouritesUseCase(
               gh<_i179.DetailRepository>(),

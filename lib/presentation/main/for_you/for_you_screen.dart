@@ -54,6 +54,7 @@ class _ForYouScreenState extends State<ForYouScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
@@ -77,7 +78,7 @@ class _ForYouScreenState extends State<ForYouScreen>
             child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
               listener: (context, state) {
                 state.maybeWhen(
-                  success: (_) {},
+                  success: (_, filters) {},
                   loading: () {},
                   error: (f) {},
                   orElse: () {},
@@ -85,7 +86,7 @@ class _ForYouScreenState extends State<ForYouScreen>
               },
               listenWhen: (previous, current) {
                 return current.maybeWhen(
-                  success: (_) => true,
+                  success: (_, filters) => true,
                   orElse: () => false,
                 );
               },

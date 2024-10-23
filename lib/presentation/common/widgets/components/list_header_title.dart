@@ -8,10 +8,12 @@ class ListHeaderTitle extends StatelessWidget {
     super.key,
     required this.title,
     this.searchTitle,
+    this.showGradient = true,
   });
 
   final String title;
   final String? searchTitle;
+  final bool showGradient;
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +27,19 @@ class ListHeaderTitle extends StatelessWidget {
               left: Dimens.hViewPadding,
               right: Dimens.hViewPadding,
             ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.8, 1],
-                colors: [
-                  OLColors.backgroundPrimary,
-                  OLColors.backgroundPrimary.withOpacity(0),
-                ],
-              ),
-            ),
+            decoration: showGradient
+                ? BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: const [0.8, 1],
+                      colors: [
+                        OLColors.backgroundPrimary,
+                        OLColors.backgroundPrimary.withOpacity(0),
+                      ],
+                    ),
+                  )
+                : null,
             child: RichText(
               text: TextSpan(
                 style: AppTextTheme.body(

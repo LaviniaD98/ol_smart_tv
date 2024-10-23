@@ -249,7 +249,7 @@ class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
               return Padding(
                 padding: const EdgeInsets.only(right: 56),
                 child: TopicFilterItem(
-                  onTap: () => widget.onTap(widget.topics[index].id),
+                  onTap: () => widget.onTap(widget.topics[index]),
                   path: widget.topics[index].url?.publicUrl,
                   isSelected: false,
                   label: widget.topics[index].name,
@@ -265,6 +265,6 @@ class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
 }
 
 typedef OnTapReload = Function(List<String>);
-typedef OnTapNavigation = Function(int?);
+typedef OnTapNavigation = Function(TopicModel?);
 
 enum TopicsFilterListType { navigation, reload }

@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
-import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
@@ -69,60 +68,67 @@ class _ExploreScreenState extends State<ExploreScreen>
 
     return Scaffold(
       backgroundColor: OLColors.backgroundPrimary,
-      body: BlocProvider(
-        create: (_) => getIt<DynamicAllContentCubit>()
-          ..init(currentMenuRoute?.apiPath ?? ''),
-        child: RefreshIndicator(
-          color: ColorManager().getColorTextPrimaryCta(),
-          backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
-          onRefresh: () => context.read<DynamicAllContentCubit>().refresh(
-                currentMenuRoute?.apiPath ?? '',
-              ),
+      body: RefreshIndicator(
+        color: ColorManager().getColorTextPrimaryCta(),
+        backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
+        onRefresh: () => context.read<DynamicAllContentCubit>().refresh(
+              currentMenuRoute?.apiPath ?? '',
+            ),
 
-          /// Dynamic Strip
-          child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
-            listener: (context, state) {
-              state.maybeWhen(
-                success: (_) {},
-                loading: () {},
-                error: (f) {},
-                orElse: () {},
+        /// Dynamic Strip
+        child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
+          listener: (context, state) {
+            state.maybeWhen(
+              success: (_, filters) {},
+              loading: () {},
+              error: (f) {},
+              orElse: () {},
+            );
+          },
+          listenWhen: (previous, current) {
+            return current.maybeWhen(
+              success: (_, filters) => true,
+              orElse: () => false,
+            );
+          },
+          builder: (context, state) => state.map(
+            success: (success) {
+              final items = List<Map<StripRow, List<LearningObjectModel>>>.from(
+                  success.rowItems ?? []);
+              bool hasTopics = items.any(
+                (e) =>
+                    e.entries.firstOrNull?.key.labelMapping == 'topicsFilter',
               );
-            },
-            listenWhen: (previous, current) {
-              return current.maybeWhen(
-                success: (_) => true,
-                orElse: () => false,
-              );
-            },
-            builder: (context, state) => state.map(
-              success: (success) {
-                // success.page.strips.insert(
-                //   1,
-                //   const StripRow.smartLearning(
-                //     id: 0000001,
-                //     apiPath: '',
-                //     labelMapping: 'topicsFilter',
-                //   ),
-                // );
+              if (!hasTopics) {
+                const topicsStrip = StripRow.smartLearning(
+                  id: 0000001,
+                  apiPath: '',
+                  labelMapping: 'topicsFilter',
+                );
 
-                return _stripRows(success);
-              },
-              loading: (value) => const Center(
-                child: CircularProgressIndicator(),
+                final map = {topicsStrip: <LearningObjectModel>[]};
+                items.insert(1, map);
+              }
+
+              items.removeWhere(
+                  (element) => element.entries.firstOrNull == null);
+
+              return _stripRows(items);
+            },
+            loading: (value) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (value) => ErrorScreen(
+              title: LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.error,
               ),
-              error: (value) => ErrorScreen(
-                title: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.error,
-                ),
-                message: value.failure.error ??
-                    LabelsManager().getRemoteStringFromLabelKeys(
-                      RemoteLabelKeys.error_occurred,
-                    ),
-                onReload: () => context.read<DynamicAllContentCubit>().init(
-                      currentMenuRoute?.apiPath ?? '',
-                    ),
-              ),
+              message: value.failure.error ??
+                  LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.error_occurred,
+                  ),
+              onReload: () => context.read<DynamicAllContentCubit>().init(
+                    currentMenuRoute?.apiPath ?? '',
+                  ),
             ),
           ),
         ),
@@ -130,10 +136,7 @@ class _ExploreScreenState extends State<ExploreScreen>
     );
   }
 
-  Widget _stripRows(Success value) {
-    final source = List<Map<StripRow, List<LearningObjectModel>>>.from(
-        value.rowItems ?? []);
-    source.removeWhere((element) => element.entries.firstOrNull == null);
+  Widget _stripRows(List<Map<StripRow, List<LearningObjectModel>>> source) {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowUp): () {
@@ -228,7 +231,15 @@ class _ExploreScreenState extends State<ExploreScreen>
         order: NumericFocusOrder(index.toDouble()),
         child: Padding(
           padding: const EdgeInsets.only(top: 58.0, bottom: 28),
-          child: TopicsFilterList.navigation(onTap: (value) {}),
+          child: TopicsFilterList.navigation(
+            onTap: (value) {
+              if (value != null) {
+                context.read<DynamicAllContentCubit>()
+                  ..setFilters([value.id.toString()])
+                  ..getAllRows();
+              }
+            },
+          ),
         ),
       );
     } else if (row.key.labelMapping == 'visCarTrainingTransversal') {

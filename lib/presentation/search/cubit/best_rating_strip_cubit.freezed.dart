@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'dynamic_all_content_cubit.dart';
+part of 'best_rating_strip_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,33 +15,30 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$DynamicAllContentState {
+mixin _$BestRatingStripState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)
+            List<LearningObjectModel> items, List<String>? filters)
         success,
     required TResult Function() loading,
-    required TResult Function(Failure failure) error,
+    required TResult Function() error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult? Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult? Function()? loading,
-    TResult? Function(Failure failure)? error,
+    TResult? Function()? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult Function()? loading,
-    TResult Function(Failure failure)? error,
+    TResult Function()? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -70,24 +67,24 @@ mixin _$DynamicAllContentState {
 }
 
 /// @nodoc
-abstract class $DynamicAllContentStateCopyWith<$Res> {
-  factory $DynamicAllContentStateCopyWith(DynamicAllContentState value,
-          $Res Function(DynamicAllContentState) then) =
-      _$DynamicAllContentStateCopyWithImpl<$Res, DynamicAllContentState>;
+abstract class $BestRatingStripStateCopyWith<$Res> {
+  factory $BestRatingStripStateCopyWith(BestRatingStripState value,
+          $Res Function(BestRatingStripState) then) =
+      _$BestRatingStripStateCopyWithImpl<$Res, BestRatingStripState>;
 }
 
 /// @nodoc
-class _$DynamicAllContentStateCopyWithImpl<$Res,
-        $Val extends DynamicAllContentState>
-    implements $DynamicAllContentStateCopyWith<$Res> {
-  _$DynamicAllContentStateCopyWithImpl(this._value, this._then);
+class _$BestRatingStripStateCopyWithImpl<$Res,
+        $Val extends BestRatingStripState>
+    implements $BestRatingStripStateCopyWith<$Res> {
+  _$BestRatingStripStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -97,32 +94,30 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call(
-      {List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-      List<String>? filters});
+  $Res call({List<LearningObjectModel> items, List<String>? filters});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$BestRatingStripStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? rowItems = freezed,
+    Object? items = null,
     Object? filters = freezed,
   }) {
     return _then(_$SuccessImpl(
-      rowItems: freezed == rowItems
-          ? _value._rowItems
-          : rowItems // ignore: cast_nullable_to_non_nullable
-              as List<Map<StripRow, List<LearningObjectModel>>>?,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<LearningObjectModel>,
       filters: freezed == filters
           ? _value._filters
           : filters // ignore: cast_nullable_to_non_nullable
@@ -133,21 +128,19 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
+class _$SuccessImpl implements Success {
   const _$SuccessImpl(
-      {final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+      {required final List<LearningObjectModel> items,
       final List<String>? filters})
-      : _rowItems = rowItems,
+      : _items = items,
         _filters = filters;
 
-  final List<Map<StripRow, List<LearningObjectModel>>>? _rowItems;
+  final List<LearningObjectModel> _items;
   @override
-  List<Map<StripRow, List<LearningObjectModel>>>? get rowItems {
-    final value = _rowItems;
-    if (value == null) return null;
-    if (_rowItems is EqualUnmodifiableListView) return _rowItems;
+  List<LearningObjectModel> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_items);
   }
 
   final List<String>? _filters;
@@ -161,17 +154,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   }
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.success(rowItems: $rowItems, filters: $filters)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DynamicAllContentState.success'))
-      ..add(DiagnosticsProperty('rowItems', rowItems))
-      ..add(DiagnosticsProperty('filters', filters));
+  String toString() {
+    return 'BestRatingStripState.success(items: $items, filters: $filters)';
   }
 
   @override
@@ -179,17 +163,17 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other._rowItems, _rowItems) &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
             const DeepCollectionEquality().equals(other._filters, _filters));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_rowItems),
+      const DeepCollectionEquality().hash(_items),
       const DeepCollectionEquality().hash(_filters));
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -201,39 +185,36 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)
+            List<LearningObjectModel> items, List<String>? filters)
         success,
     required TResult Function() loading,
-    required TResult Function(Failure failure) error,
+    required TResult Function() error,
   }) {
-    return success(rowItems, filters);
+    return success(items, filters);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult? Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult? Function()? loading,
-    TResult? Function(Failure failure)? error,
+    TResult? Function()? error,
   }) {
-    return success?.call(rowItems, filters);
+    return success?.call(items, filters);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult Function()? loading,
-    TResult Function(Failure failure)? error,
+    TResult Function()? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(rowItems, filters);
+      return success(items, filters);
     }
     return orElse();
   }
@@ -273,15 +254,15 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   }
 }
 
-abstract class Success implements DynamicAllContentState {
+abstract class Success implements BestRatingStripState {
   const factory Success(
-      {final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+      {required final List<LearningObjectModel> items,
       final List<String>? filters}) = _$SuccessImpl;
 
-  List<Map<StripRow, List<LearningObjectModel>>>? get rowItems;
+  List<LearningObjectModel> get items;
   List<String>? get filters;
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -297,31 +278,24 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$BestRatingStripStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
+class _$LoadingImpl implements Loading {
   const _$LoadingImpl();
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.loading()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty('type', 'DynamicAllContentState.loading'));
+  String toString() {
+    return 'BestRatingStripState.loading()';
   }
 
   @override
@@ -337,11 +311,10 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)
+            List<LearningObjectModel> items, List<String>? filters)
         success,
     required TResult Function() loading,
-    required TResult Function(Failure failure) error,
+    required TResult Function() error,
   }) {
     return loading();
   }
@@ -349,11 +322,10 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult? Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult? Function()? loading,
-    TResult? Function(Failure failure)? error,
+    TResult? Function()? error,
   }) {
     return loading?.call();
   }
@@ -361,11 +333,10 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult Function()? loading,
-    TResult Function(Failure failure)? error,
+    TResult Function()? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -409,7 +380,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   }
 }
 
-abstract class Loading implements DynamicAllContentState {
+abstract class Loading implements BestRatingStripState {
   const factory Loading() = _$LoadingImpl;
 }
 
@@ -418,111 +389,73 @@ abstract class _$$ErrorImplCopyWith<$Res> {
   factory _$$ErrorImplCopyWith(
           _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
       __$$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Failure failure});
 }
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$BestRatingStripStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of BestRatingStripState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$ErrorImpl(
-      null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
-  const _$ErrorImpl(this.failure);
+class _$ErrorImpl implements Error {
+  const _$ErrorImpl();
 
   @override
-  final Failure failure;
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.error(failure: $failure)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'DynamicAllContentState.error'))
-      ..add(DiagnosticsProperty('failure', failure));
+  String toString() {
+    return 'BestRatingStripState.error()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
+        (other.runtimeType == runtimeType && other is _$ErrorImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, failure);
-
-  /// Create a copy of DynamicAllContentState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)
+            List<LearningObjectModel> items, List<String>? filters)
         success,
     required TResult Function() loading,
-    required TResult Function(Failure failure) error,
+    required TResult Function() error,
   }) {
-    return error(failure);
+    return error();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult? Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult? Function()? loading,
-    TResult? Function(Failure failure)? error,
+    TResult? Function()? error,
   }) {
-    return error?.call(failure);
+    return error?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters)?
+    TResult Function(List<LearningObjectModel> items, List<String>? filters)?
         success,
     TResult Function()? loading,
-    TResult Function(Failure failure)? error,
+    TResult Function()? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(failure);
+      return error();
     }
     return orElse();
   }
@@ -562,14 +495,6 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   }
 }
 
-abstract class Error implements DynamicAllContentState {
-  const factory Error(final Failure failure) = _$ErrorImpl;
-
-  Failure get failure;
-
-  /// Create a copy of DynamicAllContentState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class Error implements BestRatingStripState {
+  const factory Error() = _$ErrorImpl;
 }

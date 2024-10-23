@@ -30,7 +30,6 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   ) : super(const DynamicAllContentState.loading());
 
   void init(String path, [List<String>? filters, bool debug = false]) async {
-    emit(const DynamicAllContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
       (l) {
@@ -45,8 +44,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
           page: page,
         );
 
-        final v = await getAllRows();
-        emit(DynamicAllContentState.success(rowItems: v));
+        await getAllRows();
       },
     );
   }
@@ -56,6 +54,8 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     if (dynamicContent == null) {
       return [];
     }
+
+    emit(const DynamicAllContentState.loading());
 
     final List<Map<StripRow, List<LearningObjectModel>>> mappedList = [];
 
@@ -69,6 +69,8 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     for (final element in allStrips) {
       mappedList.add(element);
     }
+
+    emit(DynamicAllContentState.success(rowItems: mappedList));
     return mappedList;
   }
 
@@ -98,13 +100,13 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
 
   Future<void> refresh(String path) async {
     if (state is Success) {
-      // final current = (state as Success);
+      final current = (state as Success);
       emit(const DynamicAllContentState.loading());
       final res = await _getPageStructureUseCase(path);
       res.fold(
         (l) => emit(DynamicAllContentState.error(l)),
         (page) async {
-          // emit(current.copyWith(filters: [...?current.filters]));
+          emit(current.copyWith(filters: [...?current.filters]));
         },
       );
     } else {
@@ -113,7 +115,8 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   }
 
   void setFilters([List<String>? filters]) async {
-    // emit((state as Success).copyWith(filters: [...?filters]));
+    dynamicContent?.filters = filters;
+    emit((state as Success).copyWith(filters: [...?filters]));
   }
 }
 

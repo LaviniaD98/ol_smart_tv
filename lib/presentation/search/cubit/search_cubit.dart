@@ -33,38 +33,62 @@ class SearchCubit extends Cubit<SearchState> {
   void onChanged(String text) async {
     _timer?.cancel();
     if (text.length >= 3) {
-      _getSuggestions(text);
+      //   _getSuggestions(text);
     } else {
       emit(const SearchState.empty());
     }
   }
 
   void initPagingController(String searchText) async {
-    if (controller == null) {
-      controller = PagingController(firstPageKey: 0);
+    if (searchText.isEmpty) {
+      return;
+    }
+
+    controller ??= PagingController(firstPageKey: 0);
+    controller?.addPageRequestListener((pageKey) {
+      _search(searchText, pageKey);
+    });
+    emit(const SearchState.searchPaginated());
+  }
+
+  void search(String searchText) async {
+    if (searchText.isEmpty) {
+      return;
+    }
+
+    if (controller != null) {
+      resetPagingController();
+      controller ??= PagingController(firstPageKey: 0);
+      _search(searchText, 0);
+    } else {
+      controller ??= PagingController(firstPageKey: 0);
       controller?.addPageRequestListener((pageKey) {
         _search(searchText, pageKey);
       });
-      emit(const SearchState.searchPaginated());
     }
+
+    emit(const SearchState.searchPaginated());
   }
 
-  void _getSuggestions(String text) async {
-    _timer = Timer(const Duration(milliseconds: 500), () async {
-      emit(const SearchState.loading());
-      resetPagingController();
-      final res = await _getSuggestionsUseCase(text);
-      res.fold((l) {
-        emit(SearchState.error(l));
-      }, (r) {
-        if (r.isNotEmpty) {
-          emit(SearchState.suggestions(r, text));
-        } else {
-          emit(SearchState.empty(text));
-        }
-      });
-    });
-  }
+  // void _getSuggestions(String text) async {
+  //   _timer = Timer(
+  //     const Duration(milliseconds: 500),
+  //     () async {
+  //       emit(const SearchState.loading());
+  //       resetPagingController();
+  //       final res = await _getSuggestionsUseCase(text);
+  //       res.fold((l) {
+  //         emit(SearchState.error(l));
+  //       }, (r) {
+  //         if (r.isNotEmpty) {
+  //           emit(SearchState.suggestions(r, text));
+  //         } else {
+  //           emit(SearchState.empty(text));
+  //         }
+  //       });
+  //     },
+  //   );
+  // }
 
   void resetPagingController() {
     if (controller != null) {
@@ -94,6 +118,8 @@ class SearchCubit extends Cubit<SearchState> {
       page: page,
       pageSize: pageSize,
     );
+
+    print('res-------$res');
 
     res.fold((l) {
       controller?.error = l.error;
