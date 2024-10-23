@@ -78,7 +78,7 @@ class _ForYouScreenState extends State<ForYouScreen>
             child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
               listener: (context, state) {
                 state.maybeWhen(
-                  success: (_, filters) {},
+                  success: (c, _, filters, refreshing) {},
                   loading: () {},
                   error: (f) {},
                   orElse: () {},
@@ -86,7 +86,7 @@ class _ForYouScreenState extends State<ForYouScreen>
               },
               listenWhen: (previous, current) {
                 return current.maybeWhen(
-                  success: (_, filters) => true,
+                  success: (c, _, filters, refreshing) => true,
                   orElse: () => false,
                 );
               },

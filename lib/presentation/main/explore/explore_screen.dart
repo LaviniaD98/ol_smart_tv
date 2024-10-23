@@ -4,19 +4,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
-import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/topics_filter/topics_filter_list.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_strips_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/cubit/standard_strip_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/strip_row_content.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_carousel.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/object_details_view.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
-import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class ExploreScreen extends StatefulWidget {
@@ -40,6 +42,8 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   ValueNotifier<LearningObjectModel?> focusedObjectNotifier =
       ValueNotifier(null);
+
+  ValueNotifier<List<String>> filtersNotifier = ValueNotifier([]);
 
   bool isScrolling = false;
 
@@ -68,67 +72,134 @@ class _ExploreScreenState extends State<ExploreScreen>
 
     return Scaffold(
       backgroundColor: OLColors.backgroundPrimary,
-      body: RefreshIndicator(
-        color: ColorManager().getColorTextPrimaryCta(),
-        backgroundColor: ColorManager().getColorBackgroundPrimaryLighter(),
-        onRefresh: () => context.read<DynamicAllContentCubit>().refresh(
-              currentMenuRoute?.apiPath ?? '',
-            ),
-
-        /// Dynamic Strip
-        child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
-          listener: (context, state) {
-            state.maybeWhen(
-              success: (_, filters) {},
-              loading: () {},
-              error: (f) {},
-              orElse: () {},
-            );
-          },
-          listenWhen: (previous, current) {
-            return current.maybeWhen(
-              success: (_, filters) => true,
-              orElse: () => false,
-            );
-          },
-          builder: (context, state) => state.map(
-            success: (success) {
-              final items = List<Map<StripRow, List<LearningObjectModel>>>.from(
-                  success.rowItems ?? []);
-              bool hasTopics = items.any(
-                (e) =>
-                    e.entries.firstOrNull?.key.labelMapping == 'topicsFilter',
-              );
-              if (!hasTopics) {
-                const topicsStrip = StripRow.smartLearning(
-                  id: 0000001,
-                  apiPath: '',
-                  labelMapping: 'topicsFilter',
-                );
-
-                final map = {topicsStrip: <LearningObjectModel>[]};
-                items.insert(1, map);
+      body: BlocProvider(
+        create: (context) => getIt<ExploreStripsCubit>(),
+        child: CallbackShortcuts(
+          bindings: <ShortcutActivator, VoidCallback>{
+            const SingleActivator(LogicalKeyboardKey.arrowUp): () {
+              if (isScrolling) {
+                return;
               }
 
-              items.removeWhere(
-                  (element) => element.entries.firstOrNull == null);
-
-              return _stripRows(items);
+              _policy.previous(_focusNode);
             },
-            loading: (value) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (value) => ErrorScreen(
-              title: LabelsManager().getRemoteStringFromLabelKeys(
-                RemoteLabelKeys.error,
+            const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+              if (isScrolling) {
+                return;
+              }
+              _policy.next(_focusNode);
+            },
+          },
+          child: FocusTraversalGroup(
+            key: LabeledGlobalKey('FocusTraversalGroup - Main'),
+            policy: _policy,
+            child: FocusScope(
+              node: _focusNode,
+              onFocusChange: (value) {
+                if (!value) {
+                  focusedObjectNotifier.value = null;
+                }
+              },
+              child: RefreshIndicator(
+                color: ColorManager().getColorTextPrimaryCta(),
+                backgroundColor:
+                    ColorManager().getColorBackgroundPrimaryLighter(),
+                onRefresh: () => context.read<DynamicAllContentCubit>().refresh(
+                      currentMenuRoute?.apiPath ?? '',
+                    ),
+                child: BlocConsumer<ExploreContentCubit, ExploreContentState>(
+                  listenWhen: (previous, current) => previous != current,
+                  listener: (context, state) {
+                    state.when(
+                      success: (success, v, c, a, strios, d) {
+                        if (strios != null) {
+                          context
+                              .read<ExploreStripsCubit>()
+                              .init(strips: strios);
+                        }
+                      },
+                      loading: () {},
+                      error: (e) {},
+                    );
+                  },
+                  builder: (context, state) {
+                    return state.map(
+                      success: (success) {
+                        return Stack(
+                          children: [
+                            CustomScrollView(
+                              controller: autoScrollController,
+                              slivers: [
+                                if (success.exploreCarousel != null) ...[
+                                  BlocProvider(
+                                    create: (context) =>
+                                        getIt<StandardStripCubit>()
+                                          ..fetch(
+                                              strip: success.exploreCarousel),
+                                    child: BlocBuilder<StandardStripCubit,
+                                        StandardStripState>(
+                                      builder: (context, state) => state.map(
+                                        success: (value) {
+                                          return SliverToBoxAdapter(
+                                            child: AutoScrollTag(
+                                              key: const ValueKey(0),
+                                              controller: autoScrollController,
+                                              index: 0,
+                                              child: itemBuilder(
+                                                r: {
+                                                  success.exploreCarousel!:
+                                                      value.items
+                                                },
+                                                index: 0,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        loading: (value) =>
+                                            const SliverToBoxAdapter(
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                        ),
+                                        error: (_) => const SliverToBoxAdapter(
+                                            child: SizedBox.shrink()),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                                buildFilterRow(),
+                                buildOtherStrips(strips: success.strips ?? []),
+                              ],
+                            ),
+                            Positioned(
+                              left: 0,
+                              right: 0,
+                              top: 0,
+                              child:
+                                  ValueListenableBuilder<LearningObjectModel?>(
+                                valueListenable: focusedObjectNotifier,
+                                builder: (context, value, _) {
+                                  return AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: focusedObjectNotifier.value != null
+                                        ? 1
+                                        : 0,
+                                    child: ObjectDetailsView(value: value),
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                      loading: (value) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      error: (value) => const SizedBox.shrink(),
+                    );
+                  },
+                ),
               ),
-              message: value.failure.error ??
-                  LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.error_occurred,
-                  ),
-              onReload: () => context.read<DynamicAllContentCubit>().init(
-                    currentMenuRoute?.apiPath ?? '',
-                  ),
             ),
           ),
         ),
@@ -136,66 +207,138 @@ class _ExploreScreenState extends State<ExploreScreen>
     );
   }
 
-  Widget _stripRows(List<Map<StripRow, List<LearningObjectModel>>> source) {
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.arrowUp): () {
-          if (isScrolling) {
-            return;
-          }
+  Widget buildFilterRow() {
+    return SliverToBoxAdapter(
+      child: AutoScrollTag(
+        key: const ValueKey(1),
+        controller: autoScrollController,
+        index: 1,
+        child: FocusTraversalOrder(
+          order: const NumericFocusOrder(1),
+          child: ValueListenableBuilder(
+              valueListenable: filtersNotifier,
+              builder: (context, filters, _) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 58.0, bottom: 28),
+                  child: TopicsFilterList.navigation(
+                    initialFilters: filters,
+                    onFocusChanged: (p0) {
+                      if (p0) {
+                        focusedObjectNotifier.value = null;
+                        scrollToPosition(1);
+                      }
+                    },
+                    onTap: (value) {
+                      if (value != null) {
+                        final f = List<String>.from(filters);
+                        if (f.contains(value.id.toString())) {
+                          f.remove(value.id.toString());
+                        } else {
+                          f.add(value.id.toString());
+                        }
 
-          _policy.previous(_focusNode);
-        },
-        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-          if (isScrolling) {
-            return;
-          }
-          _policy.next(_focusNode);
-        },
+                        print('FILTERS: $f');
+                        context
+                            .read<ExploreStripsCubit>()
+                            .refreshStrips(filters: f);
+
+                        filtersNotifier.value = List.from(f);
+                      }
+                    },
+                  ),
+                );
+              }),
+        ),
+      ),
+    );
+  }
+
+  Widget buildOtherStrips({required List<StripRow> strips}) {
+    if (strips.isEmpty) {
+      return const SliverToBoxAdapter();
+    }
+    return BlocConsumer<ExploreStripsCubit, ExploreStripsState>(
+      listener: (context, state) {
+        state.maybeWhen(
+          success: (_, filters, refreshing) {},
+          loading: () {},
+          error: (f) {},
+          orElse: () {},
+        );
       },
-      child: FocusTraversalGroup(
-        key: LabeledGlobalKey('FocusTraversalGroup - Main'),
-        policy: _policy,
-        child: FocusScope(
-          node: _focusNode,
-          onFocusChange: (value) {
-            if (!value) {
-              focusedObjectNotifier.value = null;
-            }
-          },
-          child: Stack(
-            children: [
-              ListView.builder(
-                controller: autoScrollController,
-                itemCount: source.length,
-                padding: const EdgeInsets.only(bottom: 800),
-                itemBuilder: (context, index) {
-                  return AutoScrollTag(
-                    key: ValueKey(index),
-                    controller: autoScrollController,
-                    index: index,
-                    child: itemBuilder(r: source[index], index: index),
-                  );
-                },
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
-                child: ValueListenableBuilder<LearningObjectModel?>(
-                  valueListenable: focusedObjectNotifier,
-                  builder: (context, value, _) {
-                    return AnimatedOpacity(
-                      duration: const Duration(milliseconds: 200),
-                      opacity: focusedObjectNotifier.value != null ? 1 : 0,
-                      child: ObjectDetailsView(value: value),
-                    );
-                  },
-                ),
-              ),
-            ],
+      listenWhen: (previous, current) {
+        return current.maybeWhen(
+          success: (_, filters, refreshing) => true,
+          orElse: () => false,
+        );
+      },
+      builder: (context, state) => state.map(
+        success: (success) {
+          final items = List<Map<StripRow, List<LearningObjectModel>>>.from(
+            success.rowItems ?? [],
+          );
+
+          items.removeWhere((element) => element.entries.firstOrNull == null);
+
+          print('ITEMS: ${success.filters}');
+
+          return _stripRows(
+            source: items,
+            filters: success.filters,
+          );
+        },
+        loading: (value) => SliverToBoxAdapter(
+          child: Container(
+            height: 100,
+            width: 500,
+            color: Colors.red,
           ),
         ),
+        error: (value) => const SliverToBoxAdapter(),
+      ),
+    );
+  }
+
+  Widget _stripRows({
+    required List<Map<StripRow, List<LearningObjectModel>>> source,
+    List<String>? filters,
+  }) {
+    int delta = 2; // 1 represents the topics row
+
+    if (source.isEmpty) {
+      return SliverToBoxAdapter(
+        child: Container(
+          height: 100,
+          width: 600,
+          padding: const EdgeInsets.symmetric(
+              vertical: 30, horizontal: Dimens.hPadding),
+          child: Text(
+            'Nessun Risultato con i filtri selezionati',
+            style: AppTextTheme.subtitle(
+              weight: FontWeight.w500,
+              color: ColorManager().getColorTextPrimary(),
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 800),
+      sliver: SliverList.builder(
+        itemCount: source.length,
+        itemBuilder: (context, index) {
+          return AutoScrollTag(
+            key: ValueKey(index + delta),
+            controller: autoScrollController,
+            index: index + delta,
+            child: itemBuilder(
+              r: source[index],
+              index: index + delta,
+            ),
+          );
+        },
       ),
     );
   }
@@ -221,22 +364,6 @@ class _ExploreScreenState extends State<ExploreScreen>
               if (p0) {
                 focusedObjectNotifier.value = null;
                 scrollToPosition(index);
-              }
-            },
-          ),
-        ),
-      );
-    } else if (row.key.labelMapping == 'topicsFilter') {
-      return FocusTraversalOrder(
-        order: NumericFocusOrder(index.toDouble()),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 58.0, bottom: 28),
-          child: TopicsFilterList.navigation(
-            onTap: (value) {
-              if (value != null) {
-                context.read<DynamicAllContentCubit>()
-                  ..setFilters([value.id.toString()])
-                  ..getAllRows();
               }
             },
           ),

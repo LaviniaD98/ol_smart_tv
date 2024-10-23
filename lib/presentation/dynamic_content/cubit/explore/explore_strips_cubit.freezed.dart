@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'dynamic_all_content_cubit.dart';
+part of 'explore_strips_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,11 +15,10 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$DynamicAllContentState {
+mixin _$ExploreStripsState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
             List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
             List<String>? filters,
             bool? refreshingStrips)
@@ -30,11 +29,8 @@ mixin _$DynamicAllContentState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult? Function()? loading,
     TResult? Function(Failure failure)? error,
@@ -42,11 +38,8 @@ mixin _$DynamicAllContentState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult Function()? loading,
     TResult Function(Failure failure)? error,
@@ -78,24 +71,23 @@ mixin _$DynamicAllContentState {
 }
 
 /// @nodoc
-abstract class $DynamicAllContentStateCopyWith<$Res> {
-  factory $DynamicAllContentStateCopyWith(DynamicAllContentState value,
-          $Res Function(DynamicAllContentState) then) =
-      _$DynamicAllContentStateCopyWithImpl<$Res, DynamicAllContentState>;
+abstract class $ExploreStripsStateCopyWith<$Res> {
+  factory $ExploreStripsStateCopyWith(
+          ExploreStripsState value, $Res Function(ExploreStripsState) then) =
+      _$ExploreStripsStateCopyWithImpl<$Res, ExploreStripsState>;
 }
 
 /// @nodoc
-class _$DynamicAllContentStateCopyWithImpl<$Res,
-        $Val extends DynamicAllContentState>
-    implements $DynamicAllContentStateCopyWith<$Res> {
-  _$DynamicAllContentStateCopyWithImpl(this._value, this._then);
+class _$ExploreStripsStateCopyWithImpl<$Res, $Val extends ExploreStripsState>
+    implements $ExploreStripsStateCopyWith<$Res> {
+  _$ExploreStripsStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -106,35 +98,29 @@ abstract class _$$SuccessImplCopyWith<$Res> {
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
   $Res call(
-      {Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-      List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+      {List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
       List<String>? filters,
       bool? refreshingStrips});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$ExploreStripsStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? exploreCarousel = freezed,
     Object? rowItems = freezed,
     Object? filters = freezed,
     Object? refreshingStrips = freezed,
   }) {
     return _then(_$SuccessImpl(
-      exploreCarousel: freezed == exploreCarousel
-          ? _value._exploreCarousel
-          : exploreCarousel // ignore: cast_nullable_to_non_nullable
-              as Map<StripRow, List<LearningObjectModel>>?,
       rowItems: freezed == rowItems
           ? _value._rowItems
           : rowItems // ignore: cast_nullable_to_non_nullable
@@ -155,23 +141,11 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
 class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   const _$SuccessImpl(
-      {final Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-      final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+      {final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
       final List<String>? filters,
       this.refreshingStrips})
-      : _exploreCarousel = exploreCarousel,
-        _rowItems = rowItems,
+      : _rowItems = rowItems,
         _filters = filters;
-
-  final Map<StripRow, List<LearningObjectModel>>? _exploreCarousel;
-  @override
-  Map<StripRow, List<LearningObjectModel>>? get exploreCarousel {
-    final value = _exploreCarousel;
-    if (value == null) return null;
-    if (_exploreCarousel is EqualUnmodifiableMapView) return _exploreCarousel;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
 
   final List<Map<StripRow, List<LearningObjectModel>>>? _rowItems;
   @override
@@ -198,15 +172,14 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.success(exploreCarousel: $exploreCarousel, rowItems: $rowItems, filters: $filters, refreshingStrips: $refreshingStrips)';
+    return 'ExploreStripsState.success(rowItems: $rowItems, filters: $filters, refreshingStrips: $refreshingStrips)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'DynamicAllContentState.success'))
-      ..add(DiagnosticsProperty('exploreCarousel', exploreCarousel))
+      ..add(DiagnosticsProperty('type', 'ExploreStripsState.success'))
       ..add(DiagnosticsProperty('rowItems', rowItems))
       ..add(DiagnosticsProperty('filters', filters))
       ..add(DiagnosticsProperty('refreshingStrips', refreshingStrips));
@@ -217,8 +190,6 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality()
-                .equals(other._exploreCarousel, _exploreCarousel) &&
             const DeepCollectionEquality().equals(other._rowItems, _rowItems) &&
             const DeepCollectionEquality().equals(other._filters, _filters) &&
             (identical(other.refreshingStrips, refreshingStrips) ||
@@ -228,12 +199,11 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      const DeepCollectionEquality().hash(_exploreCarousel),
       const DeepCollectionEquality().hash(_rowItems),
       const DeepCollectionEquality().hash(_filters),
       refreshingStrips);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -245,7 +215,6 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
             List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
             List<String>? filters,
             bool? refreshingStrips)
@@ -253,39 +222,33 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
     required TResult Function() loading,
     required TResult Function(Failure failure) error,
   }) {
-    return success(exploreCarousel, rowItems, filters, refreshingStrips);
+    return success(rowItems, filters, refreshingStrips);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult? Function()? loading,
     TResult? Function(Failure failure)? error,
   }) {
-    return success?.call(exploreCarousel, rowItems, filters, refreshingStrips);
+    return success?.call(rowItems, filters, refreshingStrips);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult Function()? loading,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(exploreCarousel, rowItems, filters, refreshingStrips);
+      return success(rowItems, filters, refreshingStrips);
     }
     return orElse();
   }
@@ -325,19 +288,17 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements Success {
   }
 }
 
-abstract class Success implements DynamicAllContentState {
+abstract class Success implements ExploreStripsState {
   const factory Success(
-      {final Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-      final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+      {final List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
       final List<String>? filters,
       final bool? refreshingStrips}) = _$SuccessImpl;
 
-  Map<StripRow, List<LearningObjectModel>>? get exploreCarousel;
   List<Map<StripRow, List<LearningObjectModel>>>? get rowItems;
   List<String>? get filters;
   bool? get refreshingStrips;
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -353,13 +314,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$ExploreStripsStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -370,14 +331,13 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.loading()';
+    return 'ExploreStripsState.loading()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties
-        .add(DiagnosticsProperty('type', 'DynamicAllContentState.loading'));
+    properties.add(DiagnosticsProperty('type', 'ExploreStripsState.loading'));
   }
 
   @override
@@ -393,7 +353,6 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
             List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
             List<String>? filters,
             bool? refreshingStrips)
@@ -407,11 +366,8 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult? Function()? loading,
     TResult? Function(Failure failure)? error,
@@ -422,11 +378,8 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult Function()? loading,
     TResult Function(Failure failure)? error,
@@ -473,7 +426,7 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements Loading {
   }
 }
 
-abstract class Loading implements DynamicAllContentState {
+abstract class Loading implements ExploreStripsState {
   const factory Loading() = _$LoadingImpl;
 }
 
@@ -488,13 +441,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$DynamicAllContentStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$ExploreStripsStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -520,14 +473,14 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'DynamicAllContentState.error(failure: $failure)';
+    return 'ExploreStripsState.error(failure: $failure)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'DynamicAllContentState.error'))
+      ..add(DiagnosticsProperty('type', 'ExploreStripsState.error'))
       ..add(DiagnosticsProperty('failure', failure));
   }
 
@@ -542,7 +495,7 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   int get hashCode => Object.hash(runtimeType, failure);
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -554,7 +507,6 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
             List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
             List<String>? filters,
             bool? refreshingStrips)
@@ -568,11 +520,8 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult? Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult? Function()? loading,
     TResult? Function(Failure failure)? error,
@@ -583,11 +532,8 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            Map<StripRow, List<LearningObjectModel>>? exploreCarousel,
-            List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
-            List<String>? filters,
-            bool? refreshingStrips)?
+    TResult Function(List<Map<StripRow, List<LearningObjectModel>>>? rowItems,
+            List<String>? filters, bool? refreshingStrips)?
         success,
     TResult Function()? loading,
     TResult Function(Failure failure)? error,
@@ -634,12 +580,12 @@ class _$ErrorImpl with DiagnosticableTreeMixin implements Error {
   }
 }
 
-abstract class Error implements DynamicAllContentState {
+abstract class Error implements ExploreStripsState {
   const factory Error(final Failure failure) = _$ErrorImpl;
 
   Failure get failure;
 
-  /// Create a copy of DynamicAllContentState
+  /// Create a copy of ExploreStripsState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

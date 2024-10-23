@@ -22,6 +22,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   final GetStoredSmartConfigurationUseCase _getStoredSmartConfigurationUseCase;
 
   DynamicLocalContent? dynamicContent;
+  Map<StripRow, List<LearningObjectModel>>? exploreCarousel;
 
   DynamicAllContentCubit(
     this._getPageStructureUseCase,
@@ -49,8 +50,10 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     );
   }
 
-  Future<List<Map<StripRow, List<LearningObjectModel>>>> getAllRows(
-      {bool debug = false}) async {
+  Future<List<Map<StripRow, List<LearningObjectModel>>>> getAllRows({
+    bool debug = false,
+    bool excludeExploreBigCarousel = false,
+  }) async {
     if (dynamicContent == null) {
       return [];
     }
@@ -67,15 +70,66 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
     final allStrips = await Future.wait([...allStripsFuture]);
 
     for (final element in allStrips) {
+      if (element.keys.firstOrNull?.labelMapping == 'sliderTopContentExplore') {
+        exploreCarousel = element;
+      } else {
+        mappedList.add(element);
+      }
+    }
+
+    emit(DynamicAllContentState.success(
+      rowItems: mappedList,
+      exploreCarousel: exploreCarousel,
+    ));
+    return mappedList;
+  }
+
+  Future<List<Map<StripRow, List<LearningObjectModel>>>> refreshStrips({
+    bool debug = false,
+    List<String>? filters,
+  }) async {
+    if (dynamicContent == null) {
+      return [];
+    }
+
+    emit(
+      DynamicAllContentState.success(
+        rowItems: [],
+        exploreCarousel: exploreCarousel,
+        filters: filters,
+        refreshingStrips: true,
+      ),
+    );
+
+    final List<Map<StripRow, List<LearningObjectModel>>> mappedList = [];
+
+    final stripsToFetch =
+        List<StripRow>.from(dynamicContent?.page.strips ?? <StripRow>[])
+          ..removeWhere(
+            (element) => element.labelMapping == 'sliderTopContentExplore',
+          );
+
+    final allStripsFuture = stripsToFetch.map((strip) {
+      return fetch(strip: strip, filters: filters);
+    }).toList();
+
+    final allStrips = await Future.wait([...allStripsFuture]);
+
+    for (final element in allStrips) {
       mappedList.add(element);
     }
 
-    emit(DynamicAllContentState.success(rowItems: mappedList));
+    emit(DynamicAllContentState.success(
+      rowItems: mappedList,
+      exploreCarousel: exploreCarousel,
+      filters: filters,
+    ));
     return mappedList;
   }
 
   Future<Map<StripRow, List<LearningObjectModel>>> fetch({
     StripRow? strip,
+    List<String>? filters,
     bool debug = false,
   }) async {
     if (strip == null) {
@@ -86,7 +140,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
 
     final res = await _getSuggestedStripUseCase(
       strip: strip,
-      filters: dynamicContent?.filters,
+      filters: filters,
     );
 
     res.fold((l) {}, (r) {

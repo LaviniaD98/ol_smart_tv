@@ -494,6 +494,10 @@ import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynami
     as _i692;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_content_cubit.dart'
     as _i913;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_content_cubit.dart'
+    as _i924;
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_strips_cubit.dart'
+    as _i642;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart'
     as _i110;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/onboarding/cubit/onboarding_manager_cubit.dart'
@@ -1210,6 +1214,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i531.GetPageStructureUseCase>(),
           gh<_i306.GetStoredSmartConfigurationUseCase>(),
         ));
+    gh.factory<_i924.ExploreContentCubit>(() => _i924.ExploreContentCubit(
+          gh<_i531.GetPageStructureUseCase>(),
+          gh<_i306.GetStoredSmartConfigurationUseCase>(),
+        ));
     gh.factory<_i455.WebViewPageCubit>(() => _i455.WebViewPageCubit(
           gh<_i1001.Env>(),
           gh<_i832.GetSecureStoredUserInfoUseCase>(),
@@ -1343,6 +1351,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i450.StandardStripCubit>(
         () => _i450.StandardStripCubit(gh<_i783.GetStandardStripUseCase>()));
+    gh.factory<_i642.ExploreStripsCubit>(
+        () => _i642.ExploreStripsCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.factory<_i389.LogoHeaderCubit>(() => _i389.LogoHeaderCubit(
           gh<_i552.GetUserImageUseCase>(),
           gh<_i832.GetSecureStoredUserInfoUseCase>(),

@@ -1,7 +1,12 @@
+import 'dart:math';
+
+import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/dependency_injection/dependency_injection.dart';
 import '../../../../domain/entities/topics/topic_model.dart';
@@ -11,13 +16,14 @@ import '../../../../theme/app_theme.dart';
 import 'cubit/topics_filter_cubit.dart';
 import 'widgets/topic_filter_item.dart';
 
-class TopicsFilterList extends StatelessWidget {
+class TopicsFilterList extends StatefulWidget {
   static const _padding = EdgeInsets.symmetric(horizontal: 20);
 
   final TopicsFilterListType type;
   final List<String>? initialFilters;
   final OnTapReload? onReload;
   final OnTapNavigation? onTap;
+  final void Function(bool)? onFocusChanged;
 
   const TopicsFilterList._({
     super.key,
@@ -25,32 +31,44 @@ class TopicsFilterList extends StatelessWidget {
     required this.type,
     this.onReload,
     this.onTap,
+    this.onFocusChanged,
   });
 
   factory TopicsFilterList.reload({
     Key? key,
     List<String>? initialFilters,
     required OnTapReload onTapReload,
+    void Function(bool)? onFocusChanged,
   }) {
     return TopicsFilterList._(
       key: key,
       initialFilters: initialFilters,
       type: TopicsFilterListType.reload,
       onReload: onTapReload,
+      onFocusChanged: onFocusChanged,
     );
   }
 
   factory TopicsFilterList.navigation({
     Key? key,
     required OnTapNavigation onTap,
+    void Function(bool)? onFocusChanged,
+    List<String>? initialFilters,
   }) {
     return TopicsFilterList._(
       key: key,
       type: TopicsFilterListType.navigation,
       onTap: onTap,
+      onFocusChanged: onFocusChanged,
+      initialFilters: initialFilters,
     );
   }
 
+  @override
+  State<TopicsFilterList> createState() => _TopicsFilterListState();
+}
+
+class _TopicsFilterListState extends State<TopicsFilterList> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -62,17 +80,19 @@ class TopicsFilterList extends StatelessWidget {
             loading: () => _shimmerLoader,
             success: (topics) {
               if (topics.isNotEmpty) {
-                return switch (type) {
+                return switch (widget.type) {
                   TopicsFilterListType.navigation => _TopicsFilterNavigation(
                       key: const ValueKey('_TopicsFilterNavigation'),
                       topics: topics,
-                      onTap: onTap!,
+                      selectedTopicIds: widget.initialFilters ?? [],
+                      onTap: widget.onTap!,
+                      onFocusChanged: widget.onFocusChanged,
                     ),
                   TopicsFilterListType.reload => _TopicsFilterReload(
                       key: const ValueKey('_TopicsFilterReload'),
-                      initialFilters: initialFilters,
+                      initialFilters: widget.initialFilters,
                       topics: topics,
-                      onTapReload: onReload!,
+                      onTapReload: widget.onReload!,
                     ),
                 };
               } else {
@@ -98,7 +118,7 @@ class TopicsFilterList extends StatelessWidget {
           height: Dimens.learningCardHeight,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: _padding,
+            padding: TopicsFilterList._padding,
             physics: const NeverScrollableScrollPhysics(),
             separatorBuilder: (context, index) =>
                 const SizedBox(width: Dimens.spacingM),
@@ -207,9 +227,16 @@ class _TopicsFilterReloadState extends State<_TopicsFilterReload> {
 class _TopicsFilterNavigation extends StatefulWidget {
   final OnTapNavigation onTap;
   final List<TopicModel> topics;
+  final List<String> selectedTopicIds;
+  final void Function(bool)? onFocusChanged;
 
-  const _TopicsFilterNavigation(
-      {super.key, required this.onTap, required this.topics});
+  const _TopicsFilterNavigation({
+    super.key,
+    required this.onTap,
+    required this.topics,
+    required this.selectedTopicIds,
+    this.onFocusChanged,
+  });
 
   @override
   State<_TopicsFilterNavigation> createState() =>
@@ -218,6 +245,15 @@ class _TopicsFilterNavigation extends StatefulWidget {
 
 class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
   late OlFocusScopeNode focusNode;
+
+  final autoScrollController = AutoScrollController(
+    viewportBoundaryGetter: () =>
+        const Rect.fromLTRB(Dimens.hViewPadding + 200, 0, 0, 0),
+    axis: Axis.horizontal,
+  );
+  int currentFocusIndex = 0;
+
+  final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
 
   @override
   void initState() {
@@ -233,33 +269,73 @@ class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
 
   @override
   Widget build(BuildContext context) {
-    return FocusScope(
-      node: focusNode,
-      child: Padding(
-        key: widget.key,
-        padding: const EdgeInsets.only(bottom: 30 + Dimens.spacingM),
-        child: SizedBox(
-          height: 100,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            separatorBuilder: (context, index) =>
-                const SizedBox(width: Dimens.spacingM),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 56),
-                child: TopicFilterItem(
-                  onTap: () => widget.onTap(widget.topics[index]),
-                  path: widget.topics[index].url?.publicUrl,
-                  isSelected: false,
-                  label: widget.topics[index].name,
-                ),
-              );
-            },
-            itemCount: widget.topics.length,
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          if (currentFocusIndex > 0) {
+            _policy.previous(focusNode);
+          } else {
+            final focus = context.read<MainStateCubit>().state;
+            focus.requestFocus();
+          }
+        },
+        const SingleActivator(LogicalKeyboardKey.arrowRight): () {
+          if (currentFocusIndex < widget.topics.length - 1) {
+            _policy.next(focusNode);
+          }
+        },
+      },
+      child: FocusScope(
+        node: focusNode,
+        onFocusChange: widget.onFocusChanged,
+        child: Padding(
+          key: widget.key,
+          padding: const EdgeInsets.only(bottom: 30 + Dimens.spacingM),
+          child: SizedBox(
+            height: 100,
+            child: ListView.separated(
+              controller: autoScrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              separatorBuilder: (context, index) =>
+                  const SizedBox(width: Dimens.spacingM),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                final topic = widget.topics[index];
+                return AutoScrollTag(
+                  key: ValueKey(index),
+                  controller: autoScrollController,
+                  index: index,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 56),
+                    child: TopicFilterItem(
+                      onTap: () => widget.onTap(topic),
+                      onFocusChange: (p0) {
+                        if (p0) {
+                          scrollToPosition(index);
+                        }
+                      },
+                      path: topic.url?.publicUrl,
+                      isSelected: widget.selectedTopicIds
+                          .any((e) => e == topic.id.toString()),
+                      label: topic.name,
+                    ),
+                  ),
+                );
+              },
+              itemCount: widget.topics.length,
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> scrollToPosition(int index) async {
+    print('-----index: $index');
+    currentFocusIndex = index;
+    await autoScrollController.scrollToIndex(
+      index,
+      preferPosition: AutoScrollPosition.begin,
     );
   }
 }

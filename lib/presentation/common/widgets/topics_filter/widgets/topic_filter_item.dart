@@ -16,6 +16,7 @@ class TopicFilterItem extends StatefulWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final EdgeInsets? padding;
+  final void Function(bool)? onFocusChange;
 
   const TopicFilterItem({
     super.key,
@@ -24,6 +25,7 @@ class TopicFilterItem extends StatefulWidget {
     this.label,
     this.path,
     this.padding,
+    this.onFocusChange,
   });
 
   @override
@@ -50,7 +52,10 @@ class _TopicFilterItemState extends State<TopicFilterItem> {
     return InkWell(
       focusNode: focusNode,
       autofocus: false,
-      onFocusChange: (value) => setState(() {}),
+      onFocusChange: (value) {
+        widget.onFocusChange?.call(value);
+        setState(() {});
+      },
       onTap: () {
         widget.onTap();
       },

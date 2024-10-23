@@ -5,6 +5,7 @@ import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
@@ -115,9 +116,17 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                           widget.dynamicRoutes.firstWhereOrNull(
                         (element) => element.routeName == 'visExplore',
                       );
-                      return BlocProvider(
-                        create: (_) => getIt<DynamicAllContentCubit>()
-                          ..init(currentMenuRoute?.apiPath ?? ''),
+                      return MultiBlocProvider(
+                        providers: [
+                          BlocProvider(
+                            create: (_) => getIt<DynamicAllContentCubit>()
+                              ..init(currentMenuRoute?.apiPath ?? ''),
+                          ),
+                          BlocProvider(
+                            create: (_) => getIt<ExploreContentCubit>()
+                              ..init(currentMenuRoute?.apiPath ?? ''),
+                          ),
+                        ],
                         child: IGTabNavigator(
                           navigatorKey: exploreTabKey,
                           tabRoute: 'routeKeyExplore',
