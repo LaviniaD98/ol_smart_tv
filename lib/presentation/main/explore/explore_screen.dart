@@ -131,40 +131,8 @@ class _ExploreScreenState extends State<ExploreScreen>
                               controller: autoScrollController,
                               slivers: [
                                 if (success.exploreCarousel != null) ...[
-                                  BlocProvider(
-                                    create: (context) =>
-                                        getIt<StandardStripCubit>()
-                                          ..fetch(
-                                              strip: success.exploreCarousel),
-                                    child: BlocBuilder<StandardStripCubit,
-                                        StandardStripState>(
-                                      builder: (context, state) => state.map(
-                                        success: (value) {
-                                          return SliverToBoxAdapter(
-                                            child: AutoScrollTag(
-                                              key: const ValueKey(0),
-                                              controller: autoScrollController,
-                                              index: 0,
-                                              child: itemBuilder(
-                                                r: {
-                                                  success.exploreCarousel!:
-                                                      value.items
-                                                },
-                                                index: 0,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        loading: (value) =>
-                                            const SliverToBoxAdapter(
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                        ),
-                                        error: (_) => const SliverToBoxAdapter(
-                                            child: SizedBox.shrink()),
-                                      ),
-                                    ),
+                                  buildExploreBigCarousel(
+                                    exploreCarousel: success.exploreCarousel,
                                   ),
                                 ],
                                 buildFilterRow(),
@@ -207,6 +175,39 @@ class _ExploreScreenState extends State<ExploreScreen>
     );
   }
 
+  Widget buildExploreBigCarousel({required StripRow? exploreCarousel}) {
+    return BlocProvider(
+      create: (context) =>
+          getIt<StandardStripCubit>()..fetch(strip: exploreCarousel),
+      child: BlocBuilder<StandardStripCubit, StandardStripState>(
+        builder: (context, state) => state.map(
+          success: (value) {
+            return SliverToBoxAdapter(
+              child: AutoScrollTag(
+                key: const ValueKey(0),
+                controller: autoScrollController,
+                index: 0,
+                child: itemBuilder(
+                  r: {exploreCarousel!: value.items},
+                  index: 0,
+                ),
+              ),
+            );
+          },
+          loading: (value) {
+            return SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50.0),
+                child: ExploreCarousel.shimmerLoader(),
+              ),
+            );
+          },
+          error: (_) => const SliverToBoxAdapter(child: SizedBox.shrink()),
+        ),
+      ),
+    );
+  }
+
   Widget buildFilterRow() {
     return SliverToBoxAdapter(
       child: AutoScrollTag(
@@ -218,34 +219,30 @@ class _ExploreScreenState extends State<ExploreScreen>
           child: ValueListenableBuilder(
               valueListenable: filtersNotifier,
               builder: (context, filters, _) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 58.0, bottom: 28),
-                  child: TopicsFilterList.navigation(
-                    initialFilters: filters,
-                    onFocusChanged: (p0) {
-                      if (p0) {
-                        focusedObjectNotifier.value = null;
-                        scrollToPosition(1);
+                return TopicsFilterList.navigation(
+                  initialFilters: filters,
+                  onFocusChanged: (p0) {
+                    if (p0) {
+                      focusedObjectNotifier.value = null;
+                      scrollToPosition(1);
+                    }
+                  },
+                  onTap: (value) {
+                    if (value != null) {
+                      final f = List<String>.from(filters);
+                      if (f.contains(value.id.toString())) {
+                        f.remove(value.id.toString());
+                      } else {
+                        f.add(value.id.toString());
                       }
-                    },
-                    onTap: (value) {
-                      if (value != null) {
-                        final f = List<String>.from(filters);
-                        if (f.contains(value.id.toString())) {
-                          f.remove(value.id.toString());
-                        } else {
-                          f.add(value.id.toString());
-                        }
 
-                        print('FILTERS: $f');
-                        context
-                            .read<ExploreStripsCubit>()
-                            .refreshStrips(filters: f);
+                      context
+                          .read<ExploreStripsCubit>()
+                          .refreshStrips(filters: f);
 
-                        filtersNotifier.value = List.from(f);
-                      }
-                    },
-                  ),
+                      filtersNotifier.value = List.from(f);
+                    }
+                  },
                 );
               }),
         ),
@@ -280,18 +277,20 @@ class _ExploreScreenState extends State<ExploreScreen>
 
           items.removeWhere((element) => element.entries.firstOrNull == null);
 
-          print('ITEMS: ${success.filters}');
+          print('ITEMS: ${success.refreshingStrips}');
 
           return _stripRows(
             source: items,
             filters: success.filters,
+            refreshingStrips: success.refreshingStrips ?? false,
           );
         },
         loading: (value) => SliverToBoxAdapter(
-          child: Container(
-            height: 100,
-            width: 500,
-            color: Colors.red,
+          child: Column(
+            children: [
+              StripRowContent.shimmerLoader(),
+              StripRowContent.shimmerLoader(),
+            ],
           ),
         ),
         error: (value) => const SliverToBoxAdapter(),
@@ -302,8 +301,20 @@ class _ExploreScreenState extends State<ExploreScreen>
   Widget _stripRows({
     required List<Map<StripRow, List<LearningObjectModel>>> source,
     List<String>? filters,
+    required bool refreshingStrips,
   }) {
     int delta = 2; // 1 represents the topics row
+
+    if (refreshingStrips) {
+      return SliverToBoxAdapter(
+        child: Column(
+          children: [
+            StripRowContent.shimmerLoader(),
+            StripRowContent.shimmerLoader(),
+          ],
+        ),
+      );
+    }
 
     if (source.isEmpty) {
       return SliverToBoxAdapter(

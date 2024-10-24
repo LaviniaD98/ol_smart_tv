@@ -15,7 +15,6 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_prograss_bar.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/icon_text.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
@@ -325,62 +324,6 @@ class _FavoriteCardState extends State<FavoriteCard> {
       icon: Icons.watch_later_outlined,
       iconSize: 24,
     );
-  }
-
-  Widget get _backgroundImage {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        color: OLColors.backgroundCard,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: widget.data.coverPublicURL != null &&
-              widget.data.coverPublicURL!.isNotEmpty
-          ? CachedNetworkImage(
-              imageUrl: widget.data.coverPublicURL!,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) => DecoratedBox(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.05),
-                ),
-              ),
-            )
-          : DecoratedBox(
-              decoration: BoxDecoration(
-                color: AppColors.white.withOpacity(.05),
-              ),
-            ),
-    );
-  }
-
-  Border? get _borderForeground {
-    double width = 1.0;
-    switch (widget.data.iconStatus) {
-      case IconStatus.mandatory:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderAccent(),
-        );
-      case IconStatus.completed:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderSecondaryComplete(),
-        );
-      case IconStatus.expired:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderWarning(),
-        );
-      case IconStatus.suggestedAI:
-      case IconStatus.suggestedHR:
-        return Border.all(
-          width: width,
-          color: ColorManager().getColorBorderSecondaryComplete(),
-        );
-      case IconStatus.idle:
-      default:
-        return null;
-    }
   }
 
   Widget iconByCardStatus() {

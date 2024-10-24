@@ -59,8 +59,6 @@ class GetCalendarStripUseCase {
         .replaceFirst('{selectedDate}', DateFormat('yyyy-MM-dd').format(date))
         .replaceFirst('{startDate}', DateFormat('yyyy-MM-dd').format(start))
         .replaceFirst('{endDate}', DateFormat('yyyy-MM-dd').format(end));
-
-    print('path: $path');
     return await _stripRepository.getCalendarStrip(path);
   }
 

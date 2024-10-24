@@ -67,8 +67,6 @@ class _SearchScreenState extends State<SearchScreen>
   void initState() {
     super.initState();
     context.read<MainStateCubit>().searchFocusNode = focusNode;
-
-    print('search screen init: ${searchManager.suggestionsNotifier.value}');
   }
 
   @override

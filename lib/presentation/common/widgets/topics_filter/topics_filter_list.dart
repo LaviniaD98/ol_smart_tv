@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
@@ -112,8 +110,11 @@ class _TopicsFilterListState extends State<TopicsFilterList> {
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Container(
-        height: 60,
-        margin: const EdgeInsets.only(bottom: 16.0),
+        height: 120,
+        margin: const EdgeInsets.only(
+          bottom: 30 + Dimens.spacingM,
+          top: 58.0,
+        ),
         child: SizedBox(
           height: Dimens.learningCardHeight,
           child: ListView.separated(
@@ -290,9 +291,12 @@ class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
         onFocusChange: widget.onFocusChanged,
         child: Padding(
           key: widget.key,
-          padding: const EdgeInsets.only(bottom: 30 + Dimens.spacingM),
+          padding: const EdgeInsets.only(
+            bottom: 30 + Dimens.spacingM,
+            top: 58.0,
+          ),
           child: SizedBox(
-            height: 100,
+            height: 120,
             child: ListView.separated(
               controller: autoScrollController,
               padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -331,7 +335,6 @@ class _TopicsFilterNavigationState extends State<_TopicsFilterNavigation> {
   }
 
   Future<void> scrollToPosition(int index) async {
-    print('-----index: $index');
     currentFocusIndex = index;
     await autoScrollController.scrollToIndex(
       index,

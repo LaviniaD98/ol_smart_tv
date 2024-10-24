@@ -109,144 +109,148 @@ class _LearningCardState extends State<LearningCard> {
                       }
                     }
                   : null,
-              child: Builder(builder: (context) {
-                final w = Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    OLImage(
-                      imageURL: widget.data.coverPublicURL,
-                      cacheWidth: 400,
-                    ),
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      padding: const EdgeInsets.fromLTRB(Dimens.spacingXL,
-                          Dimens.spacingXS, Dimens.spacingM, Dimens.spacingM),
-                      decoration: BoxDecoration(
-                        border: _borderForeground,
-                        borderRadius: BorderRadius.circular(Dimens.radius),
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            ColorManager().getColorGradient05Start(),
-                            ColorManager().getColorGradient05End(),
+              child: Builder(
+                builder: (context) {
+                  final w = Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      OLImage(
+                        imageURL: widget.data.coverPublicURL,
+                        cacheWidth: 400,
+                      ),
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        padding: const EdgeInsets.fromLTRB(Dimens.spacingXL,
+                            Dimens.spacingXS, Dimens.spacingM, Dimens.spacingM),
+                        decoration: BoxDecoration(
+                          border: _borderForeground,
+                          borderRadius: BorderRadius.circular(Dimens.radius),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              ColorManager().getColorGradient05Start(),
+                              ColorManager().getColorGradient05End(),
+                            ],
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Spacer(),
+                            ((widget.data.isTest == null ||
+                                        widget.data.isSurvey == null) ||
+                                    (widget.data.isTest == false &&
+                                        widget.data.isSurvey == false))
+                                ? RichText(
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: widget.data.learningObjectType
+                                              .getTranslatedValue()
+                                              .toUpperCase(),
+                                          style: AppTextTheme.caption(
+                                            weight: FontWeight.w700,
+                                            color: ColorManager()
+                                                .getColorTextMandatory(),
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: ' | ',
+                                          style: AppTextTheme.caption(
+                                              weight: FontWeight.w700,
+                                              color: ColorManager()
+                                                  .getColorTextPrimary()),
+                                        ),
+                                        TextSpan(
+                                          text: widget
+                                              .data.learningObjectTypology
+                                              .getTranslatedValue()
+                                              .toUpperCase(),
+                                          style: AppTextTheme.caption(
+                                              weight: FontWeight.w700,
+                                              color: ColorManager()
+                                                  .getColorTextPrimary()),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 24.0,
+                                        height: 24.0,
+                                        child: SvgPicture.asset(
+                                          widget.data.isTest == true
+                                              ? "assets/icons/test_survey.svg"
+                                              : "assets/icons/survey.svg",
+                                        ),
+                                      ),
+                                      RichText(
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: widget.data.isTest == true
+                                                  ? LabelsManager()
+                                                      .getRemoteStringFromLabelKeys(
+                                                          RemoteLabelKeys.test)
+                                                  : LabelsManager()
+                                                      .getRemoteStringFromLabelKeys(
+                                                          RemoteLabelKeys
+                                                              .survey),
+                                              style: AppTextTheme.caption(
+                                                weight: FontWeight.w700,
+                                                color: ColorManager()
+                                                    .getColorSystemSecondary01(),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                            const SizedBox(height: 8),
+                            Text(
+                              widget.data.title ?? 'No title',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextTheme.body(
+                                  weight: FontWeight.w700,
+                                  size: 24,
+                                  color: ColorManager().getColorTextPrimary()),
+                            ),
+                            if ((widget.data.topicTags ?? []).isNotEmpty) ...[
+                              const SizedBox(height: 8),
+                              TopicList(
+                                widget.data.topicTags ?? [],
+                                color: ColorManager()
+                                    .getColorSystemSecondary05()
+                                    .withOpacity(.6),
+                              ),
+                            ],
                           ],
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Spacer(),
-                          ((widget.data.isTest == null ||
-                                      widget.data.isSurvey == null) ||
-                                  (widget.data.isTest == false &&
-                                      widget.data.isSurvey == false))
-                              ? RichText(
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: widget.data.learningObjectType
-                                            .getTranslatedValue()
-                                            .toUpperCase(),
-                                        style: AppTextTheme.caption(
-                                          weight: FontWeight.w700,
-                                          color: ColorManager()
-                                              .getColorTextMandatory(),
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: ' | ',
-                                        style: AppTextTheme.caption(
-                                            weight: FontWeight.w700,
-                                            color: ColorManager()
-                                                .getColorTextPrimary()),
-                                      ),
-                                      TextSpan(
-                                        text: widget.data.learningObjectTypology
-                                            .getTranslatedValue()
-                                            .toUpperCase(),
-                                        style: AppTextTheme.caption(
-                                            weight: FontWeight.w700,
-                                            color: ColorManager()
-                                                .getColorTextPrimary()),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 24.0,
-                                      height: 24.0,
-                                      child: SvgPicture.asset(
-                                        widget.data.isTest == true
-                                            ? "assets/icons/test_survey.svg"
-                                            : "assets/icons/survey.svg",
-                                      ),
-                                    ),
-                                    RichText(
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: widget.data.isTest == true
-                                                ? LabelsManager()
-                                                    .getRemoteStringFromLabelKeys(
-                                                        RemoteLabelKeys.test)
-                                                : LabelsManager()
-                                                    .getRemoteStringFromLabelKeys(
-                                                        RemoteLabelKeys.survey),
-                                            style: AppTextTheme.caption(
-                                              weight: FontWeight.w700,
-                                              color: ColorManager()
-                                                  .getColorSystemSecondary01(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                          const SizedBox(height: 8),
-                          Text(
-                            widget.data.title ?? 'No title',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextTheme.body(
-                                weight: FontWeight.w700,
-                                size: 24,
-                                color: ColorManager().getColorTextPrimary()),
-                          ),
-                          if ((widget.data.topicTags ?? []).isNotEmpty) ...[
-                            const SizedBox(height: 8),
-                            TopicList(
-                              widget.data.topicTags ?? [],
-                              color: ColorManager()
-                                  .getColorSystemSecondary05()
-                                  .withOpacity(.6),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                    Positioned(
-                      top: 16,
-                      right: 24,
-                      child: _durationTag(),
-                    )
-                  ],
-                );
-                if (widget.isGridViewItem) {
-                  return w;
-                }
-                return AspectRatio(
-                  aspectRatio: Dimens.learningCardRatio,
-                  child: w,
-                );
-              }),
+                      Positioned(
+                        top: 16,
+                        right: 24,
+                        child: _durationTag(),
+                      )
+                    ],
+                  );
+                  if (widget.isGridViewItem) {
+                    return w;
+                  }
+                  return AspectRatio(
+                    aspectRatio: Dimens.learningCardRatio,
+                    child: w,
+                  );
+                },
+              ),
             ),
           ),
           if (widget.data.iconStatus != IconStatus.idle) ...[
@@ -332,8 +336,8 @@ class LearningCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.06),
-      highlightColor: AppColors.primaryFaded.withOpacity(0.5),
+      baseColor: AppColors.white.withOpacity(.1),
+      highlightColor: AppColors.primaryFaded.withOpacity(0.6),
       enabled: true,
       period: const Duration(milliseconds: 1500),
       child: Container(
@@ -344,7 +348,7 @@ class LearningCardShimmer extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white.withOpacity(.2),
+          color: Colors.grey.shade600.withOpacity(.2),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

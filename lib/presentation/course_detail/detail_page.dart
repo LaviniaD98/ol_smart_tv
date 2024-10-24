@@ -154,6 +154,7 @@ class _DetailPageState extends State<DetailPage> {
           return state.maybeWhen(
             loading: () => const Center(child: CircularProgressIndicator()),
             success: (selectedIndex, model, smartConfig) {
+              print('djvnldfnvkldf......${model.learningObjectTypology}');
               return _content(context, selectedIndex, model, smartConfig);
             },
             error: () => Center(
@@ -239,6 +240,11 @@ class _DetailPageState extends State<DetailPage> {
         ),
       ),
     );
+  }
+
+  bool isLearningActivity() {
+    return widget.args.typology != LearningObjectTypology.course &&
+        widget.args.typology != LearningObjectTypology.path;
   }
 
   Widget buildRightPanel({required DetailPageModel model}) {
@@ -550,8 +556,10 @@ class _DetailPageState extends State<DetailPage> {
   Widget getTabDetail(DetailPageModel model, bool isTabHeader) {
     if (isTabHeader) {
       return Tab(
-          text: LabelsManager()
-              .getRemoteStringFromLabelKeys(RemoteLabelKeys.details));
+        text: LabelsManager().getRemoteStringFromLabelKeys(
+          RemoteLabelKeys.details,
+        ),
+      );
     } else {
       return Stack(
         children: [

@@ -46,6 +46,7 @@ class ExploreStripsCubit extends Cubit<ExploreStripsState> {
 
   Future<List<Map<StripRow, List<LearningObjectModel>>>> refreshStrips({
     bool debug = false,
+    
     List<String>? filters,
   }) async {
     emit(

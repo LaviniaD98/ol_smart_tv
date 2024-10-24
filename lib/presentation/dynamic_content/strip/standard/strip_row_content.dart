@@ -13,6 +13,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_p
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../theme/app_theme.dart';
 import '../../../common/widgets/cards/learning_card.dart';
@@ -30,6 +31,65 @@ class StripRowContent extends StatefulWidget {
     this.onFocusChange,
     this.focusedObjectNotifier,
   });
+
+  static Widget shimmerLoader() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 8),
+        Shimmer.fromColors(
+          baseColor: AppColors.white.withOpacity(.1),
+          highlightColor: AppColors.primaryFaded.withOpacity(.5),
+          child: Container(
+            margin: const EdgeInsets.only(
+              left: Dimens.hViewPadding,
+              right: Dimens.hViewPadding,
+            ),
+            width: 200,
+            clipBehavior: Clip.none,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(.3),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Text(
+              '', //'A',
+              style: AppTextTheme.subtitle(
+                weight: FontWeight.w700,
+                size: 32,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            top: 38,
+            bottom: 44,
+          ),
+          child: SizedBox(
+            height: Dimens.learningCardTVHeight,
+            child: ListView.separated(
+              clipBehavior: Clip.none,
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.only(
+                left: Dimens.hViewPadding,
+                right: Dimens.hViewPadding,
+              ),
+              physics: const NeverScrollableScrollPhysics(),
+              separatorBuilder: (context, index) =>
+                  const SizedBox(width: Dimens.spacingXS),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return const LearningCardShimmer();
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 38),
+      ],
+    );
+  }
+
   @override
   State<StripRowContent> createState() => StripRowContentState();
 }
@@ -240,76 +300,6 @@ class StripRowContentState extends State<StripRowContent>
       ),
     );
   }
-
-  // Widget get _shimmerLoader {
-  //   return FocusScope(
-  //     node: focusNode,
-  //     onFocusChange: (value) {
-  //       widget.onFocusChange?.call(value);
-  //     },
-  //     child: FocusTraversalGroup(
-  //       key: ValueKey(widget.strip.labelMapping),
-  //       child: Shimmer.fromColors(
-  //         baseColor: AppColors.white.withOpacity(.09),
-  //         highlightColor: AppColors.primaryFaded,
-  //         period: const Duration(seconds: 2),
-  //         enabled: false,
-  //         child: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             const SizedBox(height: 8),
-  //             Container(
-  //               margin: const EdgeInsets.only(
-  //                 left: Dimens.hViewPadding,
-  //                 right: Dimens.hViewPadding,
-  //               ),
-  //               width: (MediaQuery.of(context).size.width /
-  //                       Dimens.learningCardRatio) *
-  //                   .7,
-  //               clipBehavior: Clip.none,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.white.withOpacity(.3),
-  //                 borderRadius: BorderRadius.circular(8.0),
-  //               ),
-  //               child: Text(
-  //                 strip.labelMapping ?? '', //'A',
-  //                 style: AppTextTheme.subtitle(
-  //                   weight: FontWeight.w700,
-  //                   size: 32,
-  //                   color: Colors.black,
-  //                 ),
-  //               ),
-  //             ),
-  //             Padding(
-  //               padding: const EdgeInsets.only(
-  //                 top: 38,
-  //                 bottom: 44,
-  //               ),
-  //               child: SizedBox(
-  //                 height: Dimens.learningCardTVHeight,
-  //                 child: ListView.separated(
-  //                   clipBehavior: Clip.none,
-  //                   scrollDirection: Axis.horizontal,
-  //                   padding: const EdgeInsets.only(
-  //                     left: Dimens.hViewPadding,
-  //                     right: Dimens.hViewPadding,
-  //                   ),
-  //                   physics: const NeverScrollableScrollPhysics(),
-  //                   separatorBuilder: (context, index) =>
-  //                       const SizedBox(width: Dimens.spacingXS),
-  //                   itemCount: 4,
-  //                   itemBuilder: (context, index) {
-  //                     return const LearningCardShimmer();
-  //                   },
-  //                 ),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   bool get wantKeepAlive => true;
