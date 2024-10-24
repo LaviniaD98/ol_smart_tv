@@ -154,7 +154,6 @@ class _DetailPageState extends State<DetailPage> {
           return state.maybeWhen(
             loading: () => const Center(child: CircularProgressIndicator()),
             success: (selectedIndex, model, smartConfig) {
-              print('djvnldfnvkldf......${model.learningObjectTypology}');
               return _content(context, selectedIndex, model, smartConfig);
             },
             error: () => Center(
@@ -242,11 +241,6 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 
-  bool isLearningActivity() {
-    return widget.args.typology != LearningObjectTypology.course &&
-        widget.args.typology != LearningObjectTypology.path;
-  }
-
   Widget buildRightPanel({required DetailPageModel model}) {
     return ValueListenableBuilder<RightPanelState>(
       valueListenable: _rightPanelState,
@@ -281,6 +275,10 @@ class _DetailPageState extends State<DetailPage> {
                             child: ValueListenableBuilder(
                               valueListenable: _rightPanelState,
                               builder: (context, value, child) {
+                                if (model.isLearningActivity()) {
+                                  return getTabDetail(model, false);
+                                }
+
                                 if (value == RightPanelState.start) {
                                   return getTabModules(context, model, false);
                                 } else if (value == RightPanelState.details) {
@@ -980,15 +978,13 @@ class _DetailPageState extends State<DetailPage> {
         }
       },
       behavior: HitTestBehavior.translucent,
-      child: Transform.scale(
-          scale: 0.9999,
-          child: SvgPicture.asset(
-            iconPath,
-            colorFilter: ColorFilter.mode(
-              ColorManager().getColorBackgroundPrimaryCta(),
-              BlendMode.srcIn,
-            ),
-          )),
+      child: SvgPicture.asset(
+        iconPath,
+        colorFilter: ColorFilter.mode(
+          ColorManager().getColorBackgroundPrimaryCta(),
+          BlendMode.srcIn,
+        ),
+      ),
     );
   }
 }

@@ -288,6 +288,11 @@ class DetailPageModel extends Equatable {
     }
   }
 
+  bool isLearningActivity() {
+    return learningObjectTypology != LearningObjectTypology.course &&
+        learningObjectTypology != LearningObjectTypology.path;
+  }
+
   static bool _isExpired(DateTime? expirationDateParsed) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);

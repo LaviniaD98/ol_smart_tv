@@ -573,42 +573,29 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                   ],
                 ),
                 const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: CallbackShortcuts(
-                    bindings: <ShortcutActivator, VoidCallback>{
-                      const SingleActivator(LogicalKeyboardKey.arrowRight):
-                          () {},
-                    },
-                    child: OLButton(
-                      title: 'Dettagli',
-                      width: 340,
-                      outline: true,
-                      onFocusChanded: (hasFocus) {
-                        if (hasFocus) {
-                          widget.rightPanelState.value =
-                              RightPanelState.details;
-                        }
+                if (!widget.model.isLearningActivity()) ...[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: CallbackShortcuts(
+                      bindings: <ShortcutActivator, VoidCallback>{
+                        const SingleActivator(LogicalKeyboardKey.arrowRight):
+                            () {},
                       },
-                      onPressed: () {},
+                      child: OLButton(
+                        title: 'Dettagli',
+                        width: 340,
+                        outline: true,
+                        onFocusChanded: (hasFocus) {
+                          if (hasFocus) {
+                            widget.rightPanelState.value =
+                                RightPanelState.details;
+                          }
+                        },
+                        onPressed: () {},
+                      ),
                     ),
                   ),
-                ),
-                /*const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: OLButton(
-                    title: 'Correlati',
-                    width: 340,
-                    outline: true,
-                    onFocusChanded: (hasFocus) {
-                      if (hasFocus) {
-                        widget.rightPanelState.value = RightPanelState.related;
-                      }
-                    },
-                    onPressed: () {},
-                  ),
-                ),*/
+                ],
               ],
             ),
           ),
