@@ -247,6 +247,7 @@ class _DetailPageState extends State<DetailPage> {
       builder: (context, state, _) {
         return FocusScope(
           node: _focusNodeRight,
+          canRequestFocus: !model.isLearningActivity(),
           onFocusChange: (value) {
             if (value) {
               if (state == RightPanelState.start) {
@@ -276,7 +277,9 @@ class _DetailPageState extends State<DetailPage> {
                               valueListenable: _rightPanelState,
                               builder: (context, value, child) {
                                 if (model.isLearningActivity()) {
-                                  return getTabDetail(model, false);
+                                  return ExcludeFocus(
+                                    child: getTabDetail(model, false),
+                                  );
                                 }
 
                                 if (value == RightPanelState.start) {
