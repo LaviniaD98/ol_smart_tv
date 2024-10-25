@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../domain/enums/types.dart';
@@ -32,27 +34,26 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void _initPlayer() async {
     listener = () {
       if (context.mounted && widget.args.controller.value.isInitialized) {
-        setState(() {
-          if (status != VideoPlayerWidgetStatus.completed &&
-              widget.args.controller.value.isCompleted) {
-            widget.args.onComplete?.call(widget.args.controller);
-            status = VideoPlayerWidgetStatus.completed;
-            if (kDebugMode) print('VIDEO EVENT: ****** END ******');
-          } else if (status == VideoPlayerWidgetStatus.inPause &&
-              widget.args.controller.value.isPlaying &&
-              !_isScrubbing &&
-              !widget.args.controller.value.isCompleted) {
-            status = VideoPlayerWidgetStatus.inPlay;
-            if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
-          } else if (status == VideoPlayerWidgetStatus.inPlay &&
-              !widget.args.controller.value.isPlaying &&
-              !_isScrubbing &&
-              !widget.args.controller.value.isCompleted) {
-            widget.args.onPause?.call(widget.args.controller);
-            status = VideoPlayerWidgetStatus.inPause;
-            if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
-          }
-        });
+        if (status != VideoPlayerWidgetStatus.completed &&
+            widget.args.controller.value.isCompleted) {
+          widget.args.onComplete?.call(widget.args.controller);
+          status = VideoPlayerWidgetStatus.completed;
+
+          if (kDebugMode) print('VIDEO EVENT: ****** END ******');
+        } else if (status == VideoPlayerWidgetStatus.inPause &&
+            widget.args.controller.value.isPlaying &&
+            !_isScrubbing &&
+            !widget.args.controller.value.isCompleted) {
+          status = VideoPlayerWidgetStatus.inPlay;
+          if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
+        } else if (status == VideoPlayerWidgetStatus.inPlay &&
+            !widget.args.controller.value.isPlaying &&
+            !_isScrubbing &&
+            !widget.args.controller.value.isCompleted) {
+          widget.args.onPause?.call(widget.args.controller);
+          status = VideoPlayerWidgetStatus.inPause;
+          if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
+        }
       }
     };
 
@@ -60,14 +61,26 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       ..addListener(listener)
       ..setLooping(false)
       ..initialize().then((_) async {
-        if (widget.args.start != null)
-          await widget.args.controller.seekTo(widget.args.start!);
-        widget.args.controller.play().then((value) {
-          if (kDebugMode) print('VIDEO EVENT: ****** START ******');
-          setState(() => status = VideoPlayerWidgetStatus.inPlay);
-          widget.args.onStart?.call(widget.args.controller);
-        });
+        if (widget.args.start != null) {
+          final delta =
+              widget.args.controller.value.duration - widget.args.start!;
+
+          if (delta.inSeconds > 1) {
+            await widget.args.controller.seekTo(widget.args.start!);
+          }
+          widget.args.controller.play().then((value) {
+            if (kDebugMode) print('VIDEO EVENT: ****** START ******');
+            setState(() => status = VideoPlayerWidgetStatus.inPlay);
+            widget.args.onStart?.call(widget.args.controller);
+          });
+        }
       });
+  }
+
+  @override
+  void dispose() {
+    widget.args.controller.removeListener(listener);
+    super.dispose();
   }
 
   @override
@@ -111,6 +124,10 @@ class VideoPlayerArgs {
   final VideoCallback? onClose;
   final VideoCallback? onComplete;
   final VideoPlayerController controller;
+  final DetailPageModel? detailModel;
+  final DetailPageArgs args;
+  final String? grandParentId;
+  final String? parentId;
 
   VideoPlayerArgs(
     this.url, {
@@ -126,6 +143,10 @@ class VideoPlayerArgs {
     this.onClose,
     this.onComplete,
     required this.controller,
+    required this.args,
+    this.detailModel,
+    this.grandParentId,
+    this.parentId,
   });
 }
 

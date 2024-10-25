@@ -52,6 +52,7 @@ class _TopicFilterItemState extends State<TopicFilterItem> {
       highlightColor: Colors.transparent,
       hoverColor: Colors.transparent,
       focusColor: Colors.transparent,
+      splashColor: Colors.transparent,
       onFocusChange: (value) {
         widget.onFocusChange?.call(value);
         setState(() {});

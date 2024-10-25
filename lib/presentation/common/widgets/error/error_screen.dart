@@ -1,5 +1,6 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 
 import '../../../../remote_theming/labels/labels_manager.dart';
 import '../../../../remote_theming/labels/remote_labels_keys.dart';
@@ -42,16 +43,10 @@ class ErrorScreen extends StatelessWidget {
           ),
           if (onReload != null) ...[
             const SizedBox(height: Dimens.spacingXXL),
-            ElevatedButton(
-              style: AppButtonStyle.red,
+            OLButton(
+              title: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
               onPressed: onReload,
-              child: Text(
-                LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.retry),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                style: AppTextTheme.button(),
-              ),
             ),
           ]
         ],

@@ -113,7 +113,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
       [bool dispose = false]) async {
     if (dispose) {
       _continueLearningStripCubit.refresh();
-      await playerControler.dispose();
+      //await playerControler.dispose();
       emit(const VideoPlayerState.tracking());
     }
 

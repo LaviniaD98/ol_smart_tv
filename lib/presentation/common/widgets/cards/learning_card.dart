@@ -85,30 +85,31 @@ class _LearningCardState extends State<LearningCard> {
             ),
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: widget.enable
-                  ? () async {
-                      Nav.push(context,
-                          screen: DetailPage(
-                            args: DetailPageArgs(
-                              id: widget.data.id.toString(),
-                              typology: widget.data.learningObjectTypology,
-                              parentId: widget.parentId?.isNotEmpty == true
-                                  ? widget.parentId
-                                  : widget.data.parentId?.toString(),
-                              grandParentId:
-                                  widget.grandParentId?.isNotEmpty == true
-                                      ? widget.grandParentId
-                                      : widget.data.grandParentId?.toString(),
-                              parent: widget.parentDetailPageModel,
-                            ),
-                          ));
+              // onTap: widget.enable
+              //     ? () async {
+              //         print('PUSHING DETAILS-----------------');
+              //         Nav.push(context,
+              //             screen: DetailPage(
+              //               args: DetailPageArgs(
+              //                 id: widget.data.id.toString(),
+              //                 typology: widget.data.learningObjectTypology,
+              //                 parentId: widget.parentId?.isNotEmpty == true
+              //                     ? widget.parentId
+              //                     : widget.data.parentId?.toString(),
+              //                 grandParentId:
+              //                     widget.grandParentId?.isNotEmpty == true
+              //                         ? widget.grandParentId
+              //                         : widget.data.grandParentId?.toString(),
+              //                 parent: widget.parentDetailPageModel,
+              //               ),
+              //             ));
 
-                      if (context.mounted &&
-                          widget.returnFromDetailCallback != null) {
-                        widget.returnFromDetailCallback?.call();
-                      }
-                    }
-                  : null,
+              //         if (context.mounted &&
+              //             widget.returnFromDetailCallback != null) {
+              //           widget.returnFromDetailCallback?.call();
+              //         }
+              //       }
+              //     : null,
               child: Builder(
                 builder: (context) {
                   final w = Stack(

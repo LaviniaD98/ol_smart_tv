@@ -269,7 +269,7 @@ class _DetailPageState extends State<DetailPage> {
                 child: Builder(
                   builder: (context) {
                     return SizedBox(
-                      width: 1710,
+                      width: 1700,
                       child: Row(
                         children: [
                           Expanded(
@@ -456,44 +456,24 @@ class _DetailPageState extends State<DetailPage> {
           brightcoveId: lo.brightcoveId,
           pathId: widget.args.parentId,
           tentativeId: "${lo.tentativeId}",
-          onTapDetail: () async {
-            // TODO(UmbertoGrimaldi): CHECK THIS / PROPOSAL TO REMOVE
-            // final subNavigationTypes = [
-            //   LearningObjectTypology.course,
-            //   LearningObjectTypology.path
-            // ];
-            // context.pop();
-
-            // if (subNavigationTypes.contains(detail.learningObjectTypology)) {
-            //   /// navigate to detail sub route
-            //   await context.pushNamed(
-            //     DetailPage.routeName,
-            //     extra: DetailPageArgs(
-            //       id: lo.id.toString(),
-            //       object: lo,
-            //       parentId: lo.id == detail.id ? null : detail.id.toString(),
-            //       typology: lo.learningObjectTypology,
-            //       grandParentId:
-            //           lo.id == detail.id ? null : widget.args.parentId,
-            //       parent: detail,
-            //     ),
-            //   );
-
-            //   /// reload parent detail
-            //   if (context.mounted)
-            //     context.read<DetailPageCubit>().init(widget.args);
-            // } else {
-            //   /// reload parent detail
-            //   context.read<DetailPageCubit>().init(widget.args);
-            // }
-          },
+          detailModel: detail,
+          args: widget.args,
+          grandParentId: widget.args.grandParentId,
+          parentId: widget.args.parentId,
         );
 
         final res = await Nav.push(
           context,
-          screen: BlocProvider(
-            create: (_) =>
-                getIt<VideoPlayerCubit>()..init(args.brightcoveId, args),
+          screen: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) =>
+                    getIt<VideoPlayerCubit>()..init(args.brightcoveId, args),
+              ),
+              BlocProvider(
+                create: (_) => context.read<DetailPageCubit>(),
+              ),
+            ],
             child: VideoPlayerPage(args: args),
           ),
         ) as bool?;

@@ -1,10 +1,24 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
+import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_icon_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/course_logic.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_horizontal_modules.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../color_management/color_manager.dart';
@@ -224,7 +238,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
 
   Widget get _bottomOverlay {
     return Container(
-      height: 270,
+      height: 670,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -280,9 +294,157 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
               const SizedBox(width: Dimens.hViewPadding),
             ],
           ),
+          Expanded(child: getHorizontalList())
         ],
       ),
     );
+  }
+
+  Widget getHorizontalList() {
+    if (widget.args.detailModel != null) {
+      if ((widget.args.detailModel!.courses?.isNotEmpty == true) ||
+          (widget.args.detailModel!.learningActivities?.isNotEmpty == true)) {
+        var loCharacterization = CourseLogic().loCharacterizationNew(
+          status: widget.args.detailModel?.status ?? "",
+          learningObjectType: widget.args.detailModel!.learningObjectType,
+          learningObjectTypology:
+              widget.args.detailModel!.learningObjectTypology,
+          percentageOfCompletion:
+              widget.args.detailModel?.percentageOfCompletion ?? "0",
+          enrollType:
+              widget.args.detailModel?.enrollType ?? EnrollType.autoEnroll,
+          ecmSpecialization: widget.args.detailModel!.ecmSpecialization,
+          ecmRegistration: widget.args.detailModel!.ecmRegistration,
+        );
+        return CourseDetailHorizontalModules(
+          model: widget.args.detailModel!,
+          isSubActivitites: false,
+          parentId: widget.args.parentId,
+          onResumeButtonFocused: (ll, cc, _) {},
+          onLearningActivityFocused: (cc) async {},
+          onButtonPressed: (
+            int index,
+            bool isACourse,
+            LearningObjectModel? ll,
+            CourseModel? cc,
+          ) {
+            print('csldnclsndlcksdkcksndlcnsldncksndlcnlskdnklcn......');
+            if (loCharacterization.buttonEnabled &&
+                (loCharacterization.objLOAction != ObjLOAction.none &&
+                    loCharacterization.objLOAction !=
+                        ObjLOAction.notApplicable)) {
+              int idToAE = widget.args.detailModel!.id!;
+              if (widget.args.grandParentId != null) {
+                idToAE = int.parse(widget.args.grandParentId!);
+              } else if (widget.args.parentId != null) {
+                idToAE = int.parse(widget.args.parentId!);
+              }
+
+              switch (loCharacterization.objLOAction) {
+                case ObjLOAction.none:
+                case ObjLOAction.notApplicable:
+                  //do nothing
+                  break;
+                case ObjLOAction.startFruition:
+                  if (isACourse) {
+                    CourseModel cm = widget.args.detailModel!.courses!
+                        .where((element) => element.id == index)
+                        .single;
+                    startOrResumeCheck(context, cm.id!);
+                  } else {
+                    LearningObjectModel lm = widget
+                        .args.detailModel!.learningActivities!
+                        .where((element) => element.id == index)
+                        .single;
+                    startOrResumeCheck(context, lm.id);
+                  }
+                  break;
+                case ObjLOAction.autoEnrollmentBottom:
+                  context.read<DetailPageCubit>().executeAutoEnrollment(
+                      widget.args.args,
+                      idToAE,
+                      "BOTTOM",
+                      widget.args.detailModel!,
+                      false);
+                  break;
+                case ObjLOAction.autoEnrollmentAuto:
+                  context.read<DetailPageCubit>().executeAutoEnrollment(
+                      widget.args.args,
+                      idToAE,
+                      "AUTO",
+                      widget.args.detailModel!,
+                      true);
+                  break;
+                case ObjLOAction.autoEnrollmentWithPatch:
+                case ObjLOAction.seeEditions:
+                  String? id =
+                      ll != null ? ll.id.toString() : cc?.id.toString();
+                  if (id != null) {
+                    Nav.push(
+                      context,
+                      screen: DetailPage(
+                        args: DetailPageArgs(
+                          id: id,
+                          object: ll,
+                          parentId: widget.args.detailModel?.id.toString(),
+                          typology:
+                              widget.args.detailModel!.learningObjectTypology,
+                          grandParentId: widget.args.parentId,
+                          parent: widget.args.detailModel!,
+                        ),
+                      ),
+                    );
+                  }
+                  break;
+                case ObjLOAction.ecmNotRegistered:
+                  if (kDebugMode) print('ECM module');
+                  break;
+                case ObjLOAction.showDetailMaterials:
+                case ObjLOAction.showDetailGoals:
+                case ObjLOAction.showDetailFinalBalance:
+                  int? id = ll != null ? ll.id : cc?.id;
+
+                  if (id != null) {
+                    context.read<DetailPageCubit>().getStartOrResumeModel(
+                          id,
+                          '${widget.args.detailModel?.id}',
+                          widget.args.detailModel!,
+                        );
+                  }
+
+                  break;
+                case ObjLOAction.showDetailMeeting:
+                  OlAlertDialog.show(
+                    context,
+                    title: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.show_info),
+                    message: LabelsManager().getRemoteStringFromLabelKeys(
+                        RemoteLabelKeys.from_meeting_info),
+                    actionLabel: LabelsManager()
+                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.ok),
+                  );
+                  break;
+              }
+            }
+          },
+        );
+      }
+    }
+
+    return const SizedBox.shrink();
+  }
+
+  void startOrResumeCheck(
+    BuildContext context,
+    int loId,
+  ) {
+    String parentId = (widget.args.parentId == null ||
+            widget.args.parentId!.toLowerCase() == "null")
+        ? loId.toString()
+        : widget.args.parentId!;
+    context
+        .read<DetailPageCubit>()
+        .getStartOrResumeModel(loId, parentId, widget.args.detailModel!);
   }
 
   Widget get controls {

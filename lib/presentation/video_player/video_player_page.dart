@@ -1,7 +1,7 @@
-import 'dart:io';
-
+import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:video_player/video_player.dart';
@@ -9,7 +9,6 @@ import 'package:video_player/video_player.dart';
 import '../../domain/enums/types.dart';
 import '../../remote_theming/labels/labels_manager.dart';
 import '../../remote_theming/labels/remote_labels_keys.dart';
-import '../../theme/app_theme.dart';
 import '../common/widgets/error/error_screen.dart';
 import 'widgets/video_player_widget.dart';
 
@@ -28,34 +27,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvokedWithResult: (bool didPop, _) async {
-        if (Platform.isAndroid) {
-          if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
-          if (popping) {
-            return;
-          }
-          popping = true;
-          if (controller != null) {
-            await context.read<VideoPlayerCubit>().setStateCall(
-                  widget.args,
-                  false,
-                  controller?.value.position ?? Duration.zero,
-                  controller!,
-                  true,
-                );
-          }
-
-          if (context.mounted) {
-            //  context.pop(true);
-
-            Navigator.of(context).pop(true);
-          }
-        }
-      },
-      canPop: false,
-      child: _content,
-    );
+    print(
+        'context.read<DetailPageCubit>(): ${context.read<DetailPageCubit>()}');
+    return _content;
   }
 
   @override
@@ -66,15 +40,25 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   Widget get _content {
     return Scaffold(
-      backgroundColor: AppColors.black,
-      body: BlocBuilder<VideoPlayerCubit, VideoPlayerState>(
+      backgroundColor: const Color.fromARGB(255, 11, 1, 1),
+      body: BlocConsumer<VideoPlayerCubit, VideoPlayerState>(
+        listener: (context, state) {
+          state.maybeMap(
+            done: (value) {
+              controller = VideoPlayerController.networkUrl(
+                Uri.parse(value.source.src!),
+              );
+            },
+            orElse: () {},
+          );
+        },
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) => state.map(
-          loading: (_) => _loading,
+          loading: (_) {
+            return _loading;
+          },
           tracking: (_) => _loading,
           done: (value) {
-            controller =
-                VideoPlayerController.networkUrl(Uri.parse(value.source.src!));
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,
@@ -83,6 +67,10 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 typology: widget.args.typology,
                 type: widget.args.type,
                 isMandatory: widget.args.isMandatory,
+                args: widget.args.args!,
+                detailModel: widget.args.detailModel,
+                grandParentId: widget.args.grandParentId,
+                parentId: widget.args.parentId,
                 onTapDetail: () async {
                   bool enabled =
                       state.maybeMap(orElse: () => true, loading: (_) => false);
@@ -106,13 +94,23 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 controller: controller!,
                 videoPlayerType: VideoPlayerType.network,
                 onComplete: (controller) async {
-                  await context.read<VideoPlayerCubit>().statementsCall(
-                      widget.args,
-                      true,
-                      controller.value.duration,
-                      controller,
-                      true);
                   if (context.mounted) {
+                    await context.read<VideoPlayerCubit>().setStateCall(
+                          widget.args,
+                          false,
+                          controller.value.position,
+                          controller,
+                          true,
+                        );
+
+                    await context.read<VideoPlayerCubit>().statementsCall(
+                          widget.args,
+                          true,
+                          controller.value.duration,
+                          controller,
+                          true,
+                        );
+
                     Navigator.of(context).pop(true);
                   }
                 },
@@ -147,8 +145,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
         message: LabelsManager()
             .getRemoteStringFromLabelKeys(RemoteLabelKeys.error_occurred),
         onReload: () {
-          Navigator.of(context).pop();
-          //context.read<VideoPlayerCubit>().init(widget.args.brightcoveId, widget.args)
+          context
+              .read<VideoPlayerCubit>()
+              .init(widget.args.brightcoveId, widget.args);
         },
       ),
     );
@@ -165,6 +164,10 @@ class VideoPlayerPageArgs {
   final String? pathId;
   final VoidCallback? onTapDetail;
   final String? tentativeId;
+  final DetailPageModel? detailModel;
+  final DetailPageArgs? args;
+  final String? grandParentId;
+  final String? parentId;
 
   VideoPlayerPageArgs({
     required this.id,
@@ -176,5 +179,9 @@ class VideoPlayerPageArgs {
     required this.pathId,
     required this.tentativeId,
     this.onTapDetail,
+    this.detailModel,
+    this.grandParentId,
+    this.parentId,
+    required this.args,
   });
 }
