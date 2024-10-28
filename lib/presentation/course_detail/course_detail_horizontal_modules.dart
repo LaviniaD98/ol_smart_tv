@@ -1,5 +1,4 @@
 import 'package:flutter/services.dart';
-import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
@@ -7,6 +6,7 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/cards/learnin
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_modules.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../domain/entities/detail/detail_page_model.dart';
@@ -113,9 +113,8 @@ class _CourseDetailHorizontalModulesState
           }
         },
         child: Align(
-          child: Container(
-            height: 300,
-            color: OLColors.backgroundPrimary,
+          child: SizedBox(
+            height: 250,
             child: FocusTraversalGroup(
               key: LabeledGlobalKey('FocusTraversalGroup - Main'),
               policy: _policy,
@@ -123,7 +122,12 @@ class _CourseDetailHorizontalModulesState
                 controller: autoScrollController,
                 scrollDirection: Axis.horizontal,
                 itemCount: commonObjects.length,
-                padding: const EdgeInsets.only(left: 100, top: 20, bottom: 20),
+                padding: const EdgeInsets.only(
+                  left: Dimens.hPadding,
+                  right: Dimens.hPadding,
+                  top: 20,
+                  bottom: 20,
+                ),
                 itemBuilder: (context, index) {
                   LearningObjectModel? ll = commonObjects[index].activity;
                   CourseModel? cc = commonObjects[index].course;

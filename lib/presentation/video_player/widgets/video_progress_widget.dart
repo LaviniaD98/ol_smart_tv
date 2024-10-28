@@ -41,16 +41,11 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
 
   final focusNode = OlFocusNode(id: 'VIDEO-PROGRESS');
 
-  _VideoProgressWidgetState() {
-    listener = () {
-      if (!mounted) {
-        return;
-      }
-      setState(() {});
-    };
-  }
+  _VideoProgressWidgetState();
 
-  late VoidCallback listener;
+  int duration = 0;
+  int position = 0;
+  int maxBuffering = 0;
 
   VideoPlayerController get controller => widget.controller;
 
@@ -59,21 +54,20 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(listener);
+    if (controller.value.isInitialized) {
+      duration = controller.value.duration.inMilliseconds;
+      position = controller.value.position.inMilliseconds;
+    }
+    controller.addListener(handleProgressUpdate);
   }
 
   @override
   void deactivate() {
-    controller.removeListener(listener);
+    controller.removeListener(handleProgressUpdate);
     super.deactivate();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    int duration = 0;
-    int position = 0;
-    int maxBuffering = 0;
-    Widget progressIndicator;
+  void handleProgressUpdate() {
     if (controller.value.isInitialized) {
       duration = controller.value.duration.inMilliseconds;
       position = controller.value.position.inMilliseconds;
@@ -84,8 +78,13 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
           maxBuffering = end;
         }
       }
+      setState(() {});
     }
-    progressIndicator = Focus(
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget progressIndicator = Focus(
       focusNode: focusNode,
       onFocusChange: (value) {
         setState(() {});
@@ -97,22 +96,41 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
             alignment: Alignment.centerLeft,
             fit: StackFit.passthrough,
             children: <Widget>[
-              LinearProgressIndicator(
-                minHeight: 12,
-                borderRadius: BorderRadius.circular(12),
-                value: maxBuffering / duration,
-                valueColor: AlwaysStoppedAnimation<Color>(colors.bufferedColor),
-                backgroundColor:
-                    focusNode.hasFocus ? Colors.red : colors.backgroundColor,
+              Container(
+                height: 16,
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Align(
+                  child: LinearProgressIndicator(
+                    minHeight: 12,
+                    borderRadius: BorderRadius.circular(12),
+                    value: maxBuffering / duration,
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(colors.bufferedColor),
+                    backgroundColor: colors.backgroundColor,
+                  ),
+                ),
               ),
-              LinearProgressIndicator(
-                minHeight: 12,
-                borderRadius: BorderRadius.circular(12),
-                value: (position / duration),
-                valueColor: AlwaysStoppedAnimation<Color>(colors.playedColor),
-                //backgroundColor: Colors.transparent,
-                backgroundColor:
-                    focusNode.hasFocus ? Colors.red : colors.backgroundColor,
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color:
+                        focusNode.hasFocus ? Colors.white : Colors.transparent,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                height: 16,
+                padding: const EdgeInsets.only(left: 0, right: 0),
+                child: Align(
+                  child: LinearProgressIndicator(
+                    minHeight: 12,
+                    borderRadius: BorderRadius.circular(12),
+                    value: (position / duration),
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(colors.playedColor),
+                    backgroundColor: colors.backgroundColor,
+                  ),
+                ),
               ),
               Positioned(
                 left: (constraints.maxWidth *

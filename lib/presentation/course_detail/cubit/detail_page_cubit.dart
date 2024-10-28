@@ -186,8 +186,8 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     }
   }
 
-  void getStartOrResumeModel(
-      int loId, String parentId, DetailPageModel detail) async {
+  void getStartOrResumeModel(int loId, String parentId, DetailPageModel detail,
+      BuildContext? playerContext) async {
     if (kDebugMode) print("getStartOrResumeModel callingApi: $callingApi");
     if (callingApi) {
       return;
@@ -216,7 +216,8 @@ class DetailPageCubit extends Cubit<DetailPageState> {
           if (kDebugMode)
             print("getStartOrResumeModel callingApi SET to false");
         } else {
-          emit(DetailPageState.readyToPlay(srResponseModel, detail));
+          emit(DetailPageState.readyToPlay(
+              srResponseModel, detail, playerContext));
           await Future.delayed(const Duration(milliseconds: 300));
           callingApi = false;
           if (kDebugMode)

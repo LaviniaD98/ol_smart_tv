@@ -8,6 +8,7 @@ class DialogPage<T> extends Page<T> {
 
   final Offset? anchorPoint;
   final Color? barrierColor;
+  final Color? backgroundColor;
   final bool barrierDismissible;
   final String? barrierLabel;
   final bool useSafeArea;
@@ -19,6 +20,7 @@ class DialogPage<T> extends Page<T> {
     required this.builder,
     this.anchorPoint,
     this.barrierColor,
+    this.backgroundColor,
     this.barrierDismissible = true,
     this.barrierLabel,
     this.useSafeArea = true,
@@ -35,11 +37,9 @@ class DialogPage<T> extends Page<T> {
         context: context,
         settings: this,
         builder: (context) => Dialog(
+          backgroundColor: backgroundColor,
           insetPadding: insetPadding ?? const EdgeInsets.all(Dimens.spacingL),
-          child: SizedBox(
-            width: 500,
-            child: builder(context),
-          ),
+          child: builder(context),
         ),
         anchorPoint: anchorPoint,
         barrierColor: barrierColor ??
@@ -47,6 +47,7 @@ class DialogPage<T> extends Page<T> {
         barrierDismissible: barrierDismissible,
         barrierLabel: barrierLabel,
         useSafeArea: useSafeArea,
-        themes: themes,
+
+        //  themes: themes,
       );
 }

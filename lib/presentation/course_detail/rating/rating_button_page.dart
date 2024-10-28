@@ -11,12 +11,22 @@ class RatingButton extends StatelessWidget {
   final DetailPageModel detailPageModel;
   final String? parentId;
   final String? grandParentId;
+  final bool outline;
+  final double? size;
+  final double? iconSize;
+  final double? radius;
+  final void Function()? completion;
 
   const RatingButton({
     super.key,
     required this.detailPageModel,
     this.parentId,
     this.grandParentId,
+    this.outline = true,
+    this.size,
+    this.iconSize,
+    this.radius,
+    this.completion,
   });
 
   @override
@@ -52,9 +62,13 @@ class RatingButton extends StatelessWidget {
         .getRatingIconButton(rating, maxStars: maxStars);
 
     return OLIconButton(
-      outline: true,
+      outline: outline,
       image: iconPath,
+      iconSize: iconSize ?? 30,
+      radius: radius,
+      size: size,
       onPressed: () async {
+        completion?.call();
         await showDialog(
           context: buildContext,
           barrierColor:

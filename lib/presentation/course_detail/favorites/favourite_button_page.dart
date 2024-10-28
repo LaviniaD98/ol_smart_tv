@@ -11,12 +11,22 @@ class FavoriteButton extends StatelessWidget {
   final LearningObjectModel object;
   final String? parentId;
   final String? grandParentId;
+  final bool outline;
+  final double? size;
+  final double? iconSize;
+  final double? radius;
+  final void Function()? completion;
 
   const FavoriteButton({
     super.key,
     required this.object,
     this.parentId,
     this.grandParentId,
+    this.outline = true,
+    this.size,
+    this.iconSize,
+    this.radius,
+    this.completion,
   });
 
   @override
@@ -64,7 +74,10 @@ class FavoriteButton extends StatelessWidget {
     FavouriteModel? favouriteModel,
   }) {
     return OLIconButton(
-      outline: true,
+      outline: outline,
+      radius: radius,
+      size: size,
+      iconSize: iconSize ?? 30,
       id: 'FAVORITE-BUTTON-LABEL',
       image: object.isFavourite == true
           ? "assets/icons/detail/favourite.svg"
@@ -95,6 +108,7 @@ class FavoriteButton extends StatelessWidget {
                 },
               );
         }
+        completion?.call();
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:video_player/video_player.dart';
 
@@ -128,6 +129,7 @@ class VideoPlayerArgs {
   final DetailPageArgs args;
   final String? grandParentId;
   final String? parentId;
+  final LearningObjectModel? currentObject;
 
   VideoPlayerArgs(
     this.url, {
@@ -147,6 +149,7 @@ class VideoPlayerArgs {
     this.detailModel,
     this.grandParentId,
     this.parentId,
+    this.currentObject,
   });
 }
 

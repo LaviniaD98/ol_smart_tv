@@ -10,11 +10,15 @@ class OLIconButton extends StatefulWidget {
     this.focusNode,
     this.onPressed,
     this.width = 264,
+    this.iconSize = 30,
+    this.radius,
+    this.size,
     this.textOnly = false,
     this.outline = false,
     this.isFlexible = false,
     this.id,
     this.onFocusChanded,
+    this.iconColor,
     super.key,
   });
 
@@ -22,11 +26,15 @@ class OLIconButton extends StatefulWidget {
   final void Function()? onPressed;
   final FocusNode? focusNode;
   final double? width;
+  final double? size;
+  final double? radius;
+  final double iconSize;
   final bool textOnly;
   final bool outline;
   final bool isFlexible;
   final String? id;
   final void Function(bool)? onFocusChanded;
+  final Color? iconColor;
 
   @override
   State<OLIconButton> createState() => _OLIconButtonState();
@@ -83,8 +91,8 @@ class _OLIconButtonState extends State<OLIconButton> {
     );
 
     return SizedBox(
-      height: 61,
-      width: 61,
+      height: widget.size ?? 61,
+      width: widget.size ?? 61,
       child: widget.outline
           ? OutlinedButton(
               focusNode: widget.focusNode ?? _focusNode,
@@ -93,9 +101,9 @@ class _OLIconButtonState extends State<OLIconButton> {
               statesController: _statesController,
               style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
                     backgroundColor:
-                        WidgetStateProperty.all(Colors.transparent),
-                    foregroundColor:
-                        WidgetStateProperty.all(OLColors.textPrimary),
+                        WidgetStateProperty.all(Colors.black.withOpacity(0.1)),
+                    foregroundColor: WidgetStateProperty.all(
+                        widget.iconColor ?? OLColors.textPrimary),
                     side: WidgetStateProperty.all(
                       BorderSide(
                         width: borderWidth.resolve(_statesController.value),
@@ -103,15 +111,24 @@ class _OLIconButtonState extends State<OLIconButton> {
                         color: color.resolve(_statesController.value),
                       ),
                     ),
+                    shape: WidgetStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(widget.radius ?? 3),
+                      ),
+                    ),
+                    padding: WidgetStateProperty.all(EdgeInsets.zero),
                   ),
               onPressed: widget.onPressed,
-              child: SvgPicture.asset(
-                widget.image,
-                height: 29,
-                width: 29,
-                colorFilter: ColorFilter.mode(
-                  ColorManager().getColorBackgroundPrimaryCta(),
-                  BlendMode.srcIn,
+              child: Center(
+                child: SvgPicture.asset(
+                  widget.image,
+                  height: widget.iconSize,
+                  width: widget.iconSize,
+                  colorFilter: ColorFilter.mode(
+                    widget.iconColor ??
+                        ColorManager().getColorBackgroundPrimaryCta(),
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
             )
@@ -129,16 +146,20 @@ class _OLIconButtonState extends State<OLIconButton> {
                             color: color.resolve(_statesController.value),
                           ),
                         ),
-                        backgroundColor:
-                            WidgetStateProperty.all(Colors.transparent),
+                        backgroundColor: WidgetStateProperty.all(
+                            Colors.black.withOpacity(0.2)),
                         foregroundColor:
                             WidgetStateProperty.resolveWith((states) {
+                          if (widget.iconColor != null) {
+                            return widget.iconColor!;
+                          }
                           if (states.contains(WidgetState.disabled)) {
                             return ColorManager()
                                 .getColorTextDisabledAlternative();
                           }
                           return ColorManager().getColorBackgroundPrimaryCta();
                         }),
+                        padding: WidgetStateProperty.all(EdgeInsets.zero),
                       )
                   : Theme.of(context).elevatedButtonTheme.style?.copyWith(
                         side: WidgetStateProperty.all(
@@ -148,15 +169,24 @@ class _OLIconButtonState extends State<OLIconButton> {
                             color: color.resolve(_statesController.value),
                           ),
                         ),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(widget.radius ?? 3),
+                          ),
+                        ),
+                        backgroundColor: WidgetStateProperty.all(
+                            Colors.black.withOpacity(0.3)),
                       ),
               onPressed: widget.onPressed,
               child: Center(
                 child: SvgPicture.asset(
                   widget.image,
-                  height: 29,
-                  width: 29,
+                  height: widget.iconSize,
+                  width: widget.iconSize,
                   colorFilter: ColorFilter.mode(
-                    ColorManager().getColorBackgroundPrimaryCta(),
+                    widget.iconColor ??
+                        ColorManager().getColorBackgroundPrimaryCta(),
                     BlendMode.srcIn,
                   ),
                 ),

@@ -24,7 +24,8 @@ mixin _$DetailPageState {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -41,7 +42,8 @@ mixin _$DetailPageState {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -58,7 +60,8 @@ mixin _$DetailPageState {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -178,7 +181,8 @@ class _$InitialImpl implements Initial {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -198,7 +202,8 @@ class _$InitialImpl implements Initial {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -218,7 +223,8 @@ class _$InitialImpl implements Initial {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -364,7 +370,8 @@ class _$AutoEnrollImpl implements AutoEnroll {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -384,7 +391,8 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -404,7 +412,8 @@ class _$AutoEnrollImpl implements AutoEnroll {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -559,7 +568,8 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -579,7 +589,8 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -599,7 +610,8 @@ class _$AutoEnrollFailImpl implements AutoEnrollFail {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -776,7 +788,8 @@ class _$SuccessImpl implements Success {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -796,7 +809,8 @@ class _$SuccessImpl implements Success {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -816,7 +830,8 @@ class _$SuccessImpl implements Success {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -905,7 +920,10 @@ abstract class _$$ReadyToPlayImplCopyWith<$Res> {
           _$ReadyToPlayImpl value, $Res Function(_$ReadyToPlayImpl) then) =
       __$$ReadyToPlayImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({LearningObjectModel model, DetailPageModel data});
+  $Res call(
+      {LearningObjectModel model,
+      DetailPageModel data,
+      BuildContext? playerContext});
 }
 
 /// @nodoc
@@ -923,6 +941,7 @@ class __$$ReadyToPlayImplCopyWithImpl<$Res>
   $Res call({
     Object? model = null,
     Object? data = null,
+    Object? playerContext = freezed,
   }) {
     return _then(_$ReadyToPlayImpl(
       null == model
@@ -933,6 +952,10 @@ class __$$ReadyToPlayImplCopyWithImpl<$Res>
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as DetailPageModel,
+      freezed == playerContext
+          ? _value.playerContext
+          : playerContext // ignore: cast_nullable_to_non_nullable
+              as BuildContext?,
     ));
   }
 }
@@ -940,16 +963,18 @@ class __$$ReadyToPlayImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ReadyToPlayImpl implements ReadyToPlay {
-  const _$ReadyToPlayImpl(this.model, this.data);
+  const _$ReadyToPlayImpl(this.model, this.data, this.playerContext);
 
   @override
   final LearningObjectModel model;
   @override
   final DetailPageModel data;
+  @override
+  final BuildContext? playerContext;
 
   @override
   String toString() {
-    return 'DetailPageState.readyToPlay(model: $model, data: $data)';
+    return 'DetailPageState.readyToPlay(model: $model, data: $data, playerContext: $playerContext)';
   }
 
   @override
@@ -958,11 +983,13 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
         (other.runtimeType == runtimeType &&
             other is _$ReadyToPlayImpl &&
             (identical(other.model, model) || other.model == model) &&
-            (identical(other.data, data) || other.data == data));
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.playerContext, playerContext) ||
+                other.playerContext == playerContext));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, model, data);
+  int get hashCode => Object.hash(runtimeType, model, data, playerContext);
 
   /// Create a copy of DetailPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -981,7 +1008,8 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -989,7 +1017,7 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     required TResult Function() error,
     required TResult Function(String message) errorWithDialog,
   }) {
-    return readyToPlay(model, data);
+    return readyToPlay(model, data, playerContext);
   }
 
   @override
@@ -1001,7 +1029,8 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1009,7 +1038,7 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult? Function()? error,
     TResult? Function(String message)? errorWithDialog,
   }) {
-    return readyToPlay?.call(model, data);
+    return readyToPlay?.call(model, data, playerContext);
   }
 
   @override
@@ -1021,7 +1050,8 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1031,7 +1061,7 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
     required TResult orElse(),
   }) {
     if (readyToPlay != null) {
-      return readyToPlay(model, data);
+      return readyToPlay(model, data, playerContext);
     }
     return orElse();
   }
@@ -1091,11 +1121,13 @@ class _$ReadyToPlayImpl implements ReadyToPlay {
 
 abstract class ReadyToPlay implements DetailPageState {
   const factory ReadyToPlay(
-          final LearningObjectModel model, final DetailPageModel data) =
-      _$ReadyToPlayImpl;
+      final LearningObjectModel model,
+      final DetailPageModel data,
+      final BuildContext? playerContext) = _$ReadyToPlayImpl;
 
   LearningObjectModel get model;
   DetailPageModel get data;
+  BuildContext? get playerContext;
 
   /// Create a copy of DetailPageState
   /// with the given fields replaced by the non-null parameter values.
@@ -1186,7 +1218,8 @@ class _$OpenDetailImpl implements OpenDetail {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -1206,7 +1239,8 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1226,7 +1260,8 @@ class _$OpenDetailImpl implements OpenDetail {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1356,7 +1391,8 @@ class _$LoadingImpl implements Loading {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -1376,7 +1412,8 @@ class _$LoadingImpl implements Loading {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1396,7 +1433,8 @@ class _$LoadingImpl implements Loading {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1515,7 +1553,8 @@ class _$ErrorImpl implements Error {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -1535,7 +1574,8 @@ class _$ErrorImpl implements Error {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1555,7 +1595,8 @@ class _$ErrorImpl implements Error {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1702,7 +1743,8 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     required TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)
         success,
-    required TResult Function(LearningObjectModel model, DetailPageModel data)
+    required TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)
         readyToPlay,
     required TResult Function(LearningObjectModel model, DetailPageModel data)
         openDetail,
@@ -1722,7 +1764,8 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult? Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult? Function(LearningObjectModel model, DetailPageModel data)?
+    TResult? Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult? Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,
@@ -1742,7 +1785,8 @@ class _$ErrorWithDialogImpl implements ErrorWithDialog {
     TResult Function(int selectedIndex, DetailPageModel data,
             SmartConfiguratorModel? smartConfig)?
         success,
-    TResult Function(LearningObjectModel model, DetailPageModel data)?
+    TResult Function(LearningObjectModel model, DetailPageModel data,
+            BuildContext? playerContext)?
         readyToPlay,
     TResult Function(LearningObjectModel model, DetailPageModel data)?
         openDetail,

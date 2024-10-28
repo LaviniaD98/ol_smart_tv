@@ -127,7 +127,8 @@ class _DetailPageState extends State<DetailPage> {
             );
             return null;
           },
-          readyToPlay: (model, detail) => startPlay(context, model, detail),
+          readyToPlay: (model, detail, playerContext) =>
+              startPlay(context, model, detail, playerContext),
           openDetail: (model, detail) {
             Nav.push(context,
                 screen: DetailPage(
@@ -402,13 +403,16 @@ class _DetailPageState extends State<DetailPage> {
         : widget.args.parentId!;
     context
         .read<DetailPageCubit>()
-        .getStartOrResumeModel(loId, parentId, detail);
+        .getStartOrResumeModel(loId, parentId, detail, null);
   }
+
+  bool videoPlaying = false;
 
   void startPlay(
     BuildContext context,
     LearningObjectModel lo,
     DetailPageModel detail,
+    BuildContext? playerContext,
   ) async {
     if (lo.fruitionFlag == true) {
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
@@ -460,7 +464,14 @@ class _DetailPageState extends State<DetailPage> {
           args: widget.args,
           grandParentId: widget.args.grandParentId,
           parentId: widget.args.parentId,
+          currentObject: lo,
         );
+
+        if (playerContext != null) {
+          Navigator.of(playerContext).pop();
+        }
+
+        videoPlaying = true;
 
         final res = await Nav.push(
           context,
@@ -470,13 +481,15 @@ class _DetailPageState extends State<DetailPage> {
                 create: (_) =>
                     getIt<VideoPlayerCubit>()..init(args.brightcoveId, args),
               ),
-              BlocProvider(
-                create: (_) => context.read<DetailPageCubit>(),
+              BlocProvider.value(
+                value: context.read<DetailPageCubit>(),
               ),
             ],
             child: VideoPlayerPage(args: args),
           ),
         ) as bool?;
+
+        videoPlaying = false;
 
         WakelockPlus.disable();
         if (res != null && res && context.mounted) {
@@ -765,7 +778,7 @@ class _DetailPageState extends State<DetailPage> {
                   if (id != null) {
                     context
                         .read<DetailPageCubit>()
-                        .getStartOrResumeModel(id, '${model.id}', model);
+                        .getStartOrResumeModel(id, '${model.id}', model, null);
                   }
                   break;
                 case ObjLOAction.showDetailMeeting:

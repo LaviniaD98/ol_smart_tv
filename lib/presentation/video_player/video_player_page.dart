@@ -1,5 +1,5 @@
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +27,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'context.read<DetailPageCubit>(): ${context.read<DetailPageCubit>()}');
     return _content;
   }
 
@@ -71,6 +69,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 detailModel: widget.args.detailModel,
                 grandParentId: widget.args.grandParentId,
                 parentId: widget.args.parentId,
+                currentObject: widget.args.currentObject,
                 onTapDetail: () async {
                   bool enabled =
                       state.maybeMap(orElse: () => true, loading: (_) => false);
@@ -168,6 +167,7 @@ class VideoPlayerPageArgs {
   final DetailPageArgs? args;
   final String? grandParentId;
   final String? parentId;
+  final LearningObjectModel? currentObject;
 
   VideoPlayerPageArgs({
     required this.id,
@@ -183,5 +183,6 @@ class VideoPlayerPageArgs {
     this.grandParentId,
     this.parentId,
     required this.args,
+    required this.currentObject,
   });
 }

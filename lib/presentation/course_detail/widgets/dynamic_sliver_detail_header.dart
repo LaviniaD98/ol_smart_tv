@@ -489,7 +489,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                                   context
                                       .read<DetailPageCubit>()
                                       .getStartOrResumeModel(widget.model.id!,
-                                          parentId, widget.model);
+                                          parentId, widget.model, null);
                                   break;
                                 case ObjLOAction.autoEnrollmentBottom:
                                   context
@@ -543,7 +543,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                                   context
                                       .read<DetailPageCubit>()
                                       .getStartOrResumeModel(widget.model.id!,
-                                          parentId, widget.model);
+                                          parentId, widget.model, null);
                                   break;
                                 case ObjLOAction.showDetailMeeting:
                                   OlAlertDialog.show(
