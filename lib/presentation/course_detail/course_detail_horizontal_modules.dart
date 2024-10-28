@@ -199,7 +199,6 @@ class _CourseDetailHorizontalModulesState
                             bindings: <ShortcutActivator, VoidCallback>{
                               const SingleActivator(LogicalKeyboardKey.enter):
                                   () {
-                                print('cslkdclòksdlkcnslknclsdlc------');
                                 widget.onButtonPressed(ll.id, false, ll, cc);
                               },
                               const SingleActivator(LogicalKeyboardKey.select):
@@ -285,7 +284,6 @@ class _CourseDetailHorizontalModulesState
   int? currentIndex;
 
   Future<void> scrollToPosition(int index) async {
-    print('INDEX: $index');
     currentIndex = index;
     await autoScrollController.scrollToIndex(
       index,

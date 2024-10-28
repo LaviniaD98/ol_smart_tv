@@ -17,15 +17,12 @@ class TopicsFilterCubit extends Cubit<TopicsFilterState> {
       : super(const TopicsFilterState.loading());
 
   void init() async {
-    print('INITING TOPICS FILTER CUBIT');
     final res = await _getTopicsUseCase();
     res.fold(
       (l) {
-        print('LEFT: $l');
         emit(const TopicsFilterState.error());
       },
       (r) {
-        print('RIGHT: ${r}');
         emit(TopicsFilterState.success(r.output ?? []));
       },
     );
