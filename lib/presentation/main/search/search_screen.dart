@@ -105,6 +105,7 @@ class _SearchScreenState extends State<SearchScreen>
                 children: [
                   const SizedBox(width: Dimens.hViewPadding),
                   Expanded(
+                    flex: 8,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -161,13 +162,20 @@ class _SearchScreenState extends State<SearchScreen>
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
-                            padding: const EdgeInsets.all(24),
-                            height: 370,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 20,
+                            ),
+                            height: 380,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white.withOpacity(0.03),
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(14),
+                                topRight: Radius.circular(14),
+                              ),
                               border: Border.all(
                                 width: 1,
-                                color: OLColors.textPrimary,
+                                color: OLColors.divider,
                               ),
                             ),
                             child: Row(
@@ -215,6 +223,7 @@ class _SearchScreenState extends State<SearchScreen>
                   ),
                   const SizedBox(width: Dimens.hViewPadding),
                   Expanded(
+                    flex: 9,
                     child: BlocBuilder<SearchCubit, SearchState>(
                       builder: (context, state) => state.maybeWhen(
                         initial: (suggestions) {
@@ -351,33 +360,34 @@ class _SearchScreenState extends State<SearchScreen>
   Widget buildKeyboard() {
     return Align(
       alignment: Alignment.centerLeft,
-      child: SizedBox(
-        width: 540,
-        child: ValueListenableBuilder(
-          valueListenable: textNotifier,
-          builder: (context, value, _) {
-            return OnscreenKeyboard(
-              initialCase: InitialCase.LOWER_CASE,
-              onFocusOutside: (side) {
-                if (side == TraversalDirection.left) {
-                  final focus = context.read<MainStateCubit>().state;
-                  focus.requestFocus();
-                } else {
-                  focusNode.focusInDirection(side);
-                }
-              },
-              value: value,
-              buttonColor: Colors.black,
-              focusColor: Colors.grey.shade900,
-              onChanged: (txt) {
-                final text = (txt ?? '').trim();
-                textNotifier.value = text;
-                form.findControl('search')?.value = text;
-                //search(text);
-              },
-            );
-          },
-        ),
+      child: ValueListenableBuilder(
+        valueListenable: textNotifier,
+        builder: (context, value, _) {
+          return OnscreenKeyboard(
+            initialCase: InitialCase.LOWER_CASE,
+            isClearHidden: true,
+            hLetterSpacing: 4,
+            vLetterSpacing: 4,
+            onFocusOutside: (side) {
+              if (side == TraversalDirection.left) {
+                final focus = context.read<MainStateCubit>().state;
+                focus.requestFocus();
+              } else {
+                focusNode.focusInDirection(side);
+              }
+            },
+            value: value,
+            isSearch: true,
+            buttonColor: Colors.black,
+            focusColor: Colors.grey.shade900,
+            onChanged: (txt) {
+              final text = (txt ?? '').trim();
+              textNotifier.value = text;
+              form.findControl('search')?.value = text;
+              //search(text);
+            },
+          );
+        },
       ),
     );
   }
@@ -393,7 +403,7 @@ class _SearchScreenState extends State<SearchScreen>
             icon: Icons.search_rounded,
             backgroundColor: OLColors.accentVariantA,
             foregroundColor: OLColors.backgroundPrimary,
-            width: 120,
+            width: 100,
             outline: true,
             onPressed: form.valid ? () => search() : null,
           );

@@ -277,8 +277,6 @@ class _ExploreScreenState extends State<ExploreScreen>
 
           items.removeWhere((element) => element.entries.firstOrNull == null);
 
-          print('ITEMS: ${success.refreshingStrips}');
-
           return _stripRows(
             source: items,
             filters: success.filters,

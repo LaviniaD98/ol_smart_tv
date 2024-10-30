@@ -102,6 +102,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                           true,
                         );
 
+                    // ignore: use_build_context_synchronously
                     await context.read<VideoPlayerCubit>().statementsCall(
                           widget.args,
                           true,
@@ -110,6 +111,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                           true,
                         );
 
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop(true);
                   }
                 },

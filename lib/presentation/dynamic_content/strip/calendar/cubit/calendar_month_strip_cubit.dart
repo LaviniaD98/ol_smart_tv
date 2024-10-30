@@ -32,7 +32,6 @@ class CalendarMonthStripCubit extends Cubit<CalendarMonthStripState> {
     res.fold((l) {
       emit(CalendarMonthStripState.error(initialDate));
     }, (r) {
-      print('RESPONSE: ${r.activities.length} - ${r.daysToHighlight}');
       final value = _filteredActivities(r.activities, r.daysToHighlight);
       emit(CalendarMonthStripState.success(
           initialDate, value.$1, value.$2, strip));

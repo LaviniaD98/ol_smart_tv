@@ -20,6 +20,7 @@ class MenuModel {
   }
 
   static MenuRoute? _dtoToMenuRoute(int index, RelativePathDto e) {
+    print('e.serviceType: ${e.serviceType}');
     switch (e.serviceType) {
       case 'visForyou':
         return MenuRoute.visForYou(
@@ -67,7 +68,9 @@ enum MenuServiceType {
   visForYou('visForyou'),
   visSearch('visSearch'),
   visExplore('visExplore'),
-  community('funcCommunity');
+  community('funcCommunity'),
+  favorites('favorites'),
+  agenda('agenda');
 
   final String routeName;
   const MenuServiceType(this.routeName);

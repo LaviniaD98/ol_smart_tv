@@ -104,6 +104,11 @@ class LoginCubit extends Cubit<LoginState> {
     emit(currentState);
   }
 
+  Future<void> getQrCode() async {
+    final res = await _cognitoAuthManager.getQrCode();
+    print('res: $res');
+  }
+
   Future<void> _handleSession(CognitoUserSession session) async {
     UserInfoModel? userInfoModel = await _getSecureStoredUserInfoUseCase.call();
 

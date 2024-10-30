@@ -78,7 +78,11 @@ class _ForYouScreenState extends State<ForYouScreen>
             child: BlocConsumer<DynamicAllContentCubit, DynamicAllContentState>(
               listener: (context, state) {
                 state.maybeWhen(
-                  success: (c, _, filters, refreshing) {},
+                  success: (c, _, filters, refreshing) {
+                    Future.delayed(const Duration(milliseconds: 100), () {
+                      focusNode.requestFocus();
+                    });
+                  },
                   loading: () {},
                   error: (f) {},
                   orElse: () {},

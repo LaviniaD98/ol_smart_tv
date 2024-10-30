@@ -179,7 +179,7 @@ class _CalendarStripContentState extends State<_CalendarStripContent> {
         },
         const SingleActivator(LogicalKeyboardKey.arrowDown): () {
           final res = focusNode.focusInDirection(TraversalDirection.down);
-          print('TraversalDirection.down - $res');
+
           if (res == false) {
             //widget.onFocusOutside?.call(TraversalDirection.down);
           }
@@ -187,11 +187,7 @@ class _CalendarStripContentState extends State<_CalendarStripContent> {
       },
       child: FocusScope(
         node: focusNode,
-        onFocusChange: (value) {
-          if (value) {
-            print('HAS FOCUS----------');
-          }
-        },
+        onFocusChange: (value) {},
         child: BlocConsumer<CalendarStripCubit, CalendarStripState>(
           buildWhen: (previous, current) => previous is! ParentShimmer,
           listenWhen: (previous, current) => current.maybeWhen(

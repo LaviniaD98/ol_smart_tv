@@ -234,7 +234,8 @@ class _ForYouCardState extends State<ForYouCard> {
           ),
           const SizedBox(width: 24),
         ],
-        if (widget.data.expirationDate != null) ...[
+        if (widget.data.expirationDate != null &&
+            widget.data.expirationDate?.year != 9999) ...[
           IconText(
             bkColor: ColorManager().getColorTextPrimary(),
             text: DateFormat('dd/MM/yyyy').format(widget.data.expirationDate!),
@@ -278,7 +279,7 @@ class _ForYouCardState extends State<ForYouCard> {
                 ),
                 const SizedBox(width: 16),
                 Text(
-                  widget.data.iconStatus.name,
+                  widget.data.iconStatus.getLocalizedLabel(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextTheme.caption(
@@ -389,7 +390,7 @@ class LearningCardShimmer extends StatelessWidget {
 
               const SizedBox(height: 28),
               TopicList(
-                ['Testingcdcfd', 'Testing csdc ce'],
+                const ['Testingcdcfd', 'Testing csdc ce'],
                 textColor: Colors.transparent,
                 color:
                     ColorManager().getColorSystemSecondary05().withOpacity(.6),

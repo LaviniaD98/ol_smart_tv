@@ -3,6 +3,7 @@ import 'package:open_learning_smart_tv/domain/entities/user/user_info_model.dart
 import 'package:open_learning_smart_tv/domain/use_cases/get_secure_stored_user_info_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/session/check_session_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/session/create_session_use_case.dart';
+import 'package:open_learning_smart_tv/domain/use_cases/session/get_qr_code_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/session/set_initiative_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/set_secure_stored_user_info_use_case.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -24,20 +25,73 @@ class CognitoAuthManager {
   final CreateSessionUseCase _createSessionUseCase;
   final CheckSessionUseCase _checkSessionUseCase;
   final GetStoredCorporateIdUseCase _getStoredCorporateIdUseCase;
+  final GetQrCodeUseCase _getQrCodeUseCase;
 
   CognitoAuthManager(
-      this._olCognitoStorage,
-      this._getSecureStoredUserInfoUseCase,
-      this._setInitiativeUseCase,
-      this._setSecureStoredUserInfoUseCase,
-      this._createSessionUseCase,
-      this._checkSessionUseCase,
-      this._getStoredCorporateIdUseCase);
+    this._olCognitoStorage,
+    this._getSecureStoredUserInfoUseCase,
+    this._setInitiativeUseCase,
+    this._setSecureStoredUserInfoUseCase,
+    this._createSessionUseCase,
+    this._checkSessionUseCase,
+    this._getStoredCorporateIdUseCase,
+    this._getQrCodeUseCase,
+  );
 
   late CognitoUser cognitoUser;
   late CognitoUserPool userPool;
 
   Future<Either<CognitoResponse, CognitoUserSession>> login(
+      AuthenticationDetails details) async {
+    final corporateInfo = await _getStoredCorporateIdUseCase();
+    userPool = CognitoUserPool(
+      '${corporateInfo?.userpoolId}',
+      '${corporateInfo?.clientId}',
+      storage: _olCognitoStorage,
+    );
+
+    cognitoUser = CognitoUser(
+      details.username,
+      userPool,
+      storage: _olCognitoStorage,
+    );
+
+    try {
+      CognitoUserSession? session;
+      cognitoUser.setAuthenticationFlowType("CUSTOM_AUTH");
+      session = await cognitoUser.authenticateUser(details);
+      return Right(session!);
+    } on CognitoUserNewPasswordRequiredException catch (e) {
+      return Left(CognitoResponse.cognitoUserNewPasswordRequired(e));
+    } on CognitoUserMfaRequiredException catch (_) {
+      return const Left(CognitoResponse.cognitoUserMfaRequired());
+    } on CognitoUserSelectMfaTypeException catch (_) {
+      return const Left(CognitoResponse.cognitoUserSelectMfaType());
+    } on CognitoUserMfaSetupException catch (_) {
+      return const Left(CognitoResponse.cognitoUserMfaSetup());
+    } on CognitoUserTotpRequiredException catch (_) {
+      return const Left(CognitoResponse.cognitoUserTotpRequired());
+    } on CognitoUserCustomChallengeException catch (_) {
+      return const Left(CognitoResponse.cognitoUserCustomChallenge());
+    } on CognitoUserConfirmationNecessaryException catch (_) {
+      return const Left(CognitoResponse.cognitoUserConfirmationNecessary());
+    } on CognitoClientException catch (_) {
+      return const Left(CognitoResponse.cognitoAuthDenied());
+    } catch (e) {
+      return const Left(CognitoResponse.cognitoAuthDenied());
+    }
+  }
+
+  // TODO(UmbertoGrimaldi): Add method to perform qr code login based on the login method
+
+  Future<dynamic> getQrCode() async {
+    final res = await _getQrCodeUseCase.call();
+    print('RES: $res');
+
+    return res;
+  }
+
+  Future<Either<CognitoResponse, CognitoUserSession>> loginQR(
       AuthenticationDetails details) async {
     final corporateInfo = await _getStoredCorporateIdUseCase();
     userPool = CognitoUserPool(

@@ -392,6 +392,8 @@ import 'package:open_learning_smart_tv/domain/use_cases/session/check_session_us
     as _i140;
 import 'package:open_learning_smart_tv/domain/use_cases/session/create_session_use_case.dart'
     as _i205;
+import 'package:open_learning_smart_tv/domain/use_cases/session/get_qr_code_use_case.dart'
+    as _i771;
 import 'package:open_learning_smart_tv/domain/use_cases/session/get_stored_corporate_id_ss_use_case.dart'
     as _i312;
 import 'package:open_learning_smart_tv/domain/use_cases/session/get_stored_corporate_id_use_case.dart'
@@ -744,6 +746,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i76.PrivacyCubit(gh<_i596.SetPrivacyConsentUseCase>()));
     gh.lazySingleton<_i55.SessionRepository>(
         () => _i522.SessionRepositoryImpl(gh<_i188.SessionDataSource>()));
+    gh.lazySingleton<_i771.GetQrCodeUseCase>(
+        () => _i771.GetQrCodeUseCase(gh<_i188.SessionDataSource>()));
     gh.lazySingleton<_i788.CleanLocalDatabaseUseCase>(
         () => _i788.CleanLocalDatabaseUseCase(
               gh<_i318.AppDatabase>(),
@@ -777,6 +781,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i205.CreateSessionUseCase>(),
           gh<_i140.CheckSessionUseCase>(),
           gh<_i674.GetStoredCorporateIdUseCase>(),
+          gh<_i771.GetQrCodeUseCase>(),
         ));
     gh.factory<_i1023.PwdResetCubit>(
         () => _i1023.PwdResetCubit(gh<_i82.CognitoAuthManager>()));
@@ -1243,10 +1248,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i664.ContinueLearningStripCubit>(() =>
         _i664.ContinueLearningStripCubit(
             gh<_i427.GetContinueLearningStripUseCase>()));
-    gh.lazySingleton<_i976.FavouritesStripCubit>(
-        () => _i976.FavouritesStripCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.lazySingleton<_i409.BestRatingStripCubit>(
         () => _i409.BestRatingStripCubit(gh<_i783.GetStandardStripUseCase>()));
+    gh.lazySingleton<_i976.FavouritesStripCubit>(
+        () => _i976.FavouritesStripCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.lazySingleton<_i934.AddFavouritesUseCase>(
         () => _i934.AddFavouritesUseCase(
               gh<_i179.DetailRepository>(),
@@ -1349,10 +1354,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i460.SharedPreferences>(),
           gh<_i740.RemoteLabels>(),
         ));
-    gh.factory<_i450.StandardStripCubit>(
-        () => _i450.StandardStripCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.factory<_i642.ExploreStripsCubit>(
         () => _i642.ExploreStripsCubit(gh<_i783.GetStandardStripUseCase>()));
+    gh.factory<_i450.StandardStripCubit>(
+        () => _i450.StandardStripCubit(gh<_i783.GetStandardStripUseCase>()));
     gh.factory<_i389.LogoHeaderCubit>(() => _i389.LogoHeaderCubit(
           gh<_i552.GetUserImageUseCase>(),
           gh<_i832.GetSecureStoredUserInfoUseCase>(),

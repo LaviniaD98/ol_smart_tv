@@ -7,6 +7,7 @@ class GenericContainer extends StatefulWidget {
     required this.child,
     this.onPressed,
     this.decoration,
+    this.decorationBuilder,
     this.padding,
     super.key,
   });
@@ -14,6 +15,7 @@ class GenericContainer extends StatefulWidget {
   final Widget child;
   final void Function()? onPressed;
   final BoxDecoration? decoration;
+  final BoxDecoration Function(bool)? decorationBuilder;
   final EdgeInsets? padding;
 
   @override
@@ -43,7 +45,8 @@ class _GenericContainerState extends State<GenericContainer> {
         setState(() {});
       },
       child: Container(
-        decoration: widget.decoration?.copyWith(
+        decoration: widget.decorationBuilder?.call(focusNode.hasFocus) ??
+            widget.decoration?.copyWith(
               border: Border.all(
                 color: focusNode.hasFocus
                     ? ColorManager().getColorBorderTag()

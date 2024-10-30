@@ -279,11 +279,11 @@ class _PrivacyPageState extends State<PrivacyPage> {
     );
   }
 
-  Future<void> _launchUrl(Uri url) async {
-    if (!await launchUrl(url)) {
-      throw Exception('Could not launch $url');
-    }
-  }
+  // Future<void> _launchUrl(Uri url) async {
+  //   if (!await launchUrl(url)) {
+  //     throw Exception('Could not launch $url');
+  //   }
+  // }
 
   @override
   void dispose() {

@@ -82,7 +82,13 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
           widget.model.meetingDetails?.startDate,
           widget.model.meetingDetails?.endDate);
     }
-    return CourseLogic().getExpirationStringDate(widget.model.expirationDate);
+    final date =
+        CourseLogic().getExpirationStringDate(widget.model.expirationDate);
+
+    if (date.contains('9999')) {
+      return '';
+    }
+    return date;
   }
 
   bool get showStatus => (widget.model.iconStatus != IconStatus.idle ||

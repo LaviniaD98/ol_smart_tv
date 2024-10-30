@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
 
 import '../../color_management/color_manager.dart';
 import '../../domain/entities/menu/route/menu_route.dart';
@@ -79,6 +81,38 @@ extension $IconStatus on IconStatus {
             ColorManager().getColorBackgroundSecondaryComplete(),
       }[this] ??
       Colors.transparent;
+
+  String getLocalizedLabel() {
+    if (getIt<RemoteLabels>().locale.languageCode == 'it') {
+      return {
+            IconStatus.mandatory: 'Obbligatorio',
+            IconStatus.completed: 'Completato',
+            IconStatus.expired: 'Scaduto',
+            IconStatus.suggestedAI: 'In base al tuo profilo',
+            IconStatus.suggestedHR: 'Suggerito da HR',
+          }[this] ??
+          '';
+    }
+    if (getIt<RemoteLabels>().locale.languageCode == 'en') {
+      return {
+            IconStatus.mandatory: 'Mandatory',
+            IconStatus.completed: 'Completed',
+            IconStatus.expired: 'Expired',
+            IconStatus.suggestedAI: 'Based on your profile',
+            IconStatus.suggestedHR: 'Suggested by HR',
+          }[this] ??
+          '';
+    } else {
+      return {
+            IconStatus.mandatory: 'Obbligatorio',
+            IconStatus.completed: 'Completato',
+            IconStatus.expired: 'Scaduto',
+            IconStatus.suggestedAI: 'In base al tuo profilo',
+            IconStatus.suggestedHR: 'Suggerito da HR',
+          }[this] ??
+          '';
+    }
+  }
 }
 
 extension $StripRow on StripRow {

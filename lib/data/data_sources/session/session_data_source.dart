@@ -21,4 +21,8 @@ abstract class SessionDataSource {
     String? refreshToken,
     required InitiativeBodyDto initiativeBodyDto,
   });
+
+  Future<dynamic> generateQr({
+    String? authorization,
+  });
 }

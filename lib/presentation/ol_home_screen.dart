@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,22 +52,41 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
     super.initState();
 
     pageController = PageController(initialPage: initialPage);
+    tabKeys = [];
 
-    tabKeys = [
-      searchTabKey,
-      forYouTabKey,
-      exploreTabKey,
-      favoritesTabKey,
-      agendaTabKey,
-      profileTabKey,
-    ];
+    widget.dynamicRoutes.forEach((e) {
+      if (e.routeName == 'visSearch') {
+        tabKeys.add(searchTabKey);
+      } else if (e.routeName == 'visForYou') {
+        tabKeys.add(forYouTabKey);
+      } else if (e.routeName == 'visExplore') {
+        tabKeys.add(exploreTabKey);
+      } else if (e.routeName == 'favourites') {
+        tabKeys.add(favoritesTabKey);
+      } else if (e.routeName == 'agenda') {
+        tabKeys.add(agendaTabKey);
+      }
+    });
+
+    tabKeys.add(profileTabKey);
+
+    // tabKeys = [
+    //   searchTabKey,
+    //   forYouTabKey,
+    //   exploreTabKey,
+    //   favoritesTabKey,
+    //   agendaTabKey,
+    //   profileTabKey,
+    // ];
 
     manager.currentTabNavKey = tabKeys[initialPage];
   }
 
   @override
   Widget build(BuildContext context) {
-    //print('widget.dynamicRoutes: ${widget.dynamicRoutes}');
+    widget.dynamicRoutes.forEach((e) {
+      print('RETURNED: ${e.routeName}');
+    });
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {

@@ -39,4 +39,10 @@ abstract class SessionDataSourceImpl implements SessionDataSource {
       @Header('AuthToken') String? authToken,
       @Header('RefreshToken') String? refreshToken,
       @Body() required InitiativeBodyDto initiativeBodyDto});
+
+  @override
+  @POST('/sessions-qr/generate-qr')
+  Future<dynamic> generateQr({
+    @Header('Authorization') String? authorization,
+  });
 }

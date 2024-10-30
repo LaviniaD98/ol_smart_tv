@@ -20,6 +20,7 @@ class OLButton extends StatefulWidget {
     this.foregroundColor,
     this.icon,
     this.image,
+    this.radius,
     super.key,
   });
 
@@ -36,6 +37,7 @@ class OLButton extends StatefulWidget {
   final Color? foregroundColor;
   final IconData? icon;
   final String? image;
+  final double? radius;
 
   @override
   State<OLButton> createState() => _OLButtonState();
@@ -134,6 +136,12 @@ class _OLButtonState extends State<OLButton> {
                         ),
                         backgroundColor:
                             WidgetStateProperty.all(Colors.transparent),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(widget.radius ?? 3),
+                          ),
+                        ),
                         foregroundColor:
                             WidgetStateProperty.resolveWith((states) {
                           if (states.contains(WidgetState.disabled)) {
@@ -149,6 +157,12 @@ class _OLButtonState extends State<OLButton> {
                             width: 5,
                             strokeAlign: BorderSide.strokeAlignOutside,
                             color: color.resolve(_statesController.value),
+                          ),
+                        ),
+                        shape: WidgetStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.circular(widget.radius ?? 3),
                           ),
                         ),
                       ),

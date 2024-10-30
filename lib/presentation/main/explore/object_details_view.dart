@@ -99,8 +99,8 @@ class ObjectDetailsView extends StatelessWidget {
                           child: Row(
                             children: [
                               _durationTag(value!),
-                              if (value?.expirationDate != null) ...[
-                                const SizedBox(width: 24),
+                              if (value?.expirationDate != null &&
+                                  value?.expirationDate?.year != 9999) ...[
                                 IconText(
                                   bkColor: ColorManager().getColorTextPrimary(),
                                   text:
@@ -141,15 +141,18 @@ class ObjectDetailsView extends StatelessWidget {
 
     //print('value: ${value.expirationDate}');
 
-    return DurationTag.fromMinutes(
-      value.duration ?? 0,
-      color: color,
-      iconSize: 24,
-      textOnly: true,
-      textStyle: AppTextTheme.body(
-        weight: FontWeight.w400,
-        size: 15,
-        color: ColorManager().getColorTextPrimary(),
+    return Padding(
+      padding: const EdgeInsets.only(right: 24),
+      child: DurationTag.fromMinutes(
+        value.duration ?? 0,
+        color: color,
+        iconSize: 24,
+        textOnly: true,
+        textStyle: AppTextTheme.body(
+          weight: FontWeight.w400,
+          size: 15,
+          color: ColorManager().getColorTextPrimary(),
+        ),
       ),
     );
   }

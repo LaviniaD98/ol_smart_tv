@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/domain/entities/menu/menu_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_side_item.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/user_avatar.dart';
@@ -34,6 +35,10 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
   int selectedIndex = 1;
 
+  List<String> tabs = [
+    MenuServiceType.visSearch.routeName,
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -42,12 +47,12 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
     Future.delayed(const Duration(milliseconds: 100), () {
       if (context.mounted) {
         // ignore: use_build_context_synchronously
-        context
-            .read<MainStateCubit>()
-            .state
-            .children
-            .toList()[1]
-            .requestFocus();
+        // context
+        //     .read<MainStateCubit>()
+        //     .state
+        //     .children
+        //     .toList()[1]
+        //     .requestFocus();
         widget.pageController.jumpToPage(1);
       }
     });

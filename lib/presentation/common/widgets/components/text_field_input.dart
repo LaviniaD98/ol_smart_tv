@@ -14,12 +14,14 @@ class TextFieldInput extends StatefulWidget {
     required this.order,
     required this.headerTitle,
     this.autofocus = false,
+    this.isObscured = false,
     this.focusNode,
     this.onChanged,
     super.key,
   });
 
   final bool autofocus;
+  final bool isObscured;
   final int order;
   final FormGroup form;
   final String controlName;
@@ -84,6 +86,8 @@ class _TextFieldInputState extends State<TextFieldInput>
               MaterialPageRoute(
                 builder: (context) => TextInputScreen(
                   onChanged: widget.onChanged,
+                  isObscured: widget.isObscured,
+                  initialValue: widget.form.control(widget.controlName).value,
                 ),
               ),
             ) as String?;
@@ -133,11 +137,18 @@ class _TextFieldInputState extends State<TextFieldInput>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
-                          child: Text(
-                              widget.form.control(widget.controlName).value
-                                      as String? ??
-                                  '',
-                              style: AppTextTheme.body()),
+                          child: Builder(builder: (context) {
+                            final text = widget.form
+                                    .control(widget.controlName)
+                                    .value as String? ??
+                                '';
+                            return Text(
+                              widget.isObscured
+                                  ? text.replaceAll(RegExp(r'.'), '*')
+                                  : text,
+                              style: AppTextTheme.body(),
+                            );
+                          }),
                         ),
                       ],
                     ),

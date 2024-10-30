@@ -18,6 +18,12 @@ class OnscreenKeyboard extends StatelessWidget {
   final Color? buttonColor;
   final Color? focusColor;
   final void Function(TraversalDirection side)? onFocusOutside;
+  final double? vLetterSpacing;
+  final double? hLetterSpacing;
+  final TextStyle? textStyle;
+  final bool isSearch;
+  final bool isClearHidden;
+
   const OnscreenKeyboard({
     super.key,
     this.onChanged,
@@ -28,6 +34,11 @@ class OnscreenKeyboard extends StatelessWidget {
     this.value,
     this.onFocusOutside,
     required this.initialCase,
+    this.vLetterSpacing,
+    this.hLetterSpacing,
+    this.textStyle,
+    this.isSearch = false,
+    this.isClearHidden = false,
   });
   @override
   Widget build(BuildContext context) {
@@ -46,6 +57,11 @@ class OnscreenKeyboard extends StatelessWidget {
         buttonColor: buttonColor,
         focusColor: focusColor,
         onFocusOutside: onFocusOutside,
+        vLetterSpacing: vLetterSpacing,
+        hLetterSpacing: hLetterSpacing,
+        textStyle: textStyle,
+        isSearch: isSearch,
+        isClearHidden: isClearHidden,
       ),
     );
   }
@@ -60,6 +76,11 @@ class OnscreenKeyboardWidget extends StatefulWidget {
   final Color? buttonColor;
   final Color? focusColor;
   final void Function(TraversalDirection side)? onFocusOutside;
+  final double? vLetterSpacing;
+  final double? hLetterSpacing;
+  final TextStyle? textStyle;
+  final bool isSearch;
+  final bool isClearHidden;
 
   const OnscreenKeyboardWidget({
     super.key,
@@ -71,6 +92,11 @@ class OnscreenKeyboardWidget extends StatefulWidget {
     this.value,
     this.initialCase,
     this.onFocusOutside,
+    this.vLetterSpacing,
+    this.hLetterSpacing,
+    this.textStyle,
+    this.isSearch = false,
+    this.isClearHidden = false,
   });
   @override
   _OnscreenKeyboardWidgetState createState() => _OnscreenKeyboardWidgetState();
@@ -189,12 +215,115 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (!widget.isSearch) ...[
+              SizedBox(
+                width: 100,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 76),
+                    Button(
+                      autofocus: false,
+                      height: 60,
+                      focusColor: widget.focusColor ?? widget.focusColor,
+                      borderColor: widget.borderColor ?? widget.borderColor,
+                      buttonColor: widget.buttonColor ?? widget.buttonColor,
+                      onPressed: () {
+                        shift();
+                      },
+                      label: const Icon(Icons.arrow_upward),
+                    ),
+                    const SizedBox(height: 4),
+                    Button(
+                      autofocus: false,
+                      focusColor: widget.focusColor ?? widget.focusColor,
+                      borderColor: widget.borderColor ?? widget.borderColor,
+                      buttonColor: widget.buttonColor ?? widget.buttonColor,
+                      onPressed: () {
+                        specialCharacters();
+                      },
+                      label: BlocBuilder<KeyboardShiftBloc, KeyboardShiftState>(
+                        builder: (context, state) {
+                          if (state is KeyboardShiftSymbols) {
+                            return const Text(
+                              'ABC',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            );
+                          } else {
+                            return const Text(
+                              '&123',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+            ],
             Expanded(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
+                  if (!widget.isSearch) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Button(
+                          autofocus: false,
+                          height: 60,
+                          focusColor: widget.focusColor ?? widget.focusColor,
+                          borderColor: widget.borderColor ?? widget.borderColor,
+                          buttonColor: widget.buttonColor ?? widget.buttonColor,
+                          onPressed: () {
+                            if (text!.isNotEmpty) {
+                              text = text!.substring(0, text!.length - 1);
+                            }
+                            setState(() {});
+                            widget.onChanged!(text);
+                          },
+                          label: const Icon(
+                            Icons.backspace,
+                            size: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        if (!widget.isClearHidden) ...[
+                          Button(
+                            autofocus: false,
+                            height: 60,
+                            focusColor: widget.focusColor ?? widget.focusColor,
+                            borderColor:
+                                widget.borderColor ?? widget.borderColor,
+                            buttonColor:
+                                widget.buttonColor ?? widget.buttonColor,
+                            onPressed: () {
+                              text = '';
+                              setState(() {});
+                              widget.onChanged!(text);
+                            },
+                            label: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24),
+                              child: Text(
+                                'CLEAR',
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                  ],
                   Flexible(
                     child: Container(
                       color: widget.backgroundColor ?? Colors.transparent,
@@ -215,45 +344,13 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
                       }),
                     ),
                   ),
+                  const SizedBox(height: 12),
                   Container(
                     color: widget.backgroundColor ?? Colors.transparent,
                     child: Row(
                       children: <Widget>[
                         Flexible(
-                          child: Button(
-                            autofocus: false,
-                            focusColor: widget.focusColor ?? widget.focusColor,
-                            borderColor:
-                                widget.borderColor ?? widget.borderColor,
-                            buttonColor:
-                                widget.buttonColor ?? widget.buttonColor,
-                            onPressed: () {
-                              shift();
-                            },
-                            label: const Icon(Icons.arrow_upward),
-                          ),
-                        ),
-                        Flexible(
-                          child: Button(
-                            autofocus: false,
-                            focusColor: widget.focusColor ?? widget.focusColor,
-                            borderColor:
-                                widget.borderColor ?? widget.borderColor,
-                            buttonColor:
-                                widget.buttonColor ?? widget.buttonColor,
-                            onPressed: () {
-                              text = '';
-                              setState(() {});
-                              widget.onChanged!(text);
-                            },
-                            label: const Text(
-                              'CLEAR',
-                              style: TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                        Flexible(
+                          flex: 3,
                           child: Button(
                             autofocus: true,
                             focusColor: widget.focusColor ?? widget.focusColor,
@@ -278,56 +375,101 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
                 ],
               ),
             ),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Button(
-                  autofocus: false,
-                  focusColor: widget.focusColor ?? widget.focusColor,
-                  borderColor: widget.borderColor ?? widget.borderColor,
-                  buttonColor: widget.buttonColor ?? widget.buttonColor,
-                  onPressed: () {
-                    if (text!.isNotEmpty) {
-                      text = text!.substring(0, text!.length - 1);
-                    }
-                    setState(() {});
-                    widget.onChanged!(text);
-                  },
-                  label: const Icon(
-                    Icons.backspace,
-                    size: 20,
-                  ),
+            if (widget.isSearch) ...[
+              const SizedBox(width: 8),
+              SizedBox(
+                width: 120,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Button(
+                      autofocus: false,
+                      height: 60,
+                      focusColor: widget.focusColor ?? widget.focusColor,
+                      borderColor: widget.borderColor ?? widget.borderColor,
+                      buttonColor: widget.buttonColor ?? widget.buttonColor,
+                      onPressed: () {
+                        if (text!.isNotEmpty) {
+                          text = text!.substring(0, text!.length - 1);
+                        }
+                        setState(() {});
+                        widget.onChanged!(text);
+                      },
+                      label: const Icon(
+                        Icons.backspace,
+                        size: 20,
+                      ),
+                    ),
+                    if (!widget.isClearHidden) ...[
+                      const SizedBox(height: 4),
+                      Button(
+                        autofocus: false,
+                        height: 60,
+                        focusColor: widget.focusColor ?? widget.focusColor,
+                        borderColor: widget.borderColor ?? widget.borderColor,
+                        buttonColor: widget.buttonColor ?? widget.buttonColor,
+                        onPressed: () {
+                          text = '';
+                          setState(() {});
+                          widget.onChanged!(text);
+                        },
+                        label: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                            'CLEAR',
+                            style: TextStyle(
+                                fontSize: 21, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 4),
+                    Button(
+                      autofocus: false,
+                      height: 60,
+                      focusColor: widget.focusColor ?? widget.focusColor,
+                      borderColor: widget.borderColor ?? widget.borderColor,
+                      buttonColor: widget.buttonColor ?? widget.buttonColor,
+                      onPressed: () {
+                        shift();
+                      },
+                      label: const Icon(Icons.arrow_upward),
+                    ),
+                    const SizedBox(height: 4),
+                    Button(
+                      height: 60,
+                      autofocus: false,
+                      focusColor: widget.focusColor ?? widget.focusColor,
+                      borderColor: widget.borderColor ?? widget.borderColor,
+                      buttonColor: widget.buttonColor ?? widget.buttonColor,
+                      onPressed: () {
+                        specialCharacters();
+                      },
+                      label: BlocBuilder<KeyboardShiftBloc, KeyboardShiftState>(
+                        builder: (context, state) {
+                          if (state is KeyboardShiftSymbols) {
+                            return const Text(
+                              'ABC',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            );
+                          } else {
+                            return const Text(
+                              '&123',
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Button(
-                  autofocus: false,
-                  focusColor: widget.focusColor ?? widget.focusColor,
-                  borderColor: widget.borderColor ?? widget.borderColor,
-                  buttonColor: widget.buttonColor ?? widget.buttonColor,
-                  onPressed: () {
-                    specialCharacters();
-                  },
-                  label: BlocBuilder<KeyboardShiftBloc, KeyboardShiftState>(
-                    builder: (context, state) {
-                      if (state is KeyboardShiftSymbols) {
-                        return const Text(
-                          'ABC',
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        );
-                      } else {
-                        return const Text(
-                          '&123',
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.bold),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(width: 12),
+            ],
           ],
         ),
       ),
@@ -335,29 +477,32 @@ class _OnscreenKeyboardWidgetState extends State<OnscreenKeyboardWidget> {
   }
 
   Widget _buildBody(List<String> labels) {
-    //
     return GridView.builder(
-        shrinkWrap: true,
-        itemCount: labels.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 7,
-        ),
-        itemBuilder: (context, index) {
-          return Button(
-            autofocus: false,
-            focusColor: widget.focusColor ?? widget.focusColor,
-            borderColor: widget.borderColor ?? widget.borderColor,
-            buttonColor: widget.buttonColor ?? widget.buttonColor,
-            label: Text(
-              labels[index],
-              style: const TextStyle(fontSize: 25),
-            ),
-            onPressed: () {
-              text = text! + labels[index];
-              setState(() {});
-              widget.onChanged!(text);
-            },
-          );
-        });
+      shrinkWrap: true,
+      itemCount: labels.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 8,
+        childAspectRatio: 0.9,
+        crossAxisSpacing: widget.hLetterSpacing ?? 0,
+        mainAxisSpacing: widget.vLetterSpacing ?? 0,
+      ),
+      itemBuilder: (context, index) {
+        return Button(
+          autofocus: false,
+          focusColor: widget.focusColor ?? widget.focusColor,
+          borderColor: widget.borderColor ?? widget.borderColor,
+          buttonColor: widget.buttonColor ?? widget.buttonColor,
+          label: Text(
+            labels[index],
+            style: widget.textStyle ?? const TextStyle(fontSize: 25),
+          ),
+          onPressed: () {
+            text = text! + labels[index];
+            setState(() {});
+            widget.onChanged!(text);
+          },
+        );
+      },
+    );
   }
 }

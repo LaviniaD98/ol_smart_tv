@@ -67,11 +67,7 @@ class _WeekRowState extends State<WeekRow> {
       },
       child: FocusScope(
         node: focusNode,
-        onFocusChange: (value) {
-          if (value) {
-            print('HAS FOCUS----------');
-          }
-        },
+        onFocusChange: (value) {},
         child: ValueListenableBuilder(
             valueListenable: widget.focusedDayNotifier,
             builder: (context, fDay, _) {
@@ -96,9 +92,6 @@ class _WeekRowState extends State<WeekRow> {
                         widget.focusedDayNotifier.value = focusedDay;
                         widget.selectedDayNotifier.value = selectedDay;
                       }
-
-                      print(
-                          ' widget.selectedDayNotifier.value: ${widget.selectedDayNotifier.value}');
                     },
                     onFormatChanged: (format) {
                       if (_calendarFormat != format) {
@@ -201,7 +194,7 @@ class _WeekRowState extends State<WeekRow> {
                       widget.focusedDayNotifier.value = focusedDay;
                       widget.onWeekChanged?.call(focusedDay);
                     },
-                    calendarStyle: CalendarStyle(),
+                    calendarStyle: const CalendarStyle(),
                     startingDayOfWeek: StartingDayOfWeek.monday,
                   ),
                   Row(

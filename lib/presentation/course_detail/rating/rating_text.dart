@@ -26,11 +26,11 @@ class RatingText extends StatelessWidget {
     );
   }
 
-  Widget get _loading {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+  // Widget get _loading {
+  //   return const Center(
+  //     child: CircularProgressIndicator(),
+  //   );
+  // }
 
   Widget buildAddToFavoriteButton(
       BuildContext context, ObjectStatisticsDto? res, int? maxStars) {

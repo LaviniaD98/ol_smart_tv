@@ -116,11 +116,6 @@ class _OlAlertDialogState extends State<OlAlertDialog> {
         minWidth: widget.minWidth ?? 500,
         maxWidth: widget.minWidth ?? 500,
       ),
-      // decoration: BoxDecoration(
-      //   color: Colors.red,
-      //   gradient: AppTheme.backgroundGradient,
-      //   borderRadius: BorderRadius.circular(Dimens.radiusDialog),
-      // ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,

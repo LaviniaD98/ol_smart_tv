@@ -202,11 +202,10 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     if (!showInfo.value) {
       showInfo.value = true;
     }
-    print('cslkdnclskndklcnsd-------------------PRE');
+
     _hideTimer?.cancel();
     _hideTimer = null;
     _hideTimer = Timer(const Duration(seconds: 10), () {
-      print('cslkdnclskndklcnsd-------------------');
       showInfo.value = false;
     });
   }

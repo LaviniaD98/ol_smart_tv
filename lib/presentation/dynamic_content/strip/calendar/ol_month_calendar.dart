@@ -131,7 +131,6 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
                         rowHeight: widget.rowHeight,
                         startingDayOfWeek: StartingDayOfWeek.monday,
                         onPageChanged: (focusedDay) {
-                          print('FOCUSED DAY: $focusedDay');
                           widget.onPageChanged?.call(focusedDay);
                         },
                         daysOfWeekHeight: 62,

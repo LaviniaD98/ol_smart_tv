@@ -14,6 +14,7 @@ class LoginCard extends StatelessWidget {
     this.showBack = false,
     this.gradient = AppColors.greyGradient,
     this.trailing,
+    this.backgroundColor,
     required this.title,
     required this.description,
     required this.child,
@@ -27,6 +28,7 @@ class LoginCard extends StatelessWidget {
   final Widget? trailing;
   final Widget child;
   final Gradient? gradient;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class LoginCard extends StatelessWidget {
       width: 887,
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.circular(8.0),
-        color: OLColors.backgroundPrimary.withOpacity(0.8),
+        color: backgroundColor ?? OLColors.backgroundPrimary.withOpacity(0.8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,27 +67,33 @@ class LoginCard extends StatelessWidget {
   }
 
   Widget _backButton(BuildContext context) {
-    if (Navigator.of(context).canPop() && showBack) {
+    if ((Navigator.of(context).canPop() && showBack) || trailing != null) {
       return Padding(
         padding: const EdgeInsets.only(top: 16.0, bottom: 24.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: Navigator.of(context).pop,
-              child: SvgPicture.asset("assets/icons/back_arrow.svg"),
-            ),
-            const SizedBox(width: 8.0),
-            Expanded(
-              child: Text(
-                LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.back),
-                textAlign: TextAlign.start,
-                style: AppTextTheme.caption(
-                  color: ColorManager().getColorTextPrimary(),
+            if (Navigator.of(context).canPop() && showBack) ...[
+              GestureDetector(
+                onTap: Navigator.of(context).pop,
+                child: SvgPicture.asset("assets/icons/back_arrow.svg"),
+              ),
+              const SizedBox(width: 8.0),
+              Expanded(
+                child: Text(
+                  LabelsManager()
+                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.back),
+                  textAlign: TextAlign.start,
+                  style: AppTextTheme.caption(
+                    color: ColorManager().getColorTextPrimary(),
+                  ),
                 ),
               ),
-            ),
+            ],
+            if (trailing != null) ...[
+              trailing!,
+              const SizedBox(width: 16.0),
+            ],
           ],
         ),
       );

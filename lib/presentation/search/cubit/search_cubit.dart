@@ -119,8 +119,6 @@ class SearchCubit extends Cubit<SearchState> {
       pageSize: pageSize,
     );
 
-    print('res-------$res');
-
     res.fold((l) {
       controller?.error = l.error;
     }, (r) {

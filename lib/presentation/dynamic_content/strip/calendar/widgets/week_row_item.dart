@@ -138,21 +138,21 @@ class _WeekRowItemState extends State<WeekRowItem> {
     }
   }
 
-  Color get _getBackgroundColor {
-    if (widget.selected) {
-      switch (widget.type) {
-        case DayType.mandatory:
-          return ColorManager().getColorBackgroundWarning();
-        case DayType.live:
-          return ColorManager().getColorTextMandatory();
-        case DayType.smart:
-          return ColorManager().getColorSystemSecondary04();
-        case DayType.empty:
-          return ColorManager().getColorTextPrimary();
-      }
-    }
-    return Colors.transparent;
-  }
+  // Color get _getBackgroundColor {
+  //   if (widget.selected) {
+  //     switch (widget.type) {
+  //       case DayType.mandatory:
+  //         return ColorManager().getColorBackgroundWarning();
+  //       case DayType.live:
+  //         return ColorManager().getColorTextMandatory();
+  //       case DayType.smart:
+  //         return ColorManager().getColorSystemSecondary04();
+  //       case DayType.empty:
+  //         return ColorManager().getColorTextPrimary();
+  //     }
+  //   }
+  //   return Colors.transparent;
+  // }
 
   Color get _getTextColor {
     if (widget.isOffMonth) {

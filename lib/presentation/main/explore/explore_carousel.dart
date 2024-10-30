@@ -89,7 +89,7 @@ class ExploreCarousel extends StatefulWidget {
 
               const SizedBox(height: 28),
               TopicList(
-                ['Testingcdcfd', 'Testing csdc ce'],
+                const ['Testingcdcfd', 'Testing csdc ce'],
                 textColor: Colors.transparent,
                 color:
                     ColorManager().getColorSystemSecondary05().withOpacity(.6),

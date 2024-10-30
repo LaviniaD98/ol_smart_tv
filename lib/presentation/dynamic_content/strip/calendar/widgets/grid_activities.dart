@@ -55,11 +55,9 @@ class _GridActivitiesState extends State<GridActivities> {
           if (res == false) {
             widget.parentFocus.focusInDirection(TraversalDirection.up);
           }
-          print('HAS PREVIOUS: $res');
         },
         const SingleActivator(LogicalKeyboardKey.arrowDown): () {
           final res = _policy.next(_focusNode);
-          print('HAS NEXT: $res');
           if (res == false) {
             widget.parentFocus.focusInDirection(TraversalDirection.down);
           }
