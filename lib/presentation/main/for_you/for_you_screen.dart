@@ -6,11 +6,16 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dart';
+import 'package:open_learning_smart_tv/domain/entities/strip/calendar/activity/calendar_activity.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/cubit/calendar_strip_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/learning_object_activity.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/smart_learning_activity.dart';
+import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_vertical_carousel.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/widgets/user_widgets_list.dart';
@@ -142,6 +147,11 @@ class _ForYouScreenState extends State<ForYouScreen>
     Map<StripRow, List<LearningObjectModel>>? contentSource, {
     bool isLoading = false,
   }) {
+    const strip = StripRow.widgetCalendar(
+      id: 30002,
+      apiPath: AgendaScreen.apiRoute,
+    );
+
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -193,9 +203,66 @@ class _ForYouScreenState extends State<ForYouScreen>
               ),
             ),
           ),
-          const UserWidgetsList(),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 60),
+                BlocProvider(
+                  create: (context) => getIt<CalendarStripCubit>()
+                    ..fetch(
+                      strip,
+                      DateTime.now(),
+                      endDate: DateTime.now().add(const Duration(days: 14)),
+                    ),
+                  child: BlocBuilder<CalendarStripCubit, CalendarStripState>(
+                    buildWhen: (previous, current) => previous is ParentShimmer,
+                    builder: (context, state) {
+                      return state.maybeMap(
+                        success: (value) =>
+                            returnEventsBuilder(value.activities),
+                        error: (value) => returnEventsBuilder([]),
+                        parentShimmer: (value) => const SizedBox.shrink(),
+                        orElse: () => const SizedBox.shrink(),
+                      );
+                    },
+                  ),
+                ),
+                const UserWidgetsList(),
+              ],
+            ),
+          ),
           const SizedBox(width: Dimens.hPadding),
         ],
+      ),
+    );
+  }
+
+  Widget returnEventsBuilder(List<CalendarActivity> items) {
+    if (items.isEmpty) {
+      return const SizedBox.shrink();
+    }
+    return SizedBox(
+      width: 550,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: items.length,
+        padding: const EdgeInsets.only(bottom: 40),
+        itemBuilder: (context, index) {
+          return items[index].map(
+            learningObject: (e) => LearningObjectActivity(
+              model: e.model,
+              date: DateTime.now(),
+              index: index,
+              onFocusChanged: (c) {},
+            ),
+            smartLearningObject: (e) => SmartLearningActivity(
+              model: e.model,
+              date: DateTime.now(),
+              index: index,
+              onFocusChanged: (c) {},
+            ),
+          );
+        },
       ),
     );
   }

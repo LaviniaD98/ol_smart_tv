@@ -21,10 +21,11 @@ class CalendarStripCubit extends Cubit<CalendarStripState> {
 
   late bool smartLearningEnabled;
 
-  void init(StripRow strip, bool smartLearning) async {
+  void init(StripRow strip, bool smartLearning, {DateTime? endDate}) async {
     smartLearningEnabled = smartLearning;
     final initialDate = DateTime.now();
-    final res = await _getCalendarStripUseCase(strip: strip, date: initialDate);
+    final res = await _getCalendarStripUseCase(
+        strip: strip, date: initialDate, endDate: endDate);
     res.fold((l) {
       emit(CalendarStripState.error(initialDate));
     }, (r) {
@@ -33,9 +34,11 @@ class CalendarStripCubit extends Cubit<CalendarStripState> {
     });
   }
 
-  void fetch(StripRow strip, DateTime date) async {
+  void fetch(StripRow strip, DateTime date, {DateTime? endDate}) async {
     emit(CalendarStripState.innerShimmer(date));
-    final res = await _getCalendarStripUseCase(strip: strip, date: date);
+    smartLearningEnabled = true;
+    final res = await _getCalendarStripUseCase(
+        strip: strip, date: date, endDate: endDate);
     res.fold((l) {
       emit(CalendarStripState.error(date));
     }, (r) {

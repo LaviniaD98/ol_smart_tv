@@ -10,4 +10,8 @@ class GetQrCodeUseCase {
   Future<dynamic> call() async {
     return _sessionRepository.generateQr();
   }
+
+  Future<dynamic> validate({required String uuid}) async {
+    return _sessionRepository.validateQr(uuid: uuid);
+  }
 }

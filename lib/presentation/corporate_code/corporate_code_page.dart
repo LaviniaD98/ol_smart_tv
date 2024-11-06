@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/te
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/corporate_code/cubit/corporate_code_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/initiatives/initiatives_page.dart';
+import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/login_page.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/login_card.dart';
@@ -107,7 +108,12 @@ class _CorporateCodePageState extends State<CorporateCodePage> {
                         success: () async {
                           await Nav.push(
                             context,
-                            screen: const LoginPage(),
+                            screen: BlocProvider(
+                              create: (context) {
+                                return getIt<LoginCubit>()..init();
+                              },
+                              child: const LoginPage(),
+                            ),
                           );
 
                           await Future.delayed(

@@ -25,4 +25,9 @@ abstract class SessionDataSource {
   Future<dynamic> generateQr({
     String? authorization,
   });
+
+  Future<dynamic> validateQr({
+    String? authorization,
+    required String uuid,
+  });
 }

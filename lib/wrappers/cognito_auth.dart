@@ -41,6 +41,8 @@ class CognitoAuthManager {
   late CognitoUser cognitoUser;
   late CognitoUserPool userPool;
 
+  String? tempUuid;
+
   Future<Either<CognitoResponse, CognitoUserSession>> login(
       AuthenticationDetails details) async {
     final corporateInfo = await _getStoredCorporateIdUseCase();
@@ -82,11 +84,30 @@ class CognitoAuthManager {
     }
   }
 
-  // TODO(UmbertoGrimaldi): Add method to perform qr code login based on the login method
-
   Future<dynamic> getQrCode() async {
-    final res = await _getQrCodeUseCase.call();
-    print('RES: $res');
+    final res = await _getQrCodeUseCase.call() as String?;
+
+    if (res != null) {
+      final path = Uri.tryParse(res);
+      if (path != null) {
+        path.queryParameters.forEach((key, value) {
+          if (key == 'uuid') {
+            tempUuid = value;
+          }
+        });
+      }
+    }
+
+    return res;
+  }
+
+  Future<dynamic> validateQrCode() async {
+    if (tempUuid == null) {
+      return;
+    }
+    final res = await _getQrCodeUseCase.validate(uuid: tempUuid!);
+
+    print('RESPONSE . ${res}');
 
     return res;
   }

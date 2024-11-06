@@ -30,6 +30,7 @@ class GetCalendarStripUseCase {
   Future<Either<Failure, CalendarStripModel>> call({
     required StripRow strip,
     required DateTime date,
+    DateTime? endDate,
     bool isMonth = false,
   }) async {
     /// Get initiativeId
@@ -47,6 +48,10 @@ class GetCalendarStripUseCase {
     } else {
       start = date.subtract(Duration(days: date.weekday - 1));
       end = start.add(const Duration(days: 6));
+    }
+
+    if (endDate != null) {
+      end = endDate;
     }
 
     /// Get corporateID

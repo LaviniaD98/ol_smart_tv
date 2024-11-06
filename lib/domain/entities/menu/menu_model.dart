@@ -20,7 +20,6 @@ class MenuModel {
   }
 
   static MenuRoute? _dtoToMenuRoute(int index, RelativePathDto e) {
-    print('e.serviceType: ${e.serviceType}');
     switch (e.serviceType) {
       case 'visForyou':
         return MenuRoute.visForYou(

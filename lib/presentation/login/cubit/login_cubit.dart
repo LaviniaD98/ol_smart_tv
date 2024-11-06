@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:open_learning_smart_tv/core/shared_preferences_keys.dart';
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
@@ -26,7 +27,6 @@ import '../../../domain/use_cases/set_secure_stored_user_info_use_case.dart';
 import '../../../remote_theming/labels/remote_labels.dart';
 
 part 'login_state.dart';
-
 part 'login_cubit.freezed.dart';
 
 @injectable
@@ -43,6 +43,8 @@ class LoginCubit extends Cubit<LoginState> {
   final AppCubit _appCubit;
   final SharedPreferences _sharedPreferences;
   final RemoteLabels _remoteLabels;
+
+  ValueNotifier<String?> loginQrUrl = ValueNotifier(null);
 
   LoginCubit(
     this._cognitoAuthManager,
@@ -105,8 +107,12 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> getQrCode() async {
-    final res = await _cognitoAuthManager.getQrCode();
-    print('res: $res');
+    final res = await _cognitoAuthManager.getQrCode() as String?;
+    loginQrUrl.value = res;
+  }
+
+  Future<void> validateQrCode() async {
+    await _cognitoAuthManager.validateQrCode();
   }
 
   Future<void> _handleSession(CognitoUserSession session) async {

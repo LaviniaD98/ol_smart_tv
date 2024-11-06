@@ -104,7 +104,7 @@ class _UserWidgetsListState extends State<UserWidgetsList> {
             }
           },
           child: ListView.builder(
-            padding: const EdgeInsets.only(top: 60, bottom: 400),
+            padding: const EdgeInsets.only(top: 0, bottom: 20),
             itemBuilder: (context, index) {
               return CallbackShortcuts(
                 bindings: <ShortcutActivator, VoidCallback>{

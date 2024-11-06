@@ -44,185 +44,192 @@ class _LoginPageState extends State<LoginPage> {
 
   final FocusNode _focusNode = FocusNode();
 
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
     Future.delayed(const Duration(milliseconds: 300), () {
       _focusNode.requestFocus();
     });
+
+    context.read<LoginCubit>().getQrCode();
+
+    // _timer = Timer.periodic(
+    //   (const Duration(seconds: 2)),
+    //   (timer) {
+    //     context.read<LoginCubit>().validateQrCode();
+    //   },
+    // );
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _timer = null;
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
       policy: OrderedTraversalPolicy(),
-      child: BlocProvider(
-        create: (context) {
-          return getIt<LoginCubit>()
-            ..init()
-            ..getQrCode();
-        },
-        child: Scaffold(
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/login_back.png'),
-                fit: BoxFit.cover,
-              ),
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/login_back.png'),
+              fit: BoxFit.cover,
             ),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Positioned.fill(
-                  child: Container(color: Colors.black.withOpacity(0.4)),
-                ),
-                Column(
-                  children: [
-                    const LogoBanner(),
-                    const SizedBox(height: 100),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: BlocConsumer<LoginCubit, LoginState>(
-                          listener: (context, state) => state.whenOrNull(
-                            showInitiatives: (session, selfModel, sessionId) {
-                              return unawaited(
-                                Nav.push(
-                                  context,
-                                  screen: InitiativesPage(
-                                    args: InitiativesPageArgs(
+          ),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Positioned.fill(
+                child: Container(color: Colors.black.withOpacity(0.4)),
+              ),
+              Column(
+                children: [
+                  const LogoBanner(),
+                  const SizedBox(height: 100),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: BlocConsumer<LoginCubit, LoginState>(
+                        listener: (context, state) => state.whenOrNull(
+                          showInitiatives: (session, selfModel, sessionId) {
+                            return unawaited(
+                              Nav.push(
+                                context,
+                                screen: InitiativesPage(
+                                  args: InitiativesPageArgs(
+                                    session: session,
+                                    selfModel: selfModel,
+                                    sessionId: sessionId,
+                                  ),
+                                ),
+                                root: true,
+                              ),
+                            );
+                          },
+                          showPolicyPage: (session, selfModel, sessionId) {
+                            return unawaited(
+                              Nav.push(
+                                context,
+                                screen: BlocProvider(
+                                  create: (_) => getIt<PrivacyCubit>(),
+                                  child: PrivacyPage(
+                                    args: PrivacyPageArgs(
                                       session: session,
                                       selfModel: selfModel,
                                       sessionId: sessionId,
                                     ),
                                   ),
-                                  root: true,
-                                ),
-                              );
-                            },
-                            showPolicyPage: (session, selfModel, sessionId) {
-                              return unawaited(
-                                Nav.push(
-                                  context,
-                                  screen: BlocProvider(
-                                    create: (_) => getIt<PrivacyCubit>(),
-                                    child: PrivacyPage(
-                                      args: PrivacyPageArgs(
-                                        session: session,
-                                        selfModel: selfModel,
-                                        sessionId: sessionId,
-                                      ),
-                                    ),
-                                  ),
-                                  root: true,
-                                ),
-                              );
-                            },
-                            mfaValidation: (remember, userId) async {
-                              final res = await Nav.push(
-                                context,
-                                screen: BlocProvider(
-                                  create: (_) => getIt<MfaCubit>(),
-                                  child: MfaValidationPage(
-                                    args: MfaValidationPageArgs(
-                                      remember: remember,
-                                      userId: userId,
-                                    ),
-                                  ),
                                 ),
                                 root: true,
-                              ) as bool?;
-
-                              // final res = await context.pushNamed<bool?>(
-                              //   MfaValidationPage.routeName,
-                              //   extra: MfaValidationPageArgs(
-                              //       remember: remember, userId: userId),
-                              // );
-                              if (res == true && context.mounted) {
-                                OlAlertDialog.show(
-                                  context,
-                                  title: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                    RemoteLabelKeys.error,
-                                  ),
-                                  message: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                    RemoteLabelKeys
-                                        .authentication_not_successful,
-                                  ),
-                                  actionLabel: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                    RemoteLabelKeys.retry,
-                                  ),
-                                );
-                              }
-                              return;
-                            },
-                            firstLoginPasswordChange:
-                                (oldPwd, exception) async {
-                              return await Nav.push(
-                                context,
-                                screen: BlocProvider(
-                                  create: (_) => getIt<PwdResetCubit>()..init(),
-                                  child: PwdResetPage(
-                                    args: PwdResetPageArgs(
-                                      oldpwd: oldPwd,
-                                      firstTimeReset: true,
-                                      exception: exception,
-                                    ),
+                              ),
+                            );
+                          },
+                          mfaValidation: (remember, userId) async {
+                            final res = await Nav.push(
+                              context,
+                              screen: BlocProvider(
+                                create: (_) => getIt<MfaCubit>(),
+                                child: MfaValidationPage(
+                                  args: MfaValidationPageArgs(
+                                    remember: remember,
+                                    userId: userId,
                                   ),
                                 ),
-                              );
-                            },
-                            error: () => OlAlertDialog.show(
-                              context,
-                              title: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.error),
-                              message: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(RemoteLabelKeys
-                                      .username_password_incorrect),
-                              actionLabel: LabelsManager()
-                                  .getRemoteStringFromLabelKeys(
-                                      RemoteLabelKeys.retry),
-                            ),
-                          ),
-                          listenWhen: (previous, current) => current.maybeMap(
-                            mfaValidation: (_) => true,
-                            error: (_) => true,
-                            showInitiatives: (_) => true,
-                            showPolicyPage: (_) => true,
-                            firstLoginPasswordChange: (_) => true,
-                            orElse: () => false,
-                          ),
-                          buildWhen: (previous, current) => current.maybeMap(
-                            mfaValidation: (_) => false,
-                            error: (_) => false,
-                            showInitiatives: (_) => false,
-                            showPolicyPage: (_) => false,
-                            firstLoginPasswordChange: (_) => false,
-                            orElse: () => true,
-                          ),
-                          builder: (context, state) => state.maybeWhen(
-                            loading: () => _loading,
-                            initial: (form, loginType) {
-                              if (kDebugMode) {
-                                form.findControl('username')?.value =
-                                    'iglu.tester02';
-                                form.findControl('password')?.value =
-                                    'Test1234!';
-                              }
+                              ),
+                              root: true,
+                            ) as bool?;
 
-                              return _content(context, form, loginType);
-                            },
-                            orElse: () => const SizedBox(),
+                            // final res = await context.pushNamed<bool?>(
+                            //   MfaValidationPage.routeName,
+                            //   extra: MfaValidationPageArgs(
+                            //       remember: remember, userId: userId),
+                            // );
+                            if (res == true && context.mounted) {
+                              OlAlertDialog.show(
+                                context,
+                                title: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.error,
+                                ),
+                                message: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.authentication_not_successful,
+                                ),
+                                actionLabel: LabelsManager()
+                                    .getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.retry,
+                                ),
+                              );
+                            }
+                            return;
+                          },
+                          firstLoginPasswordChange: (oldPwd, exception) async {
+                            return await Nav.push(
+                              context,
+                              screen: BlocProvider(
+                                create: (_) => getIt<PwdResetCubit>()..init(),
+                                child: PwdResetPage(
+                                  args: PwdResetPageArgs(
+                                    oldpwd: oldPwd,
+                                    firstTimeReset: true,
+                                    exception: exception,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          error: () => OlAlertDialog.show(
+                            context,
+                            title: LabelsManager().getRemoteStringFromLabelKeys(
+                                RemoteLabelKeys.error),
+                            message: LabelsManager()
+                                .getRemoteStringFromLabelKeys(RemoteLabelKeys
+                                    .username_password_incorrect),
+                            actionLabel: LabelsManager()
+                                .getRemoteStringFromLabelKeys(
+                                    RemoteLabelKeys.retry),
                           ),
+                        ),
+                        listenWhen: (previous, current) => current.maybeMap(
+                          mfaValidation: (_) => true,
+                          error: (_) => true,
+                          showInitiatives: (_) => true,
+                          showPolicyPage: (_) => true,
+                          firstLoginPasswordChange: (_) => true,
+                          orElse: () => false,
+                        ),
+                        buildWhen: (previous, current) => current.maybeMap(
+                          mfaValidation: (_) => false,
+                          error: (_) => false,
+                          showInitiatives: (_) => false,
+                          showPolicyPage: (_) => false,
+                          firstLoginPasswordChange: (_) => false,
+                          orElse: () => true,
+                        ),
+                        builder: (context, state) => state.maybeWhen(
+                          loading: () => _loading,
+                          initial: (form, loginType) {
+                            if (kDebugMode) {
+                              form.findControl('username')?.value =
+                                  'iglu.tester02';
+                              form.findControl('password')?.value = 'Test1234!';
+                            }
+
+                            return _content(context, form, loginType);
+                          },
+                          orElse: () => const SizedBox(),
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -246,14 +253,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: LoginCard(
                   backgroundColor: Colors.transparent,
                   padding: const EdgeInsets.symmetric(vertical: 40),
-                  // trailing: LanguagesButton(
-                  //   onChanged: () => Navigator.of(context).pop(),
-                  // ),
                   title: LabelsManager()
                       .getRemoteStringFromLabelKeys(RemoteLabelKeys.welcome),
                   description: LabelsManager()
                       .getRemoteStringFromLabelKeys(RemoteLabelKeys.login_body),
-
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -295,7 +298,14 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
             const SizedBox(width: 60),
-            Expanded(child: buildQrCodeSection('url')),
+            Expanded(
+              child: ValueListenableBuilder(
+                valueListenable: context.read<LoginCubit>().loginQrUrl,
+                builder: (context, value, _) {
+                  return buildQrCodeSection(value);
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -322,21 +332,26 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 254,
                   width: 254,
-                  child: QrImageView(
-                    data: 'https://www.figma.com/design/RDDgPfgE1HyiNrw2OLLk0K',
-                    version: QrVersions.auto,
-                    backgroundColor: Colors.black,
-                    padding: EdgeInsets.zero,
-                    dataModuleStyle: const QrDataModuleStyle(
-                      dataModuleShape: QrDataModuleShape.square,
-                      color: Colors.white,
-                    ),
-                    eyeStyle: const QrEyeStyle(
-                      eyeShape: QrEyeShape.square,
-                      color: Colors.white,
-                    ),
-                    size: 254.0,
-                  ),
+                  child: Builder(builder: (context) {
+                    if (url == null) {
+                      return const Align(child: CircularProgressIndicator());
+                    }
+                    return QrImageView(
+                      data: url,
+                      version: QrVersions.auto,
+                      backgroundColor: Colors.black,
+                      padding: EdgeInsets.zero,
+                      dataModuleStyle: const QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: Colors.white,
+                      ),
+                      eyeStyle: const QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: Colors.white,
+                      ),
+                      size: 254.0,
+                    );
+                  }),
                 ),
                 const SizedBox(width: 36),
                 // TODO(UmbertoGrimaldi): Add to localized Strings
@@ -434,7 +449,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 24),
           Text(
-            'www.digitedacademy.net/aeg43ssg',
+            url ?? '',
             textAlign: TextAlign.start,
             style: AppTextTheme.subtitle(
               color: ColorManager().getColorTextPrimary(),

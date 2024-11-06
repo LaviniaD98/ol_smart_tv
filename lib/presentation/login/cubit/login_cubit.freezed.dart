@@ -148,12 +148,18 @@ class __$$LoadingImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$LoadingImpl implements _Loading {
+class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   const _$LoadingImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'LoginState.loading'));
   }
 
   @override
@@ -322,7 +328,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   const _$InitialImpl(this.form, this.loginType);
 
   @override
@@ -331,8 +337,17 @@ class _$InitialImpl implements _Initial {
   final LoginType loginType;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.initial(form: $form, loginType: $loginType)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState.initial'))
+      ..add(DiagnosticsProperty('form', form))
+      ..add(DiagnosticsProperty('loginType', loginType));
   }
 
   @override
@@ -504,12 +519,18 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl implements _Error {
+class _$ErrorImpl with DiagnosticableTreeMixin implements _Error {
   const _$ErrorImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.error()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'LoginState.error'));
   }
 
   @override
@@ -678,7 +699,9 @@ class __$$MfaValidationImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$MfaValidationImpl implements _MfaValidation {
+class _$MfaValidationImpl
+    with DiagnosticableTreeMixin
+    implements _MfaValidation {
   const _$MfaValidationImpl(this.remember, this.userId);
 
   @override
@@ -687,8 +710,17 @@ class _$MfaValidationImpl implements _MfaValidation {
   final String userId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.mfaValidation(remember: $remember, userId: $userId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState.mfaValidation'))
+      ..add(DiagnosticsProperty('remember', remember))
+      ..add(DiagnosticsProperty('userId', userId));
   }
 
   @override
@@ -885,7 +917,9 @@ class __$$ShowInitiativesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ShowInitiativesImpl implements _ShowInitiatives {
+class _$ShowInitiativesImpl
+    with DiagnosticableTreeMixin
+    implements _ShowInitiatives {
   const _$ShowInitiativesImpl(this.session, this.selfModel, this.sessionId);
 
   @override
@@ -896,8 +930,18 @@ class _$ShowInitiativesImpl implements _ShowInitiatives {
   final String sessionId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.showInitiatives(session: $session, selfModel: $selfModel, sessionId: $sessionId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState.showInitiatives'))
+      ..add(DiagnosticsProperty('session', session))
+      ..add(DiagnosticsProperty('selfModel', selfModel))
+      ..add(DiagnosticsProperty('sessionId', sessionId));
   }
 
   @override
@@ -1100,7 +1144,9 @@ class __$$ShowPolicyPageImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ShowPolicyPageImpl implements _ShowPolicyPage {
+class _$ShowPolicyPageImpl
+    with DiagnosticableTreeMixin
+    implements _ShowPolicyPage {
   const _$ShowPolicyPageImpl(this.session, this.selfModel, this.sessionId);
 
   @override
@@ -1111,8 +1157,18 @@ class _$ShowPolicyPageImpl implements _ShowPolicyPage {
   final String sessionId;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.showPolicyPage(session: $session, selfModel: $selfModel, sessionId: $sessionId)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState.showPolicyPage'))
+      ..add(DiagnosticsProperty('session', session))
+      ..add(DiagnosticsProperty('selfModel', selfModel))
+      ..add(DiagnosticsProperty('sessionId', sessionId));
   }
 
   @override
@@ -1309,7 +1365,9 @@ class __$$FirstLoginPasswordChangeImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$FirstLoginPasswordChangeImpl implements _FirstLoginPasswordChange {
+class _$FirstLoginPasswordChangeImpl
+    with DiagnosticableTreeMixin
+    implements _FirstLoginPasswordChange {
   const _$FirstLoginPasswordChangeImpl(this.oldPwd, this.exception);
 
   @override
@@ -1318,8 +1376,17 @@ class _$FirstLoginPasswordChangeImpl implements _FirstLoginPasswordChange {
   final CognitoUserNewPasswordRequiredException exception;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LoginState.firstLoginPasswordChange(oldPwd: $oldPwd, exception: $exception)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LoginState.firstLoginPasswordChange'))
+      ..add(DiagnosticsProperty('oldPwd', oldPwd))
+      ..add(DiagnosticsProperty('exception', exception));
   }
 
   @override

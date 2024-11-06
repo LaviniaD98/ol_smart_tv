@@ -89,6 +89,16 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
             node: focusNode,
             onFocusChange: (value) {
               setState(() {});
+              if (value) {
+                if (focusNode.focusedChild == null) {
+                  context
+                      .read<MainStateCubit>()
+                      .state
+                      .children
+                      .toList()[1]
+                      .requestFocus();
+                }
+              }
             },
             child: Stack(
               children: [

@@ -1,4 +1,7 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
+import 'package:open_learning_smart_tv/presentation/login/cubit/login_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/login_page.dart';
 import 'package:open_learning_smart_tv/presentation/login/utils/login_form_group.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -51,7 +54,15 @@ class PwdChangedPage extends StatelessWidget {
                       style: AppButtonStyle.red,
                       key: const Key('loginForm_continue_raisedButton'),
                       onPressed: () {
-                        Nav.push(context, screen: const LoginPage());
+                        Nav.push(
+                          context,
+                          screen: BlocProvider(
+                            create: (context) {
+                              return getIt<LoginCubit>()..init();
+                            },
+                            child: const LoginPage(),
+                          ),
+                        );
                       },
                       child: Text(
                         LabelsManager().getRemoteStringFromLabelKeys(

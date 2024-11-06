@@ -45,4 +45,11 @@ abstract class SessionDataSourceImpl implements SessionDataSource {
   Future<dynamic> generateQr({
     @Header('Authorization') String? authorization,
   });
+
+  @override
+  @GET('/sessions-qr/{uuid}/validate-qr')
+  Future<dynamic> validateQr({
+    @Header('Authorization') String? authorization,
+    @Path('uuid') String? uuid,
+  });
 }

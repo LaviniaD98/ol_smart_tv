@@ -58,7 +58,7 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
                 month.CalendarMonthStripState>(
               buildWhen: (previous, current) => previous is month.ParentShimmer,
               builder: (context, state) {
-                final calendar = _CalendarStripContent(
+                final calendar = CalendarStripContent(
                   key: const ValueKey('calendarWidget'),
                   strip: widget.strip,
                   smartLearningEnabled: widget.smartLearningEnabled,
@@ -86,7 +86,7 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
               child: BlocBuilder<CalendarStripCubit, CalendarStripState>(
                 buildWhen: (previous, current) => previous is ParentShimmer,
                 builder: (context, state) {
-                  final calendar = _CalendarStripContent(
+                  final calendar = CalendarStripContent(
                     key: const ValueKey('calendarWidget'),
                     strip: widget.strip,
                     smartLearningEnabled: widget.smartLearningEnabled,
@@ -109,14 +109,14 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
   }
 }
 
-class _CalendarStripContent extends StatefulWidget {
+class CalendarStripContent extends StatefulWidget {
   final StripRow strip;
   final bool smartLearningEnabled;
   final bool fullMonth;
   final ValueNotifier<DateTime> focusedDayNotifier;
   final ValueNotifier<DateTime> selectedDayNotifier;
 
-  const _CalendarStripContent({
+  const CalendarStripContent({
     super.key,
     required this.strip,
     required this.smartLearningEnabled,
@@ -126,10 +126,10 @@ class _CalendarStripContent extends StatefulWidget {
   });
 
   @override
-  State<_CalendarStripContent> createState() => _CalendarStripContentState();
+  State<CalendarStripContent> createState() => _CalendarStripContentState();
 }
 
-class _CalendarStripContentState extends State<_CalendarStripContent> {
+class _CalendarStripContentState extends State<CalendarStripContent> {
   final focusNode = OlFocusScopeNode(id: 'CalendarStripContent');
 
   @override
