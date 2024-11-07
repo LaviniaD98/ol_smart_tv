@@ -147,74 +147,79 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   Widget content(Map<StripRow, List<LearningObjectModel>>? contentSource) {
     if (contentSource == null) {
-      return const SizedBox.shrink();
+      return buildEmptyFavorites();
     }
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
         if (value) {}
 
-        print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
+        //print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
         // if (value) {}
 
         // print('focusNode.children: ${focusNode.children.length}');
       },
-      child: Builder(builder: (context) {
-        return CallbackShortcuts(
-          bindings: <ShortcutActivator, VoidCallback>{
-            const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-              final focus = context.read<MainStateCubit>().state;
-              focus.requestFocus();
-            },
-          },
-          child: Container(
-            color: ColorManager().getColorBackgroundPrimaryLighter(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: Image.asset("assets/images/app_icon.png"),
+      child: Builder(
+        builder: (context) {
+          if (contentSource.values.isEmpty) {
+            return buildEmptyFavorites();
+          }
+          return Row(
+            children: [
+              Expanded(
+                child: FavoritesVerticalCarousel(
+                  strip: contentSource,
                 ),
-                SvgPicture.asset(
-                  "assets/images/app_logo.svg",
-                  width: 24,
-                  height: 44,
-                  colorFilter: ColorFilter.mode(
-                      ColorManager().getColorBackgroundPrimaryCta(),
-                      BlendMode.srcIn),
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.favourites_empty,
-                  ),
-                  textAlign: TextAlign.center,
-                  style: AppTextTheme.body(
-                    color: ColorManager().getColorTextPrimary(),
-                    weight: FontWeight.w500,
-                    size: 24,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-        if (contentSource.values.isEmpty) {
-          return const SizedBox.shrink();
-        }
-        return Row(
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildEmptyFavorites() {
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          final focus = context.read<MainStateCubit>().state;
+          focus.requestFocus();
+        },
+      },
+      child: Container(
+        color: ColorManager().getColorBackgroundPrimaryLighter(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: FavoritesVerticalCarousel(
-                strip: contentSource,
+            SizedBox(
+              height: 120,
+              width: 120,
+              child: Image.asset("assets/images/app_icon.png"),
+            ),
+            SvgPicture.asset(
+              "assets/images/app_logo.svg",
+              width: 24,
+              height: 44,
+              colorFilter: ColorFilter.mode(
+                  ColorManager().getColorBackgroundPrimaryCta(),
+                  BlendMode.srcIn),
+            ),
+            const SizedBox(height: 32),
+            Text(
+              LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.favourites_empty,
+              ),
+              textAlign: TextAlign.center,
+              style: AppTextTheme.body(
+                color: ColorManager().getColorTextPrimary(),
+                weight: FontWeight.w500,
+                size: 24,
               ),
             ),
           ],
-        );
-      }),
+        ),
+      ),
     );
   }
 }
