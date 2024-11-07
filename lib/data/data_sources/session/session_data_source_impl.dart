@@ -41,9 +41,10 @@ abstract class SessionDataSourceImpl implements SessionDataSource {
       @Body() required InitiativeBodyDto initiativeBodyDto});
 
   @override
-  @POST('/sessions-qr/generate-qr')
+  @POST('/sessions-qr/{corporateId}/generate-qr')
   Future<dynamic> generateQr({
     @Header('Authorization') String? authorization,
+    @Path('corporateId') String? corporateId,
   });
 
   @override

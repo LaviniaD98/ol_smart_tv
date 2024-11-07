@@ -7,8 +7,8 @@ class GetQrCodeUseCase {
 
   final SessionDataSource _sessionRepository;
 
-  Future<dynamic> call() async {
-    return _sessionRepository.generateQr();
+  Future<dynamic> call(String corporateId) async {
+    return _sessionRepository.generateQr(corporateId: corporateId);
   }
 
   Future<dynamic> validate({required String uuid}) async {

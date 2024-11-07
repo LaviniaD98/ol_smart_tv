@@ -38,9 +38,7 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
   void initState() {
     super.initState();
 
-    focusNode = OlFocusScopeNode(
-      id: 'FAVORITES-----${widget.strip.keys.firstOrNull?.labelMapping}',
-    );
+    focusNode = OlFocusScopeNode(id: 'FAVORITES-SCREEN-LIST');
   }
 
   @override

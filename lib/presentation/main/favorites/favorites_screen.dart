@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
@@ -16,6 +17,7 @@ import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_ver
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
+import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
 class FavoritesScreen extends StatefulWidget {
   static const apiPath =
@@ -79,7 +81,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             child: BlocConsumer<FavoritesContentCubit, FavoritesContentState>(
               listener: (context, state) {
                 state.maybeWhen(
-                  success: (_) {},
+                  success: (_) {
+                    if (focusNode.focusedChild == null) {
+                      Future.delayed(const Duration(milliseconds: 100), () {
+                        final f = focusNode.descendants.firstWhereOrNull(
+                          (element) {
+                            return element.id == 'FAVORITES-SCREEN-LIST';
+                          },
+                        );
+                        f?.requestFocus();
+                      });
+                    }
+                  },
                   loading: () {},
                   error: (f) {},
                   orElse: () {},
@@ -93,23 +106,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               },
               builder: (context, state) => state.map(
                 success: (value) {
-                  // final smart = context
-                  //     .read<DynamicAllContentCubit>()
-                  //     .dynamicContent
-                  //     ?.smartConfig;
-
-                  Future.delayed(
-                    const Duration(milliseconds: 300),
-                    () {
-                      if (focusNode.focusedChild == null) {
-                        final f = focusNode.descendants.firstWhereOrNull(
-                          (element) => element.id == 'BUTTONS FOCUS 0 ----- 1',
-                        );
-                        f?.requestFocus();
-                      }
-                    },
-                  );
-
                   final source =
                       List<Map<StripRow, List<LearningObjectModel>>>.from(
                     value.rowItems ?? [],
@@ -156,20 +152,69 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
-        // print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
+        if (value) {}
+
+        print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
         // if (value) {}
 
         // print('focusNode.children: ${focusNode.children.length}');
       },
-      child: Row(
-        children: [
-          Expanded(
-            child: FavoritesVerticalCarousel(
-              strip: contentSource,
+      child: Builder(builder: (context) {
+        return CallbackShortcuts(
+          bindings: <ShortcutActivator, VoidCallback>{
+            const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+              final focus = context.read<MainStateCubit>().state;
+              focus.requestFocus();
+            },
+          },
+          child: Container(
+            color: ColorManager().getColorBackgroundPrimaryLighter(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 120,
+                  width: 120,
+                  child: Image.asset("assets/images/app_icon.png"),
+                ),
+                SvgPicture.asset(
+                  "assets/images/app_logo.svg",
+                  width: 24,
+                  height: 44,
+                  colorFilter: ColorFilter.mode(
+                      ColorManager().getColorBackgroundPrimaryCta(),
+                      BlendMode.srcIn),
+                ),
+                const SizedBox(height: 32),
+                Text(
+                  LabelsManager().getRemoteStringFromLabelKeys(
+                    RemoteLabelKeys.favourites_empty,
+                  ),
+                  textAlign: TextAlign.center,
+                  style: AppTextTheme.body(
+                    color: ColorManager().getColorTextPrimary(),
+                    weight: FontWeight.w500,
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+        if (contentSource.values.isEmpty) {
+          return const SizedBox.shrink();
+        }
+        return Row(
+          children: [
+            Expanded(
+              child: FavoritesVerticalCarousel(
+                strip: contentSource,
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }

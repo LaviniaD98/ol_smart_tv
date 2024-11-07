@@ -85,7 +85,12 @@ class CognitoAuthManager {
   }
 
   Future<dynamic> getQrCode() async {
-    final res = await _getQrCodeUseCase.call() as String?;
+    final corporateInfo = await _getStoredCorporateIdUseCase();
+
+    print('corporateInfo?.id : ${corporateInfo?.id}');
+
+    final res = await _getQrCodeUseCase
+        .call((corporateInfo?.id ?? 0).toString()) as String?;
 
     if (res != null) {
       final path = Uri.tryParse(res);
@@ -106,8 +111,6 @@ class CognitoAuthManager {
       return;
     }
     final res = await _getQrCodeUseCase.validate(uuid: tempUuid!);
-
-    print('RESPONSE . ${res}');
 
     return res;
   }

@@ -12,6 +12,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favo
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 
 import '../../../color_management/color_manager.dart';
 import '../../../domain/entities/detail/detail_page_model.dart';
@@ -343,17 +344,20 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                       ?.requestFocus();
                 }
               },
-              const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-                FocusScope.of(context).nextFocus();
-              },
+              const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+                final res = focusNode.focusInDirection(TraversalDirection.left);
+
+                if (res == false) {
+                  final mainState = context.read<MainStateCubit>();
+                  mainState.latestExploreFocusNode = focusNode;
+                  final focus = mainState.state;
+                  focus.requestFocus();
+                }
+              }
             },
             child: FocusScope(
               node: focusNode,
-              onFocusChange: (value) {
-                if (value) {
-                  focusNode.children.firstOrNull?.requestFocus();
-                }
-              },
+              onFocusChange: (value) {},
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -435,176 +439,170 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                     ],
                   ),
                   const SizedBox(height: 32),
+
+                  /// Buttons
+                  buildActionButtons(),
                 ],
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
 
-          /// Buttons
-          Padding(
-            padding: const EdgeInsets.only(top: Dimens.spacingM),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    OLButton(
-                      width: 340,
-                      key: const Key('loginForm_continue_raisedButton'),
-                      onFocusChanded: (hasFocus) {
-                        if (hasFocus) {
-                          widget.rightPanelState.value = RightPanelState.start;
+  Widget buildActionButtons() {
+    return Padding(
+      padding: const EdgeInsets.only(top: Dimens.spacingM),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              OLButton(
+                width: 340,
+                key: const Key('loginForm_continue_raisedButton'),
+                onFocusChanded: (hasFocus) {
+                  if (hasFocus) {
+                    widget.rightPanelState.value = RightPanelState.start;
+                  }
+                },
+                id: 'BUTTON DETAILS CONTINUE',
+                title: CourseLogic()
+                    .loCharacterizationNew(
+                      status: widget.model.status ?? "",
+                      learningObjectType: widget.model.learningObjectType,
+                      learningObjectTypology:
+                          widget.model.learningObjectTypology,
+                      percentageOfCompletion:
+                          widget.model.percentageOfCompletion ?? "0",
+                      enrollType:
+                          widget.model.enrollType ?? EnrollType.autoEnroll,
+                      // TODO(UmbertoGrimaldi): FARE AGGIUNGERE QUESTI
+                      ecmSpecialization: widget.model.ecmSpecialization,
+                      ecmRegistration: widget.model.ecmRegistration,
+                    )
+                    .buttonTitle,
+                onPressed: !_loCharacterization.buttonEnabled
+                    ? null
+                    : () async {
+                        int idToAE = widget.model.id!;
+                        if (widget.args.grandParentId != null) {
+                          idToAE = int.parse(widget.args.grandParentId!);
+                        } else if (widget.args.parentId != null) {
+                          idToAE = int.parse(widget.args.parentId!);
+                        }
+                        switch (_loCharacterization.objLOAction) {
+                          case ObjLOAction.none:
+                          case ObjLOAction.notApplicable:
+                            break;
+                          case ObjLOAction.startFruition:
+                            String parentId = (widget.args.parentId == null ||
+                                    widget.args.parentId!.toLowerCase() ==
+                                        "null")
+                                ? widget.model.id!.toString()
+                                : widget.args.parentId!;
+                            context
+                                .read<DetailPageCubit>()
+                                .getStartOrResumeModel(widget.model.id!,
+                                    parentId, widget.model, null);
+                            break;
+                          case ObjLOAction.autoEnrollmentBottom:
+                            context
+                                .read<DetailPageCubit>()
+                                .executeAutoEnrollment(widget.args, idToAE,
+                                    "BOTTOM", widget.model, false);
+                            break;
+                          case ObjLOAction.autoEnrollmentAuto:
+                            context
+                                .read<DetailPageCubit>()
+                                .executeAutoEnrollment(widget.args, idToAE,
+                                    "AUTO", widget.model, true);
+                            break;
+                          case ObjLOAction.autoEnrollmentWithPatch:
+                          case ObjLOAction.seeEditions:
+                            context
+                                .read<DetailPageCubit>()
+                                .selectEditionsIfPresentIndex(
+                                    widget.args, widget.model);
+                            break;
+                          case ObjLOAction.ecmNotRegistered:
+                            final res = await Nav.push(context,
+                                screen: EcmRegistrationPage(
+                                  EcmRegistrationPageArgs(
+                                    enrollId: widget.model.enrollId,
+                                    loId: widget.model.id,
+                                    sponsors: widget.model.sponsors ?? [],
+                                  ),
+                                ));
+
+                            if (res != null && res && context.mounted) {
+                              // ignore: use_build_context_synchronously
+                              context.read<DetailPageCubit>().init(widget.args);
+                            }
+                            break;
+                          case ObjLOAction.showDetailMaterials:
+                          case ObjLOAction.showDetailGoals:
+                          case ObjLOAction.showDetailFinalBalance:
+                            String parentId = (widget.args.parentId == null ||
+                                    widget.args.parentId!.toLowerCase() ==
+                                        "null")
+                                ? widget.model.id!.toString()
+                                : widget.args.parentId!;
+                            context
+                                .read<DetailPageCubit>()
+                                .getStartOrResumeModel(widget.model.id!,
+                                    parentId, widget.model, null);
+                            break;
+                          case ObjLOAction.showDetailMeeting:
+                            OlAlertDialog.show(
+                              context,
+                              title: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.show_info),
+                              message: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.from_meeting_info),
+                              actionLabel: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.ok),
+                            );
+                            break;
                         }
                       },
-                      id: 'BUTTON DETAILS CONTINUE',
-                      title: CourseLogic()
-                          .loCharacterizationNew(
-                            status: widget.model.status ?? "",
-                            learningObjectType: widget.model.learningObjectType,
-                            learningObjectTypology:
-                                widget.model.learningObjectTypology,
-                            percentageOfCompletion:
-                                widget.model.percentageOfCompletion ?? "0",
-                            enrollType: widget.model.enrollType ??
-                                EnrollType.autoEnroll,
-                            // TODO(UmbertoGrimaldi): FARE AGGIUNGERE QUESTI
-                            ecmSpecialization: widget.model.ecmSpecialization,
-                            ecmRegistration: widget.model.ecmRegistration,
-                          )
-                          .buttonTitle,
-                      onPressed: !_loCharacterization.buttonEnabled
-                          ? null
-                          : () async {
-                              int idToAE = widget.model.id!;
-                              if (widget.args.grandParentId != null) {
-                                idToAE = int.parse(widget.args.grandParentId!);
-                              } else if (widget.args.parentId != null) {
-                                idToAE = int.parse(widget.args.parentId!);
-                              }
-                              switch (_loCharacterization.objLOAction) {
-                                case ObjLOAction.none:
-                                case ObjLOAction.notApplicable:
-                                  break;
-                                case ObjLOAction.startFruition:
-                                  String parentId = (widget.args.parentId ==
-                                              null ||
-                                          widget.args.parentId!.toLowerCase() ==
-                                              "null")
-                                      ? widget.model.id!.toString()
-                                      : widget.args.parentId!;
-                                  context
-                                      .read<DetailPageCubit>()
-                                      .getStartOrResumeModel(widget.model.id!,
-                                          parentId, widget.model, null);
-                                  break;
-                                case ObjLOAction.autoEnrollmentBottom:
-                                  context
-                                      .read<DetailPageCubit>()
-                                      .executeAutoEnrollment(
-                                          widget.args,
-                                          idToAE,
-                                          "BOTTOM",
-                                          widget.model,
-                                          false);
-                                  break;
-                                case ObjLOAction.autoEnrollmentAuto:
-                                  context
-                                      .read<DetailPageCubit>()
-                                      .executeAutoEnrollment(widget.args,
-                                          idToAE, "AUTO", widget.model, true);
-                                  break;
-                                case ObjLOAction.autoEnrollmentWithPatch:
-                                case ObjLOAction.seeEditions:
-                                  context
-                                      .read<DetailPageCubit>()
-                                      .selectEditionsIfPresentIndex(
-                                          widget.args, widget.model);
-                                  break;
-                                case ObjLOAction.ecmNotRegistered:
-                                  final res = await Nav.push(context,
-                                      screen: EcmRegistrationPage(
-                                        EcmRegistrationPageArgs(
-                                          enrollId: widget.model.enrollId,
-                                          loId: widget.model.id,
-                                          sponsors: widget.model.sponsors ?? [],
-                                        ),
-                                      ));
+              ),
 
-                                  if (res != null && res && context.mounted) {
-                                    // ignore: use_build_context_synchronously
-                                    context
-                                        .read<DetailPageCubit>()
-                                        .init(widget.args);
-                                  }
-                                  break;
-                                case ObjLOAction.showDetailMaterials:
-                                case ObjLOAction.showDetailGoals:
-                                case ObjLOAction.showDetailFinalBalance:
-                                  String parentId = (widget.args.parentId ==
-                                              null ||
-                                          widget.args.parentId!.toLowerCase() ==
-                                              "null")
-                                      ? widget.model.id!.toString()
-                                      : widget.args.parentId!;
-                                  context
-                                      .read<DetailPageCubit>()
-                                      .getStartOrResumeModel(widget.model.id!,
-                                          parentId, widget.model, null);
-                                  break;
-                                case ObjLOAction.showDetailMeeting:
-                                  OlAlertDialog.show(
-                                    context,
-                                    title: LabelsManager()
-                                        .getRemoteStringFromLabelKeys(
-                                            RemoteLabelKeys.show_info),
-                                    message: LabelsManager()
-                                        .getRemoteStringFromLabelKeys(
-                                            RemoteLabelKeys.from_meeting_info),
-                                    actionLabel: LabelsManager()
-                                        .getRemoteStringFromLabelKeys(
-                                            RemoteLabelKeys.ok),
-                                  );
-                                  break;
-                              }
-                            },
-                    ),
+              const SizedBox(width: Dimens.spacingS),
 
-                    const SizedBox(width: Dimens.spacingS),
-
-                    /// Button
-                    BadgeIcon(
-                        hasBadge: (widget.model.badge != null ||
-                            widget.model.certificate != null),
-                        isCompleted: widget.model.status == "C"),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                if (!widget.model.isLearningActivity()) ...[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: CallbackShortcuts(
-                      bindings: <ShortcutActivator, VoidCallback>{
-                        const SingleActivator(LogicalKeyboardKey.arrowRight):
-                            () {},
-                      },
-                      child: OLButton(
-                        title: 'Dettagli',
-                        width: 340,
-                        outline: true,
-                        onFocusChanded: (hasFocus) {
-                          if (hasFocus) {
-                            widget.rightPanelState.value =
-                                RightPanelState.details;
-                          }
-                        },
-                        onPressed: () {},
-                      ),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+              /// Button
+              BadgeIcon(
+                  hasBadge: (widget.model.badge != null ||
+                      widget.model.certificate != null),
+                  isCompleted: widget.model.status == "C"),
+            ],
           ),
+          const SizedBox(height: 16),
+          if (!widget.model.isLearningActivity()) ...[
+            Align(
+              alignment: Alignment.centerLeft,
+              child: CallbackShortcuts(
+                bindings: <ShortcutActivator, VoidCallback>{
+                  const SingleActivator(LogicalKeyboardKey.arrowRight): () {},
+                },
+                child: OLButton(
+                  title: 'Dettagli',
+                  width: 340,
+                  outline: true,
+                  onFocusChanded: (hasFocus) {
+                    if (hasFocus) {
+                      widget.rightPanelState.value = RightPanelState.details;
+                    }
+                  },
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

@@ -13,6 +13,13 @@ class MainStateCubit extends Cubit<OlFocusScopeNode> {
   OlFocusScopeNode? agendaFocusNode;
   OlFocusScopeNode? profileFocusNode;
 
+  OlFocusScopeNode? latestSearchFocusNode;
+  OlFocusScopeNode? latestForYouFocusNode;
+  OlFocusScopeNode? latestExploreFocusNode;
+  OlFocusScopeNode? latestFavoritesFocusNode;
+  OlFocusScopeNode? latestAgendaFocusNode;
+  OlFocusScopeNode? latestProfileFocusNode;
+
   FavoritesContentCubit? favoriteContentCubit;
 
   OrderedTraversalPolicy? policy;

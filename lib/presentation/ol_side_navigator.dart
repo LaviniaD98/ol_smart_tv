@@ -261,6 +261,13 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
     } else if (index == 1) {
       context.read<MainStateCubit>().forYouFocusNode?.requestFocus();
     } else if (index == 2) {
+      if (context.read<MainStateCubit>().latestExploreFocusNode != null) {
+        context.read<MainStateCubit>().latestExploreFocusNode?.requestFocus();
+        Future.delayed(const Duration(milliseconds: 100), () {
+          context.read<MainStateCubit>().latestExploreFocusNode = null;
+        });
+        return;
+      }
       context.read<MainStateCubit>().exploreFocusNode?.requestFocus();
     } else if (index == 3) {
       context.read<MainStateCubit>().favoritesFocusNode?.requestFocus();

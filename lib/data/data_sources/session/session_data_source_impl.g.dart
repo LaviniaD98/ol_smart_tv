@@ -127,7 +127,10 @@ class _SessionDataSourceImpl implements SessionDataSourceImpl {
   }
 
   @override
-  Future<dynamic> generateQr({String? authorization}) async {
+  Future<dynamic> generateQr({
+    String? authorization,
+    String? corporateId,
+  }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -141,7 +144,7 @@ class _SessionDataSourceImpl implements SessionDataSourceImpl {
     )
         .compose(
           _dio.options,
-          '/sessions-qr/generate-qr',
+          '/sessions-qr/${corporateId}/generate-qr',
           queryParameters: queryParameters,
           data: _data,
         )
