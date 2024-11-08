@@ -144,7 +144,7 @@ class _SessionDataSourceImpl implements SessionDataSourceImpl {
     )
         .compose(
           _dio.options,
-          '/sessions-qr/${corporateId}/generate-qr',
+          '/sessions-qr/generate-qr/${corporateId}',
           queryParameters: queryParameters,
           data: _data,
         )

@@ -213,6 +213,8 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
               widget.model.topicTags!.isNotEmpty) ...[
             const SizedBox(height: 32),
             Wrap(
+              spacing: 12,
+              runSpacing: 12,
               children: [
                 ...(widget.model.topicTags ?? []).map(
                   (e) => TopicTag(
