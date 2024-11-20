@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:open_learning_smart_tv/data/data_sources/session/session_data_source.dart';
+import 'package:open_learning_smart_tv/domain/entities/cognito/auth_token_response_model.dart';
 
 @lazySingleton
 class GetQrCodeUseCase {
@@ -11,7 +12,16 @@ class GetQrCodeUseCase {
     return _sessionRepository.generateQr(corporateId: corporateId);
   }
 
-  Future<dynamic> validate({required String uuid}) async {
-    return _sessionRepository.validateQr(uuid: uuid);
+  Future<AuthTokenResponseModel?> validate({required String uuid}) async {
+    final res = await _sessionRepository.validateQr(uuid: uuid);
+
+    if (res != null) {
+      try {
+        return AuthTokenResponseModel.fromQrResponse(res);
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
   }
 }

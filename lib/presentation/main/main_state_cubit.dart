@@ -24,8 +24,26 @@ class MainStateCubit extends Cubit<OlFocusScopeNode> {
 
   OrderedTraversalPolicy? policy;
 
+  int selectedIndex = 1;
+
   void setFocusNode(OlFocusScopeNode focusNode) {
     emit(focusNode);
+  }
+
+  void setNestedFocusNode(OlFocusScopeNode focusNode) {
+    if (selectedIndex == 0) {
+      latestSearchFocusNode = focusNode;
+    } else if (selectedIndex == 1) {
+      latestForYouFocusNode = focusNode;
+    } else if (selectedIndex == 2) {
+      latestExploreFocusNode = focusNode;
+    } else if (selectedIndex == 3) {
+      latestFavoritesFocusNode = focusNode;
+    } else if (selectedIndex == 4) {
+      latestAgendaFocusNode = focusNode;
+    } else if (selectedIndex == 5) {
+      latestProfileFocusNode = focusNode;
+    }
   }
 
   void next() {

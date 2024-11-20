@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/data/models/responses/cognito/auth_token_qr_response_dto.dart';
 import 'package:open_learning_smart_tv/data/models/responses/session_dto.dart';
 
 import '../../models/requests/initiative_body_dto.dart';
@@ -27,7 +28,7 @@ abstract class SessionDataSource {
     required String corporateId,
   });
 
-  Future<dynamic> validateQr({
+  Future<AuthTokenQrResponseDto?> validateQr({
     String? authorization,
     required String uuid,
   });

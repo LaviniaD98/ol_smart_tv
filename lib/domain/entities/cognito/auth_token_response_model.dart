@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/data/models/responses/cognito/auth_token_qr_response_dto.dart';
 import 'package:open_learning_smart_tv/data/models/responses/cognito/auth_token_response_dto.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,6 +18,17 @@ class AuthTokenResponseModel extends Equatable {
   });
 
   factory AuthTokenResponseModel.fromResponse(AuthTokenResponseDto response) {
+    return AuthTokenResponseModel(
+      idToken: response.idToken,
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken,
+      expiresIn: response.expiresIn,
+      tokenType: response.tokenType,
+    );
+  }
+
+  factory AuthTokenResponseModel.fromQrResponse(
+      AuthTokenQrResponseDto response) {
     return AuthTokenResponseModel(
       idToken: response.idToken,
       accessToken: response.accessToken,

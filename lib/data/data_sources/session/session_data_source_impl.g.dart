@@ -158,7 +158,7 @@ class _SessionDataSourceImpl implements SessionDataSourceImpl {
   }
 
   @override
-  Future<dynamic> validateQr({
+  Future<AuthTokenQrResponseDto?> validateQr({
     String? authorization,
     String? uuid,
   }) async {
@@ -168,23 +168,26 @@ class _SessionDataSourceImpl implements SessionDataSourceImpl {
     final _headers = <String, dynamic>{r'Authorization': authorization};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch(_setStreamType<dynamic>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<AuthTokenQrResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/sessions-qr/${uuid}/validate-qr',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(
-            baseUrl: _combineBaseUrls(
-          _dio.options.baseUrl,
-          baseUrl,
-        ))));
-    final _value = _result.data;
+            .compose(
+              _dio.options,
+              '/sessions-qr/${uuid}/validate-qr',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final _value = _result.data == null
+        ? null
+        : AuthTokenQrResponseDto.fromJson(_result.data!);
     return _value;
   }
 

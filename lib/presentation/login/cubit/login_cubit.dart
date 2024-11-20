@@ -111,8 +111,20 @@ class LoginCubit extends Cubit<LoginState> {
     loginQrUrl.value = res;
   }
 
-  Future<void> validateQrCode() async {
-    await _cognitoAuthManager.validateQrCode();
+  Future<void> validateQrCode(Timer timer) async {
+    final res = await _cognitoAuthManager.validateQrCode();
+
+    if (res != null && res.idToken != null) {
+      final idToken = CognitoIdToken(res.idToken);
+      final accessToken = CognitoAccessToken(res.accessToken);
+      final refreshToken = CognitoRefreshToken(res.refreshToken);
+      final session =
+          CognitoUserSession(idToken, accessToken, refreshToken: refreshToken);
+
+      timer.cancel();
+      // TODO(UmbertoGrimaldi): Handle session
+      //_createSession(session, null);
+    }
   }
 
   Future<void> _handleSession(CognitoUserSession session) async {
@@ -121,8 +133,10 @@ class LoginCubit extends Cubit<LoginState> {
     String? sessionId = userInfoModel?.sessionId;
     int? initiativeId = userInfoModel?.initiativeId;
     if (sessionId != null) {
+      print('WEWEWEWEEWEWEWEW------------AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
       final res = await _checkSessionUseCase(session, sessionId);
       res.fold((l) async {
+        print('WEWEWEWEEWEWEWEW------------1');
         if (l.statusCode == 401) {
           final refreshBESessionResponse =
               await _cognitoAuthManager.refreshSession();
@@ -134,24 +148,30 @@ class LoginCubit extends Cubit<LoginState> {
             emit(LoginState.initial(
                 form, corporateId?.loginType ?? LoginType.SSO));
           }, (checkSessionModel) async {
+            print('WEWEWEWEEWEWEWEW------------2');
             UserInfoModel? userInfoModel =
                 await _getSecureStoredUserInfoUseCase.call();
             String? sessionId = userInfoModel?.sessionId;
             _getUserSelf(session, sessionId!);
           });
         } else {
+          print('WEWEWEWEEWEWEWEW------------3');
           _createSession(session, initiativeId);
         }
       }, (checkSessionModel) async {
+        print('WEWEWEWEEWEWEWEW------------4');
         if (checkSessionModel.user?.initiativeid != initiativeId) {
           _createSession(session, initiativeId);
         } else {
+          print(
+              'WEWEWEWEEWEWEWEW------------BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
           await _setSecureStoredUserInfoUseCase(
               UserInfoModel(sessionId, initiativeId, checkSessionModel.user));
           _getUserSelf(session, sessionId);
         }
       });
     } else {
+      print('WEWEWEWEEWEWEWEW------------5');
       _createSession(session, initiativeId);
     }
   }

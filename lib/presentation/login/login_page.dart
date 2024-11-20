@@ -55,12 +55,12 @@ class _LoginPageState extends State<LoginPage> {
 
     context.read<LoginCubit>().getQrCode();
 
-    // _timer = Timer.periodic(
-    //   (const Duration(seconds: 2)),
-    //   (timer) {
-    //     context.read<LoginCubit>().validateQrCode();
-    //   },
-    // );
+    _timer = Timer.periodic(
+      (const Duration(seconds: 2)),
+      (timer) {
+        context.read<LoginCubit>().validateQrCode(timer);
+      },
+    );
   }
 
   @override

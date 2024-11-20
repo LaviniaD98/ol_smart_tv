@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
@@ -350,10 +351,13 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                 final res = focusNode.focusInDirection(TraversalDirection.left);
 
                 if (res == false) {
-                  final mainState = context.read<MainStateCubit>();
-                  mainState.latestExploreFocusNode = focusNode;
-                  final focus = mainState.state;
-                  focus.requestFocus();
+                  if (manager.currentTabNavKey?.currentState?.canPop() ??
+                      false) {
+                    final mainState = context.read<MainStateCubit>();
+                    mainState.setNestedFocusNode(focusNode);
+                    final focus = mainState.state;
+                    focus.requestFocus();
+                  }
                 }
               }
             },
