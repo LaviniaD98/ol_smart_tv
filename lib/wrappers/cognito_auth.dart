@@ -87,8 +87,6 @@ class CognitoAuthManager {
   Future<dynamic> getQrCode() async {
     final corporateInfo = await _getStoredCorporateIdUseCase();
 
-    print('corporateInfo?.id : ${corporateInfo?.id}');
-
     final res = await _getQrCodeUseCase
         .call((corporateInfo?.id ?? 0).toString()) as String?;
 
@@ -106,54 +104,48 @@ class CognitoAuthManager {
     return res;
   }
 
-  Future<dynamic> validateQrCode() async {
+  Future<CognitoUserSession?> validateQrCode() async {
     if (tempUuid == null) {
-      return;
+      return null;
     }
+
     final res = await _getQrCodeUseCase.validate(uuid: tempUuid!);
 
-    return res;
-  }
+    if (res == null || res.idToken == null) {
+      return null;
+    }
 
-  Future<Either<CognitoResponse, CognitoUserSession>> loginQR(
-      AuthenticationDetails details) async {
+    final idToken = CognitoIdToken(res.idToken);
+    final accessToken = CognitoAccessToken(res.accessToken);
+    final refreshToken = CognitoRefreshToken(res.refreshToken);
+    final session =
+        CognitoUserSession(idToken, accessToken, refreshToken: refreshToken);
+
     final corporateInfo = await _getStoredCorporateIdUseCase();
     userPool = CognitoUserPool(
       '${corporateInfo?.userpoolId}',
       '${corporateInfo?.clientId}',
       storage: _olCognitoStorage,
     );
+    String keyPrefix =
+        'CognitoIdentityServiceProvider.${userPool.getClientId()}.LastAuthUser';
 
-    cognitoUser = CognitoUser(
-      details.username,
-      userPool,
-      storage: _olCognitoStorage,
-    );
+    final idTokenKey = '$keyPrefix.idToken';
+    final accessTokenKey = '$keyPrefix.accessToken';
+    final refreshTokenKey = '$keyPrefix.refreshToken';
+    final clockDriftKey = '$keyPrefix.clockDrift';
 
-    try {
-      CognitoUserSession? session;
-      cognitoUser.setAuthenticationFlowType("CUSTOM_AUTH");
-      session = await cognitoUser.authenticateUser(details);
-      return Right(session!);
-    } on CognitoUserNewPasswordRequiredException catch (e) {
-      return Left(CognitoResponse.cognitoUserNewPasswordRequired(e));
-    } on CognitoUserMfaRequiredException catch (_) {
-      return const Left(CognitoResponse.cognitoUserMfaRequired());
-    } on CognitoUserSelectMfaTypeException catch (_) {
-      return const Left(CognitoResponse.cognitoUserSelectMfaType());
-    } on CognitoUserMfaSetupException catch (_) {
-      return const Left(CognitoResponse.cognitoUserMfaSetup());
-    } on CognitoUserTotpRequiredException catch (_) {
-      return const Left(CognitoResponse.cognitoUserTotpRequired());
-    } on CognitoUserCustomChallengeException catch (_) {
-      return const Left(CognitoResponse.cognitoUserCustomChallenge());
-    } on CognitoUserConfirmationNecessaryException catch (_) {
-      return const Left(CognitoResponse.cognitoUserConfirmationNecessary());
-    } on CognitoClientException catch (_) {
-      return const Left(CognitoResponse.cognitoAuthDenied());
-    } catch (e) {
-      return const Left(CognitoResponse.cognitoAuthDenied());
-    }
+    await Future.wait([
+      _olCognitoStorage.setItem(idTokenKey, session.getIdToken().getJwtToken()),
+      _olCognitoStorage.setItem(
+          accessTokenKey, session.getAccessToken().getJwtToken()),
+      _olCognitoStorage.setItem(
+          refreshTokenKey, session.getRefreshToken()?.getToken()),
+      _olCognitoStorage.setItem(clockDriftKey, '${session.getClockDrift()}'),
+      _olCognitoStorage.setItem(userPool.lastUserKey, "LastAuthUser"),
+    ]);
+
+    return session;
   }
 
   Future<Either<CognitoResponse, CognitoUserSession>> sendMFA(
