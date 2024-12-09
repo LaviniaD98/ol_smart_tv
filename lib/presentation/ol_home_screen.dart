@@ -10,6 +10,7 @@ import 'package:open_learning_smart_tv/presentation/main/agenda/agenda_screen.da
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/for_you/for_you_screen.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/profile/profile_screen.dart';
 import 'package:open_learning_smart_tv/presentation/main/search/search_screen.dart';
 import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
@@ -192,6 +193,15 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                   itemCount: 6,
                   onPageChanged: (index) {
                     manager.currentTabNavKey = tabKeys[index];
+
+                    for (final element in tabKeys) {
+                      if (element != tabKeys[index]) {
+                        element.currentState
+                            ?.popUntil((route) => route.isFirst);
+                      }
+                    }
+
+                    context.read<MainStateCubit>().resetNestedFocusNode();
                   },
                   physics: const NeverScrollableScrollPhysics(),
                 ),

@@ -330,9 +330,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const UserAvatar(
+                UserAvatar(
                   size: 160,
                   radius: 8,
+                  id: user?.idUser,
                 ),
                 const SizedBox(width: 32),
                 Expanded(

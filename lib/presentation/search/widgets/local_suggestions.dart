@@ -1,3 +1,6 @@
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:flutter/material.dart';
@@ -20,90 +23,98 @@ class LocalSuggestions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: Dimens.spacingXXS),
-      physics: const ClampingScrollPhysics(),
-      itemCount: suggestions.length,
-      itemBuilder: (context, index) {
-        final item = InkWell(
-          onTap: () => onTap(suggestions[index]),
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Dimens.spacingL,
-              vertical: Dimens.spacingM,
-            ),
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: AppColors.grey.withOpacity(.2),
-                  width: 1,
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          final focus = context.read<MainStateCubit>().state;
+          focus.requestFocus();
+        },
+      },
+      child: ListView.builder(
+        padding: const EdgeInsets.only(top: Dimens.spacingXXS),
+        physics: const ClampingScrollPhysics(),
+        itemCount: suggestions.length,
+        itemBuilder: (context, index) {
+          final item = InkWell(
+            onTap: () => onTap(suggestions[index]),
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Dimens.spacingL,
+                vertical: Dimens.spacingM,
+              ),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: AppColors.grey.withOpacity(.2),
+                    width: 1,
+                  ),
                 ),
               ),
-            ),
-            child: Row(
-              children: [
-                SvgPicture.asset(
-                  "assets/icons/time.svg",
-                  width: 24.0,
-                  colorFilter: ColorFilter.mode(
-                    ColorManager().getColorTextPrimary(),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Text(
-                    suggestions[index],
-                    style: AppTextTheme.subtitle(
-                      color: ColorManager().getColorTextPrimary(),
-                      weight: FontWeight.w500,
-                      size: 22,
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    "assets/icons/time.svg",
+                    width: 24.0,
+                    colorFilter: ColorFilter.mode(
+                      ColorManager().getColorTextPrimary(),
+                      BlendMode.srcIn,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        );
-        if (index == 0 && suggestions.isNotEmpty) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Dimens.spacingL,
-                  vertical: Dimens.spacingM,
-                ),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: AppColors.grey.withOpacity(.2),
-                      width: 1,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        LabelsManager().getRemoteStringFromLabelKeys(
-                            RemoteLabelKeys.latest_research),
-                        style: AppTextTheme.caption(
-                          color: ColorManager().getColorTextPrimary(),
-                          weight: FontWeight.w500,
-                          size: 20,
-                        ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      suggestions[index],
+                      style: AppTextTheme.subtitle(
+                        color: ColorManager().getColorTextPrimary(),
+                        weight: FontWeight.w500,
+                        size: 22,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              item,
-            ],
+            ),
           );
-        }
-        return item;
-      },
+          if (index == 0 && suggestions.isNotEmpty) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: Dimens.spacingL,
+                    vertical: Dimens.spacingM,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColors.grey.withOpacity(.2),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          LabelsManager().getRemoteStringFromLabelKeys(
+                              RemoteLabelKeys.latest_research),
+                          style: AppTextTheme.caption(
+                            color: ColorManager().getColorTextPrimary(),
+                            weight: FontWeight.w500,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                item,
+              ],
+            );
+          }
+          return item;
+        },
+      ),
     );
   }
 }

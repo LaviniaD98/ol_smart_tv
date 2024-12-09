@@ -43,6 +43,7 @@ class UserLogo extends StatelessWidget {
       child: Container(
         height: size,
         width: size,
+        clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           color: bgColor ?? Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(40),
@@ -57,6 +58,8 @@ class UserLogo extends StatelessWidget {
         child: userImageUrl != null && userImageUrl!.isNotEmpty
             ? CachedNetworkImage(
                 imageUrl: userImageUrl!,
+                maxWidthDiskCache: 300,
+                memCacheWidth: 300,
                 fit: BoxFit.cover,
                 errorWidget: (context, object, stackTrace) {
                   return _placeholder(formattedUsername);
@@ -64,22 +67,6 @@ class UserLogo extends StatelessWidget {
               )
             : _placeholder(formattedUsername),
       ),
-      // SizedBox(
-      //   height: size,
-      //   width: size,
-      //   child: ClipRRect(
-      //     borderRadius: BorderRadius.circular(radius),
-      //     child: userImageUrl != null && userImageUrl!.isNotEmpty
-      //         ? CachedNetworkImage(
-      //             imageUrl: userImageUrl!,
-      //             fit: BoxFit.cover,
-      //             errorWidget: (context, object, stackTrace) {
-      //               return _placeholder(formattedUsername);
-      //             },
-      //           )
-      //         : _placeholder(formattedUsername),
-      //   ),
-      // ),
     );
   }
 

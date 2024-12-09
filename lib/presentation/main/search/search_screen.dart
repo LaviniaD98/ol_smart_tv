@@ -430,21 +430,29 @@ class _SearchScreenState extends State<SearchScreen>
             gridDelegate: getGridDelegate(),
             builderDelegate: PagedChildBuilderDelegate<LearningObjectModel>(
               itemBuilder: (context, item, index) {
-                return AutoScrollTag(
-                  key: ValueKey(index),
-                  controller: autoScrollController,
-                  index: index,
-                  child: LearningCard(
-                    enable: item.isEnable ?? true,
-                    data: item,
-                    parentId: item.parentId.toString(),
-                    grandParentId: item.grandParentId.toString(),
-                    isGridViewItem: true,
-                    onFocusChange: (p0) {
-                      if (p0) {
-                        scrollToPosition(index);
-                      }
-                    },
+                return CallbackShortcuts(
+                  bindings: <ShortcutActivator, VoidCallback>{
+                    const SingleActivator(LogicalKeyboardKey.enter): () =>
+                        pushDetails(item: item),
+                    const SingleActivator(LogicalKeyboardKey.select): () =>
+                        pushDetails(item: item),
+                  },
+                  child: AutoScrollTag(
+                    key: ValueKey(index),
+                    controller: autoScrollController,
+                    index: index,
+                    child: LearningCard(
+                      enable: item.isEnable ?? true,
+                      data: item,
+                      parentId: item.parentId.toString(),
+                      grandParentId: item.grandParentId.toString(),
+                      isGridViewItem: true,
+                      onFocusChange: (p0) {
+                        if (p0) {
+                          scrollToPosition(index);
+                        }
+                      },
+                    ),
                   ),
                 );
               },

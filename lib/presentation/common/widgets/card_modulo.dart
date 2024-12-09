@@ -106,7 +106,10 @@ class _CardModuloState extends State<CardModulo>
     return Column(
       children: [
         Container(
-          height: widget.type == LearningObjectTypology.path ? 380 : null,
+          height: (widget.type == LearningObjectTypology.path ||
+                  widget.type == LearningObjectTypology.course)
+              ? 380
+              : null,
           padding: const EdgeInsets.only(top: 25, bottom: 25),
           child: Row(
             children: [
@@ -125,7 +128,8 @@ class _CardModuloState extends State<CardModulo>
                   ],
                 ),
               ),
-              if (widget.type == LearningObjectTypology.path) ...[
+              if (widget.type == LearningObjectTypology.path ||
+                  widget.type == LearningObjectTypology.course) ...[
                 buildVerticalImage(),
                 const SizedBox(width: 32),
               ],
@@ -239,7 +243,8 @@ class _CardModuloState extends State<CardModulo>
                         ),
                       ),
                       const SizedBox(height: 16),
-                      if (widget.type == LearningObjectTypology.path) ...[
+                      if (widget.type == LearningObjectTypology.path ||
+                          widget.type == LearningObjectTypology.course) ...[
                         // descrizione
                         Text(
                           widget.descrizione,

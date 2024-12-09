@@ -26,9 +26,9 @@ class SearchHistoryManager {
         [];
     if (!suggestions.contains(text)) {
       if (suggestions.length >= 8) {
-        suggestions.removeAt(0);
+        suggestions.removeLast();
       }
-      suggestions.add(text);
+      suggestions.insert(0, text);
       final success = await _sharedPreferences.setStringList(
           SharedPreferencesKeys.latestResearch, suggestions);
 

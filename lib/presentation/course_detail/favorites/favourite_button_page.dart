@@ -4,8 +4,8 @@ import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/favorites/favorites_screen.dart';
-import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 
 class FavoriteButton extends StatelessWidget {
   final LearningObjectModel object;
@@ -90,9 +90,8 @@ class FavoriteButton extends StatelessWidget {
                 grandParentId: grandParentId,
                 completion: () {
                   context
-                      .read<MainStateCubit>()
-                      .favoriteContentCubit
-                      ?.refresh(FavoritesScreen.apiPath);
+                      .read<FavoritesContentCubit>()
+                      .refresh(FavoritesScreen.apiPath);
                 },
               );
         } else {
@@ -102,9 +101,8 @@ class FavoriteButton extends StatelessWidget {
                 grandParentId: grandParentId,
                 completion: () {
                   context
-                      .read<MainStateCubit>()
-                      .favoriteContentCubit
-                      ?.refresh(FavoritesScreen.apiPath);
+                      .read<FavoritesContentCubit>()
+                      .refresh(FavoritesScreen.apiPath);
                 },
               );
         }

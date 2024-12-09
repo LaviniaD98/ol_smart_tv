@@ -214,7 +214,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       index: index,
                       child: CardModulo(
                         index: index,
-                        type: widget.model.learningObjectTypology,
+                        type: cc.learningObjectTypology,
                         parentFocus: _focusNode,
                         imageUrl: cc.coverPublicURL ?? "",
                         tipoText: cc.learningObjectType
@@ -277,7 +277,7 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       index: index,
                       child: CardModulo(
                         index: index,
-                        type: widget.model.learningObjectTypology,
+                        type: ll.learningObjectTypology,
                         parentFocus: _focusNode,
                         imageUrl: ll.coverPublicURL ?? "",
                         tipoText: ll.learningObjectType

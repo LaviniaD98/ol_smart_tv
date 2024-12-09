@@ -53,16 +53,18 @@ class UserAvatar extends StatelessWidget {
                 ),
               ),
             ),
-            image: (value) => UserLogo(
-              size: size,
-              userImageUrl: value.url,
-              name: name ?? '',
-              surname: surname ?? '',
-              radius: radius,
-              hasFocus: hasFocus,
-              isSelected: isSelected,
-              bgColor: bgColor,
-            ),
+            image: (value) {
+              return UserLogo(
+                size: size,
+                userImageUrl: value.url,
+                name: name ?? '',
+                surname: surname ?? '',
+                radius: 50, //radius,
+                hasFocus: hasFocus,
+                isSelected: isSelected,
+                bgColor: bgColor,
+              );
+            },
             error: (value) => UserLogo(
               size: size,
               name: name ?? '',

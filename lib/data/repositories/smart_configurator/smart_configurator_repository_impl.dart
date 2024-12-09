@@ -53,6 +53,8 @@ class SmartConfiguratorRepositoryImpl implements SmartConfiguratorRepository {
         initiativeId: initiativeId?.toString() ?? '',
       );
 
+      //print('LANGUAGE res: ${res.translation}');
+
       if (res.translation?.containsKey(langCode) != true) {
         return throw Exception();
       }

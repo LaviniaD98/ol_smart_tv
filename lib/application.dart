@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
 
@@ -19,8 +20,19 @@ import 'presentation/corporate_code/cubit/corporate_code_cubit.dart';
 import 'presentation/dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart';
 import 'presentation/dynamic_content/strip/favourites/cubit/favourites_strip_cubit.dart';
 
-class Application extends StatelessWidget {
+class Application extends StatefulWidget {
   const Application({super.key});
+
+  @override
+  State<Application> createState() => _ApplicationState();
+}
+
+class _ApplicationState extends State<Application> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //print('context.screenSize: ${context.screenSize}');
@@ -46,6 +58,9 @@ class Application extends StatelessWidget {
             create: (_) => getIt<SplashScreenCubit>()),
         BlocProvider(
           create: (_) => getIt<CorporateCodeCubit>()..init(false),
+        ),
+        BlocProvider(
+          create: (_) => getIt<FavoritesContentCubit>(),
         ),
         BlocProvider(
           create: (_) => MainStateCubit(),

@@ -31,7 +31,8 @@ class LanguagesCubit extends Cubit<LanguagesState> {
     final current = state;
     emit(const LanguagesState.loading());
     final res = await _remoteLabels.setLang(lang);
-    if(res != null) {
+
+    if (res != null) {
       onChanged?.call();
     } else {
       emit(const LanguagesState.error());

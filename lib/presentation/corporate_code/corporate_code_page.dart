@@ -157,7 +157,7 @@ class _CorporateCodePageState extends State<CorporateCodePage> {
                           // TODO(UmbertoGrimaldi): REMOVE THIS
                           if (kDebugMode) {
                             form.findControl('corporateCode')?.value =
-                                'TESTAP03';
+                                'DIGIT01';
                           }
 
                           return _content(context, form);

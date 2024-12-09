@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
@@ -86,6 +87,44 @@ class _LearningObjectActivityState extends State<LearningObjectActivity> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: widget.model.iconStatus.color,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(4),
+                            bottomRight: Radius.circular(4),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                widget.model.iconStatus.svgPath!,
+                                height: 18,
+                                width: 18,
+                                colorFilter: ColorFilter.mode(
+                                  ColorManager().getColorBackgroundPrimary(),
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Text(
+                                widget.model.iconStatus.getLocalizedLabel(),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: AppTextTheme.caption(
+                                  weight: FontWeight.w500,
+                                  color: ColorManager()
+                                      .getColorBackgroundPrimary(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Row(
                         children: [
                           Expanded(
@@ -165,4 +204,6 @@ class _LearningObjectActivityState extends State<LearningObjectActivity> {
     }
     return ColorManager().getColorSystemSecondary01();
   }
+
+  //bool isExpiring() {}
 }

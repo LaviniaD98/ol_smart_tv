@@ -98,19 +98,21 @@ class FavoritesContentCubit extends Cubit<FavoritesContentState> {
   }
 
   Future<void> refresh(String path) async {
-    if (state is Success) {
-      // final current = (state as Success);
-      emit(const FavoritesContentState.loading());
-      final res = await _getPageStructureUseCase(path);
-      res.fold(
-        (l) => emit(FavoritesContentState.error(l)),
-        (page) async {
-          // emit(current.copyWith(filters: [...?current.filters]));
-        },
-      );
-    } else {
-      init(path);
-    }
+    init(path);
+
+    // if (state is Success) {
+    //   // final current = (state as Success);
+    //   emit(const FavoritesContentState.loading());
+    //   final res = await _getPageStructureUseCase(path);
+    //   res.fold(
+    //     (l) => emit(FavoritesContentState.error(l)),
+    //     (page) async {
+    //       // emit(current.copyWith(filters: [...?current.filters]));
+    //     },
+    //   );
+    // } else {
+    //   init(path);
+    // }
   }
 
   void setFilters([List<String>? filters]) async {

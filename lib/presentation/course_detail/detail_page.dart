@@ -76,16 +76,8 @@ class _DetailPageState extends State<DetailPage> {
   void initState() {
     super.initState();
 
-    //context.read<DetailPageCubit>().mainNode = _focusNode;
     context.read<DetailPageCubit>().leftPanelNode = _focusNodeLeft;
     context.read<DetailPageCubit>().rightPanelNode = _focusNodeRight;
-
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      final focus = _focusNodeLeft.descendants.firstWhereOrNull((element) {
-        return element.id == 'BUTTON DETAILS CONTINUE';
-      });
-      focus?.requestFocus();
-    });
   }
 
   @override
@@ -185,6 +177,14 @@ class _DetailPageState extends State<DetailPage> {
   ) {
     return FocusScope(
       node: _focusNode,
+      autofocus: true,
+      onFocusChange: (value) {
+        if (value) {
+          if (_focusNode.focusedChild == null) {
+            _focusNodeLeft.requestFocus();
+          }
+        }
+      },
       child: Container(
         color: OLColors.backgroundPrimary,
         child: Row(
@@ -208,6 +208,13 @@ class _DetailPageState extends State<DetailPage> {
                 node: _focusNodeLeft,
                 onFocusChange: (value) {
                   if (value) {
+                    if (_focusNodeLeft.focusedChild == null) {
+                      final focus = _focusNodeLeft.descendants
+                          .firstWhereOrNull((element) {
+                        return element.id == 'BUTTON DETAILS CONTINUE';
+                      });
+                      focus?.requestFocus();
+                    }
                     _expanded.value = false;
                   }
                 },
@@ -308,7 +315,8 @@ class _DetailPageState extends State<DetailPage> {
                                       String? description;
 
                                       if (value is LearningObjectModel) {
-                                        description = value.longDescription;
+                                        description = value.longDescription ??
+                                            value.shortDescription;
                                       } else if (value is CourseModel) {
                                         description = value.shortDescription;
                                       }
@@ -566,7 +574,11 @@ class _DetailPageState extends State<DetailPage> {
                   LearningObjectTypology.course),
             ),
           ),
-          const ListHeaderTitle(title: 'Dettagli del Percorso'),
+          ListHeaderTitle(
+            title: LabelsManager().getRemoteStringFromLabelKeys(
+              RemoteLabelKeys.details,
+            ),
+          ),
         ],
       );
     }

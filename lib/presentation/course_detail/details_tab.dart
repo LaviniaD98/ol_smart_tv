@@ -41,11 +41,11 @@ class DetailsTab extends StatelessWidget {
             model.learningObjectTypology != LearningObjectTypology.path) ||
         (model.learningObjectTypology == LearningObjectTypology.course &&
             model.learningObjectType == LearningObjectType.blended));
-    final bool showExtraDetailsCard =
-        (model.learningObjectTypology == LearningObjectTypology.course);
-    final bool showAdditionalInfo =
-        (model.learningObjectType != LearningObjectType.blended &&
-            model.isStandAlone == false);
+    // final bool showExtraDetailsCard =
+    //     (model.learningObjectTypology == LearningObjectTypology.course);
+    // final bool showAdditionalInfo =
+    //     (model.learningObjectType != LearningObjectType.blended &&
+    //         model.isStandAlone == false);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimens.hViewPadding),
@@ -94,12 +94,6 @@ class DetailsTab extends StatelessWidget {
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: _agendaTiles(agenda),
-                  ),
-                ],
-                if (showExtraDetailsCard) ...[
-                  ExtraDetailsCard(
-                    model: model,
-                    showAdditionalInfo: showAdditionalInfo,
                   ),
                 ],
                 if (showParentCard && parentModel != null) ...[
@@ -154,16 +148,13 @@ class DetailsTab extends StatelessWidget {
               SizedBox(
                 width: 24,
                 height: 24,
-                child: Transform.scale(
-                  scale: 0.9999,
-                  child: SvgPicture.asset(
-                    (element.isBreak == true)
-                        ? "assets/icons/agenda_break.svg"
-                        : "assets/icons/agenda.svg",
-                    colorFilter: ColorFilter.mode(
-                        ColorManager().getColorSystemPrimary02(),
-                        BlendMode.srcIn),
-                  ),
+                child: SvgPicture.asset(
+                  (element.isBreak == true)
+                      ? "assets/icons/agenda_break.svg"
+                      : "assets/icons/agenda.svg",
+                  colorFilter: ColorFilter.mode(
+                      ColorManager().getColorSystemPrimary02(),
+                      BlendMode.srcIn),
                 ),
               ),
               const SizedBox(width: 8),

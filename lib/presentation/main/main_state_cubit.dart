@@ -46,6 +46,15 @@ class MainStateCubit extends Cubit<OlFocusScopeNode> {
     }
   }
 
+  void resetNestedFocusNode() {
+    latestSearchFocusNode = null;
+    latestForYouFocusNode = null;
+    latestExploreFocusNode = null;
+    latestFavoritesFocusNode = null;
+    latestAgendaFocusNode = null;
+    latestProfileFocusNode = null;
+  }
+
   void next() {
     policy?.next(state);
   }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/user_info_manager.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/menu_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_side_item.dart';
@@ -179,6 +180,10 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                   final isSelected = !focusNode.hasFocus &&
                                       selectedIndexState == 5;
 
+                                  final user = UserInfoManager()
+                                      .getUserInfoModel()
+                                      ?.user;
+
                                   return Column(
                                     children: [
                                       UserAvatar(
@@ -187,6 +192,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                         hasFocus: hasFocus,
                                         bgColor: Colors.white.withOpacity(0.2),
                                         isSelected: isSelected,
+                                        id: user?.idUser,
                                       ),
                                       const SizedBox(height: 16),
                                       GlowContainer(

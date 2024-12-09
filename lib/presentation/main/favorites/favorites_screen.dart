@@ -67,8 +67,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       },
       child: Scaffold(
         backgroundColor: OLColors.backgroundPrimary,
-        body: BlocProvider(
-          create: (_) => context.read<MainStateCubit>().favoriteContentCubit!
+        body: BlocProvider.value(
+          value: context.read<FavoritesContentCubit>()
             ..init(FavoritesScreen.apiPath, null, true),
           child: RefreshIndicator(
             color: ColorManager().getColorTextPrimaryCta(),
@@ -146,9 +146,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget content(Map<StripRow, List<LearningObjectModel>>? contentSource) {
-    if (contentSource == null) {
-      return buildEmptyFavorites();
-    }
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
@@ -161,6 +158,9 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       },
       child: Builder(
         builder: (context) {
+          if (contentSource == null) {
+            return buildEmptyFavorites();
+          }
           if (contentSource.values.isEmpty) {
             return buildEmptyFavorites();
           }

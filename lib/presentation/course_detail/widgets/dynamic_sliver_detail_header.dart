@@ -107,6 +107,8 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
         });
       }
     });
+
+    widget.args.object?.isFavourite = widget.model.isFavourite;
     super.initState();
   }
 
