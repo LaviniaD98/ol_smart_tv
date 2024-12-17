@@ -175,6 +175,7 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel model,
     SmartConfiguratorModel? smartConfig,
   ) {
+    print('DetailPage - _content - model: ${model.editionsModel}');
     return FocusScope(
       node: _focusNode,
       autofocus: true,

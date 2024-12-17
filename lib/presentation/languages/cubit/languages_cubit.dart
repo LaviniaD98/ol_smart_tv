@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import '../../../domain/entities/language/language_model.dart';
 import '../../../remote_theming/labels/remote_labels.dart';
 import '../languages_page.dart';
@@ -34,6 +35,14 @@ class LanguagesCubit extends Cubit<LanguagesState> {
 
     if (res != null) {
       onChanged?.call();
+
+      getIt<RemoteLabels>().refresh();
+      emit(
+        LanguagesState.initial(
+          selected: res,
+          supportedLanguages: _remoteLabels.supportedLanguages,
+        ),
+      );
     } else {
       emit(const LanguagesState.error());
       emit(current);

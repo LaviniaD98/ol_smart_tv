@@ -17,6 +17,7 @@ import 'package:open_learning_smart_tv/presentation/ol_side_navigator.dart';
 import 'package:open_learning_smart_tv/presentation/profile/cubit/profile_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/search/cubit/search_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/settings/cubit/settings_cubit.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
 
 class OLHomeScreen extends StatefulWidget {
   const OLHomeScreen({
@@ -31,6 +32,15 @@ class OLHomeScreen extends StatefulWidget {
 }
 
 class _OLHomeScreenState extends State<OLHomeScreen> {
+  UniqueKey _refreshKey = UniqueKey();
+
+  void _handleLocaleChanged() => setState(() {
+        _refreshKey = UniqueKey();
+        Future.delayed(const Duration(milliseconds: 300), () {
+          pageController.jumpToPage(currentIndex);
+        });
+      });
+
   final int initialPage = 1;
 
   final focusNode = FocusScopeNode(debugLabel: 'Home');
@@ -46,9 +56,14 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
 
   late List<GlobalKey<NavigatorState>> tabKeys;
 
+  late int currentIndex;
+
   @override
   void initState() {
     super.initState();
+    currentIndex = initialPage;
+
+    getIt<RemoteLabels>().addListener(_handleLocaleChanged);
 
     pageController = PageController(initialPage: initialPage);
     tabKeys = [];
@@ -84,6 +99,12 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
   }
 
   @override
+  void dispose() {
+    getIt<RemoteLabels>().removeListener(_handleLocaleChanged);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
@@ -105,6 +126,7 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                 skipTraversal: true,
                 onFocusChange: (value) {},
                 child: PageView.builder(
+                  key: _refreshKey,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return MultiBlocProvider(
@@ -192,6 +214,7 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                   controller: pageController,
                   itemCount: 6,
                   onPageChanged: (index) {
+                    currentIndex = index;
                     manager.currentTabNavKey = tabKeys[index];
 
                     for (final element in tabKeys) {

@@ -28,6 +28,8 @@ class LanguagesPage extends StatefulWidget {
 class _LanguagesPageState extends State<LanguagesPage> {
   LanguageModel current = getIt<RemoteLabels>().selectedLanguage;
 
+  FocusScopeNode focusNode = FocusScopeNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,70 +71,85 @@ class _LanguagesPageState extends State<LanguagesPage> {
                   loading: (_) =>
                       const Center(child: CircularProgressIndicator()),
                   initial: (value) => Align(
-                    child: Container(
-                      padding: const EdgeInsets.all(Dimens.hPadding),
-                      width: 887,
-                      constraints:
-                          const BoxConstraints(minHeight: 700, maxHeight: 700),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: OLColors.backgroundPrimary.withOpacity(0.8),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            LabelsManager().getRemoteStringFromLabelKeys(
-                                RemoteLabelKeys.languages_title),
-                            textAlign: TextAlign.start,
-                            style: AppTextTheme.title(
-                              color: ColorManager().getColorTextPrimaryCta(),
+                    child: FocusScope(
+                      node: focusNode,
+                      child: Container(
+                        padding: const EdgeInsets.all(Dimens.hPadding),
+                        width: 887,
+                        constraints: const BoxConstraints(
+                            minHeight: 700, maxHeight: 700),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: OLColors.backgroundPrimary.withOpacity(0.8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              LabelsManager().getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.languages_title),
+                              textAlign: TextAlign.start,
+                              style: AppTextTheme.title(
+                                color: ColorManager().getColorTextPrimaryCta(),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 32.0),
-                          Expanded(
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: const ClampingScrollPhysics(),
-                              separatorBuilder: (context, index) =>
-                                  const SizedBox(height: Dimens.spacingM),
-                              itemCount: value.supportedLanguages.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final child =
-                                    _item(value.supportedLanguages[index]);
+                            const SizedBox(height: 32.0),
+                            Expanded(
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const ClampingScrollPhysics(),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: Dimens.spacingM),
+                                itemCount: value.supportedLanguages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final child =
+                                      _item(value.supportedLanguages[index]);
 
-                                return child;
-                              },
+                                  return child;
+                                },
+                              ),
                             ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Align(
-                                child: OLButton(
-                                  title: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                          RemoteLabelKeys.back),
-                                  onPressed: () => Navigator.of(context).pop(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Align(
+                                  child: OLButton(
+                                    title: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.back),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 16),
-                              Align(
-                                child: OLButton(
-                                  title: LabelsManager()
-                                      .getRemoteStringFromLabelKeys(
-                                          RemoteLabelKeys.continue_button),
-                                  onPressed: current != value.selected
-                                      ? () => context
-                                          .read<LanguagesCubit>()
-                                          .onLanguageChange(current)
-                                      : null,
+                                const SizedBox(width: 16),
+                                Align(
+                                  child: OLButton(
+                                    title: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.continue_button),
+                                    onPressed: current != value.selected
+                                        ? () {
+                                            final focus =
+                                                focusNode.focusedChild;
+                                            context
+                                                .read<LanguagesCubit>()
+                                                .onLanguageChange(current);
+                                            Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 3000), () {
+                                              focus?.requestFocus();
+
+                                              Navigator.of(context).pop();
+                                            });
+                                          }
+                                        : null,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

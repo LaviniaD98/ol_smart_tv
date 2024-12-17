@@ -4,12 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
+import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/user_info_manager.dart';
 import 'package:open_learning_smart_tv/domain/entities/menu/menu_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_side_item.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/user_avatar/user_avatar.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
 
 class OLSideNavigator extends StatefulWidget {
@@ -59,181 +63,201 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainStateCubit, OlFocusScopeNode>(
-      builder: (context, focusNode) {
-        final selectedIndexState = context.read<MainStateCubit>().selectedIndex;
+    return ListenableBuilder(
+        listenable: getIt<RemoteLabels>(),
+        builder: (context, child) {
+          return BlocBuilder<MainStateCubit, OlFocusScopeNode>(
+            builder: (context, focusNode) {
+              final selectedIndexState =
+                  context.read<MainStateCubit>().selectedIndex;
 
-        return PopScope(
-          canPop: !focusNode.hasFocus,
-          onPopInvokedWithResult: (didPop, result) {
-            if (focusNode.hasFocus) {
-              FocusScope.of(context).focusInDirection(TraversalDirection.right);
-            }
-          },
-          child: CallbackShortcuts(
-            bindings: <ShortcutActivator, VoidCallback>{
-              const SingleActivator(LogicalKeyboardKey.arrowUp): () {
-                _policy.previous(focusNode);
-              },
-              const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-                _policy.next(focusNode);
-              },
-              const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
-                  selectPage(ignoreNewIndex: true),
-              const SingleActivator(LogicalKeyboardKey.select): selectPage,
-              const SingleActivator(LogicalKeyboardKey.enter): selectPage,
-              const SingleActivator(LogicalKeyboardKey.goBack): () {
-                FocusScope.of(context).nextFocus();
-              },
-            },
-            child: FocusScope(
-              node: focusNode,
-              onFocusChange: (value) {
-                setState(() {});
-                if (value) {
-                  if (focusNode.focusedChild == null) {
-                    context
-                        .read<MainStateCubit>()
-                        .state
-                        .children
-                        .toList()[1]
-                        .requestFocus();
+              return PopScope(
+                canPop: !focusNode.hasFocus,
+                onPopInvokedWithResult: (didPop, result) {
+                  if (focusNode.hasFocus) {
+                    FocusScope.of(context)
+                        .focusInDirection(TraversalDirection.right);
                   }
-                }
-              },
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          stops: [0, focusNode.hasFocus ? 1 : 0.01],
-                          colors: [
-                            Colors.white.withOpacity(0.7),
-                            Colors.white.withOpacity(0)
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    color: OLColors.backgroundSideNav,
-                    width: focusNode.hasFocus ? 250 : 175,
-                    child: Row(
+                },
+                child: CallbackShortcuts(
+                  bindings: <ShortcutActivator, VoidCallback>{
+                    const SingleActivator(LogicalKeyboardKey.arrowUp): () {
+                      _policy.previous(focusNode);
+                    },
+                    const SingleActivator(LogicalKeyboardKey.arrowDown): () {
+                      _policy.next(focusNode);
+                    },
+                    const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
+                        selectPage(ignoreNewIndex: true),
+                    const SingleActivator(LogicalKeyboardKey.select):
+                        selectPage,
+                    const SingleActivator(LogicalKeyboardKey.enter): selectPage,
+                    const SingleActivator(LogicalKeyboardKey.goBack): () {
+                      FocusScope.of(context).nextFocus();
+                    },
+                  },
+                  child: FocusScope(
+                    node: focusNode,
+                    onFocusChange: (value) {
+                      setState(() {});
+                      if (value) {
+                        if (focusNode.focusedChild == null) {
+                          context
+                              .read<MainStateCubit>()
+                              .state
+                              .children
+                              .toList()[1]
+                              .requestFocus();
+                        }
+                      }
+                    },
+                    child: Stack(
                       children: [
-                        Expanded(
-                          child: Column(
+                        Positioned.fill(
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                stops: [0, focusNode.hasFocus ? 1 : 0.01],
+                                colors: [
+                                  Colors.white.withOpacity(0.7),
+                                  Colors.white.withOpacity(0)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          color: OLColors.backgroundSideNav,
+                          width: focusNode.hasFocus ? 250 : 175,
+                          child: Row(
                             children: [
-                              const SizedBox(height: 68),
-                              SvgPicture.asset(
-                                'assets/images/white_logo.svg',
-                              ),
-                              const SizedBox(height: 120),
-                              OLSideItem(
-                                icon: 'assets/icons/search.svg',
-                                title: 'Cerca',
-                                id: searchFocusId,
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 0,
-                              ),
-                              const SizedBox(height: 120),
-                              OLSideItem(
-                                icon: 'assets/icons/for_you.svg',
-                                title: 'Per te',
-                                id: forYouFocusId,
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 1,
-                              ),
-                              const SizedBox(height: 44),
-                              OLSideItem(
-                                icon: 'assets/icons/explore.svg',
-                                title: 'Esplora',
-                                id: exploreFocusId,
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 2,
-                              ),
-                              const SizedBox(height: 44),
-                              OLSideItem(
-                                icon: 'assets/icons/favorites_icon.svg',
-                                title: 'Preferiti',
-                                id: favoritesFocusId,
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 3,
-                              ),
-                              const SizedBox(height: 44),
-                              OLSideItem(
-                                icon: 'assets/icons/agenda_icon.svg',
-                                title: 'Agenda',
-                                id: agendaFocusId,
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 4,
-                              ),
-                              const Spacer(),
-                              const SizedBox(height: 44),
-                              OLSideItem(
-                                icon: 'assets/icons/agenda_icon.svg',
-                                title: 'Profile',
-                                id: profileFocusId,
-                                child: (hasFocus) {
-                                  final isSelected = !focusNode.hasFocus &&
-                                      selectedIndexState == 5;
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    const SizedBox(height: 68),
+                                    SvgPicture.asset(
+                                      'assets/images/white_logo.svg',
+                                    ),
+                                    const SizedBox(height: 120),
+                                    OLSideItem(
+                                      icon: 'assets/icons/search.svg',
+                                      title: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                              RemoteLabelKeys.visSearch),
+                                      id: searchFocusId,
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 0,
+                                    ),
+                                    const SizedBox(height: 120),
+                                    OLSideItem(
+                                      icon: 'assets/icons/for_you.svg',
+                                      title: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                              RemoteLabelKeys.visForyouMenu),
+                                      id: forYouFocusId,
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 1,
+                                    ),
+                                    const SizedBox(height: 44),
+                                    OLSideItem(
+                                      icon: 'assets/icons/explore.svg',
+                                      title: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                              RemoteLabelKeys.visExplore),
+                                      id: exploreFocusId,
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 2,
+                                    ),
+                                    const SizedBox(height: 44),
+                                    OLSideItem(
+                                      icon: 'assets/icons/favorites_icon.svg',
+                                      title: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                              RemoteLabelKeys.favourites),
+                                      id: favoritesFocusId,
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 3,
+                                    ),
+                                    const SizedBox(height: 44),
+                                    OLSideItem(
+                                      icon: 'assets/icons/agenda_icon.svg',
+                                      title: LabelsManager()
+                                          .getRemoteStringFromLabelKeys(
+                                              RemoteLabelKeys.agenda),
+                                      id: agendaFocusId,
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 4,
+                                    ),
+                                    const Spacer(),
+                                    const SizedBox(height: 44),
+                                    OLSideItem(
+                                      icon: 'assets/icons/agenda_icon.svg',
+                                      title: 'Profile',
+                                      id: profileFocusId,
+                                      child: (hasFocus) {
+                                        final isSelected =
+                                            !focusNode.hasFocus &&
+                                                selectedIndexState == 5;
 
-                                  final user = UserInfoManager()
-                                      .getUserInfoModel()
-                                      ?.user;
+                                        final user = UserInfoManager()
+                                            .getUserInfoModel()
+                                            ?.user;
 
-                                  return Column(
-                                    children: [
-                                      UserAvatar(
-                                        size: 60,
-                                        radius: 40,
-                                        hasFocus: hasFocus,
-                                        bgColor: Colors.white.withOpacity(0.2),
-                                        isSelected: isSelected,
-                                        id: user?.idUser,
-                                      ),
-                                      const SizedBox(height: 16),
-                                      GlowContainer(
-                                        width: 75,
-                                        height: 2.5,
-                                        blurRadius: 8,
-                                        spreadRadius: 1,
-                                        glowColor: hasFocus || isSelected
-                                            ? OLColors.accentVariantA
-                                                .withOpacity(0.5)
-                                            : Colors.transparent,
-                                        color: hasFocus || isSelected
-                                            ? OLColors.accentVariantA
-                                            : Colors.transparent,
-                                        borderRadius: BorderRadius.circular(5),
-                                      )
-                                    ],
-                                  );
-                                },
-                                isSelected: !focusNode.hasFocus &&
-                                    selectedIndexState == 5,
+                                        return Column(
+                                          children: [
+                                            UserAvatar(
+                                              size: 60,
+                                              radius: 40,
+                                              hasFocus: hasFocus,
+                                              bgColor:
+                                                  Colors.white.withOpacity(0.2),
+                                              isSelected: isSelected,
+                                              id: user?.idUser,
+                                            ),
+                                            const SizedBox(height: 16),
+                                            GlowContainer(
+                                              width: 75,
+                                              height: 2.5,
+                                              blurRadius: 8,
+                                              spreadRadius: 1,
+                                              glowColor: hasFocus || isSelected
+                                                  ? OLColors.accentVariantA
+                                                      .withOpacity(0.5)
+                                                  : Colors.transparent,
+                                              color: hasFocus || isSelected
+                                                  ? OLColors.accentVariantA
+                                                  : Colors.transparent,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                      isSelected: !focusNode.hasFocus &&
+                                          selectedIndexState == 5,
+                                    ),
+                                    const SizedBox(height: 50),
+                                  ],
+                                ),
                               ),
-                              const SizedBox(height: 50),
+                              const VerticalDivider(
+                                thickness: 2,
+                                width: 2,
+                                color: OLColors.divider,
+                              )
                             ],
                           ),
                         ),
-                        const VerticalDivider(
-                          thickness: 2,
-                          width: 2,
-                          color: OLColors.divider,
-                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+                ),
+              );
+            },
+          );
+        });
   }
 
   void selectPage({bool ignoreNewIndex = false}) {

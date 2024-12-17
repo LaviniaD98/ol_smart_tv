@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
 
@@ -64,6 +66,16 @@ class _ApplicationState extends State<Application> {
         ),
         BlocProvider(
           create: (_) => MainStateCubit(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<LanguagesCubit>()
+            ..init(
+              LanguagesPageArgs(
+                onChanged: () {
+                  getIt<RemoteLabels>().refresh();
+                },
+              ),
+            ),
         ),
       ],
       child: ListenableBuilder(

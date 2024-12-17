@@ -74,6 +74,10 @@ class RemoteLabels with ChangeNotifier {
     });
   }
 
+  void refresh() {
+    notifyListeners();
+  }
+
   Future<void> setFallback() async {
     final String response =
         await rootBundle.loadString('assets/translation/it.json');

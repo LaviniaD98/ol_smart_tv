@@ -194,13 +194,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     title: getIt<RemoteLabels>().selectedLanguage.label,
                     icon: "assets/icons/globo.svg",
                     onTap: () {
-                      final args = LanguagesPageArgs(
-                          onChanged: () => getIt<AppCubit>().reload(context));
+                      final args = LanguagesPageArgs(onChanged: () {});
 
                       Nav.push(
                         context,
-                        screen: BlocProvider(
-                          create: (_) => getIt<LanguagesCubit>()..init((args)),
+                        screen: BlocProvider.value(
+                          value: context.read<LanguagesCubit>(),
                           child: LanguagesPage(args: args),
                         ),
                       );
