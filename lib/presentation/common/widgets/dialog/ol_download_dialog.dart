@@ -7,7 +7,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:open_app_file/open_app_file.dart';
 
 import '../../../../domain/enums/types.dart';
 import '../../../../theme/app_theme.dart';
@@ -31,7 +30,7 @@ class OlDownloadDialog extends StatelessWidget {
                 RemoteLabelKeys.download_completed),
             LabelsManager()
                 .getRemoteStringFromLabelKeys(RemoteLabelKeys.open_file), () {
-          OpenAppFile.open(filePath, uti: "text/calendar");
+          //OpenAppFile.open(filePath, uti: "text/calendar");
         }),
         downloadError: () => buildContent(
             context,

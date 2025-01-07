@@ -6,21 +6,14 @@ part of 'enrollment_body_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$EnrollmentDtoToJson(EnrollmentDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('approverEId', instance.approverEId);
-  writeNotNull('domainId', instance.domainId);
-  writeNotNull('enrollDate', instance.enrollDate);
-  writeNotNull('enrollType', instance.enrollType);
-  writeNotNull('learningObject', instance.learningObject?.toJson());
-  writeNotNull('mandatory', instance.mandatory);
-  writeNotNull('userId', instance.userId);
-  return val;
-}
+Map<String, dynamic> _$EnrollmentDtoToJson(EnrollmentDto instance) =>
+    <String, dynamic>{
+      if (instance.approverEId case final value?) 'approverEId': value,
+      if (instance.domainId case final value?) 'domainId': value,
+      if (instance.enrollDate case final value?) 'enrollDate': value,
+      if (instance.enrollType case final value?) 'enrollType': value,
+      if (instance.learningObject?.toJson() case final value?)
+        'learningObject': value,
+      if (instance.mandatory case final value?) 'mandatory': value,
+      if (instance.userId case final value?) 'userId': value,
+    };

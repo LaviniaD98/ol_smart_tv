@@ -243,7 +243,6 @@ class GoalsCard extends StatelessWidget {
             .getRemoteStringFromLabelKeys(RemoteLabelKeys.goals_under_line);
         break;
       case GoalSummary.unknown:
-      default:
         iconAsset = 'assets/icons/check.svg';
         iconColor = ColorManager().getColorSystemSecondary02();
         label = '';

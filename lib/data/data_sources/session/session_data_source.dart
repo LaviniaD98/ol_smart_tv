@@ -32,4 +32,10 @@ abstract class SessionDataSource {
     String? authorization,
     required String uuid,
   });
+
+  Future<dynamic> getExternalIdByUsername({
+    String? authorization,
+    required String corporateId,
+    required String username,
+  });
 }

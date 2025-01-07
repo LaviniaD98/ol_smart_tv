@@ -7,37 +7,31 @@ part of 'sessionid_request_body_dto.dart';
 // **************************************************************************
 
 Map<String, dynamic> _$SessionIdRequestBodyDtoToJson(
-    SessionIdRequestBodyDto instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('courseId', instance.courseId);
-  writeNotNull('learnerId', instance.learnerId);
-  writeNotNull('learnerName', instance.learnerName);
-  writeNotNull('tokenJwt', instance.tokenJwt);
-  writeNotNull('iframeSrc', instance.iframeSrc);
-  writeNotNull('userEmail', instance.userEmail);
-  writeNotNull('userName', instance.userName);
-  writeNotNull('corporateId', instance.corporateId);
-  writeNotNull('initiativeId', instance.initiativeId);
-  writeNotNull('pathId', instance.pathId);
-  writeNotNull('activityId', instance.activityId);
-  writeNotNull('LO_type', instance.LO_type);
-  writeNotNull('domain', instance.domain);
-  writeNotNull('objectDescription', instance.objectDescription);
-  writeNotNull('objectName', instance.objectName);
-  writeNotNull('viteSCORMTracker', instance.viteSCORMTracker);
-  writeNotNull('viteXAPITracker', instance.viteXAPITracker);
-  writeNotNull('linkedInLOId', instance.linkedInLOId);
-  writeNotNull('loType', instance.loType);
-  writeNotNull('sessionId', instance.sessionId);
-  writeNotNull('tentativeId', instance.tentativeId);
-  writeNotNull('trackOnClick', instance.trackOnClick);
-  writeNotNull('surveyId', instance.surveyId);
-  return val;
-}
+        SessionIdRequestBodyDto instance) =>
+    <String, dynamic>{
+      if (instance.courseId case final value?) 'courseId': value,
+      if (instance.learnerId case final value?) 'learnerId': value,
+      if (instance.learnerName case final value?) 'learnerName': value,
+      if (instance.tokenJwt case final value?) 'tokenJwt': value,
+      if (instance.iframeSrc case final value?) 'iframeSrc': value,
+      if (instance.userEmail case final value?) 'userEmail': value,
+      if (instance.userName case final value?) 'userName': value,
+      if (instance.corporateId case final value?) 'corporateId': value,
+      if (instance.initiativeId case final value?) 'initiativeId': value,
+      if (instance.pathId case final value?) 'pathId': value,
+      if (instance.activityId case final value?) 'activityId': value,
+      if (instance.LO_type case final value?) 'LO_type': value,
+      if (instance.domain case final value?) 'domain': value,
+      if (instance.objectDescription case final value?)
+        'objectDescription': value,
+      if (instance.objectName case final value?) 'objectName': value,
+      if (instance.viteSCORMTracker case final value?)
+        'viteSCORMTracker': value,
+      if (instance.viteXAPITracker case final value?) 'viteXAPITracker': value,
+      if (instance.linkedInLOId case final value?) 'linkedInLOId': value,
+      if (instance.loType case final value?) 'loType': value,
+      if (instance.sessionId case final value?) 'sessionId': value,
+      if (instance.tentativeId case final value?) 'tentativeId': value,
+      if (instance.trackOnClick case final value?) 'trackOnClick': value,
+      if (instance.surveyId case final value?) 'surveyId': value,
+    };

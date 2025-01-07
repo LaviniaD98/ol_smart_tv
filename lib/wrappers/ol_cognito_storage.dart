@@ -34,7 +34,5 @@ class OlCognitoStorage extends CognitoStorage {
   }
 
   @override
-  Future<void> clear() async {
-    //TODO
-  }
+  Future<void> clear() async {}
 }

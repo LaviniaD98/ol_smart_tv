@@ -212,7 +212,6 @@ class ContinueCard extends StatelessWidget {
           svgPath: IconStatus.suggestedHR.svgPath ?? '',
         );
       case IconStatus.idle:
-      default:
         return const SizedBox();
     }
   }

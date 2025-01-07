@@ -84,6 +84,17 @@ class CognitoAuthManager {
     }
   }
 
+  Future<dynamic> getExternalIdByUsername({required String username}) async {
+    final corporateInfo = await _getStoredCorporateIdUseCase();
+
+    final res = await _getQrCodeUseCase.getExternalIdByUsername(
+      corporateId: (corporateInfo?.id ?? 0).toString(),
+      username: Uri.encodeQueryComponent(username),
+    );
+    // print('RESPONSE: ${res}');
+    return res;
+  }
+
   Future<dynamic> getQrCode() async {
     final corporateInfo = await _getStoredCorporateIdUseCase();
 

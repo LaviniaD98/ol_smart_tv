@@ -24,4 +24,12 @@ class GetQrCodeUseCase {
     }
     return null;
   }
+
+  Future<dynamic> getExternalIdByUsername({
+    required String corporateId,
+    required String username,
+  }) {
+    return _sessionRepository.getExternalIdByUsername(
+        corporateId: corporateId, username: username);
+  }
 }

@@ -1,5 +1,4 @@
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/extra_details_card.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/parent_course_card.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/teachers_sheet/cubit/teacher_detail_sheet_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/teachers_sheet/teacher_detail_sheet.dart';

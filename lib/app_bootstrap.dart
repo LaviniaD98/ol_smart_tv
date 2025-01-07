@@ -6,7 +6,6 @@ import 'package:open_learning_smart_tv/prod_firebase_options.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
@@ -42,8 +41,6 @@ Future<void> bootstrap(Env env) async {
       await Firebase.initializeApp(
           options: ProdFirebaseOptions.currentPlatform);
     }
-
-    await FirebaseMessaging.instance.setAutoInitEnabled(true);
   } catch (e) {
     if (kDebugMode) print("exception while trying to inizialize firebase: $e");
   }

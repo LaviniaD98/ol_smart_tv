@@ -35,6 +35,7 @@ linked_*.ds
 unlinked.ds
 unlinked_spec.ds
 .fvm/
+.fvmrc
 
 # Android related
 **/android/**/gradle-wrapper.jar

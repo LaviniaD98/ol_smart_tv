@@ -164,7 +164,6 @@ class ContinueLearningCardWall extends StatelessWidget {
           svgPath: data.iconStatus.svgPath ?? '',
         );
       case IconStatus.idle:
-      default:
         return const SizedBox();
     }
   }

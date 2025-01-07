@@ -82,9 +82,20 @@ class LoginCubit extends Cubit<LoginState> {
       SharedPreferencesKeys.loggedInViaSSO,
       false,
     );
+
+    final response =
+        await _cognitoAuthManager.getExternalIdByUsername(username: username);
+
+    final externalId = response['external_id'] as String?;
+
+    if (externalId == null) {
+      emit(const LoginState.error());
+      return;
+    }
+
     final res = await _cognitoAuthManager.login(
       AuthenticationDetails(
-        username: username,
+        username: externalId,
         password: password,
       ),
     );

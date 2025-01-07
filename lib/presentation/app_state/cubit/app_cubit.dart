@@ -8,7 +8,6 @@ import 'package:open_learning_smart_tv/presentation/ol_home_screen.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -81,7 +80,7 @@ class AppCubit extends Cubit<AppState> {
     await ColorManager().retrieveBaseColors(rootBundle);
     if (!showPopup) {
       //avoid removing firebase token is the logout has been called from a 401 flow (showPopup == true)
-      FirebaseMessaging.instance.deleteToken();
+      //FirebaseMessaging.instance.deleteToken();
     }
     _sharedPreferences.remove(ConfigManager()
         .getRemoteString(RemoteConfigKeys.firebase_token_sp_key));

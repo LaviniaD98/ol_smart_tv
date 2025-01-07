@@ -3,15 +3,12 @@ import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/cards/learning_card.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_modules.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 import '../../domain/entities/detail/detail_page_model.dart';
-import '../../domain/enums/types.dart';
-import 'common/course_logic.dart';
 
 class CourseDetailHorizontalModules extends StatefulWidget {
   final DetailPageModel model;
@@ -132,8 +129,9 @@ class _CourseDetailHorizontalModulesState
                   LearningObjectModel? ll = commonObjects[index].activity;
                   CourseModel? cc = commonObjects[index].course;
 
-                  bool bIsEnabled = true;
-                  objLOCharacterization? ccCh;
+                  /*
+                  //bool bIsEnabled = true;
+                   objLOCharacterization? ccCh;
                   if (cc != null) {
                     ccCh = CourseLogic().loCharacterizationNew(
                       status: cc.status ?? "",
@@ -145,10 +143,11 @@ class _CourseDetailHorizontalModulesState
                       ecmRegistration: widget.model.ecmRegistration,
                       isSubModule: true,
                     );
-                    bIsEnabled = ccCh.buttonEnabled && cc.isEnable == true;
+                    //bIsEnabled = ccCh.buttonEnabled && cc.isEnable == true;
                   }
 
-                  objLOCharacterization? llCh;
+               
+                 objLOCharacterization? llCh;
 
                   if (ll != null) {
                     llCh = CourseLogic().loCharacterizationNew(
@@ -161,8 +160,9 @@ class _CourseDetailHorizontalModulesState
                       ecmRegistration: widget.model.ecmRegistration,
                       isSubModule: true,
                     );
-                    bIsEnabled = llCh.buttonEnabled && ll.isEnable == true;
+                    //bIsEnabled = llCh.buttonEnabled && ll.isEnable == true;
                   }
+                  */
 
                   /*
                    if (bIsEnabled) {

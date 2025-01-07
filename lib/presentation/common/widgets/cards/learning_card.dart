@@ -311,7 +311,6 @@ class _LearningCardState extends State<LearningCard> {
           color: ColorManager().getColorBorderSecondaryComplete(),
         );
       case IconStatus.idle:
-      default:
         return null;
     }
   }
