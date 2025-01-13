@@ -65,6 +65,7 @@ class _GridActivitiesState extends State<GridActivities> {
       },
       child: FocusScope(
         node: _focusNode,
+        canRequestFocus: widget.items.isNotEmpty,
         onFocusChange: (value) {
           if (value) {
             if (_focusNode.focusedChild == null) {

@@ -14,6 +14,7 @@ class OlMonthCalendar extends StatefulWidget {
     required this.focusedDayNotifier,
     required this.selectedDayNotifier,
     required this.highlighted,
+    required this.onTap,
     this.initialDate,
     this.firstDate,
     this.lastDate,
@@ -26,6 +27,7 @@ class OlMonthCalendar extends StatefulWidget {
   final DateTime? initialDate;
   final DateTime? firstDate;
   final DateTime? lastDate;
+  final OnDayTap onTap;
   final ValueNotifier<DateTime> focusedDayNotifier;
   final ValueNotifier<DateTime> selectedDayNotifier;
   final double rowHeight;
@@ -164,7 +166,7 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
                                 widget.highlighted.firstWhereOrNull(
                                     (el) => el.day == day.day),
                               ),
-                              onTap: (_) {},
+                              onTap: widget.onTap,
                             );
                           },
                           todayBuilder: (context, day, focusedDay) {
@@ -177,7 +179,7 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
                                 widget.highlighted.firstWhereOrNull(
                                     (el) => el.day == day.day),
                               ),
-                              onTap: (_) {},
+                              onTap: widget.onTap,
                             );
                           },
                           defaultBuilder: (context, day, focusedDay) {
@@ -190,7 +192,7 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
                                 widget.highlighted.firstWhereOrNull(
                                     (el) => el.day == day.day),
                               ),
-                              onTap: (_) {},
+                              onTap: widget.onTap,
                             );
                           },
                           outsideBuilder: (context, day, focusedDay) {

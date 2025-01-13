@@ -44,7 +44,7 @@ abstract class ExternalModule {
         responseHeader: false, // true,
         compact: true,
         logPrint: (message) => {
-          if (kDebugMode) {print("${DateTime.now()} - ${message.toString()}")}
+          // if (kDebugMode) {print("${DateTime.now()} - ${message.toString()}")}
         },
       );
 

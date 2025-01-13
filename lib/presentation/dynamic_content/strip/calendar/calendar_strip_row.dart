@@ -1,11 +1,9 @@
-import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/cubit/calendar_month_strip_cubit.dart'
     as month;
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/ol_month_calendar.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/calendar_shimmer.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/calendar/widgets/grid_activities.dart';
-import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,11 +20,13 @@ import 'widgets/week_row.dart';
 class CalendarStripRow extends StatefulWidget {
   final StripRow strip;
   final bool smartLearningEnabled;
+  final OlFocusScopeNode parentFocus;
 
   const CalendarStripRow(
     this.strip, {
     super.key,
     required this.smartLearningEnabled,
+    required this.parentFocus,
   });
 
   @override
@@ -46,40 +46,42 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 500,
-          child: BlocProvider(
-            create: (context) => getIt<month.CalendarMonthStripCubit>()
-              ..init(widget.strip, widget.smartLearningEnabled),
-            child: BlocBuilder<month.CalendarMonthStripCubit,
-                month.CalendarMonthStripState>(
-              buildWhen: (previous, current) => previous is month.ParentShimmer,
-              builder: (context, state) {
-                final calendar = CalendarStripContent(
-                  key: const ValueKey('calendarWidget'),
-                  strip: widget.strip,
-                  smartLearningEnabled: widget.smartLearningEnabled,
-                  focusedDayNotifier: focusedDayNotifier,
-                  selectedDayNotifier: selectedDayNotifier,
-                  fullMonth: true,
-                );
-                return state.maybeMap(
-                  success: (value) => calendar,
-                  error: (value) => calendar,
-                  parentShimmer: (value) => const CalendarShimmer(),
-                  orElse: () => const SizedBox.shrink(),
-                );
-              },
+    return BlocProvider(
+      create: (context) => getIt<CalendarStripCubit>()
+        ..init(widget.strip, widget.smartLearningEnabled),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 500,
+            child: BlocProvider(
+              create: (context) => getIt<month.CalendarMonthStripCubit>()
+                ..init(widget.strip, widget.smartLearningEnabled),
+              child: BlocBuilder<month.CalendarMonthStripCubit,
+                  month.CalendarMonthStripState>(
+                buildWhen: (previous, current) =>
+                    previous is month.ParentShimmer,
+                builder: (context, state) {
+                  final calendar = CalendarStripContent(
+                    key: const ValueKey('calendarWidget'),
+                    strip: widget.strip,
+                    smartLearningEnabled: widget.smartLearningEnabled,
+                    focusedDayNotifier: focusedDayNotifier,
+                    selectedDayNotifier: selectedDayNotifier,
+                    parentFocus: widget.parentFocus,
+                    fullMonth: true,
+                  );
+                  return state.maybeMap(
+                    success: (value) => calendar,
+                    error: (value) => calendar,
+                    parentShimmer: (value) => const CalendarShimmer(),
+                    orElse: () => const SizedBox.shrink(),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: BlocProvider(
-            create: (context) => getIt<CalendarStripCubit>()
-              ..init(widget.strip, widget.smartLearningEnabled),
+          Expanded(
             child: AnimatedSize(
               alignment: Alignment.topCenter,
               duration: const Duration(milliseconds: 200),
@@ -92,6 +94,7 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
                     smartLearningEnabled: widget.smartLearningEnabled,
                     focusedDayNotifier: focusedDayNotifier,
                     selectedDayNotifier: selectedDayNotifier,
+                    parentFocus: widget.parentFocus,
                   );
                   return state.maybeMap(
                     success: (value) => calendar,
@@ -103,8 +106,8 @@ class _CalendarStripRowState extends State<CalendarStripRow> {
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -115,6 +118,7 @@ class CalendarStripContent extends StatefulWidget {
   final bool fullMonth;
   final ValueNotifier<DateTime> focusedDayNotifier;
   final ValueNotifier<DateTime> selectedDayNotifier;
+  final OlFocusScopeNode parentFocus;
 
   const CalendarStripContent({
     super.key,
@@ -122,6 +126,7 @@ class CalendarStripContent extends StatefulWidget {
     required this.smartLearningEnabled,
     required this.focusedDayNotifier,
     required this.selectedDayNotifier,
+    required this.parentFocus,
     this.fullMonth = false,
   });
 
@@ -130,65 +135,44 @@ class CalendarStripContent extends StatefulWidget {
 }
 
 class _CalendarStripContentState extends State<CalendarStripContent> {
-  final focusNode = OlFocusScopeNode(id: 'CalendarStripContent');
-
   @override
   Widget build(BuildContext context) {
-    if (widget.fullMonth) {
-      return BlocConsumer<month.CalendarMonthStripCubit,
-          month.CalendarMonthStripState>(
-        buildWhen: (previous, current) => previous is! month.ParentShimmer,
-        listenWhen: (previous, current) => current.maybeWhen(
-          orElse: () => false,
-        ),
-        builder: (context, state) => state.maybeMap(
-          success: (value) {
-            return _content(
-              context,
-              activities: value.activities,
-              daysToHighlight: value.daysToHighlight,
-              date: value.date,
-            );
-          },
-          error: (value) => _content(
-            context,
-            hasError: true,
-            date: value.date,
-          ),
-          innerShimmer: (value) => _content(
-            context,
-            showShimmer: true,
-            date: value.date,
-          ),
-          orElse: () => const SizedBox.shrink(),
-        ),
-        listener:
-            (BuildContext context, month.CalendarMonthStripState state) {},
-      );
-    }
+    return Builder(
+      builder: (_) {
+        if (widget.fullMonth) {
+          return BlocConsumer<month.CalendarMonthStripCubit,
+              month.CalendarMonthStripState>(
+            buildWhen: (previous, current) => previous is! month.ParentShimmer,
+            listenWhen: (previous, current) => current.maybeWhen(
+              orElse: () => false,
+            ),
+            builder: (context, state) => state.maybeMap(
+              success: (value) {
+                return _content(
+                  context,
+                  activities: value.activities,
+                  daysToHighlight: value.daysToHighlight,
+                  date: value.date,
+                );
+              },
+              error: (value) => _content(
+                context,
+                hasError: true,
+                date: value.date,
+              ),
+              innerShimmer: (value) => _content(
+                context,
+                showShimmer: true,
+                date: value.date,
+              ),
+              orElse: () => const SizedBox.shrink(),
+            ),
+            listener:
+                (BuildContext context, month.CalendarMonthStripState state) {},
+          );
+        }
 
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-          final res = focusNode.focusInDirection(TraversalDirection.left);
-
-          if (res == false) {
-            final focus = context.read<MainStateCubit>().state;
-            focus.requestFocus();
-          }
-        },
-        const SingleActivator(LogicalKeyboardKey.arrowDown): () {
-          final res = focusNode.focusInDirection(TraversalDirection.down);
-
-          if (res == false) {
-            //widget.onFocusOutside?.call(TraversalDirection.down);
-          }
-        },
-      },
-      child: FocusScope(
-        node: focusNode,
-        onFocusChange: (value) {},
-        child: BlocConsumer<CalendarStripCubit, CalendarStripState>(
+        return BlocConsumer<CalendarStripCubit, CalendarStripState>(
           buildWhen: (previous, current) => previous is! ParentShimmer,
           listenWhen: (previous, current) => current.maybeWhen(
             orElse: () => false,
@@ -215,8 +199,8 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
             orElse: () => const SizedBox.shrink(),
           ),
           listener: (BuildContext context, CalendarStripState state) {},
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -237,6 +221,10 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
           focusedDayNotifier: widget.focusedDayNotifier,
           selectedDayNotifier: widget.selectedDayNotifier,
           highlighted: daysToHighlight ?? [],
+          onTap: (date) {
+            widget.selectedDayNotifier.value = date;
+            context.read<CalendarStripCubit>().fetch(widget.strip, date);
+          },
           onPageChanged: (p0) {
             context
                 .read<month.CalendarMonthStripCubit>()
@@ -262,10 +250,11 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
                     .fetch(widget.strip, focusedDay);
               },
               onTap: (date) {
+                print('vldknfvlkndflknvdnklfv..........');
                 widget.selectedDayNotifier.value = date;
                 context.read<CalendarStripCubit>().fetch(widget.strip, date);
               },
-              parentFocus: focusNode,
+              parentFocus: widget.parentFocus,
             ),
             const Divider(height: Dimens.spacingXXXL, color: AppColors.grey),
             Flexible(
@@ -279,7 +268,7 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
                       : GridActivities(
                           items: activities ?? [],
                           date: date,
-                          parentFocus: focusNode,
+                          parentFocus: widget.parentFocus,
                           hasError: hasError,
                         ),
                 ),

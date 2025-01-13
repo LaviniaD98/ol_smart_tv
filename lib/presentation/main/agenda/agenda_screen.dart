@@ -72,9 +72,10 @@ class _AgendaScreenState extends State<AgendaScreen>
                 apiPath: AgendaScreen.apiRoute,
               );
 
-              return const CalendarStripRow(
+              return CalendarStripRow(
                 strip,
                 smartLearningEnabled: true,
+                parentFocus: focusNode,
               );
             },
           ),
