@@ -10,6 +10,7 @@ import 'package:open_learning_smart_tv/domain/entities/menu/route/menu_route.dar
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/list_header_title.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/error/error_screen.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
@@ -146,35 +147,54 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   Widget content(Map<StripRow, List<LearningObjectModel>>? contentSource) {
-    return FocusScope(
-      node: focusNode,
-      onFocusChange: (value) {
-        if (value) {}
+    final favoritesLength =
+        contentSource?.entries.firstOrNull?.value.length ?? 0;
+    return Stack(
+      children: [
+        ListHeaderTitle(
+          title: LabelsManager().getRemoteStringFromLabelKeys(
+            RemoteLabelKeys.favourite_text,
+          ),
+          subtitle: favoritesLength > 0
+              ? LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.saved_count)
+                  .replaceFirst('{{count}}', '$favoritesLength')
+              : null,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 140.0),
+          child: FocusScope(
+            node: focusNode,
+            onFocusChange: (value) {
+              if (value) {}
 
-        //print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
-        // if (value) {}
+              //print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
+              // if (value) {}
 
-        // print('focusNode.children: ${focusNode.children.length}');
-      },
-      child: Builder(
-        builder: (context) {
-          if (contentSource == null) {
-            return buildEmptyFavorites();
-          }
-          if (contentSource.values.isEmpty) {
-            return buildEmptyFavorites();
-          }
-          return Row(
-            children: [
-              Expanded(
-                child: FavoritesVerticalCarousel(
-                  strip: contentSource,
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+              // print('focusNode.children: ${focusNode.children.length}');
+            },
+            child: Builder(
+              builder: (context) {
+                if (contentSource == null) {
+                  return buildEmptyFavorites();
+                }
+                if (contentSource.values.isEmpty) {
+                  return buildEmptyFavorites();
+                }
+                return Row(
+                  children: [
+                    Expanded(
+                      child: FavoritesVerticalCarousel(
+                        strip: contentSource,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 

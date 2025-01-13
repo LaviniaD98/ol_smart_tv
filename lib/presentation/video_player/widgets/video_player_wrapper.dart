@@ -37,13 +37,7 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
 
   Widget _buildVideo() => Stack(
         children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: AspectRatio(
-              aspectRatio: widget.controller.value.aspectRatio,
-              child: VideoPlayer(widget.controller),
-            ),
-          ),
+          VideoPlayer(widget.controller),
           Align(
             alignment: Alignment.bottomCenter,
             child: VideoOverlayWidget(

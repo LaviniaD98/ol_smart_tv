@@ -189,7 +189,7 @@ class ObjectDetailsView extends StatelessWidget {
                   const SizedBox(width: 16),
                 ],
                 Text(
-                  value?.iconStatus.name ?? '',
+                  value?.iconStatus.getLocalizedLabel() ?? '',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppTextTheme.caption(

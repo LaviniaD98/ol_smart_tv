@@ -619,7 +619,7 @@ class _DetailPageState extends State<DetailPage> {
             ],
           ),
         ),
-        const ListHeaderTitle(title: 'Dettagli del Percorso'),
+        const ListHeaderTitle(title: 'Dettagli del Modulo'),
       ],
     );
   }
@@ -660,7 +660,7 @@ class _DetailPageState extends State<DetailPage> {
                 parentModel: model,
               ),
             ),
-            const ListHeaderTitle(title: 'Dettagli del Percorso'),
+            const ListHeaderTitle(title: 'Dettagli del Modulo'),
           ],
         );
       }

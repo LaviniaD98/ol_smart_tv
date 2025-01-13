@@ -8,11 +8,13 @@ class ListHeaderTitle extends StatelessWidget {
     super.key,
     required this.title,
     this.searchTitle,
+    this.subtitle,
     this.showGradient = true,
   });
 
   final String title;
   final String? searchTitle;
+  final String? subtitle;
   final bool showGradient;
 
   @override
@@ -59,6 +61,25 @@ class ListHeaderTitle extends StatelessWidget {
                         color: OLColors.accentVariantA,
                         weight: FontWeight.w700,
                         size: 32,
+                      ),
+                    ),
+                  ] else if (subtitle != null &&
+                      subtitle?.isNotEmpty == true) ...[
+                    TextSpan(
+                      text: ' - ',
+                      style: AppTextTheme.body(
+                        weight: FontWeight.w700,
+                        size: 32,
+                      ),
+                    ),
+                    WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Text(
+                        subtitle ?? '',
+                        style: AppTextTheme.body(
+                          weight: FontWeight.w500,
+                          size: 20,
+                        ),
                       ),
                     ),
                   ],
