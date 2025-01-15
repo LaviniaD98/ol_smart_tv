@@ -26,6 +26,10 @@ class FavouriteCubit extends Cubit<FavouriteState> {
     emit(Success(detailPageModel));
   }
 
+  void setState() async {
+    emit(state);
+  }
+
   void addToFavorite({
     required LearningObjectModel model,
     String? parentId,

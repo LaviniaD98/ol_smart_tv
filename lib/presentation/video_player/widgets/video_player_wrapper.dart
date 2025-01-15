@@ -31,13 +31,18 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
   @override
   Widget build(BuildContext context) {
     return widget.controller.value.isInitialized
-        ? Container(alignment: Alignment.center, child: _buildVideo())
+        ? _buildVideo()
         : const Center(child: CircularProgressIndicator());
   }
 
   Widget _buildVideo() => Stack(
         children: <Widget>[
-          VideoPlayer(widget.controller),
+          Positioned.fill(
+            child: AspectRatio(
+              aspectRatio: widget.controller.value.aspectRatio,
+              child: VideoPlayer(widget.controller),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: VideoOverlayWidget(
@@ -51,9 +56,4 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
           ),
         ],
       );
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 }

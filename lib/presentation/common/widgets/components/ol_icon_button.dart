@@ -100,8 +100,8 @@ class _OLIconButtonState extends State<OLIconButton> {
               onFocusChange: widget.onFocusChanded,
               statesController: _statesController,
               style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-                    backgroundColor:
-                        WidgetStateProperty.all(Colors.black.withOpacity(0.1)),
+                    backgroundColor: WidgetStateProperty.all(
+                        Colors.black.withValues(alpha: 0.1)),
                     foregroundColor: WidgetStateProperty.all(
                         widget.iconColor ?? OLColors.textPrimary),
                     side: WidgetStateProperty.all(
@@ -147,7 +147,7 @@ class _OLIconButtonState extends State<OLIconButton> {
                           ),
                         ),
                         backgroundColor: WidgetStateProperty.all(
-                            Colors.black.withOpacity(0.2)),
+                            Colors.black.withValues(alpha: 0.2)),
                         foregroundColor:
                             WidgetStateProperty.resolveWith((states) {
                           if (widget.iconColor != null) {
@@ -176,7 +176,8 @@ class _OLIconButtonState extends State<OLIconButton> {
                           ),
                         ),
                         backgroundColor: WidgetStateProperty.all(
-                            Colors.black.withOpacity(0.3)),
+                            Colors.black.withValues(alpha: 0.3)),
+                        padding: WidgetStateProperty.all(EdgeInsets.zero),
                       ),
               onPressed: widget.onPressed,
               child: Center(

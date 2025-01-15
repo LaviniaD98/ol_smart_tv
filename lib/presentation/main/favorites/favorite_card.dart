@@ -347,7 +347,7 @@ class LearningCardShimmer extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white.withOpacity(.2),
+          color: Colors.white.withValues(alpha: .2),
           border: Border.all(
             color: OLColors.border,
             width: 1,
@@ -365,7 +365,7 @@ class LearningCardShimmer extends StatelessWidget {
                     .4,
                 height: 28,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(.5),
+                  color: Colors.white.withValues(alpha: .5),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
@@ -377,7 +377,7 @@ class LearningCardShimmer extends StatelessWidget {
                   .5,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
@@ -388,7 +388,7 @@ class LearningCardShimmer extends StatelessWidget {
                   .6,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),

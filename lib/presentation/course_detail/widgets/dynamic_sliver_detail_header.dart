@@ -8,7 +8,6 @@ import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_configurator/smart_configurator_model.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
@@ -226,7 +225,7 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                     boxFit: BoxFit.fitWidth,
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                   ),
                 ),
               ],
@@ -375,14 +374,10 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
                       //if (widget.smartConfig?.funcFavourites == true) ...[
 
                       if (widget.args.object != null) ...[
-                        BlocProvider(
-                          create: (_) => getIt<FavouriteCubit>()
-                            ..init(widget.args.object!),
-                          child: FavoriteButton(
-                            object: widget.args.object!,
-                            parentId: widget.args.parentId,
-                            grandParentId: widget.args.grandParentId,
-                          ),
+                        FavoriteButton(
+                          object: widget.args.object!,
+                          parentId: widget.args.parentId,
+                          grandParentId: widget.args.grandParentId,
                         ),
                       ],
 

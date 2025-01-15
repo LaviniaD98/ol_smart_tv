@@ -43,7 +43,7 @@ class _GlowSwitchState extends State<GlowSwitch> {
     return GlowContainer(
       padding: const EdgeInsets.all(0),
       borderRadius: BorderRadius.circular(100),
-      glowColor: widget.enable ? color : color!.withOpacity(0.4),
+      glowColor: widget.enable ? color : color!.withValues(alpha: 0.4),
       offset: widget.offset ?? glowTheme?.offset ?? kDefaultGlowTheme.offset,
       blurRadius: widget.blurRadius ??
           glowTheme?.blurRadius ??
@@ -54,7 +54,7 @@ class _GlowSwitchState extends State<GlowSwitch> {
       child: CupertinoSwitch(
         value: widget.value,
         onChanged: widget.onChanged,
-        activeColor: widget.activeColor,
+        activeTrackColor: widget.activeColor,
         dragStartBehavior: widget.dragStartBehavior ?? DragStartBehavior.start,
       ),
     );

@@ -72,8 +72,8 @@ class LearningCardWall extends StatelessWidget {
                         imageUrl: data.coverPublicURL ?? '',
                         fit: BoxFit.cover,
                         height: double.infinity,
-                        errorWidget: (context, url, error) =>
-                            Container(color: AppColors.white.withOpacity(.05)),
+                        errorWidget: (context, url, error) => Container(
+                            color: AppColors.white.withValues(alpha: .05)),
                       ),
                     ),
                   ),

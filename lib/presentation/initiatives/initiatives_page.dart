@@ -181,7 +181,7 @@ class InitiativeListState extends State<InitiativeList> {
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.0),
-        color: OLColors.backgroundPrimary.withOpacity(0.8),
+        color: OLColors.backgroundPrimary.withValues(alpha: 0.8),
       ),
       padding: const EdgeInsets.all(Dimens.hPadding),
       child: content(widget.args),

@@ -40,7 +40,7 @@ class UserAvatar extends StatelessWidget {
           duration: const Duration(milliseconds: 120),
           child: state.map(
             loading: (_) => Shimmer.fromColors(
-              baseColor: AppColors.white.withOpacity(.09),
+              baseColor: AppColors.white.withValues(alpha: .09),
               highlightColor: AppColors.primaryFaded,
               period: const Duration(seconds: 2),
               child: Container(
@@ -48,7 +48,7 @@ class UserAvatar extends StatelessWidget {
                 height: size,
                 clipBehavior: Clip.hardEdge,
                 decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(.2),
+                  color: AppColors.white.withValues(alpha: .2),
                   borderRadius: BorderRadius.circular(radius),
                 ),
               ),

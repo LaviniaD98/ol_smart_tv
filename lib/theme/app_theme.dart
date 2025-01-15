@@ -59,7 +59,7 @@ class AppTheme {
         ),
         hintStyle: AppTextTheme.caption(
           style: FontStyle.italic,
-          color: ColorManager().getColorTextPrimary().withOpacity(.5),
+          color: ColorManager().getColorTextPrimary().withValues(alpha: .5),
         ),
         labelStyle: AppTextTheme.body(
           color: ColorManager().getColorTextPrimary(),
@@ -90,7 +90,7 @@ class AppTheme {
           if (states.any(interactiveStates.contains)) {
             return ColorManager().getColorBackgroundPrimaryCta();
           }
-          return ColorManager().getColorTextPrimary().withOpacity(.5);
+          return ColorManager().getColorTextPrimary().withValues(alpha: .5);
         }),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(style: AppButtonStyle.red),
@@ -116,8 +116,9 @@ class AppTheme {
       bottomSheetTheme: BottomSheetThemeData(
         surfaceTintColor: Colors.transparent,
         clipBehavior: Clip.hardEdge,
-        modalBarrierColor:
-            ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+        modalBarrierColor: ColorManager()
+            .getColorBackgroundDrawerWidget()
+            .withValues(alpha: .5),
         shape: const RoundedRectangleBorder(
           borderRadius:
               BorderRadius.vertical(top: Radius.circular(Dimens.radius)),

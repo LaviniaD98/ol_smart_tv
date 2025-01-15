@@ -101,6 +101,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/icons/detail/
+    - assets/icons/star/
     - assets/videos/
     # Add assets from the json directory to the application.
     - assets/json/

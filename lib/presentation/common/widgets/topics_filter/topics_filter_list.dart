@@ -106,7 +106,7 @@ class _TopicsFilterListState extends State<TopicsFilterList> {
 
   Widget get _shimmerLoader {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Container(

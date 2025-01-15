@@ -37,7 +37,7 @@ class ListHeaderTitle extends StatelessWidget {
                       stops: const [0.8, 1],
                       colors: [
                         OLColors.backgroundPrimary,
-                        OLColors.backgroundPrimary.withOpacity(0),
+                        OLColors.backgroundPrimary.withValues(alpha: 0),
                       ],
                     ),
                   )

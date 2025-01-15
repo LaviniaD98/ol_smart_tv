@@ -52,7 +52,7 @@ class ContinueLearningCardWall extends StatelessWidget {
                             fit: BoxFit.cover,
                             height: double.infinity,
                             errorWidget: (context, url, error) => Container(
-                                color: AppColors.white.withOpacity(.05)),
+                                color: AppColors.white.withValues(alpha: .05)),
                           ),
                           Container(
                             alignment: Alignment.center,
@@ -65,8 +65,8 @@ class ContinueLearningCardWall extends StatelessWidget {
                                   1
                                 ],
                                     colors: [
-                                  AppColors.primaryFaded.withOpacity(.8),
-                                  AppColors.primaryFaded.withOpacity(.0),
+                                  AppColors.primaryFaded.withValues(alpha: .8),
+                                  AppColors.primaryFaded.withValues(alpha: .0),
                                 ])),
                             child: SvgPicture.asset(
                               "assets/icons/play.svg",

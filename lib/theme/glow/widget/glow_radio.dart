@@ -71,7 +71,7 @@ class GlowRadio<T> extends StatelessWidget {
         height: height ?? 24,
         margin: margin ?? const EdgeInsets.all(0),
         border: border ?? Border.all(width: 2, color: checkBoxColor),
-        color: checked ? checkBoxColor : checkBoxColor.withOpacity(0),
+        color: checked ? checkBoxColor : checkBoxColor.withValues(alpha: 0),
         glowColor: buildGlowColor(glowTheme, checkBoxColor),
         offset: offset ?? glowTheme?.offset ?? kDefaultGlowTheme.offset,
         blurRadius:

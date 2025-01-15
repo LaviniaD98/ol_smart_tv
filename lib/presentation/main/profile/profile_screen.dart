@@ -317,9 +317,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'I tuoi dati',
-              style: TextStyle(
+            Text(
+              LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.your_data,
+              ),
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontSize: 24,

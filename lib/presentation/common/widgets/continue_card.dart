@@ -71,14 +71,14 @@ class ContinueCard extends StatelessWidget {
                                               DecoratedBox(
                                             decoration: BoxDecoration(
                                               color: AppColors.white
-                                                  .withOpacity(.05),
+                                                  .withValues(alpha: .05),
                                             ),
                                           ),
                                         )
                                       : DecoratedBox(
                                           decoration: BoxDecoration(
                                             color: AppColors.white
-                                                .withOpacity(.05),
+                                                .withValues(alpha: .05),
                                             borderRadius: BorderRadius.circular(
                                                 Dimens.radius),
                                           ),
@@ -231,7 +231,7 @@ class ContinueCardShimmer extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Colors.white.withOpacity(.2),
+          color: Colors.white.withValues(alpha: .2),
         ),
         child: Stack(
           children: [
@@ -248,7 +248,7 @@ class ContinueCardShimmer extends StatelessWidget {
                         height: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.white.withOpacity(.5),
+                          color: Colors.white.withValues(alpha: .5),
                         )),
                     SizedBox(
                       width: insideMargin,
@@ -262,7 +262,7 @@ class ContinueCardShimmer extends StatelessWidget {
                             height: 20,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.white.withOpacity(.5),
+                              color: Colors.white.withValues(alpha: .5),
                             ),
                           ),
                           const SizedBox(height: 4),
@@ -270,7 +270,7 @@ class ContinueCardShimmer extends StatelessWidget {
                             height: 20,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8.0),
-                              color: Colors.white.withOpacity(.5),
+                              color: Colors.white.withValues(alpha: .5),
                             ),
                           ),
                         ],
@@ -286,7 +286,7 @@ class ContinueCardShimmer extends StatelessWidget {
                   height: 4.0,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: Colors.white.withOpacity(.5),
+                    color: Colors.white.withValues(alpha: .5),
                   )),
             ),
           ],

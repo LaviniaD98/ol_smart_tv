@@ -98,7 +98,7 @@ class _ApplicationState extends State<Application> {
                         final theme = GlowThemeData(
                           glowColor: ColorManager()
                               .getColorBackgroundPrimaryCta()
-                              .withOpacity(0.4),
+                              .withValues(alpha: 0.4),
                           spreadRadius: 1.5,
                           blurRadius: 12,
                           offset: const Offset(0, 0),

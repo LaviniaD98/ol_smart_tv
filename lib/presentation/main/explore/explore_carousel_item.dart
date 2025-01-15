@@ -86,7 +86,7 @@ class _ExploreCarouselItemState extends State<ExploreCarouselItem> {
                     widget.item.topicTags ?? [],
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                   ),
                 ],
                 _durationTag(),

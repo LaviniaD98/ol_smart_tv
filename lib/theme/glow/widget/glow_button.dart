@@ -87,6 +87,10 @@ class GlowButton extends StatelessWidget {
     return enable
         ? color ?? Theme.of(context).buttonTheme.colorScheme!.primary
         : disableColor ??
-            Theme.of(context).buttonTheme.colorScheme!.primary.withOpacity(0.4);
+            Theme.of(context)
+                .buttonTheme
+                .colorScheme!
+                .primary
+                .withValues(alpha: 0.4);
   }
 }

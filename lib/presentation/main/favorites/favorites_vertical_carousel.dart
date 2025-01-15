@@ -123,7 +123,7 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
   //     child: FocusTraversalGroup(
   //       key: ValueKey(widget.strip.labelMapping),
   //       child: Shimmer.fromColors(
-  //         baseColor: AppColors.white.withOpacity(.09),
+  //         baseColor: AppColors.white.withValues(alpha:.09),
   //         highlightColor: AppColors.primaryFaded,
   //         period: const Duration(seconds: 2),
   //         enabled: false,
@@ -141,7 +141,7 @@ class FavoritesVerticalCarouselState extends State<FavoritesVerticalCarousel>
   //                   .7,
   //               clipBehavior: Clip.none,
   //               decoration: BoxDecoration(
-  //                 color: Colors.white.withOpacity(.3),
+  //                 color: Colors.white.withValues(alpha:.3),
   //                 borderRadius: BorderRadius.circular(8.0),
   //               ),
   //               child: Text(

@@ -64,15 +64,16 @@ class RatingButton extends StatelessWidget {
     return OLIconButton(
       outline: outline,
       image: iconPath,
-      iconSize: iconSize ?? 30,
+      iconSize: iconSize ?? 48,
       radius: radius,
       size: size,
       onPressed: () async {
         completion?.call();
         await showDialog(
           context: buildContext,
-          barrierColor:
-              ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+          barrierColor: ColorManager()
+              .getColorBackgroundDrawerWidget()
+              .withValues(alpha: .5),
           builder: (_) => RatingsDialog(
             detailPageModel: model,
             max: maxStars ?? 5,

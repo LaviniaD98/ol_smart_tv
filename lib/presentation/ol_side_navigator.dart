@@ -120,8 +120,8 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                               gradient: LinearGradient(
                                 stops: [0, focusNode.hasFocus ? 1 : 0.01],
                                 colors: [
-                                  Colors.white.withOpacity(0.7),
-                                  Colors.white.withOpacity(0)
+                                  Colors.white.withValues(alpha: 0.7),
+                                  Colors.white.withValues(alpha: 0)
                                 ],
                               ),
                             ),
@@ -145,7 +145,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                       icon: 'assets/icons/search.svg',
                                       title: LabelsManager()
                                           .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.visSearch),
+                                              RemoteLabelKeys.tab_search),
                                       id: searchFocusId,
                                       isSelected: !focusNode.hasFocus &&
                                           selectedIndexState == 0,
@@ -155,7 +155,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                       icon: 'assets/icons/for_you.svg',
                                       title: LabelsManager()
                                           .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.visForyouMenu),
+                                              RemoteLabelKeys.tab_for_you),
                                       id: forYouFocusId,
                                       isSelected: !focusNode.hasFocus &&
                                           selectedIndexState == 1,
@@ -165,7 +165,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                       icon: 'assets/icons/explore.svg',
                                       title: LabelsManager()
                                           .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.visExplore),
+                                              RemoteLabelKeys.tab_explore),
                                       id: exploreFocusId,
                                       isSelected: !focusNode.hasFocus &&
                                           selectedIndexState == 2,
@@ -175,7 +175,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                       icon: 'assets/icons/favorites_icon.svg',
                                       title: LabelsManager()
                                           .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.favourites),
+                                              RemoteLabelKeys.tab_favorite),
                                       id: favoritesFocusId,
                                       isSelected: !focusNode.hasFocus &&
                                           selectedIndexState == 3,
@@ -185,7 +185,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                       icon: 'assets/icons/agenda_icon.svg',
                                       title: LabelsManager()
                                           .getRemoteStringFromLabelKeys(
-                                              RemoteLabelKeys.agenda),
+                                              RemoteLabelKeys.tab_agenda),
                                       id: agendaFocusId,
                                       isSelected: !focusNode.hasFocus &&
                                           selectedIndexState == 4,
@@ -211,8 +211,8 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                               size: 60,
                                               radius: 40,
                                               hasFocus: hasFocus,
-                                              bgColor:
-                                                  Colors.white.withOpacity(0.2),
+                                              bgColor: Colors.white
+                                                  .withValues(alpha: 0.2),
                                               isSelected: isSelected,
                                               id: user?.idUser,
                                             ),
@@ -224,7 +224,7 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
                                               spreadRadius: 1,
                                               glowColor: hasFocus || isSelected
                                                   ? OLColors.accentVariantA
-                                                      .withOpacity(0.5)
+                                                      .withValues(alpha: 0.5)
                                                   : Colors.transparent,
                                               color: hasFocus || isSelected
                                                   ? OLColors.accentVariantA

@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
 
-
 class GlowIcon extends Icon {
   const GlowIcon(
     this.icon, {
@@ -16,7 +15,6 @@ class GlowIcon extends Icon {
     this.blurRadius,
   }) : super(icon, key: key);
 
-  
   @override
   final IconData? icon;
 
@@ -54,18 +52,24 @@ class GlowIcon extends Icon {
     } else {
       final glowTheme = GlowTheme.of(context);
 
-      final glowColorValue =
-          glowColor ?? glowTheme?.glowColor ?? color ?? kDefaultGlowTheme.glowColor!;
-      final glowOffset = offset ?? glowTheme?.offset ?? kDefaultGlowTheme.offset!;
-      final glowBlurRadius = blurRadius ?? glowTheme?.blurRadius ?? kDefaultGlowTheme.blurRadius!;
+      final glowColorValue = glowColor ??
+          glowTheme?.glowColor ??
+          color ??
+          kDefaultGlowTheme.glowColor!;
+      final glowOffset =
+          offset ?? glowTheme?.offset ?? kDefaultGlowTheme.offset!;
+      final glowBlurRadius =
+          blurRadius ?? glowTheme?.blurRadius ?? kDefaultGlowTheme.blurRadius!;
 
       final iconOpacity = iconTheme.opacity;
       var iconColor = color ?? iconTheme.color;
-      if (iconOpacity != 1.0) iconColor = iconColor!.withOpacity(iconColor.opacity * iconOpacity!);
+      if (iconOpacity != 1.0)
+        iconColor = iconColor!.withValues(alpha: iconColor.a * iconOpacity!);
 
       Widget iconWidget = RichText(
         overflow: TextOverflow.visible, // Never clip.
-        textDirection: textDirection, // Since we already fetched it for the assert...
+        textDirection:
+            textDirection, // Since we already fetched it for the assert...
         text: TextSpan(
           text: String.fromCharCode(icon!.codePoint),
           style: TextStyle(
@@ -118,7 +122,8 @@ class GlowIcon extends Icon {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(IconDataProperty('icon', icon, ifNull: '<empty>', showName: false));
+    properties.add(
+        IconDataProperty('icon', icon, ifNull: '<empty>', showName: false));
     properties.add(DoubleProperty('size', size, defaultValue: null));
     properties.add(ColorProperty('color', color, defaultValue: null));
   }

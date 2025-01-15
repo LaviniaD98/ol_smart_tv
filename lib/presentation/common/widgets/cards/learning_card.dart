@@ -214,7 +214,7 @@ class _LearningCardState extends State<LearningCard> {
                                   ),
                             const SizedBox(height: 8),
                             Text(
-                              widget.data.title ?? 'No title',
+                              widget.data.title ?? '',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextTheme.body(
@@ -225,10 +225,10 @@ class _LearningCardState extends State<LearningCard> {
                             if ((widget.data.topicTags ?? []).isNotEmpty) ...[
                               const SizedBox(height: 8),
                               TopicList(
-                                widget.data.topicTags ?? [],
+                                (widget.data.topicTags ?? []).take(2).toList(),
                                 color: ColorManager()
                                     .getColorSystemSecondary05()
-                                    .withOpacity(.6),
+                                    .withValues(alpha: .6),
                               ),
                             ],
                           ],
@@ -334,8 +334,8 @@ class LearningCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final w = Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.1),
-      highlightColor: AppColors.primaryFaded.withOpacity(0.6),
+      baseColor: AppColors.white.withValues(alpha: .1),
+      highlightColor: AppColors.primaryFaded.withValues(alpha: 0.6),
       enabled: true,
       period: const Duration(milliseconds: 1500),
       child: Container(
@@ -346,7 +346,7 @@ class LearningCardShimmer extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24.0, 8.0, 16.0, 16.0),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8.0),
-          color: Colors.grey.shade600.withOpacity(.2),
+          color: Colors.grey.shade600.withValues(alpha: .2),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -359,7 +359,7 @@ class LearningCardShimmer extends StatelessWidget {
                     .4,
                 height: 28,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(.5),
+                  color: Colors.white.withValues(alpha: .5),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
@@ -371,7 +371,7 @@ class LearningCardShimmer extends StatelessWidget {
                   .5,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
@@ -382,7 +382,7 @@ class LearningCardShimmer extends StatelessWidget {
                   .6,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.5),
+                color: Colors.white.withValues(alpha: .5),
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),

@@ -97,7 +97,7 @@ class _OLSideItemState extends State<OLSideItem> {
                 blurRadius: 8,
                 spreadRadius: 1,
                 glowColor: focusNode.hasFocus || widget.isSelected
-                    ? OLColors.accentVariantA.withOpacity(0.5)
+                    ? OLColors.accentVariantA.withValues(alpha: 0.5)
                     : Colors.transparent,
                 color: focusNode.hasFocus || widget.isSelected
                     ? OLColors.accentVariantA

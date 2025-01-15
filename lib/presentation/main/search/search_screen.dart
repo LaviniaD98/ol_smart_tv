@@ -117,7 +117,11 @@ class _SearchScreenState extends State<SearchScreen>
                                 valueListenable: textNotifier,
                                 builder: (context, value, _) {
                                   return Text(
-                                    value.isEmpty ? 'Inizia a cercare' : value,
+                                    value.isEmpty
+                                        ? LabelsManager()
+                                            .getRemoteStringFromLabelKeys(
+                                                RemoteLabelKeys.start_search)
+                                        : value,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: AppTextTheme.body(
@@ -138,7 +142,9 @@ class _SearchScreenState extends State<SearchScreen>
                               child: Row(
                                 children: [
                                   OLButton(
-                                    title: 'Clear',
+                                    title: LabelsManager()
+                                        .getRemoteStringFromLabelKeys(
+                                            RemoteLabelKeys.clear_search),
                                     width: 120,
                                     outline: true,
                                     onPressed: () async {
@@ -168,7 +174,7 @@ class _SearchScreenState extends State<SearchScreen>
                             ),
                             height: 380,
                             decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.03),
+                              color: Colors.white.withValues(alpha: 0.03),
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(14),
                                 topRight: Radius.circular(14),
@@ -480,7 +486,8 @@ class _SearchScreenState extends State<SearchScreen>
           valueListenable: searchTextNotifier,
           builder: (context, value, _) {
             return ListHeaderTitle(
-              title: 'Risultati per',
+              title: LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.results_for),
               searchTitle: value,
               showGradient: false,
             );

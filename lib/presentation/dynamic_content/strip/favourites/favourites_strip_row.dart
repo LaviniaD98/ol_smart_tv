@@ -115,7 +115,7 @@ class _FavouritesStripRowState extends State<FavouritesStripRow>
 
   Widget get _shimmerLoader {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: AspectRatio(
@@ -130,7 +130,7 @@ class _FavouritesStripRowState extends State<FavouritesStripRow>
                   .7,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(.3),
+                color: Colors.white.withValues(alpha: .3),
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),

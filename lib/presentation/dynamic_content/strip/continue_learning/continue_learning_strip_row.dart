@@ -136,7 +136,7 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
 
   Widget get _shimmerLoader {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Column(
@@ -149,7 +149,7 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
                     .7,
             height: 20,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.3),
+              color: Colors.white.withValues(alpha: .3),
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),

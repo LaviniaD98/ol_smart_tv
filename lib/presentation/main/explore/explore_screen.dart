@@ -18,6 +18,8 @@ import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standa
 import 'package:open_learning_smart_tv/presentation/main/explore/explore_carousel.dart';
 import 'package:open_learning_smart_tv/presentation/main/explore/object_details_view.dart';
 import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
@@ -322,7 +324,9 @@ class _ExploreScreenState extends State<ExploreScreen>
           padding: const EdgeInsets.symmetric(
               vertical: 30, horizontal: Dimens.hPadding),
           child: Text(
-            'Nessun Risultato con i filtri selezionati',
+            LabelsManager().getRemoteStringFromLabelKeys(
+              RemoteLabelKeys.no_results_for_filters,
+            ),
             style: AppTextTheme.subtitle(
               weight: FontWeight.w500,
               color: ColorManager().getColorTextPrimary(),

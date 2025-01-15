@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
             fit: StackFit.expand,
             children: [
               Positioned.fill(
-                child: Container(color: Colors.black.withOpacity(0.4)),
+                child: Container(color: Colors.black.withValues(alpha: 0.4)),
               ),
               Column(
                 children: [
@@ -281,7 +281,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Oppure',
+                  LabelsManager()
+                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.or),
                   textAlign: TextAlign.start,
                   style: AppTextTheme.subtitle(
                     color: ColorManager().getColorTextPrimary(),
@@ -321,7 +322,8 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'Accedi tramite QR-Code',
+            LabelsManager()
+                .getRemoteStringFromLabelKeys(RemoteLabelKeys.access_with_qr),
             textAlign: TextAlign.start,
             style: AppTextTheme.title(
               color: ColorManager().getColorTextPrimaryCta(),
@@ -372,7 +374,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Scansiona il QR-Code tramite il tuo dispositivo mobile',
+                        LabelsManager().getRemoteStringFromLabelKeys(
+                            RemoteLabelKeys.scan_qr_message),
                         textAlign: TextAlign.start,
                         style: AppTextTheme.subtitle(
                           color: ColorManager().getColorTextPrimary(),
@@ -392,7 +395,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Accedi dal dispositivo mobile tramite credenziali o SSO',
+                        LabelsManager().getRemoteStringFromLabelKeys(
+                            RemoteLabelKeys.access_mobile_qr_message),
                         textAlign: TextAlign.start,
                         style: AppTextTheme.subtitle(
                           color: ColorManager().getColorTextPrimary(),
@@ -420,7 +424,8 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(width: 24),
               Text(
-                'Oppure',
+                LabelsManager()
+                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.or),
                 textAlign: TextAlign.start,
                 style: AppTextTheme.subtitle(
                   color: ColorManager().getColorTextPrimary(),
@@ -441,7 +446,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 32),
           Text(
-            'Accedi al seguente link:',
+            LabelsManager()
+                .getRemoteStringFromLabelKeys(RemoteLabelKeys.access_with_link),
             textAlign: TextAlign.start,
             style: AppTextTheme.subtitle(
               color: ColorManager().getColorTextPrimary(),
@@ -461,7 +467,8 @@ class _LoginPageState extends State<LoginPage> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Ed accedi tramite le tue credenziali o tramite SSO',
+            LabelsManager().getRemoteStringFromLabelKeys(
+                RemoteLabelKeys.access_with_link_message),
             textAlign: TextAlign.start,
             style: AppTextTheme.subtitle(
               color: ColorManager().getColorTextPrimary(),

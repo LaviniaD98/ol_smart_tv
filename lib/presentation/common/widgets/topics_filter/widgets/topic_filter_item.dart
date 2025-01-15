@@ -134,7 +134,7 @@ class TopicFilterItemShimmer extends StatelessWidget {
             width: _iconSize,
             height: _iconSize,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.5),
+              color: Colors.white.withValues(alpha: .5),
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),
@@ -143,7 +143,7 @@ class TopicFilterItemShimmer extends StatelessWidget {
             width: 200,
             height: 20,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.5),
+              color: Colors.white.withValues(alpha: .5),
               borderRadius: BorderRadius.circular(8.0),
             ),
           ),

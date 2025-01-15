@@ -68,7 +68,7 @@ class _RatingsDialogState extends State<RatingsDialog> {
   Widget _success(BuildContext parentContext) {
     return Dialog(
       insetPadding: const EdgeInsets.all(Dimens.spacingL),
-      backgroundColor: OLColors.backgroundPrimary.withOpacity(0.8),
+      backgroundColor: OLColors.backgroundPrimary.withValues(alpha: 0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Dimens.radius),
       ),
@@ -178,7 +178,7 @@ class _RatingsDialogState extends State<RatingsDialog> {
 
   Widget get _loading {
     return Dialog(
-      backgroundColor: OLColors.backgroundPrimary.withOpacity(0.8),
+      backgroundColor: OLColors.backgroundPrimary.withValues(alpha: 0.8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(Dimens.radius),
       ),
@@ -218,7 +218,7 @@ class _RatingsDialogState extends State<RatingsDialog> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 70),
         decoration: BoxDecoration(
-          color: OLColors.backgroundSideNav.withOpacity(0.8),
+          color: OLColors.backgroundSideNav.withValues(alpha: 0.8),
           borderRadius: BorderRadius.circular(8),
           boxShadow: const [
             BoxShadow(

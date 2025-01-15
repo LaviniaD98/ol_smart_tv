@@ -150,7 +150,7 @@ class _ForYouCardState extends State<ForYouCard> {
                         widget.data.topicTags ?? [],
                         color: ColorManager()
                             .getColorSystemSecondary05()
-                            .withOpacity(.6),
+                            .withValues(alpha: .6),
                       ),
                     ],
                     const SizedBox(height: 20),
@@ -349,7 +349,7 @@ class LearningCardShimmer extends StatelessWidget {
         ),
         child: Shimmer.fromColors(
           enabled: true,
-          baseColor: AppColors.white.withOpacity(.09),
+          baseColor: AppColors.white.withValues(alpha: .09),
           highlightColor: AppColors.primaryFaded,
           period: const Duration(seconds: 2),
           child: Column(
@@ -363,7 +363,7 @@ class LearningCardShimmer extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -373,7 +373,7 @@ class LearningCardShimmer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -392,8 +392,9 @@ class LearningCardShimmer extends StatelessWidget {
               TopicList(
                 const ['Testingcdcfd', 'Testing csdc ce'],
                 textColor: Colors.transparent,
-                color:
-                    ColorManager().getColorSystemSecondary05().withOpacity(.6),
+                color: ColorManager()
+                    .getColorSystemSecondary05()
+                    .withValues(alpha: .6),
               ),
 
               const SizedBox(height: 20),
@@ -404,7 +405,7 @@ class LearningCardShimmer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -414,7 +415,7 @@ class LearningCardShimmer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -427,7 +428,7 @@ class LearningCardShimmer extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -443,7 +444,7 @@ class LearningCardShimmer extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),

@@ -250,7 +250,6 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
                     .fetch(widget.strip, focusedDay);
               },
               onTap: (date) {
-                print('vldknfvlkndflknvdnklfv..........');
                 widget.selectedDayNotifier.value = date;
                 context.read<CalendarStripCubit>().fetch(widget.strip, date);
               },
@@ -307,7 +306,7 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
 
   Widget get _innerShimmerLoader {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.2),
+      baseColor: AppColors.white.withValues(alpha: .2),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: const InnerCalendarShimmer(),

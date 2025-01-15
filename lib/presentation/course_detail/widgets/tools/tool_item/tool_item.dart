@@ -95,7 +95,7 @@ class _ToolItemState extends State<ToolItem>
 
   Widget get _shimmerLoader {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Container(
@@ -105,7 +105,7 @@ class _ToolItemState extends State<ToolItem>
           width: double.infinity,
           height: 100,
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.5),
+            color: Colors.white.withValues(alpha: .5),
             borderRadius: BorderRadius.circular(Dimens.radius),
           ),
         ),

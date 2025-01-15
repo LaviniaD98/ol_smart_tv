@@ -37,7 +37,7 @@ class Suggestions extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: AppColors.grey.withOpacity(.2),
+                  color: AppColors.grey.withValues(alpha: .2),
                   width: 1,
                 ),
               ),

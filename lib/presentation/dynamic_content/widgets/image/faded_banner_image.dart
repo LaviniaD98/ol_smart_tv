@@ -56,7 +56,7 @@ class FadedBannerImage extends StatelessWidget {
                 ),
                 errorWidget: (context, url, error) => DecoratedBox(
                   decoration: BoxDecoration(
-                    color: AppColors.white.withOpacity(.05),
+                    color: AppColors.white.withValues(alpha: .05),
                   ),
                 ),
               );
@@ -74,7 +74,7 @@ class FadedBannerImage extends StatelessWidget {
                 begin: const Alignment(0.0, -1),
                 colors: <Color>[
                   OLColors.backgroundPrimary,
-                  OLColors.backgroundPrimary.withOpacity(0.0),
+                  OLColors.backgroundPrimary.withValues(alpha: 0.0),
                 ],
               ),
             ),
@@ -91,7 +91,7 @@ class FadedBannerImage extends StatelessWidget {
                 begin: const Alignment(0.0, 1),
                 colors: <Color>[
                   OLColors.backgroundPrimary,
-                  OLColors.backgroundPrimary.withOpacity(0.0),
+                  OLColors.backgroundPrimary.withValues(alpha: 0.0),
                 ],
               ),
             ),
@@ -109,7 +109,7 @@ class FadedBannerImage extends StatelessWidget {
                     stops: const [0.0, 0.5],
                     colors: <Color>[
                       OLColors.backgroundPrimary,
-                      OLColors.backgroundPrimary.withOpacity(0.0),
+                      OLColors.backgroundPrimary.withValues(alpha: 0.0),
                     ],
                   ),
                 ),

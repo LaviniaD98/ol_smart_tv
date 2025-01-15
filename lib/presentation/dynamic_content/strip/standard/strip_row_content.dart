@@ -38,8 +38,8 @@ class StripRowContent extends StatefulWidget {
       children: [
         const SizedBox(height: 8),
         Shimmer.fromColors(
-          baseColor: AppColors.white.withOpacity(.1),
-          highlightColor: AppColors.primaryFaded.withOpacity(.5),
+          baseColor: AppColors.white.withValues(alpha: .1),
+          highlightColor: AppColors.primaryFaded.withValues(alpha: .5),
           child: Container(
             margin: const EdgeInsets.only(
               left: Dimens.hViewPadding,
@@ -48,7 +48,7 @@ class StripRowContent extends StatefulWidget {
             width: 200,
             clipBehavior: Clip.none,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.3),
+              color: Colors.white.withValues(alpha: .3),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
@@ -263,7 +263,7 @@ class StripRowContentState extends State<StripRowContent>
                       activeStrokeWidth: 3,
                       //fixedCenter: true,
                       activeDotColor: OLColors.textPrimary,
-                      dotColor: OLColors.textPrimary.withOpacity(0.4),
+                      dotColor: OLColors.textPrimary.withValues(alpha: 0.4),
                     ),
                     onDotClicked: (index) {},
                   ),

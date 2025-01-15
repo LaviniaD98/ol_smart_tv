@@ -45,7 +45,7 @@ class MultiselectBottomSheet<T> extends StatefulWidget {
             BorderRadius.vertical(top: Radius.circular(Dimens.radius)),
       ),
       barrierColor:
-          ColorManager().getColorBackgroundDrawerWidget().withOpacity(.8),
+          ColorManager().getColorBackgroundDrawerWidget().withValues(alpha: .8),
       backgroundColor: ColorManager().getColorBackgroundSecondary(),
       builder: (context) {
         return MultiselectBottomSheet._(

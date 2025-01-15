@@ -156,7 +156,7 @@ class _WeekRowItemState extends State<WeekRowItem> {
 
   Color get _getTextColor {
     if (widget.isOffMonth) {
-      return ColorManager().getColorTextPrimary().withOpacity(0.3);
+      return ColorManager().getColorTextPrimary().withValues(alpha: 0.3);
     }
     if (widget.date.isSameDate(DateTime.now()) && !widget.selected) {
       if (widget.isSmall) {

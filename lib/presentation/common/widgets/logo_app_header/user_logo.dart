@@ -45,7 +45,7 @@ class UserLogo extends StatelessWidget {
         width: size,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          color: bgColor ?? Colors.white.withOpacity(0.2),
+          color: bgColor ?? Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(40),
           border: Border.all(
             color: isSelected || hasFocus

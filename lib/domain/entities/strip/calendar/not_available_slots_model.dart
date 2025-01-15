@@ -1,6 +1,5 @@
 import 'package:open_learning_smart_tv/data/models/responses/strip/wrapper/calendar_strip_dto.dart';
 import 'package:open_learning_smart_tv/domain/entities/smart_learning/slot_model.dart';
-import 'package:collection/collection.dart';
 
 import '../learning_object/learning_object_model.dart';
 
@@ -29,7 +28,7 @@ class NotAvailableSlotsModel {
                 return null;
               }
             })
-            .whereNotNull()
+            .nonNulls
             .toList() ??
         [];
     return NotAvailableSlotsModel(

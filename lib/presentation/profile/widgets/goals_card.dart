@@ -74,7 +74,7 @@ class GoalsCard extends StatelessWidget {
             shape: BoxShape.rectangle,
             blurRadius: 8,
             spreadRadius: 1,
-            glowColor: OLColors.accentVariantB.withOpacity(0.5),
+            glowColor: OLColors.accentVariantB.withValues(alpha: 0.5),
             color: ColorManager().getColorGradient01End(),
             border: Border.all(
               color: OLColors.accentVariantB,

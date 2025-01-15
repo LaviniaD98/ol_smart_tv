@@ -52,7 +52,7 @@ class SmartLearningBottomSheet extends StatelessWidget {
             BorderRadius.vertical(top: Radius.circular(Dimens.radius)),
       ),
       barrierColor:
-          ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+          ColorManager().getColorBackgroundDrawerWidget().withValues(alpha: .5),
       backgroundColor: AppTheme.greyGradient.colors[0],
       builder: (context) {
         return BlocProvider(
@@ -116,7 +116,7 @@ class SmartLearningBottomSheet extends StatelessWidget {
             BorderRadius.vertical(top: Radius.circular(Dimens.radius)),
       ),
       barrierColor:
-          ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+          ColorManager().getColorBackgroundDrawerWidget().withValues(alpha: .5),
       backgroundColor: AppTheme.greyGradient.colors[0],
       builder: (context) {
         return BlocProvider(

@@ -19,7 +19,6 @@ import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_type
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_horizontal_modules.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/favourite_button_page.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -144,7 +143,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             builder: (context, show, _) {
               return AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
-                opacity: show ? 1 : 0,
+                opacity: 1, // show ? 1 : 0,
                 child: IgnorePointer(
                   ignoring: !show,
                   child: ValueListenableBuilder(
@@ -185,7 +184,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     } else if (focusNode.focusedChild?.id == 'VIDEO-DETAILS') {
       OlAlertDialog.showDetails(
         context,
-        color: OLColors.backgroundPrimary.withOpacity(0.8),
+        color: OLColors.backgroundPrimary.withValues(alpha: 0.8),
         title: 'Dettagli del modulo',
         subtitle: LabelsManager()
             .getRemoteStringFromLabelKeys(RemoteLabelKeys.what_to_expect),
@@ -219,7 +218,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           begin: Alignment.bottomCenter,
           end: Alignment.topCenter,
           colors: [
-            AppColors.black.withOpacity(0),
+            AppColors.black.withValues(alpha: 0),
             AppColors.black,
           ],
         ),
@@ -281,7 +280,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            AppColors.black.withOpacity(0),
+            AppColors.black.withValues(alpha: 0),
             AppColors.black,
           ],
         ),
@@ -314,6 +313,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                           grandParentId: widget.args.grandParentId,
                           size: 70,
                           radius: 8,
+                          iconSize: 54,
                           outline: false,
                           completion: () {
                             setTimer();
@@ -323,21 +323,17 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                     ],
                     if (widget.args.currentObject != null) ...[
                       const SizedBox(width: 16),
-                      BlocProvider(
-                        create: (_) => getIt<FavouriteCubit>()
-                          ..init(widget.args.currentObject!),
-                        child: FavoriteButton(
-                          object: widget.args.currentObject!,
-                          parentId: widget.args.parentId,
-                          grandParentId: widget.args.grandParentId,
-                          size: 70,
-                          radius: 8,
-                          outline: false,
-                          iconSize: 30,
-                          completion: () {
-                            setTimer();
-                          },
-                        ),
+                      FavoriteButton(
+                        object: widget.args.currentObject!,
+                        parentId: widget.args.parentId,
+                        grandParentId: widget.args.grandParentId,
+                        size: 70,
+                        radius: 8,
+                        outline: false,
+                        iconSize: 30,
+                        completion: () {
+                          setTimer();
+                        },
                       ),
                     ],
                   ],

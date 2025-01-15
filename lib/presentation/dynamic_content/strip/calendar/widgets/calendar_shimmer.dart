@@ -10,14 +10,14 @@ class CalendarShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Container(
         margin: const EdgeInsets.all(Dimens.spacingL),
         padding: const EdgeInsets.all(Dimens.spacingM),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.3),
+          color: Colors.white.withValues(alpha: .3),
           borderRadius: BorderRadius.circular(Dimens.radius),
         ),
         child: Column(
@@ -29,14 +29,15 @@ class CalendarShimmer extends StatelessWidget {
               child: Row(
                 children: List.generate(
                   7,
-                      (index) => Expanded(
+                  (index) => Expanded(
                     child: Container(
                       height: 60,
                       margin: const EdgeInsets.symmetric(
                           horizontal: Dimens.spacingXS),
                       decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(Dimens.spacingXS)),
+                          color: Colors.white.withValues(alpha: .2),
+                          borderRadius:
+                              BorderRadius.circular(Dimens.spacingXS)),
                     ),
                   ),
                 ),

@@ -43,7 +43,9 @@ class DialogPage<T> extends Page<T> {
         ),
         anchorPoint: anchorPoint,
         barrierColor: barrierColor ??
-            ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+            ColorManager()
+                .getColorBackgroundDrawerWidget()
+                .withValues(alpha: .5),
         barrierDismissible: barrierDismissible,
         barrierLabel: barrierLabel,
         useSafeArea: useSafeArea,

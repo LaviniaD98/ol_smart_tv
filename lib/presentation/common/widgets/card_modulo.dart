@@ -394,7 +394,8 @@ class _CardModuloState extends State<CardModulo>
                       order: const NumericFocusOrder(1),
                       child: OLButton(
                         id: 'BUTTON-1',
-                        title: 'Attività Didattiche',
+                        title: LabelsManager().getRemoteStringFromLabelKeys(
+                            RemoteLabelKeys.learning_activities),
                         outline: true,
                         onFocusChanded: (p0) {
                           if (widget.isSubActivities) {

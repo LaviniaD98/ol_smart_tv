@@ -194,7 +194,7 @@ class DetailsTab extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                   ColorManager().getColorGradient05Start(),
-                  ColorManager().getColorGradient05End().withOpacity(0.7),
+                  ColorManager().getColorGradient05End().withValues(alpha: 0.7),
                 ])),
           ),
           Padding(

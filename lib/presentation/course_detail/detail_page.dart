@@ -13,6 +13,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/common/course_
 import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_types.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_editions.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/learning_activity_row.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
@@ -91,76 +92,79 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<DetailPageCubit, DetailPageState>(
-        listener: (context, state) => state.whenOrNull(
-          autoEnroll: (data) => startOrResumeCheck(context, data.id!, data),
-          autoEnrollFail: (eres) async {
-            await OlAlertDialog.show(context,
+      body: BlocProvider(
+        create: (_) => getIt<FavouriteCubit>()..init(widget.args.object!),
+        child: BlocConsumer<DetailPageCubit, DetailPageState>(
+          listener: (context, state) => state.whenOrNull(
+            autoEnroll: (data) => startOrResumeCheck(context, data.id!, data),
+            autoEnrollFail: (eres) async {
+              await OlAlertDialog.show(context,
+                  title: LabelsManager()
+                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                  message: eres.errorMessage!,
+                  actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.continue_button),
+                  barrierDismissible: false);
+              if (context.mounted) {
+                Navigator.of(context).pop(true);
+              }
+              return null;
+            },
+            errorWithDialog: (message) async {
+              await OlAlertDialog.show(
+                context,
                 title: LabelsManager()
                     .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                message: eres.errorMessage!,
+                message: message,
                 actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
                     RemoteLabelKeys.continue_button),
-                barrierDismissible: false);
-            if (context.mounted) {
-              Navigator.of(context).pop(true);
-            }
-            return null;
-          },
-          errorWithDialog: (message) async {
-            await OlAlertDialog.show(
-              context,
-              title: LabelsManager()
-                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-              message: message,
-              actionLabel: LabelsManager().getRemoteStringFromLabelKeys(
-                  RemoteLabelKeys.continue_button),
-              barrierDismissible: false,
-            );
-            return null;
-          },
-          readyToPlay: (model, detail, playerContext) =>
-              startPlay(context, model, detail, playerContext),
-          openDetail: (model, detail) {
-            Nav.push(context,
-                screen: DetailPage(
-                  args: DetailPageArgs(
-                    id: model.id.toString(),
-                    object: model,
-                    parentId: widget.args.id,
-                    typology: model.learningObjectTypology,
-                    grandParentId: widget.args.parentId,
-                    parent: detail,
-                  ),
-                ));
-
-            return null;
-          },
-        ),
-        buildWhen: (previous, current) => current.maybeMap(
-          success: (_) => true,
-          loading: (_) => true,
-          error: (_) => true,
-          orElse: () => false,
-        ),
-        builder: (context, state) {
-          return state.maybeWhen(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            success: (selectedIndex, model, smartConfig) {
-              return _content(context, selectedIndex, model, smartConfig);
+                barrierDismissible: false,
+              );
+              return null;
             },
-            error: () => Center(
-              child: ErrorScreen(
-                title: LabelsManager()
-                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
-                message: LabelsManager().getRemoteStringFromLabelKeys(
-                    RemoteLabelKeys.error_occurred),
-                onReload: () => Navigator.of(context).pop(),
+            readyToPlay: (model, detail, playerContext) =>
+                startPlay(context, model, detail, playerContext),
+            openDetail: (model, detail) {
+              Nav.push(context,
+                  screen: DetailPage(
+                    args: DetailPageArgs(
+                      id: model.id.toString(),
+                      object: model,
+                      parentId: widget.args.id,
+                      typology: model.learningObjectTypology,
+                      grandParentId: widget.args.parentId,
+                      parent: detail,
+                    ),
+                  ));
+
+              return null;
+            },
+          ),
+          buildWhen: (previous, current) => current.maybeMap(
+            success: (_) => true,
+            loading: (_) => true,
+            error: (_) => true,
+            orElse: () => false,
+          ),
+          builder: (context, state) {
+            return state.maybeWhen(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              success: (selectedIndex, model, smartConfig) {
+                return _content(context, selectedIndex, model, smartConfig);
+              },
+              error: () => Center(
+                child: ErrorScreen(
+                  title: LabelsManager()
+                      .getRemoteStringFromLabelKeys(RemoteLabelKeys.error),
+                  message: LabelsManager().getRemoteStringFromLabelKeys(
+                      RemoteLabelKeys.error_occurred),
+                  onReload: () => Navigator.of(context).pop(),
+                ),
               ),
-            ),
-            orElse: () => const SizedBox(),
-          );
-        },
+              orElse: () => const SizedBox(),
+            );
+          },
+        ),
       ),
     );
   }
@@ -175,7 +179,6 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel model,
     SmartConfiguratorModel? smartConfig,
   ) {
-    print('DetailPage - _content - model: ${model.editionsModel}');
     return FocusScope(
       node: _focusNode,
       autofocus: true,
@@ -360,23 +363,12 @@ class _DetailPageState extends State<DetailPage> {
                 return const SizedBox.shrink();
               }
 
-              return Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 140.0),
-                    child: getTabModules(
-                      context,
-                      snapshot.data!,
-                      false,
-                      autoFocus: true,
-                      isSubActivities: true,
-                    ),
-                  ),
-                  ListHeaderTitle(
-                    title:
-                        '${snapshot.data?.learningActivities?.length ?? 0} Attività didattiche',
-                  ),
-                ],
+              return getTabModules(
+                context,
+                snapshot.data!,
+                false,
+                autoFocus: true,
+                isSubActivities: true,
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
@@ -493,6 +485,9 @@ class _DetailPageState extends State<DetailPage> {
               BlocProvider.value(
                 value: context.read<DetailPageCubit>(),
               ),
+              BlocProvider.value(
+                value: context.read<FavouriteCubit>(),
+              ),
             ],
             child: VideoPlayerPage(args: args),
           ),
@@ -586,6 +581,15 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget buildDescriptionWidget({String? description}) {
+    String title =
+        LabelsManager().getRemoteStringFromLabelKeys(RemoteLabelKeys.details);
+    if (currentModule.value is LearningObjectModel) {
+      title = LabelsManager().getRemoteStringFromLabelKeys(
+          RemoteLabelKeys.details_learning_activities);
+    } else if (currentModule.value is CourseModel) {
+      title = LabelsManager()
+          .getRemoteStringFromLabelKeys(RemoteLabelKeys.details_module);
+    }
     return Stack(
       children: [
         Padding(
@@ -619,7 +623,7 @@ class _DetailPageState extends State<DetailPage> {
             ],
           ),
         ),
-        const ListHeaderTitle(title: 'Dettagli del Modulo'),
+        ListHeaderTitle(title: title),
       ],
     );
   }
@@ -974,8 +978,9 @@ class _DetailPageState extends State<DetailPage> {
       onTap: () async {
         await showDialog(
           context: buildContext,
-          barrierColor:
-              ColorManager().getColorBackgroundDrawerWidget().withOpacity(.5),
+          barrierColor: ColorManager()
+              .getColorBackgroundDrawerWidget()
+              .withValues(alpha: .5),
           builder: (_) => RatingsDialog(
             detailPageModel: model,
             max: maxStars ?? 5,

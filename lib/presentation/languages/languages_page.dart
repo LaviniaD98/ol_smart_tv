@@ -80,7 +80,8 @@ class _LanguagesPageState extends State<LanguagesPage> {
                             minHeight: 700, maxHeight: 700),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: OLColors.backgroundPrimary.withOpacity(0.8),
+                          color:
+                              OLColors.backgroundPrimary.withValues(alpha: 0.8),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

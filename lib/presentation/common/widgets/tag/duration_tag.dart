@@ -84,7 +84,8 @@ class DurationTag extends StatelessWidget {
     }
     return Container(
       decoration: BoxDecoration(
-        color: color ?? ColorManager().getColorTextPrimaryCta().withOpacity(.5),
+        color: color ??
+            ColorManager().getColorTextPrimaryCta().withValues(alpha: .5),
         borderRadius: BorderRadius.circular(8.0),
       ),
       padding: const EdgeInsets.symmetric(

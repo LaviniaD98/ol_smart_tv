@@ -30,7 +30,7 @@ class ExploreCarousel extends StatefulWidget {
 
   static Widget shimmerLoader() {
     return Shimmer.fromColors(
-      baseColor: AppColors.white.withOpacity(.09),
+      baseColor: AppColors.white.withValues(alpha: .09),
       highlightColor: AppColors.primaryFaded,
       period: const Duration(seconds: 2),
       child: Padding(
@@ -42,7 +42,7 @@ class ExploreCarousel extends StatefulWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 110, horizontal: 96),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(.3),
+            color: Colors.white.withValues(alpha: .3),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: OLColors.border,
@@ -62,7 +62,7 @@ class ExploreCarousel extends StatefulWidget {
                   decoration: BoxDecoration(
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -72,7 +72,7 @@ class ExploreCarousel extends StatefulWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
@@ -91,8 +91,9 @@ class ExploreCarousel extends StatefulWidget {
               TopicList(
                 const ['Testingcdcfd', 'Testing csdc ce'],
                 textColor: Colors.transparent,
-                color:
-                    ColorManager().getColorSystemSecondary05().withOpacity(.6),
+                color: ColorManager()
+                    .getColorSystemSecondary05()
+                    .withValues(alpha: .6),
               ),
 
               const SizedBox(height: 20),
@@ -104,7 +105,7 @@ class ExploreCarousel extends StatefulWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -115,7 +116,7 @@ class ExploreCarousel extends StatefulWidget {
                 decoration: BoxDecoration(
                   color: ColorManager()
                       .getColorSystemSecondary05()
-                      .withOpacity(.6),
+                      .withValues(alpha: .6),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
@@ -128,7 +129,7 @@ class ExploreCarousel extends StatefulWidget {
                   decoration: BoxDecoration(
                     color: ColorManager()
                         .getColorSystemSecondary05()
-                        .withOpacity(.6),
+                        .withValues(alpha: .6),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -266,7 +267,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
                       spacing: 16,
                       expansionFactor: 3.2,
                       activeDotColor: OLColors.textPrimary,
-                      dotColor: OLColors.textPrimary.withOpacity(0.5),
+                      dotColor: OLColors.textPrimary.withValues(alpha: 0.5),
                     ),
                     onDotClicked: (index) {},
                   ),

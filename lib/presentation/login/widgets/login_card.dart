@@ -37,7 +37,8 @@ class LoginCard extends StatelessWidget {
       width: 887,
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.circular(8.0),
-        color: backgroundColor ?? OLColors.backgroundPrimary.withOpacity(0.8),
+        color: backgroundColor ??
+            OLColors.backgroundPrimary.withValues(alpha: 0.8),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
