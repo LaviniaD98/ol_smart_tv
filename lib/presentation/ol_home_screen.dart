@@ -224,6 +224,8 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
                       }
                     }
 
+                    handleUpdateFor(index);
+
                     context.read<MainStateCubit>().resetNestedFocusNode();
                   },
                   physics: const NeverScrollableScrollPhysics(),
@@ -240,6 +242,31 @@ class _OLHomeScreenState extends State<OLHomeScreen> {
         ),
       ),
     );
+  }
+
+  void handleUpdateFor(int index) {
+    if (index == 1) {
+      final currentMenuRoute = widget.dynamicRoutes.firstWhereOrNull(
+        (element) => element.routeName == 'visForyou',
+      );
+      context
+          .read<MainStateCubit>()
+          .homeContentCubit
+          ?.init(currentMenuRoute?.apiPath ?? '');
+    } else if (index == 2) {
+      context.read<MainStateCubit>().exploreStripsCubit?.referesAll();
+      context.read<MainStateCubit>().exploreBigCarouselCubit?.refresh();
+      context.read<MainStateCubit>().exploreScreenState?.resetScroll();
+      final firstFocus = context.read<MainStateCubit>().firstExploreCardFocus;
+
+      if (firstFocus != null) {
+        Future.delayed(
+          const Duration(milliseconds: 500),
+          () => firstFocus.requestFocus(),
+        );
+      }
+      //context.read<MainStateCubit>().forYouFocusNode?.unfocus();
+    }
   }
 }
 

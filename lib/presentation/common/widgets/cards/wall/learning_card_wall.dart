@@ -50,6 +50,7 @@ class LearningCardWall extends StatelessWidget {
               parent: parentModel,
               parentId: parentId ?? data.parentId?.toString(),
               grandParentId: grandParentId ?? data.grandParentId?.toString(),
+              source: DetailsPresentingSource.unknown,
             ),
           ),
         );

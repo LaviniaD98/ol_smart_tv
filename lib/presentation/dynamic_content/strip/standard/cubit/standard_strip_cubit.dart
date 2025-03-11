@@ -16,14 +16,33 @@ class StandardStripCubit extends Cubit<StandardStripState> {
   StandardStripCubit(this._getSuggestedStripUseCase)
       : super(const StandardStripState.loading());
 
+  StripRow? currentStrip;
+
   void fetch({StripRow? strip, List<String>? filters}) async {
     emit(const StandardStripState.loading());
     if (strip != null) {
+      currentStrip = strip;
       if (kDebugMode)
         print(
             "${DateTime.now()} https:// in StandardStripCubit fetch: ${strip.apiPath}");
       final res =
           await _getSuggestedStripUseCase(strip: strip, filters: filters);
+      res.fold((l) {
+        emit(const StandardStripState.error());
+      }, (r) {
+        emit(StandardStripState.success(items: r));
+      });
+    }
+  }
+
+  void refresh() async {
+    if (currentStrip != null) {
+      emit(const StandardStripState.loading());
+
+      if (kDebugMode)
+        print(
+            "${DateTime.now()} https:// in StandardStripCubit fetch: ${currentStrip?.apiPath}");
+      final res = await _getSuggestedStripUseCase(strip: currentStrip!);
       res.fold((l) {
         emit(const StandardStripState.error());
       }, (r) {

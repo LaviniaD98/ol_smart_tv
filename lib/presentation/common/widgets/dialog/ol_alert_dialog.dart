@@ -17,6 +17,19 @@ class OlAlertDialog extends StatefulWidget {
   final double? minWidth;
   final Color? color;
 
+  const OlAlertDialog({
+    required this.title,
+    required this.message,
+    required this.actionLabel,
+    this.subtitle,
+    this.actions,
+    this.actionsHidden = false,
+    this.minHeight,
+    this.minWidth,
+    this.color,
+    super.key,
+  });
+
   const OlAlertDialog._({
     required this.title,
     required this.message,
@@ -42,9 +55,10 @@ class OlAlertDialog extends StatefulWidget {
     String? subtitle,
     Color? color,
   }) async {
-    Navigator.of(context).push(
+    return Navigator.of(context).push(
       DialogPage(
         barrierDismissible: barrierDismissible,
+        backgroundColor: color,
         builder: (context) => OlAlertDialog._(
           title: title,
           message: message,

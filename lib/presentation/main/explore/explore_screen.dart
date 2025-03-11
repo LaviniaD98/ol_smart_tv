@@ -29,10 +29,10 @@ class ExploreScreen extends StatefulWidget {
   final List<MenuRoute> dynamicRoutes;
 
   @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
+  State<ExploreScreen> createState() => ExploreScreenState();
 }
 
-class _ExploreScreenState extends State<ExploreScreen>
+class ExploreScreenState extends State<ExploreScreen>
     with AutomaticKeepAliveClientMixin {
   final _focusNode = OlFocusScopeNode(id: 'Explore');
   final OrderedTraversalPolicy _policy = OrderedTraversalPolicy();
@@ -56,10 +56,21 @@ class _ExploreScreenState extends State<ExploreScreen>
     super.initState();
 
     context.read<MainStateCubit>().exploreFocusNode = _focusNode;
+    context.read<MainStateCubit>().exploreScreenState = this;
 
     currentMenuRoute = widget.dynamicRoutes.firstWhereOrNull(
       (element) => element.routeName == 'visExplore',
     );
+  }
+
+  void resetScroll() {
+    //  scrollToPosition(0);
+
+    context.read<MainStateCubit>().topicsFilterCubit?.refresh();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      autoScrollController.animateTo(0,
+          duration: Duration(milliseconds: 50), curve: Curves.linear);
+    });
   }
 
   @override
@@ -114,6 +125,9 @@ class _ExploreScreenState extends State<ExploreScreen>
                   listener: (context, state) {
                     state.when(
                       success: (success, v, c, a, strios, d) {
+                        context.read<MainStateCubit>().exploreStripsCubit =
+                            context.read<ExploreStripsCubit>();
+
                         if (strios != null) {
                           context
                               .read<ExploreStripsCubit>()
@@ -184,6 +198,9 @@ class _ExploreScreenState extends State<ExploreScreen>
       child: BlocBuilder<StandardStripCubit, StandardStripState>(
         builder: (context, state) => state.map(
           success: (value) {
+            context.read<MainStateCubit>().exploreBigCarouselCubit =
+                context.read<StandardStripCubit>();
+
             return SliverToBoxAdapter(
               child: AutoScrollTag(
                 key: const ValueKey(0),
@@ -223,6 +240,9 @@ class _ExploreScreenState extends State<ExploreScreen>
               builder: (context, filters, _) {
                 return TopicsFilterList.navigation(
                   initialFilters: filters,
+                  exposingCubit: (p0) {
+                    context.read<MainStateCubit>().topicsFilterCubit = p0;
+                  },
                   onFocusChanged: (p0) {
                     if (p0) {
                       focusedObjectNotifier.value = null;
@@ -456,5 +476,5 @@ class _ExploreScreenState extends State<ExploreScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

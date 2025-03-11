@@ -149,13 +149,25 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
   late CarouselSliderController carouselController;
   late PageController pageController;
 
-  final focusNode = OlFocusScopeNode(id: 'EXPLORE_CAROUSEL');
+  late OlFocusScopeNode focusNode;
 
   @override
   void initState() {
     super.initState();
     carouselController = CarouselSliderController();
     pageController = PageController();
+
+    final focus = context.read<MainStateCubit>().firstExploreCardFocus;
+
+    if (focus != null) {
+      focusNode = focus;
+    } else {
+      focusNode = OlFocusScopeNode(id: 'EXPLORE_CAROUSEL');
+      context.read<MainStateCubit>().firstExploreCardFocus = focusNode;
+      Future.delayed(const Duration(milliseconds: 300), () {
+        focusNode.requestFocus();
+      });
+    }
   }
 
   @override
@@ -291,6 +303,7 @@ class _ExploreCarouselState extends State<ExploreCarousel> {
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.explore,
     );
 
     manager.pushOnStack(

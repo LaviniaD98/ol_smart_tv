@@ -11,7 +11,7 @@ import '../common/widgets/error/error_screen.dart';
 import 'cubit/dynamic_content_cubit.dart';
 import 'strip/calendar/calendar_strip_row.dart';
 import 'strip/continue_learning/continue_learning_strip_row.dart';
-import 'strip/favourites/favourites_strip_row.dart';
+//import 'strip/favourites/favourites_strip_row.dart';
 import 'strip/standard/standard_strip_row.dart';
 
 class DynamicContent extends StatelessWidget {
@@ -100,9 +100,7 @@ class DynamicContent extends StatelessWidget {
             visForYou: (_) => (value.smartConfig?.visForyou == true)
                 ? StandardStripRow(strip: row)
                 : const SizedBox(),
-            favourites: (_) => (value.smartConfig?.favourites == true)
-                ? FavouritesStripRow(strip: row)
-                : const SizedBox(),
+            favourites: (_) => const SizedBox(),
             widgetContinueLearning: (_) =>
                 (value.smartConfig?.widgetContinueLearning == true)
                     ? ContinueLearningStripRow(strip: row)

@@ -27,6 +27,7 @@ class ContinueLearningCardWall extends StatelessWidget {
               typology: data.learningObjectTypology,
               parentId: data.parentId?.toString(),
               grandParentId: data.grandParentId?.toString(),
+              source: DetailsPresentingSource.unknown,
             ),
           ),
         );

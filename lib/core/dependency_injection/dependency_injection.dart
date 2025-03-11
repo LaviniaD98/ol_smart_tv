@@ -36,7 +36,7 @@ abstract class ExternalModule {
 
   @lazySingleton
   PrettyDioLogger get logInterceptor => PrettyDioLogger(
-        requestBody: true,
+        requestBody: false, // true,
         responseBody: false, // true,
         error: true,
         requestHeader: true,

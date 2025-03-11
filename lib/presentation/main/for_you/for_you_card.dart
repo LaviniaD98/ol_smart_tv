@@ -20,6 +20,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_p
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/widgets/image/faded_banner_image.dart';
+import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../theme/app_theme.dart';
@@ -31,6 +32,7 @@ class ForYouCard extends StatefulWidget {
   final String? grandParentId;
   final bool enable;
   final bool isGridViewItem;
+  final bool isFirst;
   final VoidCallback? returnFromDetailCallback;
   final void Function(bool)? onFocusChange;
 
@@ -42,6 +44,7 @@ class ForYouCard extends StatefulWidget {
     this.grandParentId,
     this.enable = true,
     this.isGridViewItem = false,
+    this.isFirst = false,
     this.returnFromDetailCallback,
     this.onFocusChange,
   });
@@ -56,7 +59,11 @@ class _ForYouCardState extends State<ForYouCard> {
   @override
   void initState() {
     super.initState();
-    focusNode = OlFocusScopeNode(id: '${widget.grandParentId} ----- 1');
+    focusNode = OlFocusScopeNode(id: 'FOR-YOU-CARD-${widget.data.id}');
+
+    if (widget.isFirst) {
+      context.read<MainStateCubit>().firstForYouCardFocus = focusNode;
+    }
   }
 
   @override
@@ -71,7 +78,7 @@ class _ForYouCardState extends State<ForYouCard> {
       ecmRegistration: widget.data.ecmRegistration ?? false,
     );
 
-    // print('widget.courseId: ${widget.data.courseId}');
+    // print('widget.courseId: ${widget.data.title}');
     // print('widget.parentId: ${widget.data.parentId}');
     // print('widget.grandParentId: ${widget.data.grandParentId}');
 
@@ -87,9 +94,10 @@ class _ForYouCardState extends State<ForYouCard> {
           behavior: HitTestBehavior.translucent,
           onTap: widget.enable
               ? () async {
-                  Nav.push(context,
-                      screen: DetailPage(
-                          args: DetailPageArgs(
+                  Nav.push(
+                    context,
+                    screen: DetailPage(
+                      args: DetailPageArgs(
                         object: widget.data,
                         id: widget.data.id.toString(),
                         typology: widget.data.learningObjectTypology,
@@ -100,7 +108,10 @@ class _ForYouCardState extends State<ForYouCard> {
                             ? widget.grandParentId
                             : widget.data.grandParentId?.toString(),
                         parent: widget.parentDetailPageModel,
-                      )));
+                        source: DetailsPresentingSource.forYou,
+                      ),
+                    ),
+                  );
 
                   if (context.mounted &&
                       widget.returnFromDetailCallback != null) {
@@ -203,6 +214,7 @@ class _ForYouCardState extends State<ForYouCard> {
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.forYou,
     );
 
     manager.pushOnStack(

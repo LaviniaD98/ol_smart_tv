@@ -530,6 +530,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                                     .args.detailModel!.learningObjectTypology,
                                 grandParentId: widget.args.parentId,
                                 parent: widget.args.detailModel!,
+                                source: widget.args.args.source,
                               ),
                             ),
                           );

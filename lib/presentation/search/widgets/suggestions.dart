@@ -26,6 +26,7 @@ class Suggestions extends StatelessWidget {
                   args: DetailPageArgs(
                     id: suggestions[index].id.toString(),
                     typology: suggestions[index].learningObjectTypology,
+                    source: DetailsPresentingSource.unknown,
                   ),
                 ));
           },

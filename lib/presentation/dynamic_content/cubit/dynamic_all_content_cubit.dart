@@ -31,6 +31,7 @@ class DynamicAllContentCubit extends Cubit<DynamicAllContentState> {
   ) : super(const DynamicAllContentState.loading());
 
   void init(String path, [List<String>? filters, bool debug = false]) async {
+    emit(const DynamicAllContentState.loading());
     final res = await _getPageStructureUseCase(path);
     res.fold(
       (l) {

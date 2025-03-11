@@ -5,6 +5,8 @@ final manager = AppManager();
 class AppManager {
   AppManager();
 
+  final navKey = GlobalKey<NavigatorState>();
+
   GlobalKey<NavigatorState>? currentTabNavKey;
 
   Future<void> pushOnStack({required Widget screen}) async {

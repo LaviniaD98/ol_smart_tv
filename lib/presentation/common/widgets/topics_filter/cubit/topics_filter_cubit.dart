@@ -27,4 +27,17 @@ class TopicsFilterCubit extends Cubit<TopicsFilterState> {
       },
     );
   }
+
+  void refresh() async {
+    emit(const TopicsFilterState.loading());
+    final res = await _getTopicsUseCase();
+    res.fold(
+      (l) {
+        emit(const TopicsFilterState.error());
+      },
+      (r) {
+        emit(TopicsFilterState.success(r.output ?? []));
+      },
+    );
+  }
 }

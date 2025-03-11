@@ -68,7 +68,17 @@ class _StripDataSourceImpl implements StripDataSourceImpl {
               _dio.options.baseUrl,
               baseUrl,
             ))));
+
+    // (_result.data?['forYouLearningObjects'] as List?)?.forEach((element) {
+    //   print('element: ${element['title']} - ${element['status']}');
+    // });
+
+    //print('_result.data: ${_result.data['forYouLearningObjects']}');
     final _value = VisForStripDto.fromJson(_result.data!);
+    // _value.items?.forEach((element) {
+    //   print('element: ${element.title} - ${element.status}');
+    // });
+
     return _value;
   }
 

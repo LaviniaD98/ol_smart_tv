@@ -115,6 +115,7 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
         child: FocusScope(
           node: focusNode, //context.read<MainStateCubit>().forYouFocusNode,
           onFocusChange: (value) {
+            
             widget.onFocusChange?.call(value);
           },
           child: ListView.separated(
@@ -131,12 +132,14 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
             itemCount: strip.value.length,
             itemBuilder: (context, index) {
               final item = strip.value[index];
+
               final cell = AutoScrollTag(
                 key: ValueKey(index),
                 controller: autoScrollController,
                 index: index,
                 child: ForYouCard(
                   data: item,
+                  isFirst: index == 0,
                   onFocusChange: (hasFocus) {
                     if (hasFocus) {
                       currentFocusIndex = index;
@@ -169,6 +172,7 @@ class ForYouVerticalCarouselState extends State<ForYouVerticalCarousel>
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.forYou,
     );
 
     manager.pushOnStack(

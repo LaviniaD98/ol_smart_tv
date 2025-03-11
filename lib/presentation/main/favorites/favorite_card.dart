@@ -267,6 +267,7 @@ class _FavoriteCardState extends State<FavoriteCard> {
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.favorites,
     );
 
     manager.pushOnStack(

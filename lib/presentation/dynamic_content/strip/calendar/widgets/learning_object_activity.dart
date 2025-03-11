@@ -66,6 +66,7 @@ class _LearningObjectActivityState extends State<LearningObjectActivity> {
               typology: widget.model.learningObjectTypology,
               parentId: widget.model.parentId?.toString(),
               grandParentId: widget.model.grandParentId?.toString(),
+              source: DetailsPresentingSource.calendar,
             ),
           ),
         );
@@ -267,6 +268,7 @@ class _LearningObjectActivityState extends State<LearningObjectActivity> {
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.calendar,
     );
 
     manager.pushOnStack(

@@ -314,6 +314,7 @@ class _SearchScreenState extends State<SearchScreen>
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.search,
     );
 
     manager.pushOnStack(

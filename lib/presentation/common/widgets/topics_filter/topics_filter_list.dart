@@ -22,6 +22,7 @@ class TopicsFilterList extends StatefulWidget {
   final OnTapReload? onReload;
   final OnTapNavigation? onTap;
   final void Function(bool)? onFocusChanged;
+  final void Function(TopicsFilterCubit)? exposingCubit;
 
   const TopicsFilterList._({
     super.key,
@@ -30,35 +31,38 @@ class TopicsFilterList extends StatefulWidget {
     this.onReload,
     this.onTap,
     this.onFocusChanged,
+    this.exposingCubit,
   });
 
-  factory TopicsFilterList.reload({
-    Key? key,
-    List<String>? initialFilters,
-    required OnTapReload onTapReload,
-    void Function(bool)? onFocusChanged,
-  }) {
+  factory TopicsFilterList.reload(
+      {Key? key,
+      List<String>? initialFilters,
+      required OnTapReload onTapReload,
+      void Function(bool)? onFocusChanged,
+      void Function(TopicsFilterCubit)? exposingCubit}) {
     return TopicsFilterList._(
       key: key,
       initialFilters: initialFilters,
       type: TopicsFilterListType.reload,
       onReload: onTapReload,
       onFocusChanged: onFocusChanged,
+      exposingCubit: exposingCubit,
     );
   }
 
-  factory TopicsFilterList.navigation({
-    Key? key,
-    required OnTapNavigation onTap,
-    void Function(bool)? onFocusChanged,
-    List<String>? initialFilters,
-  }) {
+  factory TopicsFilterList.navigation(
+      {Key? key,
+      required OnTapNavigation onTap,
+      void Function(bool)? onFocusChanged,
+      List<String>? initialFilters,
+      void Function(TopicsFilterCubit)? exposingCubit}) {
     return TopicsFilterList._(
       key: key,
       type: TopicsFilterListType.navigation,
       onTap: onTap,
       onFocusChanged: onFocusChanged,
       initialFilters: initialFilters,
+      exposingCubit: exposingCubit,
     );
   }
 
@@ -77,6 +81,8 @@ class _TopicsFilterListState extends State<TopicsFilterList> {
           builder: (context, state) => state.maybeWhen(
             loading: () => _shimmerLoader,
             success: (topics) {
+              widget.exposingCubit?.call(context.read<TopicsFilterCubit>());
+
               if (topics.isNotEmpty) {
                 return switch (widget.type) {
                   TopicsFilterListType.navigation => _TopicsFilterNavigation(

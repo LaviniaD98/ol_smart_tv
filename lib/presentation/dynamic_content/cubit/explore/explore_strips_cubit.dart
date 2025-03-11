@@ -44,9 +44,29 @@ class ExploreStripsCubit extends Cubit<ExploreStripsState> {
     return mappedList;
   }
 
+  Future<List<Map<StripRow, List<LearningObjectModel>>>> referesAll({
+    bool debug = false,
+  }) async {
+    emit(const ExploreStripsState.loading());
+
+    final List<Map<StripRow, List<LearningObjectModel>>> mappedList = [];
+
+    final allStripsFuture = tempStrips.map((strip) {
+      return fetch(strip: strip);
+    }).toList();
+
+    final allStrips = await Future.wait([...allStripsFuture]);
+
+    for (final element in allStrips) {
+      mappedList.add(element);
+    }
+
+    emit(ExploreStripsState.success(rowItems: mappedList));
+    return mappedList;
+  }
+
   Future<List<Map<StripRow, List<LearningObjectModel>>>> refreshStrips({
     bool debug = false,
-    
     List<String>? filters,
   }) async {
     emit(

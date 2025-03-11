@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/topics_filter/cubit/topics_filter_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/dynamic_all_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/explore/explore_strips_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/standard/cubit/standard_strip_cubit.dart';
+import 'package:open_learning_smart_tv/presentation/main/explore/explore_screen.dart';
 
 class MainStateCubit extends Cubit<OlFocusScopeNode> {
   MainStateCubit() : super(OlFocusScopeNode(id: 'mainFocusNode'));
@@ -21,6 +26,15 @@ class MainStateCubit extends Cubit<OlFocusScopeNode> {
   OlFocusScopeNode? latestProfileFocusNode;
 
   FavoritesContentCubit? favoriteContentCubit;
+  DynamicAllContentCubit? homeContentCubit;
+  OlFocusScopeNode? firstForYouCardFocus;
+
+  /// EXPLORE
+  ExploreScreenState? exploreScreenState;
+  ExploreStripsCubit? exploreStripsCubit;
+  StandardStripCubit? exploreBigCarouselCubit;
+  TopicsFilterCubit? topicsFilterCubit;
+  OlFocusScopeNode? firstExploreCardFocus;
 
   OrderedTraversalPolicy? policy;
 

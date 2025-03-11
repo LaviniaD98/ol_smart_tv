@@ -115,6 +115,7 @@ class _ContinueLearningStripRowState extends State<ContinueLearningStripRow>
                                           ?.toString(),
                                       typology: value
                                           .items[index].learningObjectTypology,
+                                      source: DetailsPresentingSource.forYou,
                                     ),
                                   ),
                                 );

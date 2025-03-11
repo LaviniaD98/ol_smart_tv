@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
@@ -94,6 +95,7 @@ class _ApplicationState extends State<Application> {
                           const BackIntent(),
                     },
                     child: MaterialApp(
+                      navigatorKey: manager.navKey,
                       builder: (context, child) {
                         final theme = GlowThemeData(
                           glowColor: ColorManager()

@@ -134,6 +134,7 @@ class _DetailPageState extends State<DetailPage> {
                       typology: model.learningObjectTypology,
                       grandParentId: widget.args.parentId,
                       parent: detail,
+                      source: widget.args.source,
                     ),
                   ));
 
@@ -718,6 +719,7 @@ class _DetailPageState extends State<DetailPage> {
                           parent: model,
                           object: null,
                           typology: cc.learningObjectTypology,
+                          source: widget.args.source,
                         ),
                       );
             }
@@ -780,6 +782,7 @@ class _DetailPageState extends State<DetailPage> {
                           typology: model.learningObjectTypology,
                           grandParentId: widget.args.parentId,
                           parent: model,
+                          source: widget.args.source,
                         ),
                       ),
                     );
@@ -1010,10 +1013,12 @@ class DetailPageArgs {
   final String? grandParentId;
   final DetailPageModel? parent;
   final LearningObjectModel? object;
+  final DetailsPresentingSource source;
 
   DetailPageArgs({
     required this.id,
     required this.typology,
+    required this.source,
     this.object,
     this.parentId,
     this.grandParentId,
@@ -1026,4 +1031,14 @@ enum RightPanelState {
   details,
   related,
   subActivities,
+}
+
+enum DetailsPresentingSource {
+  forYou,
+  explore,
+  favorites,
+  search,
+  continueLearning,
+  calendar,
+  unknown,
 }

@@ -21,6 +21,7 @@ class OLButton extends StatefulWidget {
     this.icon,
     this.image,
     this.radius,
+    this.autoFocus = false,
     super.key,
   });
 
@@ -29,6 +30,7 @@ class OLButton extends StatefulWidget {
   final FocusNode? focusNode;
   final double? width;
   final bool textOnly;
+  final bool autoFocus;
   final bool outline;
   final bool isFlexible;
   final String? id;
@@ -55,6 +57,12 @@ class _OLButtonState extends State<OLButton> {
     _focusNode = OlFocusNode(
       id: widget.id ?? 'OLButton - ${widget.title}',
     );
+
+    if (widget.autoFocus) {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        _focusNode.requestFocus();
+      });
+    }
     _statesController.addListener(updateStates);
   }
 

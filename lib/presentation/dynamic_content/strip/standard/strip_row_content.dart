@@ -291,6 +291,7 @@ class StripRowContentState extends State<StripRowContent>
       parentId: item.parentId?.toString(),
       grandParentId: item.grandParentId?.toString(),
       typology: item.learningObjectTypology,
+      source: DetailsPresentingSource.explore,
     );
 
     manager.pushOnStack(

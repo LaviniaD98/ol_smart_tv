@@ -101,10 +101,8 @@ class _ForYouScreenState extends State<ForYouScreen>
               },
               builder: (context, state) => state.map(
                 success: (value) {
-                  // final smart = context
-                  //     .read<DynamicAllContentCubit>()
-                  //     .dynamicContent
-                  //     ?.smartConfig;
+                  context.read<MainStateCubit>().homeContentCubit =
+                      context.read<DynamicAllContentCubit>();
 
                   final source =
                       List<Map<StripRow, List<LearningObjectModel>>>.from(
@@ -155,6 +153,7 @@ class _ForYouScreenState extends State<ForYouScreen>
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
+        print('focusNode.hasFocus: ${value}');
         if (value) {
           if (focusNode.focusedChild == null) {
             forYouFocusNode.requestFocus();
@@ -170,7 +169,13 @@ class _ForYouScreenState extends State<ForYouScreen>
               onFocusChange: (value) {
                 if (value) {
                   if (forYouFocusNode.focusedChild == null) {
-                    forYouFocusNode.nextFocus();
+                    final res = forYouFocusNode.nextFocus();
+                    if (!res) {
+                      context
+                          .read<MainStateCubit>()
+                          .firstForYouCardFocus
+                          ?.requestFocus();
+                    }
                   }
                 }
               },
@@ -268,5 +273,5 @@ class _ForYouScreenState extends State<ForYouScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }
