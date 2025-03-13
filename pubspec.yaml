@@ -96,6 +96,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+
   assets:
     # Add assets from the images directory to the application.
     - assets/translation/it.json
