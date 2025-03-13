@@ -68,6 +68,7 @@ class SmartConfiguratorRepositoryImpl implements SmartConfiguratorRepository {
   Future<Either<Failure, LanguagesInfoModel>> getLanguages(int corporateId) {
     return catchFailure(() async {
       final res = await _languageDataSource.getLanguages(corporateId);
+      print('response languages $LanguagesInfoModel.fromDto(res)');
       return LanguagesInfoModel.fromDto(res);
     });
   }

@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "957679485136",
-    "project_id": "openlearning-smart-tv",
-    "storage_bucket": "openlearning-smart-tv.firebasestorage.app"
+    "project_number": "353783383802",
+    "project_id": "open-learning-smart-tv-prod",
+    "storage_bucket": "open-learning-smart-tv-prod.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:957679485136:android:1ab4af43ef93344d98ded5",
+        "mobilesdk_app_id": "1:353783383802:android:e38ddc8fea672c7d9f2b43",
         "android_client_info": {
-          "package_name": "com.digited.ol.smarttv"
+          "package_name": "com.digited.ol.smarttv.prod"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDmWkTFJroh8X8ZF740KDu9uZZB8RPdh-o"
+          "current_key": "AIzaSyBAxZXGBzsI55txIfSQW_rTy7I1u2Db_BM"
         }
       ],
       "services": {

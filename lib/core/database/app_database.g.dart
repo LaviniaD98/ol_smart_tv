@@ -729,23 +729,120 @@ typedef $$LocalNotificationsTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$LocalNotificationsTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalNotificationsTable> {
+  $$LocalNotificationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get body => $composableBuilder(
+      column: $table.body, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get read => $composableBuilder(
+      column: $table.read, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get sentTime => $composableBuilder(
+      column: $table.sentTime, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<LocalNotificationType, LocalNotificationType,
+          String>
+      get type => $composableBuilder(
+          column: $table.type,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$LocalNotificationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalNotificationsTable> {
+  $$LocalNotificationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get body => $composableBuilder(
+      column: $table.body, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get read => $composableBuilder(
+      column: $table.read, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get sentTime => $composableBuilder(
+      column: $table.sentTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+}
+
+class $$LocalNotificationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalNotificationsTable> {
+  $$LocalNotificationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get body =>
+      $composableBuilder(column: $table.body, builder: (column) => column);
+
+  GeneratedColumn<bool> get read =>
+      $composableBuilder(column: $table.read, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get sentTime =>
+      $composableBuilder(column: $table.sentTime, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<LocalNotificationType, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+}
+
 class $$LocalNotificationsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $LocalNotificationsTable,
     LocalNotification,
     $$LocalNotificationsTableFilterComposer,
     $$LocalNotificationsTableOrderingComposer,
+    $$LocalNotificationsTableAnnotationComposer,
     $$LocalNotificationsTableCreateCompanionBuilder,
-    $$LocalNotificationsTableUpdateCompanionBuilder> {
+    $$LocalNotificationsTableUpdateCompanionBuilder,
+    (
+      LocalNotification,
+      BaseReferences<_$AppDatabase, $LocalNotificationsTable, LocalNotification>
+    ),
+    LocalNotification,
+    PrefetchHooks Function()> {
   $$LocalNotificationsTableTableManager(
       _$AppDatabase db, $LocalNotificationsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$LocalNotificationsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer: $$LocalNotificationsTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$LocalNotificationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalNotificationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LocalNotificationsTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String?> title = const Value.absent(),
@@ -782,80 +879,28 @@ class $$LocalNotificationsTableTableManager extends RootTableManager<
             type: type,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$LocalNotificationsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $LocalNotificationsTable> {
-  $$LocalNotificationsTableFilterComposer(super.$state);
-  ColumnFilters<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get body => $state.composableBuilder(
-      column: $state.table.body,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<bool> get read => $state.composableBuilder(
-      column: $state.table.read,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<DateTime> get sentTime => $state.composableBuilder(
-      column: $state.table.sentTime,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<LocalNotificationType, LocalNotificationType,
-          String>
-      get type => $state.composableBuilder(
-          column: $state.table.type,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-}
-
-class $$LocalNotificationsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $LocalNotificationsTable> {
-  $$LocalNotificationsTableOrderingComposer(super.$state);
-  ColumnOrderings<int> get id => $state.composableBuilder(
-      column: $state.table.id,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get title => $state.composableBuilder(
-      column: $state.table.title,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get body => $state.composableBuilder(
-      column: $state.table.body,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<bool> get read => $state.composableBuilder(
-      column: $state.table.read,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<DateTime> get sentTime => $state.composableBuilder(
-      column: $state.table.sentTime,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
-
+typedef $$LocalNotificationsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $LocalNotificationsTable,
+    LocalNotification,
+    $$LocalNotificationsTableFilterComposer,
+    $$LocalNotificationsTableOrderingComposer,
+    $$LocalNotificationsTableAnnotationComposer,
+    $$LocalNotificationsTableCreateCompanionBuilder,
+    $$LocalNotificationsTableUpdateCompanionBuilder,
+    (
+      LocalNotification,
+      BaseReferences<_$AppDatabase, $LocalNotificationsTable, LocalNotification>
+    ),
+    LocalNotification,
+    PrefetchHooks Function()>;
 typedef $$OfflineStatementsTableCreateCompanionBuilder
     = OfflineStatementsCompanion Function({
   Value<DateTime> timestamp,
@@ -875,23 +920,114 @@ typedef $$OfflineStatementsTableUpdateCompanionBuilder
   Value<int> rowid,
 });
 
+class $$OfflineStatementsTableFilterComposer
+    extends Composer<_$AppDatabase, $OfflineStatementsTable> {
+  $$OfflineStatementsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get videoId => $composableBuilder(
+      column: $table.videoId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get trackinJsongObject => $composableBuilder(
+      column: $table.trackinJsongObject,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get offlineVideoJsongObject => $composableBuilder(
+      column: $table.offlineVideoJsongObject,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<PlayerEvent, PlayerEvent, String> get type =>
+      $composableBuilder(
+          column: $table.type,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+}
+
+class $$OfflineStatementsTableOrderingComposer
+    extends Composer<_$AppDatabase, $OfflineStatementsTable> {
+  $$OfflineStatementsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get timestamp => $composableBuilder(
+      column: $table.timestamp, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get videoId => $composableBuilder(
+      column: $table.videoId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get trackinJsongObject => $composableBuilder(
+      column: $table.trackinJsongObject,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get offlineVideoJsongObject => $composableBuilder(
+      column: $table.offlineVideoJsongObject,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+}
+
+class $$OfflineStatementsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $OfflineStatementsTable> {
+  $$OfflineStatementsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get timestamp =>
+      $composableBuilder(column: $table.timestamp, builder: (column) => column);
+
+  GeneratedColumn<String> get videoId =>
+      $composableBuilder(column: $table.videoId, builder: (column) => column);
+
+  GeneratedColumn<String> get trackinJsongObject => $composableBuilder(
+      column: $table.trackinJsongObject, builder: (column) => column);
+
+  GeneratedColumn<String> get offlineVideoJsongObject => $composableBuilder(
+      column: $table.offlineVideoJsongObject, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PlayerEvent, String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+}
+
 class $$OfflineStatementsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $OfflineStatementsTable,
     OfflineStatement,
     $$OfflineStatementsTableFilterComposer,
     $$OfflineStatementsTableOrderingComposer,
+    $$OfflineStatementsTableAnnotationComposer,
     $$OfflineStatementsTableCreateCompanionBuilder,
-    $$OfflineStatementsTableUpdateCompanionBuilder> {
+    $$OfflineStatementsTableUpdateCompanionBuilder,
+    (
+      OfflineStatement,
+      BaseReferences<_$AppDatabase, $OfflineStatementsTable, OfflineStatement>
+    ),
+    OfflineStatement,
+    PrefetchHooks Function()> {
   $$OfflineStatementsTableTableManager(
       _$AppDatabase db, $OfflineStatementsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
-          filteringComposer:
-              $$OfflineStatementsTableFilterComposer(ComposerState(db, table)),
-          orderingComposer: $$OfflineStatementsTableOrderingComposer(
-              ComposerState(db, table)),
+          createFilteringComposer: () =>
+              $$OfflineStatementsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$OfflineStatementsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OfflineStatementsTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<DateTime> timestamp = const Value.absent(),
             Value<String?> videoId = const Value.absent(),
@@ -924,69 +1060,28 @@ class $$OfflineStatementsTableTableManager extends RootTableManager<
             type: type,
             rowid: rowid,
           ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
         ));
 }
 
-class $$OfflineStatementsTableFilterComposer
-    extends FilterComposer<_$AppDatabase, $OfflineStatementsTable> {
-  $$OfflineStatementsTableFilterComposer(super.$state);
-  ColumnFilters<DateTime> get timestamp => $state.composableBuilder(
-      column: $state.table.timestamp,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get videoId => $state.composableBuilder(
-      column: $state.table.videoId,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get trackinJsongObject => $state.composableBuilder(
-      column: $state.table.trackinJsongObject,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnFilters<String> get offlineVideoJsongObject => $state.composableBuilder(
-      column: $state.table.offlineVideoJsongObject,
-      builder: (column, joinBuilders) =>
-          ColumnFilters(column, joinBuilders: joinBuilders));
-
-  ColumnWithTypeConverterFilters<PlayerEvent, PlayerEvent, String> get type =>
-      $state.composableBuilder(
-          column: $state.table.type,
-          builder: (column, joinBuilders) => ColumnWithTypeConverterFilters(
-              column,
-              joinBuilders: joinBuilders));
-}
-
-class $$OfflineStatementsTableOrderingComposer
-    extends OrderingComposer<_$AppDatabase, $OfflineStatementsTable> {
-  $$OfflineStatementsTableOrderingComposer(super.$state);
-  ColumnOrderings<DateTime> get timestamp => $state.composableBuilder(
-      column: $state.table.timestamp,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get videoId => $state.composableBuilder(
-      column: $state.table.videoId,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get trackinJsongObject => $state.composableBuilder(
-      column: $state.table.trackinJsongObject,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get offlineVideoJsongObject =>
-      $state.composableBuilder(
-          column: $state.table.offlineVideoJsongObject,
-          builder: (column, joinBuilders) =>
-              ColumnOrderings(column, joinBuilders: joinBuilders));
-
-  ColumnOrderings<String> get type => $state.composableBuilder(
-      column: $state.table.type,
-      builder: (column, joinBuilders) =>
-          ColumnOrderings(column, joinBuilders: joinBuilders));
-}
+typedef $$OfflineStatementsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $OfflineStatementsTable,
+    OfflineStatement,
+    $$OfflineStatementsTableFilterComposer,
+    $$OfflineStatementsTableOrderingComposer,
+    $$OfflineStatementsTableAnnotationComposer,
+    $$OfflineStatementsTableCreateCompanionBuilder,
+    $$OfflineStatementsTableUpdateCompanionBuilder,
+    (
+      OfflineStatement,
+      BaseReferences<_$AppDatabase, $OfflineStatementsTable, OfflineStatement>
+    ),
+    OfflineStatement,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

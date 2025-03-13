@@ -17,29 +17,17 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -53,10 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDPMSHIwaUaYMQaDLD7BOsx89TXZOrV0PA',
-    appId: '1:450372506798:android:e6a6c9d4c9d2be6294093f',
-    messagingSenderId: '450372506798',
-    projectId: 'digited-openlearning',
-    storageBucket: 'digited-openlearning.appspot.com',
+    apiKey: 'AIzaSyDmWkTFJroh8X8ZF740KDu9uZZB8RPdh-o',
+    appId: '1:957679485136:android:1ab4af43ef93344d98ded5',
+    messagingSenderId: '957679485136',
+    projectId: 'openlearning-smart-tv',
+    storageBucket: 'openlearning-smart-tv.firebasestorage.app',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDyXEgzlGjy2DlOzgwo7V8ep7YamSvKOPg',
+    appId: '1:957679485136:web:cd6e065923bb08a998ded5',
+    messagingSenderId: '957679485136',
+    projectId: 'openlearning-smart-tv',
+    authDomain: 'openlearning-smart-tv.firebaseapp.com',
+    storageBucket: 'openlearning-smart-tv.firebasestorage.app',
+    measurementId: 'G-K8GK1FQEKZ',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCMfcjBx1cOsCd4bQkr2QngbdczWVhw3bI',
+    appId: '1:957679485136:ios:db023973c7cd0d4798ded5',
+    messagingSenderId: '957679485136',
+    projectId: 'openlearning-smart-tv',
+    storageBucket: 'openlearning-smart-tv.firebasestorage.app',
+    iosBundleId: 'com.example.smart',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCMfcjBx1cOsCd4bQkr2QngbdczWVhw3bI',
+    appId: '1:957679485136:ios:db023973c7cd0d4798ded5',
+    messagingSenderId: '957679485136',
+    projectId: 'openlearning-smart-tv',
+    storageBucket: 'openlearning-smart-tv.firebasestorage.app',
+    iosBundleId: 'com.example.smart',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDyXEgzlGjy2DlOzgwo7V8ep7YamSvKOPg',
+    appId: '1:957679485136:web:bf06aae5227362e198ded5',
+    messagingSenderId: '957679485136',
+    projectId: 'openlearning-smart-tv',
+    authDomain: 'openlearning-smart-tv.firebaseapp.com',
+    storageBucket: 'openlearning-smart-tv.firebasestorage.app',
+    measurementId: 'G-CE5SZHMZ6Z',
+  );
+
 }
