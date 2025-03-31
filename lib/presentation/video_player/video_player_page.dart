@@ -65,6 +65,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
             print(
                 'VideoPlayerPage done:${widget.args.type} ${widget.args.title} - ${widget.args.detailModel?.title} - G ${widget.args.grandParentId} - P ${widget.args.parentId}');
+                
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,

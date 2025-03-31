@@ -15,10 +15,6 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:open_learning_smart_tv/core/database/app_database.dart'
     as _i318;
-import 'package:open_learning_smart_tv/core/database/tables/local_notifications/local_notifications_dao.dart'
-    as _i460;
-import 'package:open_learning_smart_tv/core/database/tables/offline_player_tracking/offline_statements_dao.dart'
-    as _i539;
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart'
     as _i495;
 import 'package:open_learning_smart_tv/core/env/env.dart' as _i1001;
@@ -308,26 +304,10 @@ import 'package:open_learning_smart_tv/domain/use_cases/detail/get_tools_use_cas
     as _i144;
 import 'package:open_learning_smart_tv/domain/use_cases/detail/remove_favourite_use_case.dart'
     as _i487;
-import 'package:open_learning_smart_tv/domain/use_cases/download/cancel_download_use_case.dart'
-    as _i831;
-import 'package:open_learning_smart_tv/domain/use_cases/download/delete_download_use_case.dart'
-    as _i316;
-import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_download_content_info_use_case.dart'
-    as _i25;
-import 'package:open_learning_smart_tv/domain/use_cases/download/query_download_manager_use_case.dart'
-    as _i381;
-import 'package:open_learning_smart_tv/domain/use_cases/download/remove_stored_download_content_info_use_case.dart'
-    as _i256;
 import 'package:open_learning_smart_tv/domain/use_cases/download/retrieve_download_info_use_case.dart'
     as _i121;
-import 'package:open_learning_smart_tv/domain/use_cases/download/schedule_download_use_case.dart'
-    as _i178;
-import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart'
-    as _i989;
 import 'package:open_learning_smart_tv/domain/use_cases/download_ics/download_events_use_case.dart'
     as _i1063;
-import 'package:open_learning_smart_tv/domain/use_cases/download_ics/get_events_use_case.dart'
-    as _i336;
 import 'package:open_learning_smart_tv/domain/use_cases/ecm/ecm_register_use_case.dart'
     as _i890;
 import 'package:open_learning_smart_tv/domain/use_cases/ecm/get_ecm_disciplines_use_case.dart'
@@ -456,8 +436,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/webview/web_view_player_
     as _i493;
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart'
     as _i1020;
-import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/calendar/cubit/ol_calendar_dialog_cubit.dart'
-    as _i715;
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/cubit/ol_download_dialog_cubit.dart'
     as _i192;
 import 'package:open_learning_smart_tv/presentation/common/widgets/logo_app_header/cubit/app_logo_cubit.dart'
@@ -594,8 +572,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i7.SetStoredSmartConfigurationUseCase());
     gh.lazySingleton<_i1037.GetPageSizeStripUseCase>(
         () => _i1037.GetPageSizeStripUseCase());
-    gh.lazySingleton<_i381.QueryDownloadManagerUseCase>(
-        () => _i381.QueryDownloadManagerUseCase());
     gh.lazySingleton<_i832.GetSecureStoredUserInfoUseCase>(
         () => _i832.GetSecureStoredUserInfoUseCase());
     gh.lazySingleton<_i674.GetStoredCorporateIdUseCase>(
@@ -619,14 +595,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i623.SetSkipTutorialUseCase(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i959.GetSkipTutorialUseCase>(
         () => _i959.GetSkipTutorialUseCase(gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i256.RemoveStoredDownloadContentInfoUseCase>(() =>
-        _i256.RemoveStoredDownloadContentInfoUseCase(
-            gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i25.GetStoredDownloadContentInfoUseCase>(() =>
-        _i25.GetStoredDownloadContentInfoUseCase(
-            gh<_i460.SharedPreferences>()));
-    gh.lazySingleton<_i989.StoreDownloadContentInfoUseCase>(() =>
-        _i989.StoreDownloadContentInfoUseCase(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i838.GetSkipOnboardingUseCase>(
         () => _i838.GetSkipOnboardingUseCase(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i330.HandlerStoredUsernameUseCase>(() =>
@@ -657,6 +625,11 @@ extension GetItInjectableX on _i174.GetIt {
         _i350.ClearSecureStoredInitiativeUseCase(gh<_i129.OlSecureStorage>()));
     gh.lazySingleton<_i312.GetStoredCorporateIdSsUseCase>(
         () => _i312.GetStoredCorporateIdSsUseCase(gh<_i129.OlSecureStorage>()));
+    gh.lazySingleton<_i788.CleanLocalDatabaseUseCase>(
+        () => _i788.CleanLocalDatabaseUseCase(
+              gh<_i318.AppDatabase>(),
+              gh<_i460.SharedPreferences>(),
+            ));
     gh.lazySingleton<_i1001.Env>(
       () => _i1001.Prod(),
       registerFor: {_production},
@@ -686,10 +659,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i138.SplashScreenCubit>(() =>
         _i138.SplashScreenCubit(gh<_i224.GetSecureStoredUserInfoSsUseCase>()));
-    gh.lazySingleton<_i539.OfflineStatementsDao>(
-        () => _i539.OfflineStatementsDao(gh<_i318.AppDatabase>()));
-    gh.lazySingleton<_i460.LocalNotificationsDao>(
-        () => _i460.LocalNotificationsDao(gh<_i318.AppDatabase>()));
     gh.factory<_i2.OnboardingManagerCubit>(() => _i2.OnboardingManagerCubit(
           gh<_i492.GetStoredUserSelfUseCase>(),
           gh<_i838.GetSkipOnboardingUseCase>(),
@@ -734,29 +703,14 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i744.DownloadDataSource>(),
               gh<_i1001.Env>(),
             ));
-    gh.lazySingleton<_i178.ScheduleDownloadUseCase>(
-        () => _i178.ScheduleDownloadUseCase(gh<_i582.DownloadlRepository>()));
-    gh.lazySingleton<_i831.CancelDownloadUseCase>(
-        () => _i831.CancelDownloadUseCase(gh<_i582.DownloadlRepository>()));
     gh.lazySingleton<_i121.RetrieveDownloadInfoUseCase>(() =>
         _i121.RetrieveDownloadInfoUseCase(gh<_i582.DownloadlRepository>()));
-    gh.lazySingleton<_i316.DeleteDownloadUseCase>(
-        () => _i316.DeleteDownloadUseCase(gh<_i582.DownloadlRepository>()));
     gh.factory<_i76.PrivacyCubit>(
         () => _i76.PrivacyCubit(gh<_i596.SetPrivacyConsentUseCase>()));
     gh.lazySingleton<_i55.SessionRepository>(
         () => _i522.SessionRepositoryImpl(gh<_i188.SessionDataSource>()));
     gh.lazySingleton<_i771.GetQrCodeUseCase>(
         () => _i771.GetQrCodeUseCase(gh<_i188.SessionDataSource>()));
-    gh.lazySingleton<_i788.CleanLocalDatabaseUseCase>(
-        () => _i788.CleanLocalDatabaseUseCase(
-              gh<_i318.AppDatabase>(),
-              gh<_i460.SharedPreferences>(),
-              gh<_i381.QueryDownloadManagerUseCase>(),
-              gh<_i256.RemoveStoredDownloadContentInfoUseCase>(),
-              gh<_i831.CancelDownloadUseCase>(),
-              gh<_i316.DeleteDownloadUseCase>(),
-            ));
     gh.lazySingleton<_i381.SetInitiativeUseCase>(
         () => _i381.SetInitiativeUseCase(gh<_i55.SessionRepository>()));
     gh.lazySingleton<_i140.CheckSessionUseCase>(
@@ -1081,8 +1035,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i552.GetUserImageUseCase(gh<_i399.UserImageRepository>()));
     gh.lazySingleton<_i719.SearchRepository>(
         () => _i1030.SearchRepositoryImpl(gh<_i637.SearchDataSource>()));
-    gh.lazySingleton<_i336.GetEventsUseCase>(
-        () => _i336.GetEventsUseCase(gh<_i252.DownloadIcsRepository>()));
     gh.lazySingleton<_i1063.DownloadEventsUseCase>(
         () => _i1063.DownloadEventsUseCase(gh<_i252.DownloadIcsRepository>()));
     gh.lazySingleton<_i502.LikePostUseCase>(() => _i502.LikePostUseCase(
@@ -1141,8 +1093,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i730.GetLearnerGoalsUseCase>(),
           gh<_i361.GetLearnerProgressUseCase>(),
         ));
-    gh.factory<_i715.OlCalendarDialogCubit>(
-        () => _i715.OlCalendarDialogCubit(gh<_i336.GetEventsUseCase>()));
     gh.lazySingleton<_i783.GetStandardStripUseCase>(
         () => _i783.GetStandardStripUseCase(
               gh<_i508.StripRepository>(),
@@ -1308,22 +1258,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i832.GetSecureStoredUserInfoUseCase>(),
           gh<_i674.GetStoredCorporateIdUseCase>(),
         ));
-    gh.factory<_i723.DetailPageCubit>(() => _i723.DetailPageCubit(
-          gh<_i807.GetDetailPageUseCase>(),
-          gh<_i144.GetToolsUseCase>(),
-          gh<_i238.GetRelatedActivitiesUseCase>(),
-          gh<_i16.GetEditionsUseCase>(),
-          gh<_i688.GetSharedPostsUseCase>(),
-          gh<_i26.AutoEnrollmentUseCase>(),
-          gh<_i801.StartResumeUseCase>(),
-          gh<_i306.GetStoredSmartConfigurationUseCase>(),
-          gh<_i325.EditionRegisterUseCase>(),
-          gh<_i1056.BottomEnrollmentUseCase>(),
-          gh<_i664.ContinueLearningStripCubit>(),
-          gh<_i54.DeletePostUseCase>(),
-          gh<_i25.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i989.StoreDownloadContentInfoUseCase>(),
-        ));
     gh.factory<_i192.OlDownloadDialogCubit>(
         () => _i192.OlDownloadDialogCubit(gh<_i1063.DownloadEventsUseCase>()));
     gh.factory<_i120.CalendarStripCubit>(
@@ -1382,18 +1316,23 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i393.TeacherDetailSheetCubit>(() =>
         _i393.TeacherDetailSheetCubit(gh<_i581.GetTeacherDetailUseCase>()));
-    gh.factory<_i544.VideoPlayerCubit>(() => _i544.VideoPlayerCubit(
-          gh<_i615.StatementsUseCase>(),
-          gh<_i1003.SetStateUseCase>(),
-          gh<_i740.GetStateUseCase>(),
-          gh<_i121.RetrieveDownloadInfoUseCase>(),
-          gh<_i664.ContinueLearningStripCubit>(),
-          gh<_i25.GetStoredDownloadContentInfoUseCase>(),
-          gh<_i989.StoreDownloadContentInfoUseCase>(),
-        ));
     gh.factory<_i102.RatingCubit>(() => _i102.RatingCubit(
           gh<_i926.GetRatingUseCase>(),
           gh<_i306.GetStoredSmartConfigurationUseCase>(),
+        ));
+    gh.factory<_i723.DetailPageCubit>(() => _i723.DetailPageCubit(
+          gh<_i807.GetDetailPageUseCase>(),
+          gh<_i144.GetToolsUseCase>(),
+          gh<_i238.GetRelatedActivitiesUseCase>(),
+          gh<_i16.GetEditionsUseCase>(),
+          gh<_i688.GetSharedPostsUseCase>(),
+          gh<_i26.AutoEnrollmentUseCase>(),
+          gh<_i801.StartResumeUseCase>(),
+          gh<_i306.GetStoredSmartConfigurationUseCase>(),
+          gh<_i325.EditionRegisterUseCase>(),
+          gh<_i1056.BottomEnrollmentUseCase>(),
+          gh<_i664.ContinueLearningStripCubit>(),
+          gh<_i54.DeletePostUseCase>(),
         ));
     gh.factory<_i531.WallCubit>(() => _i531.WallCubit(
           gh<_i931.GetWallStripContentUseCase>(),
@@ -1407,6 +1346,13 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i872.TopicsFilterCubit>(
         () => _i872.TopicsFilterCubit(gh<_i351.GetTopicsUseCase>()));
+    gh.factory<_i544.VideoPlayerCubit>(() => _i544.VideoPlayerCubit(
+          gh<_i615.StatementsUseCase>(),
+          gh<_i1003.SetStateUseCase>(),
+          gh<_i740.GetStateUseCase>(),
+          gh<_i121.RetrieveDownloadInfoUseCase>(),
+          gh<_i664.ContinueLearningStripCubit>(),
+        ));
     gh.factory<_i269.ToolItemCubit>(
         () => _i269.ToolItemCubit(gh<_i649.GetToolUrlUseCase>()));
     return this;

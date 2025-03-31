@@ -9,7 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:scaled_app/scaled_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,13 +60,6 @@ Future<void> bootstrap(Env env) async {
 
   await ColorManager().retrieveBaseColors(rootBundle);
   await ConfigManager().retrieveRemoteConfig();
-  await FlutterDownloader.initialize(
-      debug:
-          true, // optional: set to false to disable printing logs to console (default: true)
-      ignoreSsl:
-          false // option: set to false to disable working with http links (default: false)
-      );
-
   await getIt<RemoteLabels>().initialize();
   //AppRouter.I.setRouter();
 }

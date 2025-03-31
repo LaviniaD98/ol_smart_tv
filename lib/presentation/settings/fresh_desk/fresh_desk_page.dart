@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
@@ -86,12 +85,12 @@ class FreshDeskPage extends StatelessWidget {
 
   Future<List<String>> _androidFilePicker(
       final FileSelectorParams params) async {
-    final result = await FilePicker.platform.pickFiles();
+    // final result = await FilePicker.platform.pickFiles();
 
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
-      return [file.uri.toString()];
-    }
+    // if (result != null && result.files.single.path != null) {
+    //   final file = File(result.files.single.path!);
+    //   return [file.uri.toString()];
+    // }
     return [];
   }
 }

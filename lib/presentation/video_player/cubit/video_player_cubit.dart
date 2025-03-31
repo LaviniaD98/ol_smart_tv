@@ -1,6 +1,4 @@
-import 'package:open_learning_smart_tv/domain/entities/download/downloaded_item.dart';
-import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_download_content_info_use_case.dart';
-import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart';
+import 'package:open_learning_smart_tv/domain/entities/download/source_model.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/statements/get_state_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/statements/set_state_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/statements/statements_use_case.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:video_player/video_player.dart';
-import '../../../domain/entities/download/source_model.dart';
 import '../../../domain/use_cases/download/retrieve_download_info_use_case.dart';
 import '../../dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart';
 
@@ -25,9 +22,6 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   final GetStateUseCase _getStateUseCase;
   final RetrieveDownloadInfoUseCase _retrieveDownloadInfoUseCase;
   final ContinueLearningStripCubit _continueLearningStripCubit;
-  final GetStoredDownloadContentInfoUseCase
-      _getStoredDownloadContentInfoUseCase;
-  final StoreDownloadContentInfoUseCase _storeDownloadContentInfoUseCase;
 
   String statementId = "";
 
@@ -37,8 +31,6 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
     this._getStateUseCase,
     this._retrieveDownloadInfoUseCase,
     this._continueLearningStripCubit,
-    this._getStoredDownloadContentInfoUseCase,
-    this._storeDownloadContentInfoUseCase,
   ) : super(const VideoPlayerState.loading());
 
   void init(String? brightcoveId, VideoPlayerPageArgs args) async {
@@ -58,32 +50,19 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
                   args.typology!, args.id.toString(), args.tentativeId);
               res.fold((l) {
                 emit(VideoPlayerState.done(source, const Duration(seconds: 0)));
-                _updateLocalFile(args.id.toString(), 0);
               }, (r) {
                 double duration = r.attemptDuration!;
                 emit(VideoPlayerState.done(
                     source, Duration(seconds: duration.toInt())));
-                _updateLocalFile(args.id.toString(), duration.toInt());
               });
             } else {
               emit(VideoPlayerState.done(source, const Duration(seconds: 0)));
-              _updateLocalFile(args.id.toString(), 0);
             }
           } else {
             // emit(const VideoPlayerState.error());
           }
         },
       );
-    }
-  }
-
-  void _updateLocalFile(String loId, int currentBookmark) async {
-    DownloadedItem? downloadedItem =
-        await _getStoredDownloadContentInfoUseCase.call(loId);
-    if (downloadedItem != null) {
-      downloadedItem.bookmark = currentBookmark;
-      await _storeDownloadContentInfoUseCase.storeDownloadItem(
-          downloadedItem, loId);
     }
   }
 
@@ -104,7 +83,6 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
         duration: duration,
         tentativeId: args.tentativeId,
       );
-      _updateLocalFile(args.id.toString(), duration.inSeconds);
     }
   }
 

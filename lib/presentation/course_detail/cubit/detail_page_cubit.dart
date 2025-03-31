@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/domain/entities/community/community_posts_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
-import 'package:open_learning_smart_tv/domain/entities/download/downloaded_item.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/editions_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/releated_learning_activity_response_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/tool_response_model.dart';
@@ -12,8 +11,6 @@ import 'package:open_learning_smart_tv/domain/use_cases/detail/get_detail_page_u
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_editions_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_related_activities_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/detail/get_tools_use_case.dart';
-import 'package:open_learning_smart_tv/domain/use_cases/download/get_stored_download_content_info_use_case.dart';
-import 'package:open_learning_smart_tv/domain/use_cases/download/store_download_content_info_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/edition/edition_register_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
@@ -56,9 +53,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
   final BottomEnrollmentUseCase _bottomEnrollmentUseCase;
   final ContinueLearningStripCubit _continueLearningStripCubit;
   final DeletePostUseCase _deletePostUseCase;
-  final GetStoredDownloadContentInfoUseCase
-      _getStoredDownloadContentInfoUseCase;
-  final StoreDownloadContentInfoUseCase _storeDownloadContentInfoUseCase;
 
   bool callingApi = false;
 
@@ -85,8 +79,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     this._bottomEnrollmentUseCase,
     this._continueLearningStripCubit,
     this._deletePostUseCase,
-    this._getStoredDownloadContentInfoUseCase,
-    this._storeDownloadContentInfoUseCase,
   ) : super(const DetailPageState.loading());
 
   final _pageSize =
@@ -144,8 +136,6 @@ class DetailPageCubit extends Cubit<DetailPageState> {
         pagedController.addPageRequestListener(_listener);
 
         emit(Success(selectedIndex, detailPageModel, smartConfig));
-
-        _checkLocalFile(detailPageModel);
       },
     );
   }
@@ -343,14 +333,4 @@ class DetailPageCubit extends Cubit<DetailPageState> {
   }
 
   void refreshContinueLearningStrip() => _continueLearningStripCubit.refresh();
-
-  void _checkLocalFile(DetailPageModel detailPageModel) async {
-    DownloadedItem? downloadedItem = await _getStoredDownloadContentInfoUseCase
-        .call(detailPageModel.id.toString());
-    if (downloadedItem != null) {
-      downloadedItem.iconStatus = detailPageModel.iconStatus;
-      await _storeDownloadContentInfoUseCase.storeDownloadItem(
-          downloadedItem, detailPageModel.id.toString());
-    }
-  }
 }

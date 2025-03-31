@@ -21,7 +21,6 @@ import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 import 'presentation/app_state/cubit/app_cubit.dart';
 import 'presentation/corporate_code/cubit/corporate_code_cubit.dart';
@@ -140,22 +139,9 @@ class _ApplicationState extends State<Application> {
                         return MediaQuery(
                           data: MediaQuery.of(context).copyWith(
                               navigationMode: NavigationMode.directional),
-                          child: ResponsiveBreakpoints.builder(
-                            child: GlowTheme(
-                              lightTheme: theme,
-                              child: child!,
-                            ),
-                            useShortestSide: true,
-                            debugLog: true,
-                            breakpoints: [
-                              const Breakpoint(
-                                  start: 801, end: 1920, name: DESKTOP),
-                              const Breakpoint(
-                                start: 1921,
-                                end: double.infinity,
-                                name: '4K',
-                              ),
-                            ],
+                          child: GlowTheme(
+                            lightTheme: theme,
+                            child: child ?? const SizedBox(),
                           ),
                         );
                       },

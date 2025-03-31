@@ -116,9 +116,7 @@ class _WebViewPageState extends State<WebViewPage> {
                     if (continueRes == true) {
                       final res = await launchUrl(
                         Uri.parse(playerUrl),
-                        mode: widget.isYoutube
-                            ? LaunchMode.externalApplication
-                            : LaunchMode.inAppWebView,
+                        mode: LaunchMode.inAppWebView,
                       );
 
                       if (res) {
