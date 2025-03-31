@@ -77,9 +77,9 @@ class _WeekRowState extends State<WeekRow> {
                           firstDay: DateTime.now()
                               .subtract(const Duration(days: 365)),
                           lastDay:
-                              DateTime.now().add(const Duration(days: 365)),
-                          focusedDay: sDay,
-                          currentDay: fDay,
+                              DateTime.now().add(const Duration(days: 800)),
+                          focusedDay: fDay,
+                          currentDay: sDay,
                           calendarFormat: CalendarFormat.week,
                           availableCalendarFormats: const {
                             CalendarFormat.week: 'Week',
@@ -207,8 +207,7 @@ class _WeekRowState extends State<WeekRow> {
                               outline: true,
                               image: 'assets/icons/arrow_left.svg',
                               onPressed: () async {
-                                pageController.animateToPage(
-                                  (pageController.page?.toInt() ?? 0) - 1,
+                                pageController.previousPage(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );
@@ -219,8 +218,7 @@ class _WeekRowState extends State<WeekRow> {
                               outline: true,
                               image: 'assets/icons/arrow_right.svg',
                               onPressed: () {
-                                pageController.animateToPage(
-                                  (pageController.page?.toInt() ?? 0) + 1,
+                                pageController.nextPage(
                                   duration: const Duration(milliseconds: 300),
                                   curve: Curves.easeInOut,
                                 );

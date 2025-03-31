@@ -475,7 +475,8 @@ class _DetailPageState extends State<DetailPage> {
 
         videoPlaying = true;
 
-        final res = await Nav.push(
+        //final res =
+        await Nav.push(
           context,
           screen: MultiBlocProvider(
             providers: [
@@ -497,10 +498,10 @@ class _DetailPageState extends State<DetailPage> {
         videoPlaying = false;
 
         WakelockPlus.disable();
-        if (res != null && res && context.mounted) {
-          /// reload detail
-          context.read<DetailPageCubit>().init(widget.args);
-        }
+        //if (res != null && res && context.mounted) {
+        /// reload detail
+        context.read<DetailPageCubit>().init(widget.args);
+        //}
       }
     } else {
       OlAlertDialog.show(
@@ -751,11 +752,13 @@ class _DetailPageState extends State<DetailPage> {
                     CourseModel cm = model.courses!
                         .where((element) => element.id == index)
                         .single;
+                    // print('CMD ID: ${cm.id}');
                     startOrResumeCheck(context, cm.id!, model);
                   } else {
                     LearningObjectModel lm = model.learningActivities!
                         .where((element) => element.id == index)
                         .single;
+                    // print('LMD ID: ${lm.id}');
                     startOrResumeCheck(context, lm.id, model);
                   }
                   break;

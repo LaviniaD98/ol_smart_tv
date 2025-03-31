@@ -285,6 +285,7 @@ class StripRowContentState extends State<StripRowContent>
   }
 
   void pushDetails({required LearningObjectModel item}) async {
+    print('ITEMMMMMMMM__________${item.parentId} - ${item.grandParentId}');
     final args = DetailPageArgs(
       id: item.id.toString(),
       object: item,

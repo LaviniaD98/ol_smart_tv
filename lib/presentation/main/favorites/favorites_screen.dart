@@ -35,7 +35,7 @@ class FavoritesScreen extends StatefulWidget {
 class _FavoritesScreenState extends State<FavoritesScreen> {
   MenuRoute? currentMenuRoute;
 
-  final focusNode = OlFocusScopeNode(id: 'ForYou');
+  final focusNode = OlFocusScopeNode(id: 'FavoritesScreen');
 
   @override
   void initState() {
@@ -62,6 +62,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+          print('vsldknvldfnvlkndfkvndnkfv LEFT');
           final focus = context.read<MainStateCubit>().state;
           focus.requestFocus();
         },
@@ -151,16 +152,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         contentSource?.entries.firstOrNull?.value.length ?? 0;
     return Stack(
       children: [
-        ListHeaderTitle(
-          title: LabelsManager().getRemoteStringFromLabelKeys(
-            RemoteLabelKeys.favourite_text,
-          ),
-          subtitle: favoritesLength > 0
-              ? LabelsManager()
-                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.saved_count)
-                  .replaceFirst('{{count}}', '$favoritesLength')
-              : null,
-        ),
         Padding(
           padding: const EdgeInsets.only(top: 140.0),
           child: FocusScope(
@@ -193,6 +184,16 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               },
             ),
           ),
+        ),
+        ListHeaderTitle(
+          title: LabelsManager().getRemoteStringFromLabelKeys(
+            RemoteLabelKeys.favourite_text,
+          ),
+          subtitle: favoritesLength > 0
+              ? LabelsManager()
+                  .getRemoteStringFromLabelKeys(RemoteLabelKeys.saved_count)
+                  .replaceFirst('{{count}}', '$favoritesLength')
+              : null,
         ),
       ],
     );

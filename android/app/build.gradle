@@ -57,22 +57,14 @@ android {
         versionName flutterVersionName
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile file('/Users/lavinia.dodu/Digited/open-learning-smart-tv/android/keystore/keystore.jks')
-//            storePassword 'Admin123*'
-//            keyAlias 'my-key-alias'
-//            keyPassword 'Admin123*'
-//        }
-//    }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
-//            signingConfig signingConfigs.release
-//            minifyEnabled true // Optional: Enable shrinking/obfuscation
+            //signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true // Optional: Enable shrinking/obfuscation
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -87,7 +79,7 @@ android {
         }
 
         production {
-            applicationId "com.digited.ol.smarttv.prod"
+            applicationId "com.digited.ol.smarttv"
             dimension "default"
         }
     }

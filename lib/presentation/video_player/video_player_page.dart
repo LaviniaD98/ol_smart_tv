@@ -57,6 +57,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           },
           tracking: (_) => _loading,
           done: (value) {
+            print(
+                '-----currentObject: ${widget.args.currentObject?.learningObjectTypology}');
+            print('parentId:: ${widget.args.currentObject?.parentId}');
+            print(
+                'grandparentId:: ${widget.args.currentObject?.grandParentId}');
+
+            print(
+                'VideoPlayerPage done:${widget.args.type} ${widget.args.title} - ${widget.args.detailModel?.title} - G ${widget.args.grandParentId} - P ${widget.args.parentId}');
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,

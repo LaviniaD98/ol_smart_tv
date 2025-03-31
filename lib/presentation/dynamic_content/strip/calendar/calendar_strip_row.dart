@@ -223,6 +223,7 @@ class _CalendarStripContentState extends State<CalendarStripContent> {
           highlighted: daysToHighlight ?? [],
           onTap: (date) {
             widget.selectedDayNotifier.value = date;
+            widget.focusedDayNotifier.value = date;
             context.read<CalendarStripCubit>().fetch(widget.strip, date);
           },
           onPageChanged: (p0) {

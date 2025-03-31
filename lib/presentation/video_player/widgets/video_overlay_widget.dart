@@ -78,6 +78,17 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     });
 
     widget.controller.addListener(handleProgressUpdate);
+
+    // context.read<DetailPageCubit>().getCourseDetails(
+    //       args: DetailPageArgs(
+    //         id: cc.id.toString(),
+    //         parentId: model.id.toString(),
+    //         parent: model,
+    //         object: null,
+    //         typology: cc.learningObjectTypology,
+    //         source: widget.args.source,
+    //       ),
+    //     );
   }
 
   @override

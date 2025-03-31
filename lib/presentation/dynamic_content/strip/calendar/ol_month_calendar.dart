@@ -125,7 +125,7 @@ class _OlMonthCalendarState extends State<OlMonthCalendar> {
                     children: [
                       TableCalendar<dynamic>(
                         focusedDay: fDay,
-                        currentDay: sDay,
+                        //currentDay: sDay,
                         firstDay: widget.firstDate ??
                             DateTime.now().subtract(const Duration(days: 365)),
                         lastDay: widget.lastDate ??

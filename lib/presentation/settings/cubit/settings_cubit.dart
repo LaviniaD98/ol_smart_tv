@@ -54,7 +54,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   Future<void> goToInitiatives() async {
-    emit(const SettingsState.loading());
+    //emit(const SettingsState.loading());
     final smartConfig = await _getStoredSmartConfigurationUseCase();
 
     var sessionRes = await _cognitoAuthManager.checkSession();

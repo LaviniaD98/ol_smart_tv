@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             body: Container(
               decoration: BoxDecoration(gradient: AppTheme.backgroundGradient),
               child: BlocConsumer<SettingsCubit, SettingsState>(
-                listener: (context, state) => state.whenOrNull(
+                listener: (_, state) => state.whenOrNull(
                   goToInitiatives: (session, model, sessionId) async {
                     Nav.push(
                       context,
@@ -91,7 +91,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     );
 
-                    return;
+                    return null;
                   },
                   error: () {
                     return OlAlertDialog.show(

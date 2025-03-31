@@ -1,7 +1,10 @@
 import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
+import 'package:open_learning_smart_tv/core/utils/nav.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/text_field_input.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
+import 'package:open_learning_smart_tv/presentation/corporate_code/corporate_code_page.dart';
 import 'package:open_learning_smart_tv/presentation/dynamic_content/cubit/favorites_content_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/languages/cubit/languages_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/languages/languages_page.dart';
@@ -9,10 +12,12 @@ import 'package:open_learning_smart_tv/presentation/main/main_state_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/splashscreen/cubit/splash_screen_cubit.dart';
 
 import 'package:open_learning_smart_tv/presentation/splashscreen/splashscreen_page.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
+import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';
@@ -82,7 +87,33 @@ class _ApplicationState extends State<Application> {
       child: ListenableBuilder(
           listenable: getIt<RemoteLabels>(),
           builder: (context, child) {
-            return BlocBuilder<AppCubit, AppState>(
+            return BlocConsumer<AppCubit, AppState>(
+              listener: (context, state) {
+                state.maybeMap(
+                  initial: (value) {
+                    if (value.showPopup == true) {
+                      Future.delayed(const Duration(milliseconds: 300), () {
+                        OlAlertDialog.show(
+                          manager.navKey.currentState!.context,
+                          title: LabelsManager().getRemoteStringFromLabelKeys(
+                              RemoteLabelKeys.info),
+                          message: LabelsManager().getRemoteStringFromLabelKeys(
+                              RemoteLabelKeys.session_expired),
+                          actionLabel: LabelsManager()
+                              .getRemoteStringFromLabelKeys(
+                                  RemoteLabelKeys.session_expired_ok_button),
+                        ).then((_) {
+                          Nav.pushAndRemoveUntil(
+                            manager.navKey.currentState!.context,
+                            screen: const CorporateCodePage(),
+                          );
+                        });
+                      });
+                    }
+                  },
+                  orElse: () {},
+                );
+              },
               builder: (_, state) => state.map(
                 initial: (value) {
                   return Shortcuts(

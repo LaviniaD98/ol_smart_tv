@@ -102,6 +102,10 @@ class ExploreScreenState extends State<ExploreScreen>
               }
               _policy.next(_focusNode);
             },
+            const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
+              final focus = context.read<MainStateCubit>().state;
+              focus.requestFocus();
+            },
           },
           child: FocusTraversalGroup(
             key: LabeledGlobalKey('FocusTraversalGroup - Main'),
@@ -176,9 +180,12 @@ class ExploreScreenState extends State<ExploreScreen>
                           ],
                         );
                       },
-                      loading: (value) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                      loading: (value) {
+                        print('skdnclsndclksndcks WEWWEEWEW');
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                       error: (value) => const SizedBox.shrink(),
                     );
                   },

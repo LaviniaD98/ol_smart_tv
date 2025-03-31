@@ -1,3 +1,4 @@
+import 'package:open_learning_smart_tv/app_manager.dart';
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
@@ -7,12 +8,12 @@ import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.da
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_selection_item.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
+import 'package:open_learning_smart_tv/presentation/corporate_code/corporate_code_page.dart';
 import 'package:open_learning_smart_tv/presentation/initiatives/cubit/initiatives_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/login/widgets/logo_banner.dart';
 import 'package:open_learning_smart_tv/presentation/ol_home_screen.dart';
 import 'package:open_learning_smart_tv/theme/app_theme.dart';
 import 'package:amazon_cognito_identity_dart_2/cognito.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,8 +35,6 @@ class _InitiativesPageState extends State<InitiativesPage> {
   final OrderedTraversalPolicy _focusNodeOrder = OrderedTraversalPolicy();
   final FocusNode _focusNode = FocusNode(canRequestFocus: false);
 
-  bool popping = false;
-
   @override
   void initState() {
     super.initState();
@@ -55,22 +54,56 @@ class _InitiativesPageState extends State<InitiativesPage> {
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
       policy: _focusNodeOrder,
-      child: PopScope(
-        onPopInvokedWithResult: (bool didPop, _) async {
-          if (kDebugMode) print("PopScope onPopInvoked popping: $popping");
-          if (widget.args.isFromSettings || popping) {
-            Navigator.of(context).pop();
-            return;
-          }
-          popping = true;
-          getIt<AppCubit>().logout();
-        },
-        canPop: false,
-        child: Focus(
+      child: Builder(builder: (context) {
+        final screen = Focus(
           focusNode: _focusNode,
           child: pageContent(),
-        ),
-      ),
+        );
+
+        if (widget.args.isFromSettings) {
+          return screen;
+        } else {
+          return PopScope(
+            onPopInvokedWithResult: (bool didPop, _) async {
+              OlAlertDialog.show(
+                context,
+                title: LabelsManager().getRemoteStringFromLabelKeys(
+                  RemoteLabelKeys.exit,
+                ),
+                message: LabelsManager()
+                    .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit_text),
+                actionLabel: '',
+                actions: [
+                  OLButton(
+                    title: LabelsManager()
+                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.cancel),
+                    outline: true,
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  OLButton(
+                    title: LabelsManager()
+                        .getRemoteStringFromLabelKeys(RemoteLabelKeys.exit),
+                    onPressed: () async {
+                      getIt<AppCubit>().logout();
+                      await Future.delayed(const Duration(milliseconds: 300),
+                          () {
+                        Nav.pushAndRemoveUntil(
+                          manager.navKey.currentState!.context,
+                          screen: const CorporateCodePage(),
+                        );
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+            canPop: false,
+            child: screen,
+          );
+        }
+      }),
     );
   }
 

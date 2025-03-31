@@ -1,13 +1,10 @@
 import 'package:open_learning_smart_tv/domain/entities/user/user_info_model.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/get_secure_stored_user_info_use_case.dart';
 import 'package:open_learning_smart_tv/presentation/app_state/cubit/app_cubit.dart';
-import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/wrappers/cognito_auth.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-
-import '../../remote_theming/config/remote_config_keys.dart';
 
 @lazySingleton
 class AuthenticationInterceptor extends InterceptorsWrapper {
@@ -54,13 +51,15 @@ class AuthenticationInterceptor extends InterceptorsWrapper {
   @override
   Future<void> onError(
       DioException err, ErrorInterceptorHandler handler) async {
+    //print('ON ERROR---------------${err.response?.statusCode}');
     if (err.response?.statusCode == 401) {
-      if (ConfigManager()
-          .getRemoteBoolean(RemoteConfigKeys.handle_expired_session, false)) {
-        _refreshToken(err.requestOptions, handler, null);
-      } else {
-        _appCubit.logout(showPopup: true);
-      }
+      _appCubit.logout(showPopup: true);
+      // if (ConfigManager()
+      //     .getRemoteBoolean(RemoteConfigKeys.handle_expired_session, false)) {
+      //   _refreshToken(err.requestOptions, handler, null);
+      // } else {
+      //   _appCubit.logout(showPopup: true);
+      // }
     } else {
       super.onError(err, handler);
     }
