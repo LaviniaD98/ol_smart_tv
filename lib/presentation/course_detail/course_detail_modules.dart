@@ -31,6 +31,10 @@ class CourseDetailModules extends StatefulWidget {
   final String? parentId;
   final void Function(CourseModel)? onLearningActivityFocused;
   final void Function(
+    LearningObjectModel? ll,
+    CourseModel? cc,
+  )? onEditionsFocused;
+  final void Function(
     LearningObjectModel?,
     CourseModel?,
     bool isSubActivities,
@@ -51,6 +55,7 @@ class CourseDetailModules extends StatefulWidget {
     required this.parentId,
     required this.onButtonPressed,
     this.onLearningActivityFocused,
+    this.onEditionsFocused,
     this.onResumeButtonFocused,
     this.isSubActivitites = false,
     this.autoFocus = false,
@@ -184,6 +189,17 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       bIsEnabled = llCh.buttonEnabled && ll.isEnable == true;
                     }
 
+                    if (ccCh?.buttonTitle.toLowerCase() == 'vedi le edizioni') {
+                      print(
+                          'cc.learningObjectTypology: ${cc?.learningObjectTypology}');
+                      print('cc.learningObjectType: ${cc?.learningObjectType}');
+                    }
+                    if (llCh?.buttonTitle.toLowerCase() == 'vedi le edizioni') {
+                      print(
+                          'cc.learningObjectTypology: ${ll?.learningObjectTypology}');
+                      print('cc.learningObjectType: ${ll?.learningObjectType}');
+                    }
+
                     /*
                      if (bIsEnabled) {
                             context.pushNamed(
@@ -262,6 +278,8 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                               } else if (type ==
                                   ButtonFocusedType.learningActivities) {
                                 widget.onLearningActivityFocused?.call(cc);
+                              } else if (type == ButtonFocusedType.editions) {
+                                widget.onEditionsFocused?.call(ll, cc);
                               }
                             },
                             onFocusChange: (hasFocus) {
@@ -304,6 +322,8 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                               if (type == ButtonFocusedType.resume) {
                                 widget.onResumeButtonFocused
                                     ?.call(ll, cc, widget.isSubActivitites);
+                              } else if (type == ButtonFocusedType.editions) {
+                                widget.onEditionsFocused?.call(ll, cc);
                               }
                             },
                             onFocusChange: (hasFocus) {

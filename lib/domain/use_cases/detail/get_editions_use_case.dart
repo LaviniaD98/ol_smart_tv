@@ -35,6 +35,8 @@ class GetEditionsUseCase {
               '{classroomId}',
               id,
             );
+
+    print('GET EDITIONS path: ${path}');
     return await _repository.getEditions(path);
   }
 }

@@ -120,6 +120,8 @@ class DetailPageCubit extends Cubit<DetailPageState> {
         tabValues[2].fold(
           (l) {},
           (r) {
+            print(
+                '  detailPageModel.editions: ${detailPageModel.editionsModel?.editions}');
             detailPageModel.editions = r as EditionsModel;
           },
         );
@@ -149,7 +151,45 @@ class DetailPageCubit extends Cubit<DetailPageState> {
 
     detailPageRes.fold(
       (l) {},
-      (detailPageModel) {
+      (detailPageModel) async {
+        var tabValues = await Future.wait([
+          _getTools(args.id),
+          _getRelatedActivities(args.id),
+          _getEditions(detailPageModel, args.id),
+          paginate ? _fetchInitialOpinions(args.id) : _getSharedPosts(args.id),
+        ]);
+
+        tabValues[0].fold(
+          (l) {
+            emit(const Error());
+          },
+          (r) {
+            detailPageModel.toolResponse = r as ToolResponseModel;
+          },
+        );
+        tabValues[1].fold(
+          (l) {},
+          (r) {
+            detailPageModel.releatedLearningActivity =
+                r as ReleatedLearningActivityResponseModel;
+          },
+        );
+        tabValues[2].fold(
+          (l) {},
+          (r) {
+            print('EDITIONS RESPONSE: ${(r as EditionsModel).editions}');
+            detailPageModel.editions = r as EditionsModel;
+
+            print(
+                '  detailPageModel.editions: ${detailPageModel.editionsModel?.editions}');
+          },
+        );
+        tabValues[3].fold(
+          (l) {},
+          (r) {
+            detailPageModel.sharedPosts = r as CommunityPostsModel;
+          },
+        );
         result = detailPageModel;
       },
     );

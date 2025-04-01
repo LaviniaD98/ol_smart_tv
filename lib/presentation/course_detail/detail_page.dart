@@ -289,6 +289,16 @@ class _DetailPageState extends State<DetailPage> {
                             child: ValueListenableBuilder(
                               valueListenable: _rightPanelState,
                               builder: (context, value, child) {
+                                // if (model.learningObjectTypology ==
+                                //         LearningObjectTypology.virtualClass ||
+                                //     model.learningObjectTypology ==
+                                //         LearningObjectTypology.physicalClass) {
+                                //   print(
+                                //       'skjdcsndcjnslkdnclksndlkcnskldncls----');
+                                //   return getTabEditions(model, false) ??
+                                //       const SizedBox.shrink();
+                                // }
+
                                 if (model.isLearningActivity()) {
                                   return ExcludeFocus(
                                     child: getTabDetail(model, false),
@@ -318,6 +328,18 @@ class _DetailPageState extends State<DetailPage> {
                                   builder: (context, state, child) {
                                     if (state == RightPanelState.details) {
                                       String? description;
+
+                                      // TODO(UmbertoGrimaldi): Solve the EDITIONS VISIBILITY
+
+                                      /*if (model.learningObjectTypology ==
+                                              LearningObjectTypology
+                                                  .virtualClass ||
+                                          model.learningObjectTypology ==
+                                              LearningObjectTypology
+                                                  .physicalClass) {
+                                        return getTabEditions(model, false) ??
+                                            const SizedBox.shrink();
+                                      }*/
 
                                       if (value is LearningObjectModel) {
                                         description = value.longDescription ??
@@ -364,9 +386,20 @@ class _DetailPageState extends State<DetailPage> {
                 return const SizedBox.shrink();
               }
 
+              final model = snapshot.data!;
+
+              // TODO(UmbertoGrimaldi): Solve the EDITIONS VISIBILITY
+
+              /*if (model.learningObjectTypology ==
+                      LearningObjectTypology.virtualClass ||
+                  model.learningObjectTypology ==
+                      LearningObjectTypology.physicalClass) {
+                return getTabEditions(model, false) ?? const SizedBox.shrink();
+              }*/
+
               return getTabModules(
                 context,
-                snapshot.data!,
+                model,
                 false,
                 autoFocus: true,
                 isSubActivities: true,
@@ -725,6 +758,44 @@ class _DetailPageState extends State<DetailPage> {
                       );
             }
           },
+          onEditionsFocused: (ll, cc) async {
+            _subRightPanelState.value = RightPanelState.subActivities;
+
+            print(
+                'EDITIOINS FOCUSED------------JOJOJOJO ${ll?.id} -- ${cc?.id}');
+
+            if (ll != null) {
+              if (currentSubActivityId != ll.id.toString()) {
+                currentSubActivityId == ll.id.toString();
+                _subDetailsFutureNotifier.value =
+                    context.read<DetailPageCubit>().getCourseDetails(
+                          args: DetailPageArgs(
+                            id: ll.id.toString(),
+                            parentId: model.id.toString(),
+                            parent: model,
+                            object: null,
+                            typology: ll.learningObjectTypology,
+                            source: widget.args.source,
+                          ),
+                        );
+              }
+            } else if (cc != null) {
+              if (currentSubActivityId != cc.id.toString()) {
+                currentSubActivityId == cc.id.toString();
+                _subDetailsFutureNotifier.value =
+                    context.read<DetailPageCubit>().getCourseDetails(
+                          args: DetailPageArgs(
+                            id: cc.id.toString(),
+                            parentId: model.id.toString(),
+                            parent: model,
+                            object: null,
+                            typology: cc.learningObjectTypology,
+                            source: widget.args.source,
+                          ),
+                        );
+              }
+            }
+          },
           onButtonPressed: (
             int index,
             bool isACourse,
@@ -836,176 +907,6 @@ class _DetailPageState extends State<DetailPage> {
       }
     }
     return null;
-  }
-
-  int contentBarLength(
-      BuildContext context, DetailPageModel model, bool isTabHeader) {
-    int contentBarLength = 0;
-    switch (model.learningObjectTypology) {
-      case LearningObjectTypology.course:
-        if (model.learningActivities?.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        contentBarLength++;
-        if (model.toolResponseModel != null &&
-            model.toolResponseModel?.tools?.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        if (model.releatedLearningActivityResponseModel != null &&
-            model.releatedLearningActivityResponseModel
-                    ?.relatedLearningActivities?.isNotEmpty ==
-                true) {
-          contentBarLength++;
-        }
-        if (model.sharedPostsModel != null &&
-            model.sharedPostsModel?.data.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        break;
-      case LearningObjectTypology.path:
-        if ((model.courses?.isNotEmpty == true) ||
-            (model.learningActivities?.isNotEmpty == true)) {
-          contentBarLength++;
-        }
-        contentBarLength++;
-        if (model.toolResponseModel != null &&
-            model.toolResponseModel?.tools?.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        if (model.releatedLearningActivityResponseModel != null &&
-            model.releatedLearningActivityResponseModel
-                    ?.relatedLearningActivities?.isNotEmpty ==
-                true) {
-          contentBarLength++;
-        }
-        if (model.sharedPostsModel != null &&
-            model.sharedPostsModel?.data.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        break;
-      default:
-        contentBarLength++;
-        if (model.editionsModel != null &&
-            model.editionsModel?.editions?.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        if (model.toolResponseModel != null &&
-            model.toolResponseModel?.tools?.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        if (model.releatedLearningActivityResponseModel != null &&
-            model.releatedLearningActivityResponseModel
-                    ?.relatedLearningActivities?.isNotEmpty ==
-                true) {
-          contentBarLength++;
-        }
-        if (model.sharedPostsModel != null &&
-            model.sharedPostsModel?.data.isNotEmpty == true) {
-          contentBarLength++;
-        }
-        break;
-    }
-    return contentBarLength;
-  }
-
-  List<Widget> buildTabContentBar(BuildContext context, DetailPageModel model,
-      bool isTabHeader, SmartConfiguratorModel? smartConfig) {
-    List<Widget> widgets = [];
-    switch (model.learningObjectTypology) {
-      case LearningObjectTypology.course:
-        Widget? tabActivity = getTabActivity(model, isTabHeader, context);
-        if (tabActivity != null) {
-          widgets.add(tabActivity);
-        }
-        widgets.add(getTabDetail(model, isTabHeader));
-        Widget? tabInstruments = getTabTools(model, isTabHeader);
-        if (tabInstruments != null) {
-          widgets.add(tabInstruments);
-        }
-        Widget? tabRelated = getTabRelated(model, isTabHeader);
-        if (tabRelated != null) {
-          widgets.add(tabRelated);
-        }
-        break;
-      case LearningObjectTypology.path:
-        Widget tabModules = getTabModules(context, model, isTabHeader);
-        widgets.add(tabModules);
-        widgets.add(getTabDetail(model, isTabHeader));
-        Widget? tabInstruments = getTabTools(model, isTabHeader);
-        if (tabInstruments != null) {
-          widgets.add(tabInstruments);
-        }
-        Widget? tabRelated = getTabRelated(model, isTabHeader);
-        if (tabRelated != null) {
-          widgets.add(tabRelated);
-        }
-
-        break;
-      default:
-        widgets.add(getTabDetail(model, isTabHeader));
-        Widget? tabEditions = getTabEditions(model, isTabHeader);
-        if (tabEditions != null) {
-          widgets.add(tabEditions);
-        }
-        Widget? tabInstruments = getTabTools(model, isTabHeader);
-        if (tabInstruments != null) {
-          widgets.add(tabInstruments);
-        }
-        Widget? tabRelated = getTabRelated(model, isTabHeader);
-        if (tabRelated != null) {
-          widgets.add(tabRelated);
-        }
-        break;
-    }
-    return widgets;
-  }
-
-  Widget ratingStars(DetailPageModel model) {
-    return BlocConsumer<RatingCubit, RatingState>(
-      listener: (context, state) {},
-      buildWhen: (previous, current) => current.maybeMap(
-        Error: (_) => false,
-        orElse: () => true,
-      ),
-      builder: (context, state) => state.maybeWhen(
-        Success: (rating, maxStars, previousRating) =>
-            _ratingStarButton(model, rating, maxStars, context, previousRating),
-        orElse: () => const SizedBox(),
-      ),
-    );
-  }
-
-  Widget _ratingStarButton(DetailPageModel model, ObjectStatisticsDto? rating,
-      int? maxStars, BuildContext buildContext, int? previousRating) {
-    String iconPath = buildContext
-        .read<RatingCubit>()
-        .getRatingIconButton(rating, maxStars: maxStars);
-    return GestureDetector(
-      onTap: () async {
-        await showDialog(
-          context: buildContext,
-          barrierColor: ColorManager()
-              .getColorBackgroundDrawerWidget()
-              .withValues(alpha: .5),
-          builder: (_) => RatingsDialog(
-            detailPageModel: model,
-            max: maxStars ?? 5,
-            initialRating: previousRating ?? 0,
-          ),
-        );
-        if (buildContext.mounted) {
-          buildContext.read<RatingCubit>().updateRating(model);
-        }
-      },
-      behavior: HitTestBehavior.translucent,
-      child: SvgPicture.asset(
-        iconPath,
-        colorFilter: ColorFilter.mode(
-          ColorManager().getColorBackgroundPrimaryCta(),
-          BlendMode.srcIn,
-        ),
-      ),
-    );
   }
 }
 

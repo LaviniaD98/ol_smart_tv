@@ -5,7 +5,9 @@ import 'package:open_learning_smart_tv/core/utils/utility.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_button.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_icon_button.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/components/ol_image.dart';
+import 'package:open_learning_smart_tv/presentation/common/widgets/dialog/ol_alert_dialog.dart';
 import 'package:open_learning_smart_tv/presentation/common/widgets/tag/status_tag.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/widgets/badge_icon.dart';
@@ -20,6 +22,7 @@ import 'icon_text.dart';
 enum ButtonFocusedType {
   resume,
   learningActivities,
+  editions,
 }
 
 class CardModulo extends StatefulWidget {
@@ -181,57 +184,6 @@ class _CardModuloState extends State<CardModulo>
                           buildDurationTag(),
                         ],
                       ),
-
-                      // Immagine e testi risorse e attività
-                      /* Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      widget.numAttivita != null &&
-                                              widget.numAttivita != 0
-                                          ? IconText(
-                                              bkColor: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              text: LabelsManager()
-                                                  .getRemoteStringFromLabelKeys(
-                                                      RemoteLabelKeys.activity_other)
-                                                  .replaceFirst('{{count}}',
-                                                      widget.numAttivita.toString()),
-                                              textColor: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              icon: Icons.account_tree_outlined,
-                                              iconSize: 16,
-                                            )
-                                          : const SizedBox.shrink(),
-                                      const SizedBox(height: vPadding),
-                                      widget.numRisorse != null &&
-                                              widget.numRisorse != 0
-                                          ? IconText(
-                                              bkColor: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              text: LabelsManager()
-                                                  .getRemoteStringFromLabelKeys(
-                                                      RemoteLabelKeys.resource_other)
-                                                  .replaceFirst(
-                                                    '{{count}}',
-                                                    widget.numRisorse.toString(),
-                                                  ),
-                                              textColor: ColorManager()
-                                                  .getColorTextPrimary(),
-                                              icon: Icons.folder_copy_outlined,
-                                              iconSize: 16,
-                                            )
-                                          : const SizedBox.shrink(),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),*/
-                      //const SizedBox(height: 45),
-
                       Text(
                         widget.titolo.toUpperCase(),
                         maxLines: 2,
@@ -256,7 +208,6 @@ class _CardModuloState extends State<CardModulo>
                         const SizedBox(height: vPadding),
                         const Spacer(),
                       ],
-
                       buildButtons(),
                       const SizedBox(height: 24),
                       Column(
@@ -311,7 +262,6 @@ class _CardModuloState extends State<CardModulo>
   }
 
   Widget buildButtons() {
-    // pulsante e icona
     return SizedBox(
       child: FocusTraversalGroup(
         key: LabeledGlobalKey('BUTTONS TRAVERSAL - Main'),
@@ -338,10 +288,14 @@ class _CardModuloState extends State<CardModulo>
                 final f = FocusManager.instance.primaryFocus;
 
                 if (widget.isSubActivities) {
-                  context
-                      .read<DetailPageCubit>()
-                      .detailsFocusNode
-                      ?.requestFocus();
+                  if (f?.id == 'VIDEO-DETAILS-NESTED') {
+                    _policy.previous(_focusNode);
+                  } else {
+                    context
+                        .read<DetailPageCubit>()
+                        .detailsFocusNode
+                        ?.requestFocus();
+                  }
                 } else if (f?.id == 'BUTTON-0') {
                   context.read<DetailPageCubit>().leftPanelNode?.requestFocus();
                 } else {
@@ -387,6 +341,54 @@ class _CardModuloState extends State<CardModulo>
                     ),
                   ),
                 ),
+                if (widget.type != LearningObjectTypology.path &&
+                    widget.type != LearningObjectTypology.course) ...[
+                  const SizedBox(width: 24),
+                  if (widget.type == LearningObjectTypology.physicalClass) ...[
+                    FocusTraversalOrder(
+                      order: const NumericFocusOrder(2),
+                      child: OLButton(
+                        id: 'COURSE-EDITIONS',
+                        outline: true,
+                        onFocusChanded: (hasFocus) {
+                          if (hasFocus) {
+                            widget.onModuleButtonFocused?.call(
+                              ButtonFocusedType.editions,
+                            );
+                          }
+                        },
+                        onPressed: () {},
+                        title: 'Edizioni ',
+                      ),
+                    ),
+                  ] else ...[
+                    if (widget.isSubActivities) ...[
+                      FocusTraversalOrder(
+                        order: const NumericFocusOrder(2),
+                        child: OLIconButton(
+                          id: 'VIDEO-DETAILS-NESTED',
+                          outline: true,
+                          image: 'assets/icons/info.svg',
+                          onPressed: () {
+                            OlAlertDialog.showDetails(
+                              context,
+                              title: 'Dettagli del modulo',
+                              subtitle: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.what_to_expect),
+                              message: widget.descrizione,
+                              actionsHidden: true,
+                              minHeight: 500,
+                              actionLabel: LabelsManager()
+                                  .getRemoteStringFromLabelKeys(
+                                      RemoteLabelKeys.retry),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ],
                 const SizedBox(width: 24),
                 if (widget.numAttivita != null && widget.numAttivita != 0) ...[
                   Expanded(
