@@ -189,17 +189,6 @@ class _CourseDetailModulesState extends State<CourseDetailModules> {
                       bIsEnabled = llCh.buttonEnabled && ll.isEnable == true;
                     }
 
-                    if (ccCh?.buttonTitle.toLowerCase() == 'vedi le edizioni') {
-                      print(
-                          'cc.learningObjectTypology: ${cc?.learningObjectTypology}');
-                      print('cc.learningObjectType: ${cc?.learningObjectType}');
-                    }
-                    if (llCh?.buttonTitle.toLowerCase() == 'vedi le edizioni') {
-                      print(
-                          'cc.learningObjectTypology: ${ll?.learningObjectTypology}');
-                      print('cc.learningObjectType: ${ll?.learningObjectType}');
-                    }
-
                     /*
                      if (bIsEnabled) {
                             context.pushNamed(

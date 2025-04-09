@@ -1,4 +1,3 @@
-import 'package:auto_orientation/auto_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -49,9 +48,6 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
               controller: widget.controller,
               args: widget.args,
               scrubberActionsArgs: widget.scrubberActionsArgs,
-              onFullScreen: () {
-                AutoOrientation.landscapeAutoMode();
-              },
             ),
           ),
         ],

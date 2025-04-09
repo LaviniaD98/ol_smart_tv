@@ -78,6 +78,8 @@ class LearningObjectDto {
     this.tentativeId,
     this.ecmRegistration,
     this.ecmSpecialization,
+    this.courseDetails,
+    this.rootDetails,
   );
 
   factory LearningObjectDto.fromJson(Map<String, dynamic> json) =>
@@ -217,4 +219,8 @@ class LearningObjectDto {
   final bool? ecmRegistration;
   @JsonKey()
   final bool? ecmSpecialization;
+  @JsonKey()
+  final LearningObjectDto? courseDetails;
+  @JsonKey()
+  final LearningObjectDto? rootDetails;
 }

@@ -74,7 +74,7 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
 
   @override
   void dispose() {
-    if (controller.value.isPlaying) controller.pause();
+    // if (controller.value.isPlaying) controller.pause();
     controller.dispose();
     super.dispose();
   }

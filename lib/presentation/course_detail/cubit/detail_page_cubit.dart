@@ -144,52 +144,67 @@ class DetailPageCubit extends Cubit<DetailPageState> {
 
   Future<DetailPageModel?> getCourseDetails({
     required DetailPageArgs args,
+    bool nativeMethod = false,
   }) async {
-    final detailPageRes = await _getDetailPageUseCase(args, args.typology);
+    Either<Failure, DetailPageModel> detailPageRes;
+
+    if (nativeMethod) {
+      detailPageRes = await _getDetailPageUseCase.callDetailPage(
+        args.id,
+        args.parentId ?? '',
+        args.grandParentId ?? '',
+        args.typology,
+      );
+    } else {
+      detailPageRes = await _getDetailPageUseCase(args, args.typology);
+    }
 
     DetailPageModel? result;
 
     detailPageRes.fold(
-      (l) {},
+      (l) {
+        print('LEFT..........${l.error}');
+      },
       (detailPageModel) async {
-        var tabValues = await Future.wait([
-          _getTools(args.id),
-          _getRelatedActivities(args.id),
-          _getEditions(detailPageModel, args.id),
-          paginate ? _fetchInitialOpinions(args.id) : _getSharedPosts(args.id),
-        ]);
+        // print('detailPageModel--: ${detailPageModel.title}');
+        // var tabValues = await Future.wait([
+        //   _getTools(args.id),
+        //   _getRelatedActivities(args.id),
+        //   _getEditions(detailPageModel, args.id),
+        //   paginate ? _fetchInitialOpinions(args.id) : _getSharedPosts(args.id),
+        // ]);
 
-        tabValues[0].fold(
-          (l) {
-            emit(const Error());
-          },
-          (r) {
-            detailPageModel.toolResponse = r as ToolResponseModel;
-          },
-        );
-        tabValues[1].fold(
-          (l) {},
-          (r) {
-            detailPageModel.releatedLearningActivity =
-                r as ReleatedLearningActivityResponseModel;
-          },
-        );
-        tabValues[2].fold(
-          (l) {},
-          (r) {
-            print('EDITIONS RESPONSE: ${(r as EditionsModel).editions}');
-            detailPageModel.editions = r as EditionsModel;
+        // tabValues[0].fold(
+        //   (l) {
+        //     emit(const Error());
+        //   },
+        //   (r) {
+        //     detailPageModel.toolResponse = r as ToolResponseModel;
+        //   },
+        // );
+        // tabValues[1].fold(
+        //   (l) {},
+        //   (r) {
+        //     detailPageModel.releatedLearningActivity =
+        //         r as ReleatedLearningActivityResponseModel;
+        //   },
+        // );
+        // tabValues[2].fold(
+        //   (l) {},
+        //   (r) {
+        //     print('EDITIONS RESPONSE: ${(r as EditionsModel).editions}');
+        //     detailPageModel.editions = r as EditionsModel;
 
-            print(
-                '  detailPageModel.editions: ${detailPageModel.editionsModel?.editions}');
-          },
-        );
-        tabValues[3].fold(
-          (l) {},
-          (r) {
-            detailPageModel.sharedPosts = r as CommunityPostsModel;
-          },
-        );
+        //     print(
+        //         '  detailPageModel.editions: ${detailPageModel.editionsModel?.editions}');
+        //   },
+        // );
+        // tabValues[3].fold(
+        //   (l) {},
+        //   (r) {
+        //     detailPageModel.sharedPosts = r as CommunityPostsModel;
+        //   },
+        // );
         result = detailPageModel;
       },
     );
@@ -231,6 +246,9 @@ class DetailPageCubit extends Cubit<DetailPageState> {
       if (kDebugMode) print("getStartOrResumeModel callingApi SET to false");
       return null;
     }, (srResponseModel) async {
+      print(
+        'SRRESPONSE MODEL: ${srResponseModel.title} courseDetails:${srResponseModel.courseDetails?.title} -  rootDetails:${srResponseModel.rootDetails?.title}',
+      );
       if ((detail.learningObjectTypology == LearningObjectTypology.path ||
               detail.learningObjectTypology == LearningObjectTypology.course) &&
           srResponseModel.isToj()) {
@@ -246,6 +264,7 @@ class DetailPageCubit extends Cubit<DetailPageState> {
           if (kDebugMode)
             print("getStartOrResumeModel callingApi SET to false");
         } else {
+          print('READY TO PLAY-................');
           emit(DetailPageState.readyToPlay(
               srResponseModel, detail, playerContext));
           await Future.delayed(const Duration(milliseconds: 300));

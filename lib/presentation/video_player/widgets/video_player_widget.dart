@@ -81,6 +81,7 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void dispose() {
     widget.args.controller.removeListener(listener);
+    widget.args.controller.dispose();
     super.dispose();
   }
 
@@ -130,6 +131,8 @@ class VideoPlayerArgs {
   final String? grandParentId;
   final String? parentId;
   final LearningObjectModel? currentObject;
+  final DetailPageModel? courseDetailModel;
+  final DetailPageModel? rootModel;
 
   VideoPlayerArgs(
     this.url, {
@@ -150,6 +153,8 @@ class VideoPlayerArgs {
     this.grandParentId,
     this.parentId,
     this.currentObject,
+    this.courseDetailModel,
+    this.rootModel,
   });
 }
 

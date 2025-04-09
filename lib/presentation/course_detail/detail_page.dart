@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
-import 'package:open_learning_smart_tv/data/models/responses/generic/object_statistics_dto.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
@@ -14,7 +13,6 @@ import 'package:open_learning_smart_tv/presentation/course_detail/common/lo_type
 import 'package:open_learning_smart_tv/presentation/course_detail/course_detail_editions.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/favorites/cubit/favourite_cubit.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/learning_activity_row.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/web_player/cubit/web_view_page_cubit.dart';
@@ -31,11 +29,9 @@ import '../../domain/entities/generic/course_model.dart';
 import '../../domain/entities/smart_configurator/smart_configurator_model.dart';
 import '../common/widgets/dialog/ol_alert_dialog.dart';
 import '../common/widgets/error/error_screen.dart';
-import '../common/widgets/rating/ratings_dialog.dart';
 import '../video_player/video_player_page.dart';
 import 'course_detail_modules.dart';
 import 'details_tab.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'widgets/dynamic_sliver_detail_header.dart';
 import 'widgets/tools/tools_list.dart';
@@ -72,6 +68,9 @@ class _DetailPageState extends State<DetailPage> {
   final ValueNotifier<Object?> currentModule = ValueNotifier(null);
 
   String? currentSubActivityId;
+
+  DetailPageModel? courseInPath;
+  bool isLaunchingSubActivity = false;
 
   @override
   void initState() {
@@ -387,6 +386,7 @@ class _DetailPageState extends State<DetailPage> {
               }
 
               final model = snapshot.data!;
+              courseInPath = model;
 
               // TODO(UmbertoGrimaldi): Solve the EDITIONS VISIBILITY
 
@@ -405,8 +405,10 @@ class _DetailPageState extends State<DetailPage> {
                 isSubActivities: true,
               );
             } else if (snapshot.connectionState == ConnectionState.waiting) {
+              courseInPath = null;
               return const Center(child: CircularProgressIndicator());
             } else {
+              courseInPath = null;
               return const SizedBox.shrink();
             }
           },
@@ -449,6 +451,35 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel detail,
     BuildContext? playerContext,
   ) async {
+    // final courseDetails = lo.courseDetails;
+
+    // print(
+    //     'courseDetails: ${courseDetails?.id} - ${courseDetails?.title} - ${courseDetails?.learningObjectTypology}');
+
+    // if (courseDetails != null) {
+    //   context
+    //       .read<DetailPageCubit>()
+    //       .getCourseDetails(
+    //         nativeMethod: true,
+    //         args: DetailPageArgs(
+    //           id: courseDetails.id.toString(),
+    //           parentId: detail.id.toString(),
+    //           //grandParentId: courseDetails.parentId?.toString(),
+    //           object: null,
+    //           typology: courseDetails.learningObjectTypology,
+    //           source: DetailsPresentingSource.explore,
+    //         ),
+    //       )
+    //       .then(
+    //     (response) {
+    //       print(
+    //           '----getCourseDetails: ${response?.title} - courses: ${response?.courses?.length}- learningActivity: ${response?.learningActivities?.length}');
+    //     },
+    //   );
+    // }
+
+    print('LO.....${lo.courseDetails?.title}');
+
     if (lo.fruitionFlag == true) {
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
         if (lo.link != null && context.mounted) {
@@ -486,6 +517,10 @@ class _DetailPageState extends State<DetailPage> {
       } else {
         WakelockPlus.enable();
 
+        print('isLaunchingSubActivity: ${isLaunchingSubActivity}');
+
+        print('courseInPath: ${courseInPath?.title} - ${detail.title}');
+
         final args = VideoPlayerPageArgs(
           id: lo.id,
           title: lo.title ?? '',
@@ -500,10 +535,15 @@ class _DetailPageState extends State<DetailPage> {
           grandParentId: widget.args.grandParentId,
           parentId: widget.args.parentId,
           currentObject: lo,
+          courseDetailModel: isLaunchingSubActivity ? courseInPath : detail,
+          rootModel: isLaunchingSubActivity ? detail : null,
         );
+
+        print('MODAL ROUTE: ${ModalRoute.of(context)?.settings.name}');
 
         if (playerContext != null) {
           Navigator.of(playerContext).pop();
+          //Navigator.of(playerContext).popUntil((r) => r.settings.name == '');
         }
 
         videoPlaying = true;
@@ -830,7 +870,16 @@ class _DetailPageState extends State<DetailPage> {
                         .where((element) => element.id == index)
                         .single;
                     // print('LMD ID: ${lm.id}');
-                    startOrResumeCheck(context, lm.id, model);
+                    print('QUIIIIII---------${isSubActivities}');
+                    if (isSubActivities) {
+                      print('QUIIIIII---------2');
+                      isLaunchingSubActivity = true;
+                      startOrResumeCheck(context, lm.id, courseInPath!);
+                    } else {
+                      isLaunchingSubActivity = false;
+                      print('QUIIIIII---------3');
+                      startOrResumeCheck(context, lm.id, model);
+                    }
                   }
                   break;
                 case ObjLOAction.autoEnrollmentBottom:
@@ -918,11 +967,13 @@ class DetailPageArgs {
   final DetailPageModel? parent;
   final LearningObjectModel? object;
   final DetailsPresentingSource source;
+  final LearningObjectModel? courseDetails;
 
   DetailPageArgs({
     required this.id,
     required this.typology,
     required this.source,
+    this.courseDetails,
     this.object,
     this.parentId,
     this.grandParentId,

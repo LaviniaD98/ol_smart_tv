@@ -62,7 +62,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
-          print('vsldknvldfnvlkndfkvndnkfv LEFT');
           final focus = context.read<MainStateCubit>().state;
           focus.requestFocus();
         },

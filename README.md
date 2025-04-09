@@ -1,4 +1,4 @@
-# smart
+# ol_smart_tv
 
 A new Flutter project.
 

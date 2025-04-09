@@ -134,6 +134,16 @@ LearningObjectDto _$LearningObjectDtoFromJson(Map<String, dynamic> json) =>
           $checkedConvert('tentativeId', (v) => (v as num?)?.toInt()),
           $checkedConvert('ecmRegistration', (v) => v as bool?),
           $checkedConvert('ecmSpecialization', (v) => v as bool?),
+          $checkedConvert(
+              'courseDetails',
+              (v) => v == null
+                  ? null
+                  : LearningObjectDto.fromJson(v as Map<String, dynamic>)),
+          $checkedConvert(
+              'rootDetails',
+              (v) => v == null
+                  ? null
+                  : LearningObjectDto.fromJson(v as Map<String, dynamic>)),
         );
         return val;
       },

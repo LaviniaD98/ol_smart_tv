@@ -76,6 +76,8 @@ class LearningObjectModel {
     this.tentativeId,
     this.ecmRegistration,
     this.ecmSpecialization,
+    this.courseDetails,
+    this.rootDetails,
   });
 
   factory LearningObjectModel.fromDto(LearningObjectDto dto) {
@@ -162,6 +164,12 @@ class LearningObjectModel {
       tentativeId: dto.tentativeId,
       ecmRegistration: dto.ecmRegistration,
       ecmSpecialization: dto.ecmSpecialization,
+      courseDetails: dto.courseDetails != null
+          ? LearningObjectModel.fromDto(dto.courseDetails!)
+          : null,
+      rootDetails: dto.rootDetails != null
+          ? LearningObjectModel.fromDto(dto.rootDetails!)
+          : null,
     );
   }
 
@@ -233,6 +241,8 @@ class LearningObjectModel {
   final int? tentativeId;
   final bool? ecmRegistration;
   final bool? ecmSpecialization;
+  final LearningObjectModel? courseDetails;
+  final LearningObjectModel? rootDetails;
 
   static String? _timeFormat(String? value) {
     if (value == null) return null;

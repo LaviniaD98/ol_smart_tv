@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +51,6 @@ class _OLSideNavigatorState extends State<OLSideNavigator> {
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (context.mounted) {
-        // ignore: use_build_context_synchronously
         // context
         //     .read<MainStateCubit>()
         //     .state

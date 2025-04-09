@@ -68,8 +68,11 @@ class ExploreScreenState extends State<ExploreScreen>
 
     context.read<MainStateCubit>().topicsFilterCubit?.refresh();
     Future.delayed(const Duration(milliseconds: 300), () {
-      autoScrollController.animateTo(0,
-          duration: Duration(milliseconds: 50), curve: Curves.linear);
+      autoScrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 50),
+        curve: Curves.linear,
+      );
     });
   }
 
@@ -181,7 +184,6 @@ class ExploreScreenState extends State<ExploreScreen>
                         );
                       },
                       loading: (value) {
-                        print('skdnclsndclksndcks WEWWEEWEW');
                         return const Center(
                           child: CircularProgressIndicator(),
                         );

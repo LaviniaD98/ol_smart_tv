@@ -153,7 +153,6 @@ class _ForYouScreenState extends State<ForYouScreen>
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {
-        print('focusNode.hasFocus: ${value}');
         if (value) {
           if (focusNode.focusedChild == null) {
             forYouFocusNode.requestFocus();

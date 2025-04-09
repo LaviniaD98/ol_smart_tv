@@ -1,5 +1,6 @@
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
+import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   dispose() {
+    print('DISPOSING_---------22222');
     controller?.dispose();
     super.dispose();
   }
@@ -40,7 +42,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 11, 1, 1),
       body: BlocConsumer<VideoPlayerCubit, VideoPlayerState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           state.maybeMap(
             done: (value) {
               controller = VideoPlayerController.networkUrl(
@@ -57,15 +59,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           },
           tracking: (_) => _loading,
           done: (value) {
-            print(
-                '-----currentObject: ${widget.args.currentObject?.learningObjectTypology}');
-            print('parentId:: ${widget.args.currentObject?.parentId}');
-            print(
-                'grandparentId:: ${widget.args.currentObject?.grandParentId}');
-
-            print(
-                'VideoPlayerPage done:${widget.args.type} ${widget.args.title} - ${widget.args.detailModel?.title} - G ${widget.args.grandParentId} - P ${widget.args.parentId}');
-                
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,
@@ -79,6 +72,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                 grandParentId: widget.args.grandParentId,
                 parentId: widget.args.parentId,
                 currentObject: widget.args.currentObject,
+                courseDetailModel: widget.args.courseDetailModel,
+                rootModel: widget.args.rootModel,
                 onTapDetail: () async {
                   bool enabled =
                       state.maybeMap(orElse: () => true, loading: (_) => false);
@@ -179,6 +174,9 @@ class VideoPlayerPageArgs {
   final String? grandParentId;
   final String? parentId;
   final LearningObjectModel? currentObject;
+  final DetailsPresentingSource? source;
+  final DetailPageModel? courseDetailModel;
+  final DetailPageModel? rootModel;
 
   VideoPlayerPageArgs({
     required this.id,
@@ -193,7 +191,10 @@ class VideoPlayerPageArgs {
     this.detailModel,
     this.grandParentId,
     this.parentId,
+    this.source,
     required this.args,
     required this.currentObject,
+    this.courseDetailModel,
+    this.rootModel,
   });
 }

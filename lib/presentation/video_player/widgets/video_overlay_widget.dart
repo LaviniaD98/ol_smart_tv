@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
+import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/generic/course_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/enums/types.dart';
@@ -65,6 +66,8 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
 
   bool isSeeking = false;
 
+  DetailPageModel? response;
+
   @override
   void initState() {
     super.initState();
@@ -79,16 +82,32 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
 
     widget.controller.addListener(handleProgressUpdate);
 
-    // context.read<DetailPageCubit>().getCourseDetails(
-    //       args: DetailPageArgs(
-    //         id: cc.id.toString(),
-    //         parentId: model.id.toString(),
-    //         parent: model,
-    //         object: null,
-    //         typology: cc.learningObjectTypology,
-    //         source: widget.args.source,
-    //       ),
-    //     );
+    final courseDetails = widget.args.currentObject?.courseDetails;
+
+    if (courseDetails != null) {
+      context
+          .read<DetailPageCubit>()
+          .getCourseDetails(
+            nativeMethod: true,
+            args: DetailPageArgs(
+              id: courseDetails.id.toString(),
+              parentId: widget.args.currentObject?.id.toString(),
+              //grandParentId: courseDetails.parentId?.toString(),
+              object: null,
+              typology: courseDetails.learningObjectTypology,
+              source: DetailsPresentingSource.explore,
+            ),
+          )
+          .then(
+        (response) {
+          setState(() {
+            this.response = response;
+          });
+        },
+      );
+    } else {
+      response = widget.args.detailModel;
+    }
   }
 
   @override
@@ -113,6 +132,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           setTimer();
         },
         const SingleActivator(LogicalKeyboardKey.pause): () {
+          print('KEY---TAP: 3');
           widget.controller.pause();
           showInfo.value = true;
         },
@@ -188,6 +208,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   void handleEnterButton() {
     if (focusNode.focusedChild?.id == 'VIDEO-CONTROLS') {
       if (widget.controller.value.isPlaying) {
+        print('KEY---TAP: 1');
         widget.controller.pause();
       } else {
         widget.controller.play();
@@ -394,24 +415,21 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   }
 
   Widget getHorizontalList() {
-    if (widget.args.detailModel != null) {
-      if ((widget.args.detailModel!.courses?.isNotEmpty == true) ||
-          (widget.args.detailModel!.learningActivities?.isNotEmpty == true)) {
+    if (response != null) {
+      if ((response!.courses?.isNotEmpty == true) ||
+          (response!.learningActivities?.isNotEmpty == true)) {
         var loCharacterization = CourseLogic().loCharacterizationNew(
-          status: widget.args.detailModel?.status ?? "",
-          learningObjectType: widget.args.detailModel!.learningObjectType,
-          learningObjectTypology:
-              widget.args.detailModel!.learningObjectTypology,
-          percentageOfCompletion:
-              widget.args.detailModel?.percentageOfCompletion ?? "0",
-          enrollType:
-              widget.args.detailModel?.enrollType ?? EnrollType.autoEnroll,
-          ecmSpecialization: widget.args.detailModel!.ecmSpecialization,
-          ecmRegistration: widget.args.detailModel!.ecmRegistration,
+          status: response?.status ?? "",
+          learningObjectType: response!.learningObjectType,
+          learningObjectTypology: response!.learningObjectTypology,
+          percentageOfCompletion: response?.percentageOfCompletion ?? "0",
+          enrollType: response?.enrollType ?? EnrollType.autoEnroll,
+          ecmSpecialization: response!.ecmSpecialization,
+          ecmRegistration: response!.ecmRegistration,
         );
 
-        final count = (widget.args.detailModel?.courses?.length ?? 0) +
-            (widget.args.detailModel!.learningActivities?.length ?? 0);
+        final count = (response?.courses?.length ?? 0) +
+            (response!.learningActivities?.length ?? 0);
 
         final label = LabelsManager()
             .getRemoteStringFromLabelKeys(RemoteLabelKeys.activity_other)
@@ -460,7 +478,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                 bottomListHasFocus.value = value;
               },
               child: CourseDetailHorizontalModules(
-                model: widget.args.detailModel!,
+                model: response!,
                 isSubActivitites: false,
                 parentId: widget.args.parentId,
                 onResumeButtonFocused: (ll, cc, _) {},
@@ -471,13 +489,20 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                   LearningObjectModel? ll,
                   CourseModel? cc,
                 ) {
-                  if (!showInfo.value) {
-                    return;
-                  }
+                  print(
+                      'vsldnclskndclknsdlkcnlskdnckls---------HEYYYYYY- ${showInfo.value}');
+                  // if (!showInfo.value) {
+                  //   print('csldnclskdnclksndclknsdlkcnlskdnckls');
+                  //   return;
+                  // }
+                  print(
+                      '  widget.args.currentObject?.id == ll?.id: ${widget.args.currentObject?.id == ll?.id}');
                   if (widget.args.currentObject != null &&
                       widget.args.currentObject?.id == ll?.id) {
                     return;
                   }
+
+                  print('csdnclksndlkcnslkdnclknsdklcnlkndc......');
                   if (loCharacterization.buttonEnabled &&
                       (loCharacterization.objLOAction != ObjLOAction.none &&
                           loCharacterization.objLOAction !=
@@ -496,13 +521,12 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                         break;
                       case ObjLOAction.startFruition:
                         if (isACourse) {
-                          CourseModel cm = widget.args.detailModel!.courses!
+                          CourseModel cm = response!.courses!
                               .where((element) => element.id == index)
                               .single;
                           startOrResumeCheck(context, cm.id!);
                         } else {
-                          LearningObjectModel lm = widget
-                              .args.detailModel!.learningActivities!
+                          LearningObjectModel lm = response!.learningActivities!
                               .where((element) => element.id == index)
                               .single;
                           startOrResumeCheck(context, lm.id);
@@ -513,16 +537,12 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                             widget.args.args,
                             idToAE,
                             "BOTTOM",
-                            widget.args.detailModel!,
+                            response!,
                             false);
                         break;
                       case ObjLOAction.autoEnrollmentAuto:
                         context.read<DetailPageCubit>().executeAutoEnrollment(
-                            widget.args.args,
-                            idToAE,
-                            "AUTO",
-                            widget.args.detailModel!,
-                            true);
+                            widget.args.args, idToAE, "AUTO", response!, true);
                         break;
                       case ObjLOAction.autoEnrollmentWithPatch:
                       case ObjLOAction.seeEditions:
@@ -535,12 +555,10 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                               args: DetailPageArgs(
                                 id: id,
                                 object: ll,
-                                parentId:
-                                    widget.args.detailModel?.id.toString(),
-                                typology: widget
-                                    .args.detailModel!.learningObjectTypology,
+                                parentId: response?.id.toString(),
+                                typology: response!.learningObjectTypology,
                                 grandParentId: widget.args.parentId,
-                                parent: widget.args.detailModel!,
+                                parent: response!,
                                 source: widget.args.args.source,
                               ),
                             ),
@@ -558,7 +576,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                         if (id != null) {
                           context.read<DetailPageCubit>().getStartOrResumeModel(
                                 id,
-                                '${widget.args.detailModel?.id}',
+                                '${response?.id}',
                                 widget.args.detailModel!,
                                 context,
                               );
@@ -600,7 +618,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     context.read<DetailPageCubit>().getStartOrResumeModel(
           loId,
           parentId,
-          widget.args.detailModel!,
+          response!,
           context,
         );
   }
@@ -617,6 +635,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           image: isPlaying ? 'assets/icons/pause.svg' : 'assets/icons/play.svg',
           onPressed: () {
             if (isPlaying) {
+              print('KEY---TAP: 2');
               widget.controller.pause();
             } else {
               widget.controller.play();

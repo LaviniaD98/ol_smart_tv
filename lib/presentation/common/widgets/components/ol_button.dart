@@ -240,33 +240,4 @@ class _OLButtonState extends State<OLButton> {
     }
     return 2;
   }
-
-  // ButtonStyle _buttonStyle(BuildContext context) {
-  //   return ButtonStyle(
-  //     animationDuration: const Duration(milliseconds: 400),
-  //     elevation: WidgetStateProperty.all(0),
-  //     backgroundColor: WidgetStateProperty.resolveWith((states) {
-  //       return getColor(context, states);
-  //     }),
-  //     padding: WidgetStateProperty.all<EdgeInsets>(
-  //       widget.padding ??
-  //           (isIconButton ? EdgeInsets.zero : widget.size.padding),
-  //     ),
-  //     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-  //       RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(
-  //           widget.borderRadius ??
-  //               (isIconButton
-  //                   ? widget.size.iconButtonRadius
-  //                   : widget.size.radius),
-  //         ),
-  //       ),
-  //     ),
-  //     side: (widget.hasBorder ?? (widget.borderWidth ?? 0) > 0
-  //         ? WidgetStateProperty.all(_borderSide(context))
-  //         : null),
-  //     //foregroundColor: WidgetStateProperty.all<Color>(textColor),
-  //     overlayColor: WidgetStateProperty.all<Color>(Colors.transparent),
-  //   );
-  // }
 }
