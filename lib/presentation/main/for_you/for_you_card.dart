@@ -130,6 +130,7 @@ class _ForYouCardState extends State<ForYouCard> {
                   padding: const EdgeInsets.only(bottom: 70),
                   child: FadedBannerImage(
                     urlImage: widget.data.coverPublicURL,
+                    source: 'FOR YOU CARD',
                   ),
                 ),
               ),

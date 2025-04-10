@@ -4,7 +4,9 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerTrailerWidget extends StatefulWidget {
   final String videoPlayerUrl;
-  const VideoPlayerTrailerWidget(this.videoPlayerUrl, {super.key});
+  final String source;
+  const VideoPlayerTrailerWidget(this.videoPlayerUrl,
+      {required this.source, super.key});
 
   @override
   State<VideoPlayerTrailerWidget> createState() =>
@@ -23,11 +25,11 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
   loadVideoPlayer() {
     controller =
         VideoPlayerController.networkUrl(Uri.parse(widget.videoPlayerUrl));
-    controller.addListener(() {
-      if (context.mounted) {
-        setState(() {});
-      }
-    });
+    // controller.addListener(() {
+    //   if (context.mounted) {
+    //     setState(() {});
+    //   }
+    // });
     controller.initialize().then((value) {
       if (mounted) {
         setState(() {});
@@ -63,7 +65,7 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
 
   @override
   void didUpdateWidget(covariant VideoPlayerTrailerWidget oldWidget) {
-    if (kDebugMode) print("didUpdateWidget key: ${widget.key}");
+    if (kDebugMode) print("didUpdateWidget key:${widget.source} ${widget.key}");
     // if (!controller.value.isPlaying) {
     //   controller.play();
     // } else {
@@ -74,6 +76,7 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
 
   @override
   void dispose() {
+    print('DISPOSING------------VideoPlayerTrailerWidget');
     // if (controller.value.isPlaying) controller.pause();
     controller.dispose();
     super.dispose();

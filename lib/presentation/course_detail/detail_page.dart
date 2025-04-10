@@ -141,7 +141,9 @@ class _DetailPageState extends State<DetailPage> {
             },
           ),
           buildWhen: (previous, current) => current.maybeMap(
-            success: (_) => true,
+            success: (state) {
+              return previous != current;
+            },
             loading: (_) => true,
             error: (_) => true,
             orElse: () => false,
@@ -179,6 +181,7 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel model,
     SmartConfiguratorModel? smartConfig,
   ) {
+    print('cslkdnclksndlkcnslkdnclksndc CONTENT UPDATING----');
     return FocusScope(
       node: _focusNode,
       autofocus: true,
@@ -517,10 +520,6 @@ class _DetailPageState extends State<DetailPage> {
       } else {
         WakelockPlus.enable();
 
-        print('isLaunchingSubActivity: ${isLaunchingSubActivity}');
-
-        print('courseInPath: ${courseInPath?.title} - ${detail.title}');
-
         final args = VideoPlayerPageArgs(
           id: lo.id,
           title: lo.title ?? '',
@@ -539,17 +538,13 @@ class _DetailPageState extends State<DetailPage> {
           rootModel: isLaunchingSubActivity ? detail : null,
         );
 
-        print('MODAL ROUTE: ${ModalRoute.of(context)?.settings.name}');
-
         if (playerContext != null) {
           Navigator.of(playerContext).pop();
-          //Navigator.of(playerContext).popUntil((r) => r.settings.name == '');
         }
 
         videoPlaying = true;
 
-        //final res =
-        await Nav.push(
+        final res = await Nav.push(
           context,
           screen: MultiBlocProvider(
             providers: [
@@ -568,13 +563,16 @@ class _DetailPageState extends State<DetailPage> {
           ),
         ) as bool?;
 
+        print('BACK RESPONSE.........: ${res}');
+
         videoPlaying = false;
 
         WakelockPlus.disable();
-        //if (res != null && res && context.mounted) {
+
         /// reload detail
-        context.read<DetailPageCubit>().init(widget.args);
-        //}
+        if (res == true && context.mounted) {
+          context.read<DetailPageCubit>().init(widget.args);
+        }
       }
     } else {
       OlAlertDialog.show(

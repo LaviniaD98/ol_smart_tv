@@ -616,10 +616,12 @@ class DynamicSliverDetailHeaderState extends State<DynamicSliverDetailHeader> {
     if (widget.model.coverVideoPublicURL?.isNotEmpty == true) {
       return FadedBannerImage(
         urlVideo: widget.model.coverVideoPublicURL!,
+        source: 'DynamicSliverDetailHeader - VIDEO',
       );
     } else if (widget.model.coverPublicURL != null &&
         widget.model.coverPublicURL!.isNotEmpty) {
       return FadedBannerImage(
+        source: 'DynamicSliverDetailHeader',
         urlImage: widget.model.coverPublicURL!,
       );
     } else {

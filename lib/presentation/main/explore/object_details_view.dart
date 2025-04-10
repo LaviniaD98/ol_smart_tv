@@ -37,6 +37,7 @@ class ObjectDetailsView extends StatelessWidget {
                             value?.videoPublicURL ?? value?.coverPublicURL),
                         urlImage: value?.coverPublicURL,
                         urlVideo: value?.videoPublicURL,
+                        source: 'ObjectDetailsView',
                       ),
                     ),
                   ],

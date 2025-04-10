@@ -114,6 +114,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   void dispose() {
     _hideTimer?.cancel();
     _hideTimer = null;
+    focusNode.dispose();
     widget.controller.removeListener(handleProgressUpdate);
     super.dispose();
   }
@@ -169,6 +170,9 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
       },
       child: FocusScope(
         node: focusNode,
+        onFocusChange: (value) {
+          print('HAS FOCUS: $value - ${widget.args.currentObject?.title}  ');
+        },
         child: ValueListenableBuilder<bool>(
             valueListenable: showInfo,
             builder: (context, show, _) {
@@ -489,20 +493,16 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                   LearningObjectModel? ll,
                   CourseModel? cc,
                 ) {
-                  print(
-                      'vsldnclskndclknsdlkcnlskdnckls---------HEYYYYYY- ${showInfo.value}');
                   // if (!showInfo.value) {
                   //   print('csldnclskdnclksndclknsdlkcnlskdnckls');
                   //   return;
                   // }
-                  print(
-                      '  widget.args.currentObject?.id == ll?.id: ${widget.args.currentObject?.id == ll?.id}');
+
                   if (widget.args.currentObject != null &&
                       widget.args.currentObject?.id == ll?.id) {
                     return;
                   }
 
-                  print('csdnclksndlkcnslkdnclknsdklcnlkndc......');
                   if (loCharacterization.buttonEnabled &&
                       (loCharacterization.objLOAction != ObjLOAction.none &&
                           loCharacterization.objLOAction !=

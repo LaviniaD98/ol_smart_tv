@@ -1,6 +1,5 @@
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
-import 'package:open_learning_smart_tv/presentation/course_detail/cubit/detail_page_cubit.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +27,22 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _content;
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        //print('BACK RESPONSE - 2: $didPop .  $result');
+
+        if (didPop == false) {
+          //print('BACK RESPONSE -------NESTED');
+          Navigator.of(context).pop(true);
+        }
+      },
+      canPop: false,
+      child: _content,
+    );
   }
 
   @override
   dispose() {
-    print('DISPOSING_---------22222');
     controller?.dispose();
     super.dispose();
   }
@@ -47,6 +56,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
             done: (value) {
               controller = VideoPlayerController.networkUrl(
                 Uri.parse(value.source.src!),
+                videoPlayerOptions: VideoPlayerOptions()
               );
             },
             orElse: () {},

@@ -6,6 +6,7 @@ import 'package:open_learning_smart_tv/theme/app_theme.dart';
 
 class FadedBannerImage extends StatelessWidget {
   const FadedBannerImage({
+    required this.source,
     super.key,
     this.urlImage,
     this.urlVideo,
@@ -13,6 +14,7 @@ class FadedBannerImage extends StatelessWidget {
 
   final String? urlImage;
   final String? urlVideo;
+  final String source;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,10 @@ class FadedBannerImage extends StatelessWidget {
             blendMode: BlendMode.dstIn,
             child: Builder(builder: (context) {
               if (urlVideo != null) {
-                return VideoPlayerTrailerWidget(urlVideo!);
+                return VideoPlayerTrailerWidget(
+                  urlVideo!,
+                  source: source,
+                );
               }
               return CachedNetworkImage(
                 imageUrl: urlImage ?? '',
