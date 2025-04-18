@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:open_learning_smart_tv/color_management/ol_colors.dart';
 import 'package:open_learning_smart_tv/core/dependency_injection/dependency_injection.dart';
 import 'package:open_learning_smart_tv/core/utils/nav.dart';
@@ -25,7 +26,6 @@ import 'package:open_learning_smart_tv/presentation/course_detail/rating/rating_
 import 'package:open_learning_smart_tv/remote_theming/labels/labels_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/labels/remote_labels_keys.dart';
 import 'package:open_learning_smart_tv/theme/glow/widget/glow_container.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../color_management/color_manager.dart';
 import '../../../theme/app_theme.dart';
@@ -35,7 +35,7 @@ import 'video_progress_widget.dart';
 import 'video_scrubber_widget.dart';
 
 class VideoOverlayWidget extends StatefulWidget {
-  final VideoPlayerController controller;
+  final VideoController controller;
 
   final VoidCallback? onFullScreen;
   final VideoPlayerArgs args;
@@ -54,6 +54,9 @@ class VideoOverlayWidget extends StatefulWidget {
 }
 
 class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
+  StreamSubscription<Duration>? positionSubscription;
+  StreamSubscription<bool>? playingSubscription;
+
   static const _iconSize = 28.0;
   late bool isPortrait;
   ValueNotifier<bool> showInfo = ValueNotifier(false);
@@ -72,15 +75,25 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   void initState() {
     super.initState();
 
-    isPlaying.value = widget.controller.value.isPlaying;
-    progressNotifier.value = widget.controller.value.position.inMilliseconds;
+    print('SHOWING......CONTROLS');
+
+    isPlaying.value = widget.controller.player.state.playing;
+    progressNotifier.value =
+        widget.controller.player.state.position.inMilliseconds;
 
     Future.delayed(const Duration(milliseconds: 300), () {
       focusNode.requestFocus();
       setTimer();
     });
 
-    widget.controller.addListener(handleProgressUpdate);
+    positionSubscription = widget.controller.player.stream.position.listen((_) {
+      handleProgressUpdate();
+    });
+
+    playingSubscription =
+        widget.controller.player.stream.playing.listen((playing) {
+      isPlaying.value = playing;
+    });
 
     final courseDetails = widget.args.currentObject?.courseDetails;
 
@@ -115,13 +128,21 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     _hideTimer?.cancel();
     _hideTimer = null;
     focusNode.dispose();
-    widget.controller.removeListener(handleProgressUpdate);
+
+    positionSubscription?.cancel();
+    playingSubscription?.cancel();
+
+    widget.controller.platform.future.then((_) {
+      print(
+          'VIDEO EVENT:  widget.controller.player.state.duration: ${widget.controller.player.state.duration.inMilliseconds}');
+    });
+
     super.dispose();
   }
 
   void handleProgressUpdate() {
-    isPlaying.value = widget.controller.value.isPlaying;
-    progressNotifier.value = widget.controller.value.position.inMilliseconds;
+    progressNotifier.value =
+        widget.controller.player.state.position.inMilliseconds;
   }
 
   @override
@@ -129,20 +150,22 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.play): () {
-          widget.controller.play();
+          widget.controller.player.play();
           setTimer();
         },
         const SingleActivator(LogicalKeyboardKey.pause): () {
           print('KEY---TAP: 3');
-          widget.controller.pause();
+          widget.controller.player.pause();
           showInfo.value = true;
         },
         const SingleActivator(LogicalKeyboardKey.arrowLeft): () {
           setTimer();
 
           if (focusNode.focusedChild?.id == 'VIDEO-PROGRESS') {
-            widget.controller.seekTo(
-                widget.controller.value.position - const Duration(seconds: 10));
+            widget.controller.player.seek(
+              widget.controller.player.state.position -
+                  const Duration(seconds: 10),
+            );
           } else {
             focusNode.focusInDirection(TraversalDirection.left);
           }
@@ -151,8 +174,9 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           setTimer();
 
           if (focusNode.focusedChild?.id == 'VIDEO-PROGRESS') {
-            widget.controller.seekTo(
-                widget.controller.value.position + const Duration(seconds: 10));
+            widget.controller.player.seek(
+                widget.controller.player.state.position +
+                    const Duration(seconds: 10));
           } else {
             focusNode.focusInDirection(TraversalDirection.right);
           }
@@ -178,7 +202,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
             builder: (context, show, _) {
               return AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
-                opacity: 1, // show ? 1 : 0,
+                opacity: show ? 1 : 0,
                 child: IgnorePointer(
                   ignoring: !show,
                   child: ValueListenableBuilder(
@@ -211,11 +235,11 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
 
   void handleEnterButton() {
     if (focusNode.focusedChild?.id == 'VIDEO-CONTROLS') {
-      if (widget.controller.value.isPlaying) {
+      if (widget.controller.player.state.playing) {
         print('KEY---TAP: 1');
-        widget.controller.pause();
+        widget.controller.player.pause();
       } else {
-        widget.controller.play();
+        widget.controller.player.play();
       }
     } else if (focusNode.focusedChild?.id == 'VIDEO-DETAILS') {
       OlAlertDialog.showDetails(
@@ -387,11 +411,11 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                 child: VideoProgressWidget(
                   widget.controller,
                   scrubberActionsArgs: widget.scrubberActionsArgs,
-                  colors: VideoProgressColors(
-                    backgroundColor: ColorManager().getColorBorder(),
-                    bufferedColor: ColorManager().getColorSystemPrimary01(),
-                    playedColor: ColorManager().getColorSystemSecondary01(),
-                  ),
+                  // colors: VideoProgressColors(
+                  //   backgroundColor: ColorManager().getColorBorder(),
+                  //   bufferedColor: ColorManager().getColorSystemPrimary01(),
+                  //   playedColor: ColorManager().getColorSystemSecondary01(),
+                  // ),
                 ),
               ),
               const SizedBox(width: 84),
@@ -636,9 +660,9 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           onPressed: () {
             if (isPlaying) {
               print('KEY---TAP: 2');
-              widget.controller.pause();
+              widget.controller.player.pause();
             } else {
-              widget.controller.play();
+              widget.controller.player.play();
             }
             setTimer();
           },
@@ -649,10 +673,10 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   }
 
   Widget get audio {
-    final isMute = widget.controller.value.volume < 1.0;
+    final isMute = widget.controller.player.state.volume < 1.0;
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
-      onTap: () => widget.controller.setVolume(isMute ? 1 : 0),
+      onTap: () => widget.controller.player.setVolume(isMute ? 1 : 0),
       child: SvgPicture.asset(
         isMute ? 'assets/icons/audio_off.svg' : 'assets/icons/audio_on.svg',
         height: _iconSize,
@@ -689,7 +713,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     final position = formatDuration(
       Duration(milliseconds: milliseconds.round()),
     );
-    final total = formatDuration(widget.controller.value.duration);
+    final total = formatDuration(widget.controller.player.state.duration);
     return '$position / $total';
   }
 

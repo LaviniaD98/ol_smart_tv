@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:media_kit/media_kit.dart';
 import 'package:open_learning_smart_tv/core/env/env.dart';
 import 'package:open_learning_smart_tv/core/shared_preferences_keys.dart';
 import 'package:open_learning_smart_tv/prod_firebase_options.dart';
@@ -26,6 +27,13 @@ Future<void> bootstrap(Env env) async {
       return deviceSize.width / widthOfDesign;
     },
   );
+
+  try {
+    MediaKit.ensureInitialized();
+  } catch (e) {
+    print(' MediaKit.ensureInitialized() - ERROR: $e');
+  }
+
   //await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   String appFlavor = const String.fromEnvironment('FLUTTER_APP_FLAVOR') != ''

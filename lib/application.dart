@@ -164,3 +164,78 @@ class _ApplicationState extends State<Application> {
     );
   }
 }
+
+/*
+class MediaKitPlayerWidget extends StatefulWidget {
+  final String url;
+  const MediaKitPlayerWidget({super.key, required this.url});
+
+  @override
+  State<MediaKitPlayerWidget> createState() => _MediaKitPlayerWidgetState();
+}
+
+class _MediaKitPlayerWidgetState extends State<MediaKitPlayerWidget> {
+  static const videoUrl =
+      'https://manifest.prod.boltdns.net/manifest/v1/hls/v4/clear/5660549830001/7b3ac284-e5bc-4daa-a993-1eb94d6ea3f1/10s/master.m3u8?fastly_token=NjgyMmY5ZGRfNmExMzNmZmFiNzhmMGJhMjcyOWNhOTViMWI3M2RmNjRhNzkyNTcwMDhmODdhNTNiZDM2Njg2ODM0MjRlMWU3OA%3D%3D';
+  late final Player player;
+  late final VideoController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    player = Player();
+    controller = VideoController(player);
+    player.open(Media(videoUrl));
+    player.play();
+  }
+
+  void _restart() {
+    player.seek(Duration.zero);
+    player.play();
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(child: Center(child: Video(controller: controller))),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.replay_10),
+              onPressed: () => player.seek(
+                player.state.position - const Duration(seconds: 10),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.pause),
+              onPressed: () => player.pause(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.play_arrow),
+              onPressed: () => player.play(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.forward_10),
+              onPressed: () => player.seek(
+                player.state.position + const Duration(seconds: 10),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.restart_alt),
+              onPressed: _restart,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+*/

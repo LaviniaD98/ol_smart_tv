@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../domain/enums/types.dart';
 import 'video_player_wrapper.dart';
@@ -23,8 +25,11 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VoidCallback listener;
-  bool _isScrubbing = false;
-  VideoPlayerWidgetStatus status = VideoPlayerWidgetStatus.idle;
+
+  StreamSubscription<bool>? completedSubscription;
+  StreamSubscription<bool>? playingSubscription;
+
+  //VideoPlayerWidgetStatus status = VideoPlayerWidgetStatus.idle;
 
   @override
   void initState() {
@@ -33,55 +38,82 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   void _initPlayer() async {
-    listener = () {
-      if (context.mounted && widget.args.controller.value.isInitialized) {
-        if (status != VideoPlayerWidgetStatus.completed &&
-            widget.args.controller.value.isCompleted) {
-          widget.args.onComplete?.call(widget.args.controller);
-          status = VideoPlayerWidgetStatus.completed;
+// TODO(UmbertoGrimaldi): ADJUST THIS--------------AND REPLACE
 
-          if (kDebugMode) print('VIDEO EVENT: ****** END ******');
-        } else if (status == VideoPlayerWidgetStatus.inPause &&
-            widget.args.controller.value.isPlaying &&
-            !_isScrubbing &&
-            !widget.args.controller.value.isCompleted) {
-          status = VideoPlayerWidgetStatus.inPlay;
-          if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
-        } else if (status == VideoPlayerWidgetStatus.inPlay &&
-            !widget.args.controller.value.isPlaying &&
-            !_isScrubbing &&
-            !widget.args.controller.value.isCompleted) {
-          widget.args.onPause?.call(widget.args.controller);
-          status = VideoPlayerWidgetStatus.inPause;
-          if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
+    // listener = () {
+    //   if (context.mounted && widget.args.controller.value.isInitialized) {
+    //     if (status != VideoPlayerWidgetStatus.completed &&
+    //         widget.args.controller.value.isCompleted) {
+    //       widget.args.onComplete?.call(widget.args.controller);
+    //       status = VideoPlayerWidgetStatus.completed;
+
+    //       if (kDebugMode) print('VIDEO EVENT: ****** END ******');
+    //     } else if (status == VideoPlayerWidgetStatus.inPause &&
+    //         widget.args.controller.value.isPlaying &&
+    //         !_isScrubbing &&
+    //         !widget.args.controller.value.isCompleted) {
+    //       status = VideoPlayerWidgetStatus.inPlay;
+    //       if (kDebugMode) print('VIDEO EVENT: ****** RESUME ******');
+    //     } else if (status == VideoPlayerWidgetStatus.inPlay &&
+    //         !widget.args.controller.value.isPlaying &&
+    //         !_isScrubbing &&
+    //         !widget.args.controller.value.isCompleted) {
+    //       widget.args.onPause?.call(widget.args.controller);
+    //       status = VideoPlayerWidgetStatus.inPause;
+    //       if (kDebugMode) print('VIDEO EVENT: ****** PAUSE ******');
+    //     }
+    //   }
+    // };
+
+    // widget.args.controller
+    //   ..addListener(listener)
+    //   ..setLooping(false)
+    //   ..initialize().then((_) async {
+
+    //   });
+
+    final player = widget.args.controller.player;
+    final streams = player.stream;
+
+    player.play();
+
+    if (widget.args.start != null) {
+      player.pause();
+      widget.args.controller.waitUntilFirstFrameRendered.then((e) async {
+        player.play();
+        final delta = player.state.duration - widget.args.start!;
+
+        if (delta.inSeconds > 1) {
+          await player.seek(widget.args.start!);
         }
-      }
-    };
 
-    widget.args.controller
-      ..addListener(listener)
-      ..setLooping(false)
-      ..initialize().then((_) async {
-        if (widget.args.start != null) {
-          final delta =
-              widget.args.controller.value.duration - widget.args.start!;
-
-          if (delta.inSeconds > 1) {
-            await widget.args.controller.seekTo(widget.args.start!);
-          }
-          widget.args.controller.play().then((value) {
-            if (kDebugMode) print('VIDEO EVENT: ****** START ******');
-            setState(() => status = VideoPlayerWidgetStatus.inPlay);
-            widget.args.onStart?.call(widget.args.controller);
-          });
-        }
+        if (kDebugMode) print('VIDEO EVENT: ****** START ******');
+        //setState(() => status = VideoPlayerWidgetStatus.inPlay);
+        widget.args.onStart?.call(widget.args.controller);
       });
+    }
+
+    playingSubscription = streams.playing.listen((playing) {
+      if (!playing) {
+        widget.args.onPause?.call(widget.args.controller);
+      }
+    });
+
+    completedSubscription = streams.completed.listen((completed) {
+      if (completed) {
+        widget.args.onComplete?.call(widget.args.controller);
+        if (kDebugMode) print('VIDEO EVENT: ****** END ******');
+      }
+    });
   }
 
   @override
   void dispose() {
-    widget.args.controller.removeListener(listener);
-    widget.args.controller.dispose();
+    // widget.args.controller.removeListener(listener);
+    // widget.args.controller.dispose();
+    playingSubscription?.cancel();
+    completedSubscription?.cancel();
+
     super.dispose();
   }
 
@@ -90,26 +122,27 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     return VideoPlayerWrapper(
       controller: widget.args.controller,
       args: widget.args,
-      scrubberActionsArgs: _getScrubberActionArgs(widget.args.isMandatory),
+      scrubberActionsArgs: null,
+      //_getScrubberActionArgs(widget.args.isMandatory),
     );
   }
 
-  ScrubberActionsArgs? _getScrubberActionArgs(bool isMandatory) {
-    if (isMandatory) return null;
-    return ScrubberActionsArgs(
-      onScrubbingStart: () {
-        setState(() => _isScrubbing = true);
-      },
-      onScrubbingUpdate: (pos) {
-        if (_isScrubbing) {
-          widget.args.controller.seekTo(pos);
-        }
-      },
-      onScrubbingEnd: () {
-        setState(() => _isScrubbing = false);
-      },
-    );
-  }
+  // ScrubberActionsArgs? _getScrubberActionArgs(bool isMandatory) {
+  //   if (isMandatory) return null;
+  //   return ScrubberActionsArgs(
+  //     onScrubbingStart: () {
+  //       setState(() => _isScrubbing = true);
+  //     },
+  //     onScrubbingUpdate: (pos) {
+  //       if (_isScrubbing) {
+  //         widget.args.controller.player.seek(pos);
+  //       }
+  //     },
+  //     onScrubbingEnd: () {
+  //       setState(() => _isScrubbing = false);
+  //     },
+  //   );
+  // }
 }
 
 class VideoPlayerArgs {
@@ -125,7 +158,7 @@ class VideoPlayerArgs {
   final VideoCallback? onPause;
   final VideoCallback? onClose;
   final VideoCallback? onComplete;
-  final VideoPlayerController controller;
+  final VideoController controller;
   final DetailPageModel? detailModel;
   final DetailPageArgs args;
   final String? grandParentId;
@@ -160,6 +193,6 @@ class VideoPlayerArgs {
 
 enum VideoPlayerType { file, network, assets }
 
-enum VideoPlayerWidgetStatus { idle, inPause, inScrubbing, inPlay, completed }
+//enum VideoPlayerWidgetStatus { idle, inPause, inScrubbing, inPlay, completed }
 
-typedef VideoCallback = void Function(VideoPlayerController);
+typedef VideoCallback = void Function(VideoController);

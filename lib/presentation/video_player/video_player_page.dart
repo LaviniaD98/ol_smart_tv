@@ -1,10 +1,11 @@
+import 'package:media_kit/media_kit.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:open_learning_smart_tv/domain/entities/detail/detail_page_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.dart';
 import 'package:open_learning_smart_tv/presentation/video_player/cubit/video_player_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../domain/enums/types.dart';
 import '../../remote_theming/labels/labels_manager.dart';
@@ -22,8 +23,17 @@ class VideoPlayerPage extends StatefulWidget {
 }
 
 class _VideoPlayerPageState extends State<VideoPlayerPage> {
-  VideoPlayerController? controller;
   bool popping = false;
+
+  late Player player;
+  late VideoController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    player = Player();
+    controller = VideoController(player);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +53,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   dispose() {
-    controller?.dispose();
+    player.dispose();
     super.dispose();
   }
 
@@ -53,11 +63,9 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
       body: BlocConsumer<VideoPlayerCubit, VideoPlayerState>(
         listener: (context, state) async {
           state.maybeMap(
-            done: (value) {
-              controller = VideoPlayerController.networkUrl(
-                Uri.parse(value.source.src!),
-                videoPlayerOptions: VideoPlayerOptions()
-              );
+            done: (value) async {
+              await player.open(Media(value.source.src!));
+              print('VIDEO EVENT: TOTAL DURATIOIN: ${player.state.duration}');
             },
             orElse: () {},
           );
@@ -69,6 +77,8 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           },
           tracking: (_) => _loading,
           done: (value) {
+            print('------DONE: ${value.source.src}');
+
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,
@@ -88,15 +98,13 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   bool enabled =
                       state.maybeMap(orElse: () => true, loading: (_) => false);
                   if (enabled) {
-                    if (controller != null) {
-                      await context.read<VideoPlayerCubit>().setStateCall(
-                            widget.args,
-                            false,
-                            controller!.value.position,
-                            controller!,
-                            true,
-                          );
-                    }
+                    await context.read<VideoPlayerCubit>().setStateCall(
+                          widget.args,
+                          false,
+                          player.state.position,
+                          controller,
+                          true,
+                        );
 
                     if (context.mounted) {
                       Navigator.of(context).pop(true);
@@ -104,14 +112,14 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     widget.args.onTapDetail;
                   }
                 },
-                controller: controller!,
+                controller: controller,
                 videoPlayerType: VideoPlayerType.network,
                 onComplete: (controller) async {
                   if (context.mounted) {
                     await context.read<VideoPlayerCubit>().setStateCall(
                           widget.args,
                           false,
-                          controller.value.position,
+                          player.state.position,
                           controller,
                           true,
                         );
@@ -120,7 +128,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                     await context.read<VideoPlayerCubit>().statementsCall(
                           widget.args,
                           true,
-                          controller.value.duration,
+                          player.state.duration,
                           controller,
                           true,
                         );
@@ -130,12 +138,20 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
                   }
                 },
                 onStart: (controller) {
-                  context.read<VideoPlayerCubit>().statementsCall(widget.args,
-                      false, controller.value.duration, controller);
+                  context.read<VideoPlayerCubit>().statementsCall(
+                        widget.args,
+                        false,
+                        player.state.duration,
+                        controller,
+                      );
                 },
                 onPause: (controller) {
-                  context.read<VideoPlayerCubit>().setStateCall(widget.args,
-                      false, controller.value.position, controller);
+                  context.read<VideoPlayerCubit>().setStateCall(
+                        widget.args,
+                        false,
+                        player.state.position,
+                        controller,
+                      );
                 },
               ),
             );

@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../color_management/color_manager.dart';
 import 'video_scrubber_widget.dart';
@@ -11,20 +13,15 @@ class VideoProgressWidget extends StatefulWidget {
     this.controller, {
     super.key,
     this.scrubberActionsArgs,
-    this.colors = const VideoProgressColors(),
+    // this.colors = const VideoProgressColors(),
     this.padding = const EdgeInsets.only(top: 5.0),
   });
 
   /// The [VideoPlayerController] that actually associates a video with this
   /// widget.
-  final VideoPlayerController controller;
+  final VideoController controller;
 
   final ScrubberActionsArgs? scrubberActionsArgs;
-
-  /// The default colors used throughout the indicator.
-  ///
-  /// See [VideoProgressColors] for default values.
-  final VideoProgressColors colors;
 
   /// This allows for visual padding around the progress indicator that can
   /// still detect gestures via [allowScrubbing].
@@ -47,39 +44,32 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
   int position = 0;
   int maxBuffering = 0;
 
-  VideoPlayerController get controller => widget.controller;
+  StreamSubscription<Duration>? positionSubscription;
 
-  VideoProgressColors get colors => widget.colors;
+  VideoController get controller => widget.controller;
 
   @override
   void initState() {
     super.initState();
-    if (controller.value.isInitialized) {
-      duration = controller.value.duration.inMilliseconds;
-      position = controller.value.position.inMilliseconds;
-    }
-    controller.addListener(handleProgressUpdate);
+    final state = controller.player.state;
+
+    duration = state.duration.inMilliseconds;
+    position = state.position.inMilliseconds;
+
+    positionSubscription = controller.player.stream.position.listen(
+      (newPosition) {
+        duration = controller.player.state.duration.inMilliseconds;
+        position = newPosition.inMilliseconds;
+        maxBuffering = controller.player.state.buffer.inMilliseconds;
+        setState(() {});
+      },
+    );
   }
 
   @override
-  void deactivate() {
-    controller.removeListener(handleProgressUpdate);
-    super.deactivate();
-  }
-
-  void handleProgressUpdate() {
-    if (controller.value.isInitialized) {
-      duration = controller.value.duration.inMilliseconds;
-      position = controller.value.position.inMilliseconds;
-
-      for (final DurationRange range in controller.value.buffered) {
-        final int end = range.end.inMilliseconds;
-        if (end > maxBuffering) {
-          maxBuffering = end;
-        }
-      }
-      setState(() {});
-    }
+  void dispose() {
+    positionSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -103,10 +93,11 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
                   child: LinearProgressIndicator(
                     minHeight: 12,
                     borderRadius: BorderRadius.circular(12),
-                    value: maxBuffering / duration,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(colors.bufferedColor),
-                    backgroundColor: colors.backgroundColor,
+                    value: maxBuffering <= 0 ? 0.0 : (maxBuffering / duration),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      ColorManager().getColorSystemPrimary01(),
+                    ),
+                    backgroundColor: ColorManager().getColorBorder(),
                   ),
                 ),
               ),
@@ -125,10 +116,11 @@ class _VideoProgressWidgetState extends State<VideoProgressWidget> {
                   child: LinearProgressIndicator(
                     minHeight: 12,
                     borderRadius: BorderRadius.circular(12),
-                    value: (position / duration),
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(colors.playedColor),
-                    backgroundColor: colors.backgroundColor,
+                    value: position <= 0 ? 0.0 : (position / duration),
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      ColorManager().getColorSystemSecondary01(),
+                    ),
+                    backgroundColor: ColorManager().getColorBorder(),
                   ),
                 ),
               ),

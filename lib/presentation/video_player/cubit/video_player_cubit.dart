@@ -1,3 +1,4 @@
+import 'package:media_kit_video/media_kit_video.dart';
 import 'package:open_learning_smart_tv/domain/entities/download/source_model.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/statements/get_state_use_case.dart';
 import 'package:open_learning_smart_tv/domain/use_cases/statements/set_state_use_case.dart';
@@ -7,7 +8,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:video_player/video_player.dart';
 import '../../../domain/use_cases/download/retrieve_download_info_use_case.dart';
 import '../../dynamic_content/strip/continue_learning/cubit/continue_learning_strip_cubit.dart';
 
@@ -67,11 +67,11 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   }
 
   Future<void> setStateCall(VideoPlayerPageArgs args, bool complete,
-      Duration duration, VideoPlayerController playerControler,
+      Duration duration, VideoController playerControler,
       [bool dispose = false]) async {
     if (dispose) {
       _continueLearningStripCubit.refresh();
-      await playerControler.dispose();
+      await playerControler.player.dispose();
       emit(const VideoPlayerState.tracking());
     }
 
@@ -87,7 +87,7 @@ class VideoPlayerCubit extends Cubit<VideoPlayerState> {
   }
 
   Future<void> statementsCall(VideoPlayerPageArgs args, bool completed,
-      Duration duration, VideoPlayerController playerControler,
+      Duration duration, VideoController playerControler,
       [bool dispose = false]) async {
     if (dispose) {
       _continueLearningStripCubit.refresh();

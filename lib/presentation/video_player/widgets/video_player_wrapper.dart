@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:media_kit_video/media_kit_video.dart';
 
 import 'video_overlay_widget.dart';
 import 'video_player_widget.dart';
 import 'video_scrubber_widget.dart';
 
 class VideoPlayerWrapper extends StatefulWidget {
-  final VideoPlayerController controller;
+  final VideoController controller;
   final VideoPlayerArgs args;
   final ScrubberActionsArgs? scrubberActionsArgs;
 
@@ -29,27 +29,26 @@ class VideoPlayerWrapperState extends State<VideoPlayerWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.controller.value.isInitialized
-        ? _buildVideo()
-        : const Center(child: CircularProgressIndicator());
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(
+          child: ExcludeFocus(
+              child: Video(
+            controller: widget.controller,
+            controls: (state) => const SizedBox.shrink(),
+            pauseUponEnteringBackgroundMode: true,
+            resumeUponEnteringForegroundMode: false,
+          )),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: VideoOverlayWidget(
+            controller: widget.controller,
+            args: widget.args,
+            scrubberActionsArgs: widget.scrubberActionsArgs,
+          ),
+        ),
+      ],
+    );
   }
-
-  Widget _buildVideo() => Stack(
-        children: <Widget>[
-          Positioned.fill(
-            child: AspectRatio(
-              aspectRatio: widget.controller.value.aspectRatio,
-              child: VideoPlayer(widget.controller),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: VideoOverlayWidget(
-              controller: widget.controller,
-              args: widget.args,
-              scrubberActionsArgs: widget.scrubberActionsArgs,
-            ),
-          ),
-        ],
-      );
 }
