@@ -75,8 +75,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   void initState() {
     super.initState();
 
-    print('SHOWING......CONTROLS');
-
     isPlaying.value = widget.controller.player.state.playing;
     progressNotifier.value =
         widget.controller.player.state.position.inMilliseconds;
@@ -132,11 +130,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
     positionSubscription?.cancel();
     playingSubscription?.cancel();
 
-    widget.controller.platform.future.then((_) {
-      print(
-          'VIDEO EVENT:  widget.controller.player.state.duration: ${widget.controller.player.state.duration.inMilliseconds}');
-    });
-
     super.dispose();
   }
 
@@ -154,7 +147,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           setTimer();
         },
         const SingleActivator(LogicalKeyboardKey.pause): () {
-          print('KEY---TAP: 3');
           widget.controller.player.pause();
           showInfo.value = true;
         },
@@ -195,7 +187,7 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
       child: FocusScope(
         node: focusNode,
         onFocusChange: (value) {
-          print('HAS FOCUS: $value - ${widget.args.currentObject?.title}  ');
+          //print('HAS FOCUS: $value - ${widget.args.currentObject?.title}  ');
         },
         child: ValueListenableBuilder<bool>(
             valueListenable: showInfo,
@@ -236,7 +228,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
   void handleEnterButton() {
     if (focusNode.focusedChild?.id == 'VIDEO-CONTROLS') {
       if (widget.controller.player.state.playing) {
-        print('KEY---TAP: 1');
         widget.controller.player.pause();
       } else {
         widget.controller.player.play();
@@ -517,11 +508,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
                   LearningObjectModel? ll,
                   CourseModel? cc,
                 ) {
-                  // if (!showInfo.value) {
-                  //   print('csldnclskdnclksndclknsdlkcnlskdnckls');
-                  //   return;
-                  // }
-
                   if (widget.args.currentObject != null &&
                       widget.args.currentObject?.id == ll?.id) {
                     return;
@@ -659,7 +645,6 @@ class VideoOverlayWidgetState extends State<VideoOverlayWidget> {
           image: isPlaying ? 'assets/icons/pause.svg' : 'assets/icons/play.svg',
           onPressed: () {
             if (isPlaying) {
-              print('KEY---TAP: 2');
               widget.controller.player.pause();
             } else {
               widget.controller.player.play();

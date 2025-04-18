@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:open_learning_smart_tv/theme/glow/theme/glow_theme.dart';

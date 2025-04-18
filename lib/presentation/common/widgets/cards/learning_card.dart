@@ -85,7 +85,6 @@ class _LearningCardState extends State<LearningCard> {
               behavior: HitTestBehavior.translucent,
               // onTap: widget.enable
               //     ? () async {
-              //         print('PUSHING DETAILS-----------------');
               //         Nav.push(context,
               //             screen: DetailPage(
               //               args: DetailPageArgs(

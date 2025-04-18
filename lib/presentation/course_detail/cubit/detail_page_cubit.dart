@@ -162,9 +162,7 @@ class DetailPageCubit extends Cubit<DetailPageState> {
     DetailPageModel? result;
 
     detailPageRes.fold(
-      (l) {
-        print('LEFT..........${l.error}');
-      },
+      (l) {},
       (detailPageModel) async {
         // print('detailPageModel--: ${detailPageModel.title}');
         // var tabValues = await Future.wait([
@@ -238,39 +236,28 @@ class DetailPageCubit extends Cubit<DetailPageState> {
       return;
     }
     callingApi = true;
-    if (kDebugMode) print("getStartOrResumeModel callingApi SET to true");
     final detailPageRes = await _getStartOrResumeUseCase(loId, parentId);
     await detailPageRes.fold((l) async {
       await Future.delayed(const Duration(milliseconds: 300));
       callingApi = false;
-      if (kDebugMode) print("getStartOrResumeModel callingApi SET to false");
       return null;
     }, (srResponseModel) async {
-      print(
-        'SRRESPONSE MODEL: ${srResponseModel.title} courseDetails:${srResponseModel.courseDetails?.title} -  rootDetails:${srResponseModel.rootDetails?.title}',
-      );
       if ((detail.learningObjectTypology == LearningObjectTypology.path ||
               detail.learningObjectTypology == LearningObjectTypology.course) &&
           srResponseModel.isToj()) {
         emit(DetailPageState.openDetail(srResponseModel, detail));
         await Future.delayed(const Duration(milliseconds: 300));
         callingApi = false;
-        if (kDebugMode) print("getStartOrResumeModel callingApi SET to false");
       } else {
         if (srResponseModel.learningObjectType == LearningObjectType.sync) {
           emit(DetailPageState.openDetail(srResponseModel, detail));
           await Future.delayed(const Duration(milliseconds: 300));
           callingApi = false;
-          if (kDebugMode)
-            print("getStartOrResumeModel callingApi SET to false");
         } else {
-          print('READY TO PLAY-................');
           emit(DetailPageState.readyToPlay(
               srResponseModel, detail, playerContext));
           await Future.delayed(const Duration(milliseconds: 300));
           callingApi = false;
-          if (kDebugMode)
-            print("getStartOrResumeModel callingApi SET to false");
         }
       }
       //return srResponseModel;

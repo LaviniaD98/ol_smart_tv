@@ -1,8 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-//import 'package:video_player/video_player.dart';
 
 class VideoPlayerTrailerWidget extends StatefulWidget {
   final String videoPlayerUrl;
@@ -16,8 +14,6 @@ class VideoPlayerTrailerWidget extends StatefulWidget {
 }
 
 class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
-  //late VideoPlayerController controller;
-
   late final Player player;
   late final VideoController controller;
 
@@ -28,41 +24,18 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
   }
 
   loadVideoPlayer() {
-    // controller =
-    //     VideoPlayerController.networkUrl(Uri.parse(widget.videoPlayerUrl));
-    // controller.addListener(() {
-    //   if (context.mounted) {
-    //     setState(() {});
-    //   }
-    // });
-
     player = Player();
-    controller = VideoController(player);
+
+    controller = VideoController(
+      player,
+      configuration: const VideoControllerConfiguration(
+        scale: 0.1,
+      ),
+    );
     player.open(Media(widget.videoPlayerUrl));
     player.play();
+    player.setPlaylistMode(PlaylistMode.loop);
 
-    player.stream.error.listen((error) {
-      if (kDebugMode) print('VideoPlayerController - Error: $error');
-    });
-
-    player.stream.playing.listen((error) {
-      if (kDebugMode) print('VideoPlayerController - playing: $error');
-    });
-
-    // controller.initialize().then((value) {
-    //   if (mounted) {
-    //     setState(() {});
-    //     controller.setLooping(true);
-    //     controller.setVolume(0.0);
-    //     controller.play();
-    //   }
-    // });
-
-    controller.rect.addListener(() {
-      if (kDebugMode) {
-        print('VideoPlayerTrailerWidget - Rect: ${controller.rect}');
-      }
-    });
   }
 
   @override
@@ -70,33 +43,29 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
     return ValueListenableBuilder(
         valueListenable: controller.rect,
         builder: (context, rect, _) {
-          print('-------rect: ${rect}');
-
           if (rect == null) {
             return const SizedBox.shrink();
           }
+
+          if (rect.width == 1 || rect.height == 1) {
+            return const SizedBox.shrink();
+          }
           return ClipRRect(
-              // child: FittedBox(
-              //   alignment: Alignment.center,
-              //   fit: BoxFit.cover,
-              //   child: AspectRatio(
-              //     aspectRatio: (rect?.width ?? 1) / (rect?.height ?? 1),
-              //     child: Video(controller: controller),
-              //   ),
-              // ),
-              );
+            child: FittedBox(
+              alignment: Alignment.center,
+              fit: BoxFit.cover,
+              child: SizedBox(
+                width: rect.width,
+                height: rect.height,
+                child: Video(controller: controller),
+              ),
+            ),
+          );
         });
   }
 
   @override
-  void didChangeDependencies() {
-    if (kDebugMode) print("didChangeDependencies key: ${widget.key}");
-    super.didChangeDependencies();
-  }
-
-  @override
   void didUpdateWidget(covariant VideoPlayerTrailerWidget oldWidget) {
-    if (kDebugMode) print("didUpdateWidget key:${widget.source} ${widget.key}");
     // if (!controller.value.isPlaying) {
     //   controller.play();
     // } else {
@@ -107,7 +76,6 @@ class _VideoPlayerTrailerWidgetState extends State<VideoPlayerTrailerWidget> {
 
   @override
   void dispose() {
-    print('DISPOSING------------VideoPlayerTrailerWidget');
     // if (controller.value.isPlaying) controller.pause();
     controller.player.dispose();
     super.dispose();

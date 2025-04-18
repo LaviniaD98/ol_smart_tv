@@ -23,12 +23,10 @@ class AppResourceRepositoryImpl implements AppResourceRepository {
   Future<Either<Failure, AppResourceGetFileModel>> getFile(
       String? corporateId, String? fileName) async {
     var fileDelete = await _deleteLocalFile();
-    fileDelete.fold((l) {
-      if (kDebugMode)
-        print("AppResourceRepositoryImpl error while deleting existing file");
-    }, (deleted) {
-      if (kDebugMode) print("AppResourceRepositoryImpl existing file deleted");
-    });
+    fileDelete.fold(
+      (l) {},
+      (deleted) {},
+    );
     return catchFailure(() async {
       final res = await _appResourceDataSource.getFile(
         corporateId: corporateId,
@@ -44,9 +42,6 @@ class AppResourceRepositoryImpl implements AppResourceRepository {
         if (res.publicUrl?.isNotEmpty == true) {
           final http.Response response =
               await http.get(Uri.parse(res.publicUrl!));
-          if (kDebugMode)
-            print(
-                "AppResourceRepositoryImplresponseStatusCode: ${response.statusCode}");
           if (response.statusCode != 200) {
             if (kDebugMode) print("AppResourceRepositoryImpl logo not found");
             var fullFileName = '$localPath/RES_${AppLogoCubit.localLogoName}';
@@ -62,15 +57,8 @@ class AppResourceRepositoryImpl implements AppResourceRepository {
             // Save to filesystem
             final file = File(fullFileName);
             await file.writeAsBytes(response.bodyBytes);
-
-            if (kDebugMode)
-              print(
-                  "AppResourceRepositoryImpl LOGO for fileName: $fileName saved in $fullFileName");
           }
-        } else {
-          if (kDebugMode)
-            print("AppResourceRepositoryImpl COVER NO download for coverurl");
-        }
+        } else {}
       });
 
       return AppResourceGetFileModel.fromDto(res);

@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/domain/repositories/download/download_rep
 import 'package:open_learning_smart_tv/remote_theming/config/config_manager.dart';
 import 'package:open_learning_smart_tv/remote_theming/config/remote_config_keys.dart';
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:open_learning_smart_tv/data/models/failure.dart';
 
@@ -36,17 +35,12 @@ class DownloadlRepositoryImpl implements DownloadlRepository {
   @override
   Future<Either<Failure, void>> cancelDownload({required String taskId}) {
     return catchFailure(() async {
-      if (kDebugMode)
-        print('download_manager about cancel download for $taskId');
       //await FlutterDownloader.cancel(taskId: taskId);
     });
   }
 
   @override
   Future<Either<Failure, void>> deleteDownload({required String taskId}) {
-    return catchFailure(() async {
-      if (kDebugMode)
-        print('download_manager about delete download for $taskId');
-    });
+    return catchFailure(() async {});
   }
 }

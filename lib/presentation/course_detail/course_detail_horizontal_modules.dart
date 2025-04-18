@@ -177,7 +177,6 @@ class _CourseDetailHorizontalModulesState
                         child: CardModuloHorizontal(
                           index: index,
                           onTap: () {
-                            print('TAPPING ON CARD----------');
                             if (bIsEnabled) {
                               if (ccCh!.ctaMessage.isNotEmpty) {
                                 // TODO: Gestire le traduzioni!!

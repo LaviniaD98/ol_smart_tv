@@ -1,5 +1,4 @@
 import 'package:open_learning_smart_tv/color_management/color_manager.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
@@ -36,8 +35,6 @@ class DynamicContent extends StatelessWidget {
               BlocBuilder<DynamicContentCubit, DynamicContentState>(
                 builder: (context, state) => state.map(
                   success: (_) {
-                    if (kDebugMode)
-                      print("${DateTime.now()} https:// in _stripRows");
                     return _stripRows(_);
                   },
                   loading: (value) => const SliverFillRemaining(

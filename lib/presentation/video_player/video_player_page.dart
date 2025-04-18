@@ -39,10 +39,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
-        //print('BACK RESPONSE - 2: $didPop .  $result');
-
         if (didPop == false) {
-          //print('BACK RESPONSE -------NESTED');
           Navigator.of(context).pop(true);
         }
       },
@@ -65,7 +62,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           state.maybeMap(
             done: (value) async {
               await player.open(Media(value.source.src!));
-              print('VIDEO EVENT: TOTAL DURATIOIN: ${player.state.duration}');
             },
             orElse: () {},
           );
@@ -77,8 +73,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
           },
           tracking: (_) => _loading,
           done: (value) {
-            print('------DONE: ${value.source.src}');
-
             return VideoPlayerWidget(
               args: VideoPlayerArgs(
                 start: value.bookmark,

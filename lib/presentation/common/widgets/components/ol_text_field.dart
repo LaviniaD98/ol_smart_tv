@@ -158,14 +158,12 @@ class _OlTextFieldState extends State<OlTextField> {
 
   void updateTfFocus() {
     if (context.mounted) {
-      //print('T tfFocusNode.hasFocus: ${tfFocusNode.hasFocus}');
       setState(() {});
     }
   }
 
   void updateFocus() {
     if (context.mounted) {
-      // print('T FocusNode.hasFocus: ${focusNode.hasFocus}');
       setState(() {});
     }
   }

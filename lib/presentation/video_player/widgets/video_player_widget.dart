@@ -9,7 +9,7 @@ import 'package:open_learning_smart_tv/presentation/course_detail/detail_page.da
 
 import '../../../domain/enums/types.dart';
 import 'video_player_wrapper.dart';
-import 'video_scrubber_widget.dart';
+// import 'video_scrubber_widget.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   final VideoPlayerArgs args;
@@ -38,8 +38,6 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   void _initPlayer() async {
-// TODO(UmbertoGrimaldi): ADJUST THIS--------------AND REPLACE
-
     // listener = () {
     //   if (context.mounted && widget.args.controller.value.isInitialized) {
     //     if (status != VideoPlayerWidgetStatus.completed &&
@@ -126,23 +124,6 @@ class VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       //_getScrubberActionArgs(widget.args.isMandatory),
     );
   }
-
-  // ScrubberActionsArgs? _getScrubberActionArgs(bool isMandatory) {
-  //   if (isMandatory) return null;
-  //   return ScrubberActionsArgs(
-  //     onScrubbingStart: () {
-  //       setState(() => _isScrubbing = true);
-  //     },
-  //     onScrubbingUpdate: (pos) {
-  //       if (_isScrubbing) {
-  //         widget.args.controller.player.seek(pos);
-  //       }
-  //     },
-  //     onScrubbingEnd: () {
-  //       setState(() => _isScrubbing = false);
-  //     },
-  //   );
-  // }
 }
 
 class VideoPlayerArgs {

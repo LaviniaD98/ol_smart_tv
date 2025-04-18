@@ -157,11 +157,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             node: focusNode,
             onFocusChange: (value) {
               if (value) {}
-
-              //print('FAVORITES HAS FOCUS: $value - ${focusNode.focusedChild}');
-              // if (value) {}
-
-              // print('focusNode.children: ${focusNode.children.length}');
             },
             child: Builder(
               builder: (context) {

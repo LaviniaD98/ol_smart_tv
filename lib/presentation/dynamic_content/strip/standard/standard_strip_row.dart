@@ -5,7 +5,6 @@ import 'package:open_learning_smart_tv/color_management/color_manager.dart';
 import 'package:open_learning_smart_tv/core/utils/extension.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/learning_object/learning_object_model.dart';
 import 'package:open_learning_smart_tv/domain/entities/strip/row/strip_row.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:open_learning_smart_tv/presentation/common/utilities/custom_focus_node.dart';
@@ -32,8 +31,6 @@ class StandardStripRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (kDebugMode)
-      print("${DateTime.now()} https:// in StandardStripRow build");
     return BlocProvider(
       create: (context) => getIt<StandardStripCubit>()
         ..fetch(

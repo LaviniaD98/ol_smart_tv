@@ -75,10 +75,12 @@ class GlowText extends Text {
     final glowTheme = GlowTheme.of(context); // getting glow theme
     final defaultTextStyle = DefaultTextStyle.of(context);
     var effectiveTextStyle = style;
-    if (style == null || style!.inherit)
+    if (style == null || style!.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
-    if (style == null || style!.inherit)
+    }
+    if (style == null || style!.inherit) {
       effectiveTextStyle = defaultTextStyle.style.merge(style);
+    }
     if (MediaQuery.boldTextOf(context)) {
       effectiveTextStyle = effectiveTextStyle!
           .merge(const TextStyle(fontWeight: FontWeight.bold));

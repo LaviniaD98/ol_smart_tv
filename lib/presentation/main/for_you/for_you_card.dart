@@ -78,10 +78,6 @@ class _ForYouCardState extends State<ForYouCard> {
       ecmRegistration: widget.data.ecmRegistration ?? false,
     );
 
-    // print('widget.courseId: ${widget.data.title}');
-    // print('widget.parentId: ${widget.data.parentId}');
-    // print('widget.grandParentId: ${widget.data.grandParentId}');
-
     return FocusScope(
       node: focusNode,
       onFocusChange: (value) {

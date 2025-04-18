@@ -181,7 +181,6 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel model,
     SmartConfiguratorModel? smartConfig,
   ) {
-    print('cslkdnclksndlkcnslkdnclksndc CONTENT UPDATING----');
     return FocusScope(
       node: _focusNode,
       autofocus: true,
@@ -454,35 +453,6 @@ class _DetailPageState extends State<DetailPage> {
     DetailPageModel detail,
     BuildContext? playerContext,
   ) async {
-    // final courseDetails = lo.courseDetails;
-
-    // print(
-    //     'courseDetails: ${courseDetails?.id} - ${courseDetails?.title} - ${courseDetails?.learningObjectTypology}');
-
-    // if (courseDetails != null) {
-    //   context
-    //       .read<DetailPageCubit>()
-    //       .getCourseDetails(
-    //         nativeMethod: true,
-    //         args: DetailPageArgs(
-    //           id: courseDetails.id.toString(),
-    //           parentId: detail.id.toString(),
-    //           //grandParentId: courseDetails.parentId?.toString(),
-    //           object: null,
-    //           typology: courseDetails.learningObjectTypology,
-    //           source: DetailsPresentingSource.explore,
-    //         ),
-    //       )
-    //       .then(
-    //     (response) {
-    //       print(
-    //           '----getCourseDetails: ${response?.title} - courses: ${response?.courses?.length}- learningActivity: ${response?.learningActivities?.length}');
-    //     },
-    //   );
-    // }
-
-    print('LO.....${lo.courseDetails?.title}');
-
     if (lo.fruitionFlag == true) {
       if (lo.learningObjectTypology != LearningObjectTypology.externalRes) {
         if (lo.link != null && context.mounted) {
@@ -562,8 +532,6 @@ class _DetailPageState extends State<DetailPage> {
             child: VideoPlayerPage(args: args),
           ),
         ) as bool?;
-
-        print('BACK RESPONSE.........: ${res}');
 
         videoPlaying = false;
 
@@ -868,14 +836,11 @@ class _DetailPageState extends State<DetailPage> {
                         .where((element) => element.id == index)
                         .single;
                     // print('LMD ID: ${lm.id}');
-                    print('QUIIIIII---------${isSubActivities}');
                     if (isSubActivities) {
-                      print('QUIIIIII---------2');
                       isLaunchingSubActivity = true;
                       startOrResumeCheck(context, lm.id, courseInPath!);
                     } else {
                       isLaunchingSubActivity = false;
-                      print('QUIIIIII---------3');
                       startOrResumeCheck(context, lm.id, model);
                     }
                   }

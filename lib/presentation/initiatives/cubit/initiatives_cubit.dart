@@ -201,15 +201,8 @@ class InitiativesCubit extends Cubit<InitiativesState> {
           final appResourceResponse =
               await _getAppresourceUseCase('${corporateInfo?.id}', logoName);
           appResourceResponse.fold(
-            (l) {
-              if (kDebugMode)
-                print("error while invoking _getAppresourceUseCase");
-            },
-            (appResourceGetFileModel) async {
-              if (kDebugMode)
-                print(
-                    "_getAppresourceUseCase response: $appResourceGetFileModel");
-            },
+            (l) {},
+            (appResourceGetFileModel) async {},
           );
         }
         await _remoteLabels.getLanguages(corporateId: corporateInfo?.id);

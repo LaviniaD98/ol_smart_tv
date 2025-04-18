@@ -30,9 +30,7 @@ Future<void> bootstrap(Env env) async {
 
   try {
     MediaKit.ensureInitialized();
-  } catch (e) {
-    print(' MediaKit.ensureInitialized() - ERROR: $e');
-  }
+  } catch (_) {}
 
   //await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -56,9 +54,6 @@ Future<void> bootstrap(Env env) async {
 
   final prefs = await SharedPreferences.getInstance();
   if (prefs.getBool(SharedPreferencesKeys.firtRun) ?? true) {
-    if (kDebugMode)
-      print(
-          "App opening check: openend for the first time - deleting secure storage");
     FlutterSecureStorage storage = const FlutterSecureStorage();
     await storage.deleteAll();
     prefs.setBool(SharedPreferencesKeys.firtRun, false);

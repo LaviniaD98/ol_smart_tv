@@ -22,9 +22,6 @@ class StandardStripCubit extends Cubit<StandardStripState> {
     emit(const StandardStripState.loading());
     if (strip != null) {
       currentStrip = strip;
-      if (kDebugMode)
-        print(
-            "${DateTime.now()} https:// in StandardStripCubit fetch: ${strip.apiPath}");
       final res =
           await _getSuggestedStripUseCase(strip: strip, filters: filters);
       res.fold((l) {
@@ -38,10 +35,6 @@ class StandardStripCubit extends Cubit<StandardStripState> {
   void refresh() async {
     if (currentStrip != null) {
       emit(const StandardStripState.loading());
-
-      if (kDebugMode)
-        print(
-            "${DateTime.now()} https:// in StandardStripCubit fetch: ${currentStrip?.apiPath}");
       final res = await _getSuggestedStripUseCase(strip: currentStrip!);
       res.fold((l) {
         emit(const StandardStripState.error());

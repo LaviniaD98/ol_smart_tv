@@ -140,8 +140,6 @@ class ObjectDetailsView extends StatelessWidget {
       color = ColorManager().getColorBackgroundDisabled();
     }
 
-    //print('value: ${value.expirationDate}');
-
     return Padding(
       padding: const EdgeInsets.only(right: 24),
       child: DurationTag.fromMinutes(
