@@ -216,10 +216,10 @@ class _LoginPageState extends State<LoginPage> {
                           initial: (form, loginType) {
                             if (kDebugMode) {
                               form.findControl('username')?.value =
-                                  'test.iglu002';
+                                  'tester.samsung@yopmail.com';
                               // form.findControl('username')?.value =
                               //     'iglu.tester02';
-                              form.findControl('password')?.value = 'Test1234!';
+                              form.findControl('password')?.value = 'Tester.Samsung25!yoi';
                             }
 
                             return _content(context, form, loginType);

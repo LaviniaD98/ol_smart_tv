@@ -33,7 +33,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("/Users/umbertogrimaldi/projects/open-learning-smart-tv/android/keystore/keystore.jks")
+            storeFile = file("/Users/lavina.dodu/projects/open-learning-smart-tv/android/keystore/keystore.jks")
             storePassword = "Admin123*"
             keyAlias = "my-key-alias"
             keyPassword = "Admin123*"
@@ -45,11 +45,11 @@ android {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("release") // Assegna la configurazione di firma
         }
-      //  release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-        //    signingConfig = signingConfigs.getByName("debug")
-        //}
+        release {
+//             TODO: Add your own signing config for the release build.
+//             Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 
     flavorDimensions += "default"
